@@ -50,29 +50,23 @@
           gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
         ></v-img>
       </template>
-
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-app-bar-title>Title</v-app-bar-title>
-
+      <v-app-bar-title>Title</v-app-bar-title>      
       <v-spacer></v-spacer>
-
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
-
       <v-btn icon>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
-
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      </v-btn>      
     </v-app-bar>
-
     <v-main>
       <router-view></router-view>
-    </v-main>
+      <snackbar />
+    </v-main>    
   </v-app>
 </template>
 
@@ -83,7 +77,10 @@
       items: [
         { title: 'To Do', icon: 'mdi-format-list-checks', to: '/' },
         { title: 'About', icon: 'mdi-information-outline', to: '/about' },
-      ],      
+      ],    
     }),
+    components: {
+      'snackbar': require('@/components/Global/Snackbar.vue').default      
+    }
   }
 </script>
