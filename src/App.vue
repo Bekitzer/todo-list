@@ -2,21 +2,10 @@
   <v-app id="inspire">
     <v-navigation-drawer 
       v-model="drawer"
+      :mobile-breakpoint="800"
       app
     >
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title class="text-h6">
-            ToDo
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            List
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider></v-divider>
-
+      <nav-avatar />
       <v-list
         dense
         nav
@@ -41,27 +30,35 @@
       app
       color=primary
       dark
-      prominent
+      :height="$route.path === '/' ? '230px' : '140px' "
       src="images/mountains.jpg"
     >
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
-          gradient="to top right, rgba(19,84,122,.5), rgba(128,208,199,.8)"
+          gradient="to top right, rgba(19,84,122,.7), rgba(0,0,0,.9)"
         ></v-img>
-      </template>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-app-bar-title>Title</v-app-bar-title>      
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>      
+      </template>      
+        <v-container class="header-container pa-1">
+          <v-row>
+            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>            
+            <v-spacer></v-spacer>      
+            <search />
+          </v-row>
+          <v-row>
+            <v-app-bar-title 
+              class="ml-4 text-h5 remove-hidden"              
+            >
+              {{ $store.state.appTitle }}
+            </v-app-bar-title>
+          </v-row>
+          <v-row >
+            <live-date-time />
+          </v-row>
+          <v-row v-if="$route.path === '/'">
+            <field-add-task />      
+          </v-row>
+        </v-container>
     </v-app-bar>
     <v-main>
       <router-view></router-view>
@@ -69,6 +66,7 @@
     </v-main>    
   </v-app>
 </template>
+
 
 <script>
   export default {    
@@ -80,7 +78,19 @@
       ],    
     }),
     components: {
-      'snackbar': require('@/components/Global/Snackbar.vue').default      
+      'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
+      'snackbar'      : require('@/components/Global/Snackbar.vue').default,
+      'search'        : require('@/components/Tools/Search.vue').default, 
+      'live-date-time': require('@/components/Tools/LiveDate.vue').default,
+      'nav-avatar'    : require('@/components/Global/NavDrawer.vue').default
     }
   }
 </script>
+
+<style lang="sass">
+  .remove-hidden
+    .v-app-bar-title__content
+      overflow: visible !important
+  .header-container
+    max-width: none !important
+</style>

@@ -10,7 +10,11 @@
             v-bind="attrs"
             v-on="on"
             >
-            <v-icon>mdi-dots-vertical</v-icon>
+            <v-icon
+              color="primary"
+            >
+                mdi-dots-vertical
+            </v-icon>
             </v-btn>
         </template>
 
@@ -30,14 +34,27 @@
         @close = 'dialogs.delete = false'
         :task = 'task'
     />
+    <dialog-edit 
+        v-if="dialogs.edit" 
+        @close = 'dialogs.edit = false'
+        :task = 'task'
+    />
+    <dialog-due-date 
+        v-if="dialogs.dueDate" 
+        @close = 'dialogs.dueDate = false'
+        :task = 'task'
+    />
 </div>    
 </template>
 
 <script>
 export default {
+    props: ['task'],
     data() {
         return{
             dialogs: {
+                edit: false,
+                dueDate: false,
                 delete: false
             },
             items: [
@@ -45,21 +62,33 @@ export default {
                     title: 'Edit', 
                     icon: 'mdi-pencil',
                     click() {
-                        console.log('Edit')
+                        this.dialogs.edit = true
                     }
                 },
                 { 
                     title: 'Due Date', 
                     icon: 'mdi-calendar',
                     click() {
-                        console.log('Due Date')
+                        this.dialogs.dueDate = true
                     }
                 },
                 { 
                     title: 'Delete', 
-                    icon: 'mdi-trash-can-outline',        
+                    icon: 'mdi-trash-can-outline',
                     click() {
                         this.dialogs.delete = true
+                    }
+                },
+                { 
+                    title: 'Sort', 
+                    icon: 'mdi-drag-horizontal-variant',
+                    click() {
+                        if (!this.$store.state.search) {
+                            this.$store.commit('toggleSorting')
+                        }
+                        else {
+                            this.$store.commit('showSnackbar', 'Sorting disabled when searching!')
+                        }
                     }
                 }
             ],
@@ -71,9 +100,11 @@ export default {
         }
     },
     components: {
-        'dialog-delete': require('@/components/Todo/Dialogs/DialogDelete.vue').default
-    },
-    props: ['task'],
+        'dialog-edit': require('@/components/Todo/Dialogs/DialogEdit.vue').default,
+        'dialog-due-date': require('@/components/Todo/Dialogs/DialogDueDate.vue').default,
+        'dialog-delete': require('@/components/Todo/Dialogs/DialogDelete.vue').default        
+        
+    }    
 }
 </script>
 
