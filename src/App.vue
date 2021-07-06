@@ -77,6 +77,9 @@
         { title: 'About', icon: 'mdi-information-outline', to: '/about' },
       ],    
     }),
+    mounted() {
+      this.$store.dispatch('getTasks')
+    },
     components: {
       'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
       'snackbar'      : require('@/components/Global/Snackbar.vue').default,
