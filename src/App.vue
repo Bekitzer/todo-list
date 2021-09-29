@@ -30,7 +30,7 @@
       app
       color=primary
       dark
-      :height="$route.path === '/' ? '230px' : '140px' "
+      :height="$route.path === '/' || $route.path === '/clients' ? '350px' : '140px' "
       src="images/mountains.jpg"
     >
       <template v-slot:img="{ props }">
@@ -56,7 +56,10 @@
             <live-date-time />
           </v-row>
           <v-row v-if="$route.path === '/'">
-            <field-add-task />      
+            <field-add-task />
+          </v-row>
+          <v-row v-if="$route.path === '/clients'">
+            <field-add-client />
           </v-row>
         </v-container>
     </v-app-bar>
@@ -73,15 +76,20 @@
     data: () => ({ 
       drawer: null,
       items: [
-        { title: 'To Do', icon: 'mdi-format-list-checks', to: '/' },
+        { title: 'Home', icon: 'mdi-format-list-checks', to: '/' },
         { title: 'About', icon: 'mdi-information-outline', to: '/about' },
+        { title: 'Orders', icon: 'mdi-format-list-checks', to: '/orders' },
+        { title: 'Clients', icon: 'mdi-information-outline', to: '/clients' },
+        { title: 'Suppliers', icon: 'mdi-information-outline', to: '/suppliers' },
       ],    
     }),
     mounted() {
-      this.$store.dispatch('getTasks')
+      this.$store.dispatch('getTasks'),
+      this.$store.dispatch('getClients')
     },
     components: {
       'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
+      'field-add-client': require('@/components/Clients/FieldAddClient.vue').default,
       'snackbar'      : require('@/components/Global/Snackbar.vue').default,
       'search'        : require('@/components/Tools/Search.vue').default, 
       'live-date-time': require('@/components/Tools/LiveDate.vue').default,

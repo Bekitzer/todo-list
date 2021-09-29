@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Todo from '../views/Todo.vue'
 import goTo from 'vuetify/es5/services/goto'
 
 Vue.use(VueRouter)
@@ -8,16 +7,28 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'To Do',
-    component: Todo
+    name: 'Home',
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../views/About.vue')
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: () => import('../views/Orders.vue')
+  },
+  {
+    path: '/clients',
+    name: 'Clients',
+    component: () => import('../views/Clients.vue')
+  },
+  {
+    path: '/suppliers',
+    name: 'Suppliers',
+    component: () => import('../views/Suppliers.vue')
   }
 ]
 

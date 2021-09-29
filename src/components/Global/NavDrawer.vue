@@ -19,7 +19,7 @@
             size="70"        
           >
             <v-img 
-                src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"
+                src="images/marcus.jpg"
                 rounded
             ></v-img>
           </v-avatar>
@@ -35,9 +35,9 @@
                 class="pa-0 ma-0"
             >
               <v-list-item-title class="text-h6">
-                Marcus Obrien
+                Just Print
               </v-list-item-title>
-              <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
+              <v-list-item-subtitle>Admin</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-col>

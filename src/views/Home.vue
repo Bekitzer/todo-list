@@ -10,7 +10,7 @@
 
 <script>
   export default {
-    name: 'Todo',
+    name: 'Home',
     components: {      
       'list-tasks': require('@/components/Todo/ListTasks.vue').default,
       'no-tasks': require('@/components/Todo/NoTasks.vue').default,
