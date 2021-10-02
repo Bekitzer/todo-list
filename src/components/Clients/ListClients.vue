@@ -1,29 +1,37 @@
 <template>
-  <v-list      
-    class="pt-0"
-    flat
-  >
-    <draggable
-      v-model="clients"
-      handle=".handle"
-    >
-      <client
-        v-for="client in clients"
-        :key="client.id"
-        :client="client"
-      />        
-    </draggable>  
-  </v-list>
+  <v-simple-table>
+    <template v-slot:default>
+      <thead
+      >
+        <tr>
+          <th>שם לקוח/חברה</th>
+          <th>טלפון</th>
+          <th>אימייל</th>
+          <th>מספר עוסק</th>
+          <th>סוג חברה</th>
+          <th>כתובת</th>
+          <th>איש קשר</th>
+          <th>טלפון איש הקשר</th>
+          <th>תאריך יצירה</th>
+          <th>תאריך עדכון</th>
+          <th>פעולות</th>
+        </tr>
+      </thead>
+      <tbody>
+          <client            
+            v-for="client in clients"
+            :key="client.id"
+            :client="client"
+          />        
+      </tbody>      
+    </template>
+  </v-simple-table>
 </template>
 
 <script>
-import draggable from "vuedraggable";
 export default {
   name: 'ListClients',
-  components: {
-    draggable,
-    'client': require('@/components/Clients/Client.vue').default
-  },
+  props: ['client'],  
   computed: {
     clients: {
       get() {
@@ -33,6 +41,9 @@ export default {
         this.$store.dispatch('setClients', value)
       }
     }
-  }
+  },
+  components: {
+    'client': require('@/components/Clients/Client.vue').default
+  }    
 }
 </script>

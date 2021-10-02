@@ -2,22 +2,25 @@
   <v-app id="inspire">
     <v-navigation-drawer 
       v-model="drawer"
+      permanent
+      expand-on-hover
+      :right="$vuetify.rtl"
       :mobile-breakpoint="800"
       app
     >
-      <nav-avatar />
+      <nav-logo />
       <v-list
-        dense
         nav
       >
         <v-list-item
           v-for="item in items"
           :key="item.title"
           :to= "item.to"
+
           link
         >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon size="30px" >{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
@@ -41,13 +44,15 @@
       </template>      
         <v-container class="header-container pa-1">
           <v-row>
-            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>            
-            <v-spacer></v-spacer>      
+            <!-- <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> -->
             <search />
+            <v-spacer></v-spacer>      
+            <client-profile />
+            
           </v-row>
           <v-row>
             <v-app-bar-title 
-              class="ml-4 text-h5 remove-hidden"              
+              class="mr-4 text-h5 remove-hidden"              
             >
               {{ $store.state.appTitle }}
             </v-app-bar-title>
@@ -72,14 +77,14 @@
 
 
 <script>
-  export default {    
-    data: () => ({ 
+  export default {        
+    data: () => ({
       drawer: null,
       items: [
         { title: 'Home', icon: 'mdi-format-list-checks', to: '/' },
         { title: 'About', icon: 'mdi-information-outline', to: '/about' },
         { title: 'Orders', icon: 'mdi-format-list-checks', to: '/orders' },
-        { title: 'Clients', icon: 'mdi-information-outline', to: '/clients' },
+        { title: 'Clients', icon: 'mdi-account', to: '/clients' },
         { title: 'Suppliers', icon: 'mdi-information-outline', to: '/suppliers' },
       ],    
     }),
@@ -93,15 +98,32 @@
       'snackbar'      : require('@/components/Global/Snackbar.vue').default,
       'search'        : require('@/components/Tools/Search.vue').default, 
       'live-date-time': require('@/components/Tools/LiveDate.vue').default,
-      'nav-avatar'    : require('@/components/Global/NavDrawer.vue').default
+      'nav-logo'    : require('@/components/Global/NavDrawer.vue').default,
+      'client-profile' : require('@/components/Clients/Profile/ClientTopHeader.vue').default
+    },
+    created () {
+       this.$vuetify.rtl = true;
     }
   }
 </script>
 
 <style lang="sass">
+  .v-list.v-list--nav
+    padding: 0
+    padding: 0
+    justify-content: center
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    align-content: center
+    align-items: stretch
+  a.v-list-item.v-list-item--link
+    justify-content: center
   .remove-hidden
     .v-app-bar-title__content
       overflow: visible !important
   .header-container
     max-width: none !important
+  .v-application .justify-center
+    margin: 0
 </style>

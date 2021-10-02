@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import uuid from 'uuid'
 import Localbase from 'localbase'
+import { format } from 'date-fns'
 
 let db = new Localbase('db')
 db.config.debug = false
@@ -38,7 +39,7 @@ export default new Vuex.Store({
     },
     updateTaskTitle(state, payload){
       let task = state.tasks.filter(task => task.id === payload.id)[0]
-      task.title = payload.title
+      Object.assign(task, payload)
     },
     updateTaskDueDate(state, payload){
       let task = state.tasks.filter(task => task.id === payload.id)[0]
@@ -48,23 +49,18 @@ export default new Vuex.Store({
       state.tasks = tasks
     },
     //CLIENTS
-    addClient(state, isClient){
-      state.clients.push(isClient)      
-    },
-    clientDone(state, id){
-      let client = state.clients.filter(client => client.id === id)[0]
-      client.done = !client.done 
+    addClient(state, newClient){
+      state.clients.push(newClient)      
     },
     deleteClient(state, id){
       state.clients = state.clients.filter(client => client.id !== id)
     },
     updateClient(state, payload){
       let client = state.clients.filter(client => client.id === payload.id)[0]
-      client.name = payload.name
+      Object.assign(client, payload)
     },
-    updateClientCreationDate(state, payload){
-      let client = state.clients.filter(client => client.id === payload.id)[0]
-      client.creationDate = payload.creationDate
+    clientProfile(state, client) {
+      state.clients = client
     },
     setClients(state, clients) {
       state.clients = clients      
@@ -78,7 +74,7 @@ export default new Vuex.Store({
       setTimeout(() => {
         state.snackbar.show = true
         state.snackbar.text = text
-      }, timeout)      
+      }, timeout)
     }, 
     toggleSorting(state) {
       state.sorting = !state.sorting
@@ -96,13 +92,13 @@ export default new Vuex.Store({
       db.collection('tasks').add(newTask).then(() => {
         commit('addTask', newTask)
         commit('showSnackbar', 'Task added!')
-      })      
+      })
     }, 
     deleteTask({ commit }, id) {
       db.collection('tasks').doc({ id: id }).delete().then(() => {
         commit('deleteTask', id)
         commit('showSnackbar', 'Task deleted!')
-      })      
+      })
     },
     updateTaskTitle({commit}, payload) {
       db.collection('tasks').doc({ id: payload.id }).update({
@@ -110,7 +106,7 @@ export default new Vuex.Store({
       }).then(() => {
         commit('updateTaskTitle', payload)
         commit('showSnackbar', 'Task Changed!')
-      })      
+      })
     },
     updateTaskDueDate({commit}, payload) {
       db.collection('tasks').doc({ id: payload.id }).update({
@@ -118,7 +114,7 @@ export default new Vuex.Store({
       }).then(() => {
         commit('updateTaskDueDate', payload)
         commit('showSnackbar', 'Due Date Changed!')
-      })            
+      })
     },
     getTasks({ commit }) {
       db.collection('tasks').get().then(tasks => {
@@ -138,58 +134,45 @@ export default new Vuex.Store({
       commit('setTasks', tasks)
     },
 
-    //CLIENTS
+    //CLIENTS    
     addClient({ commit }, client) {
-      
       let isClient = {
         ...client,
         id: uuid.v4(),
-        done: false,
-        creationDate: Date.now(),
+        creationDate: format(new Date(Date.now()), 'dd/MM/yyyy'),
+        clientUpdated:''
       }
       db.collection('clients').add(isClient).then(() => {
         commit('addClient', isClient)
         commit('showSnackbar', 'Client added!')
-      })      
+      })
     },
     deleteClient({ commit }, id) {
       db.collection('clients').doc({ id: id }).delete().then(() => {
         commit('deleteClient', id)
         commit('showSnackbar', 'Client deleted!')
-      })      
+      })
     },
     updateClient({commit}, payload) {
-      db.collection('clients').doc({ id: payload.id }).update({
-        name: payload.name
-      }).then(() => {
+      db.collection('clients').doc({ id: payload.id }).update(payload).then(() => {
         commit('updateClient', payload)
-        commit('showSnackbar', 'Client Changed!')
+        commit('showSnackbar', 'Client Updated!')
       })      
-    },
-    updateClientCreationDate({commit}, payload) {
-      db.collection('clients').doc({ id: payload.id }).update({
-        creationDate: payload.creationDate
-      }).then(() => {
-        commit('updateClientCreationDate', payload)
-        commit('showSnackbar', 'Creation Date Changed!')
-      })            
-    },
+    },    
     getClients({ commit }) {
       db.collection('clients').get().then(clients => {
         commit('setClients', clients)
       })
     },
-    clientDone({ state, commit }, id) {
-      let client = state.clients.filter(client => client.id === id)[0]
-      db.collection('clients').doc({ id: id }).update({
-        done: !client.done
-      }).then(() => {
-        commit('clientDone', id)
-      })
-    },
     setClients ({ commit }, clients) {
       db.collection('clients').set(clients)
       commit('setClients', clients)
+    },
+    clientProfile( {commit}, id, router ) {
+      db.collection('clients').doc({ id: id }).get().then(client => {
+        commit('clientProfile', client)
+        console.log("Heelo", client)
+      })
     },    
   },
   getters: {

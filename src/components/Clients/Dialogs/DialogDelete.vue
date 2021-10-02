@@ -12,14 +12,14 @@
           <v-spacer></v-spacer>
           <v-btn
             text
-            @click="$emit('close')"
+            @click="clientCloseDialog"
           >
             Go Back
           </v-btn>
           <v-btn
             color="red darken-1"
             text
-            @click="$store.dispatch('deleteClient', client.id)"
+            @click="clientDeleteAndCloseDialog"
           >
             Delete
           </v-btn>
@@ -36,6 +36,15 @@
         dialog: false,
       }
     },
-    props: ['client']
+    props: ['client'],
+    methods: {
+      clientDeleteAndCloseDialog() {
+        this.$store.dispatch('deleteClient', this.client.id)
+        this.clientCloseDialog()
+      },
+      clientCloseDialog() {
+        this.$emit('close')
+      }
+    }
   }
 </script>
