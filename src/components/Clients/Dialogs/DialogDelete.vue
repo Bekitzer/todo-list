@@ -19,7 +19,8 @@
           <v-btn
             color="red darken-1"
             text
-            @click="clientDeleteAndCloseDialog"
+            @click="clientDelete"
+            @keyup.enter="clientDelete"
           >
             Delete
           </v-btn>
@@ -38,7 +39,7 @@
     },
     props: ['client'],
     methods: {
-      clientDeleteAndCloseDialog() {
+      clientDelete() {
         this.$store.dispatch('deleteClient', this.client.id)
         this.clientCloseDialog()
       },

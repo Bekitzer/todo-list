@@ -9,28 +9,28 @@
         <v-card-title class="text-h5">Edit Client</v-card-title>
         <v-card-text>
           Edit the title of this client
-          <v-text-field 
+          <v-text-field
             v-model="clientName"
           />
-          <v-text-field 
+          <v-text-field
             v-model="clientPhone"
           />
-          <v-text-field 
+          <v-text-field
             v-model="clientEmail"
           />
-          <v-text-field 
+          <v-text-field
             v-model="clientNumber"
           />
-          <v-text-field 
+          <v-text-field
             v-model="clientType"
           />
-          <v-text-field 
+          <v-text-field
             v-model="clientAddress"
-          />          
-          <v-text-field 
+          />
+          <v-text-field
             v-model="clientContactPerson"
           />
-          <v-text-field 
+          <v-text-field
             v-model="clientContactPersonPhone"
           />
         </v-card-text>
@@ -73,20 +73,20 @@ import { format } from 'date-fns'
         clientEmail: '',
         clientNumber: '',
         clientType: '',
-        clientAddress: '',        
+        clientAddress: '',
         clientContactPerson: '',
         clientContactPersonPhone: ''
       }
     },
     computed: {
       clientFieldInvalid() {
-        return 
+        return
         !this.clientName || this.clientName === this.client.name
         !this.clientPhone || this.clientPhone === this.client.phone
         !this.clientEmail || this.clientEmail === this.client.email
         !this.clientNumber || this.clientNumber === this.client.number
         !this.clientType || this.clientType === this.client.type
-        !this.clientAddress || this.clientAddress === this.client.address        
+        !this.clientAddress || this.clientAddress === this.client.address
         !this.clientContactPerson || this.clientContactPerson === this.client.contactPerson
         !this.clientContactPersonPhone || this.clientContactPersonPhone === this.client.contactPersonPhone
       }
@@ -101,14 +101,14 @@ import { format } from 'date-fns'
             name: this.clientName,
             number: this.clientNumber,
             type: this.clientType,
-            address: this.clientAddress,            
+            address: this.clientAddress,
             contactPerson: this.clientContactPerson,
             contactPersonPhone: this.clientContactPersonPhone,
             clientUpdated: format(new Date(Date.now()), 'dd/MM/yyyy HH:mm:ss' )
           }
           this.$store.dispatch('updateClient', payload)
           this.$emit('close')
-        }        
+        }
       }
     },
     mounted() {
@@ -117,7 +117,7 @@ import { format } from 'date-fns'
       this.clientEmail = this.client.email
       this.clientNumber = this.client.number
       this.clientType = this.client.type
-      this.clientAddress = this.client.address      
+      this.clientAddress = this.client.address
       this.clientContactPerson = this.client.contactPerson
       this.clientContactPersonPhone = this.client.contactPersonPhone
     }

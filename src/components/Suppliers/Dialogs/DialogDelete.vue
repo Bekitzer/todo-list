@@ -19,7 +19,8 @@
           <v-btn
             color="red darken-1"
             text
-            @click="supplierDeleteAndCloseDialog"
+            @click="supplierDelete"
+            @keyup.enter="supplierDelete"
           >
             Delete
           </v-btn>
@@ -38,7 +39,7 @@
     },
     props: ['supplier'],
     methods: {
-      supplierDeleteAndCloseDialog() {
+      supplierDelete() {
         this.$store.dispatch('deleteSupplier', this.supplier.id)
         this.supplierCloseDialog()
       },
