@@ -8,7 +8,7 @@
         <v-btn
           icon
           dense
-          :to="{ name: 'Client', params: { id : client.id }}"
+          :to="{ name: 'Supplier', params: { id : supplier.id }}"
         >
           <v-icon>
             mdi-account-settings
@@ -37,19 +37,19 @@
     <dialog-delete
       v-if="dialogs.delete"
       @close = 'dialogs.delete = false'
-      :client = 'client'
+      :supplier = 'supplier'
     />
     <dialog-edit
       v-if="dialogs.edit"
       @close = 'dialogs.edit = false'
-      :client = 'client'
+      :supplier = 'supplier'
     />
   </div>
 </template>
 
 <script>
 export default {
-    props: ['client'],
+    props: ['supplier'],
     data() {
         return{
           dialogs: {
@@ -59,8 +59,8 @@ export default {
         }
     },
     components: {
-        'dialog-edit': require('@/components/Clients/Dialogs/DialogEdit.vue').default,
-        'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default
+        'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
+        'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default
     }
 }
 </script>

@@ -4,7 +4,7 @@
       <thead
       >
         <tr>
-          <th>שם לקוח/חברה</th>
+          <th>שם ספק</th>
           <th>טלפון</th>
           <th>אימייל</th>
           <th>מספר עוסק</th>
@@ -18,10 +18,10 @@
         </tr>
       </thead>
       <tbody>
-          <client
-            v-for="client in clients"
-            :key="client.id"
-            :client="client"
+          <single-supplier
+            v-for="supplier in suppliers"
+            :key="supplier.id"
+            :supplier="supplier"
           />
       </tbody>
     </template>
@@ -30,20 +30,20 @@
 
 <script>
 export default {
-  name: 'ListClients',
-  props: ['client'],
+  name: 'ListSuppliers',
+  props: ['supplier'],
   computed: {
-    clients: {
+    suppliers: {
       get() {
-        return this.$store.getters.clientsFiltered
+        return this.$store.getters.suppliersFiltered
       },
       set(value) {
-        this.$store.dispatch('setClients', value)
+        this.$store.dispatch('setSuppliers', value)
       }
     }
   },
   components: {
-    'client': require('@/components/Clients/Client.vue').default
+    'single-supplier': require('@/components/Suppliers/Supplier.vue').default
   }
 }
 </script>

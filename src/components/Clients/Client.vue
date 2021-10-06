@@ -5,15 +5,15 @@
     <td>{{ client.email }}</td>
     <td>{{ client.number }}</td>
     <td>{{ client.type }}</td>
-    <td>{{ client.address }}</td>    
+    <td>{{ client.address }}</td>
     <td>{{ client.contactPerson }}</td>
     <td>{{ client.contactPersonPhone }}</td>
-    <td>{{ client.creationDate }}</td>
+    <td>{{ client.clientCreationDate }}</td>
     <td>{{ client.clientUpdated }}</td>
     <td>
       <client-menu :client="client"/>
     </td>
-  </tr>    
+  </tr>
 </template>
 
 <script>

@@ -14,6 +14,7 @@ export default new Vuex.Store({
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
     tasks: [],
+    suppliers: [],
     clients: [],
     snackbar: {
       show: false,
@@ -26,13 +27,13 @@ export default new Vuex.Store({
     setSearch(state, value) {
       state.search = value
     },
-    //TASKS
-    addTask(state, newTask){      
+    // TASKS
+    addTask(state, newTask){
       state.tasks.push(newTask)
     },
     taskDone(state, id){
       let task = state.tasks.filter(task => task.id === id)[0]
-      task.done = !task.done 
+      task.done = !task.done
     },
     deleteTask(state, id){
       state.tasks = state.tasks.filter(task => task.id !== id)
@@ -48,9 +49,9 @@ export default new Vuex.Store({
     setTasks(state, tasks) {
       state.tasks = tasks
     },
-    //CLIENTS
+    // CLIENTS
     addClient(state, newClient){
-      state.clients.push(newClient)      
+      state.clients.push(newClient)
     },
     deleteClient(state, id){
       state.clients = state.clients.filter(client => client.id !== id)
@@ -59,12 +60,24 @@ export default new Vuex.Store({
       let client = state.clients.filter(client => client.id === payload.id)[0]
       Object.assign(client, payload)
     },
-    clientProfile(state, client) {
-      state.clients = client
-    },
     setClients(state, clients) {
-      state.clients = clients      
+      state.clients = clients
     },
+    // SUPPLIERS
+    addSupplier(state, newSupplier){
+      state.suppliers.push(newSupplier)
+    },
+    deleteSupplier(state, id){
+      state.suppliers = state.suppliers.filter(supplier => supplier.id !== id)
+    },
+    updateSupplier(state, payload){
+      let supplier = state.suppliers.filter(supplier => supplier.id === payload.id)[0]
+      Object.assign(supplier, payload)
+    },
+    setSuppliers(state, suppliers) {
+      state.suppliers = suppliers
+    },
+    // GLOBALS
     showSnackbar(state, text) {
       let timeout = 0
       if (state.snackbar.show) {
@@ -75,13 +88,13 @@ export default new Vuex.Store({
         state.snackbar.show = true
         state.snackbar.text = text
       }, timeout)
-    }, 
+    },
     toggleSorting(state) {
       state.sorting = !state.sorting
-    }
+    },
   },
   actions: {
-    //TASKS
+    // TASKS
     addTask({ commit }, newTaskTitle) {
       let newTask = {
         id: Date.now(),
@@ -93,7 +106,7 @@ export default new Vuex.Store({
         commit('addTask', newTask)
         commit('showSnackbar', 'Task added!')
       })
-    }, 
+    },
     deleteTask({ commit }, id) {
       db.collection('tasks').doc({ id: id }).delete().then(() => {
         commit('deleteTask', id)
@@ -133,14 +146,13 @@ export default new Vuex.Store({
       db.collection('tasks').set(tasks)
       commit('setTasks', tasks)
     },
-
-    //CLIENTS    
+    // CLIENTS
     addClient({ commit }, client) {
       let isClient = {
         ...client,
         id: uuid.v4(),
-        creationDate: format(new Date(Date.now()), 'dd/MM/yyyy'),
-        clientUpdated:''
+        clientCreationDate: format(new Date(Date.now()), 'dd/MM/yyyy'),
+        clientUpdated: null
       }
       db.collection('clients').add(isClient).then(() => {
         commit('addClient', isClient)
@@ -157,38 +169,70 @@ export default new Vuex.Store({
       db.collection('clients').doc({ id: payload.id }).update(payload).then(() => {
         commit('updateClient', payload)
         commit('showSnackbar', 'Client Updated!')
-      })      
-    },    
+      })
+    },
     getClients({ commit }) {
       db.collection('clients').get().then(clients => {
         commit('setClients', clients)
       })
     },
-    setClients ({ commit }, clients) {
+    setClients({ commit }, clients) {
       db.collection('clients').set(clients)
       commit('setClients', clients)
     },
-    clientProfile( {commit}, id, router ) {
-      db.collection('clients').doc({ id: id }).get().then(client => {
-        commit('clientProfile', client)
-        console.log("Heelo", client)
+    // SUPPLIERS
+    addSupplier({ commit }, suppliers) {
+      let isSupplier = {
+        ...suppliers,
+        id: uuid.v4(),
+        supplierCreationDate: format(new Date(Date.now()), 'dd/MM/yyyy'),
+        supplierUpdated: null
+      }
+      db.collection('suppliers').add(isSupplier).then(() => {
+        commit('addSupplier', isSupplier)
+        commit('showSnackbar', 'Supplier added!')
       })
-    },    
+    },
+    deleteSupplier({ commit }, id) {
+      db.collection('suppliers').doc({ id: id }).delete().then(() => {
+        commit('deleteSupplier', id)
+        commit('showSnackbar', 'Supplier deleted!')
+      })
+    },
+    updateSupplier({commit}, payload) {
+      db.collection('suppliers').doc({ id: payload.id }).update(payload).then(() => {
+        commit('updateSupplier', payload)
+        commit('showSnackbar', 'Supplier Updated!')
+      })
+    },
+    getSuppliers({ commit }) {
+      db.collection('suppliers').get().then(suppliers => {
+        commit('setSuppliers', suppliers)
+      })
+    },
+    setSuppliers({ commit }, suppliers) {
+      db.collection('suppliers').set(suppliers)
+      commit('setSuppliers', suppliers)
+    },
   },
   getters: {
-    //TASKS
     tasksFiltered(state) {
       if (!state.search) {
         return state.tasks
       }
       return state.tasks.filter(task => task.title.toLowerCase().includes(state.search.toLowerCase()))
     },
-    //CLIENTS
     clientsFiltered(state) {
       if (!state.search) {
         return state.clients
       }
       return state.clients.filter(client => client.name.toLowerCase().includes(state.search.toLowerCase()))
-    }
+    },
+    suppliersFiltered(state) {
+      if (!state.search) {
+        return state.suppliers
+      }
+      return state.suppliers.filter(supplier => supplier.name.toLowerCase().includes(state.search.toLowerCase()))
+    },
   }
 })

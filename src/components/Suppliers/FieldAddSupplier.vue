@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit="addClient">
+  <v-form @submit="addSupplier">
     <v-row
       class="pa-4"
     >
@@ -9,8 +9,8 @@
         md="2"
       >
         <v-text-field
-          v-model="clientName"
-          label="שם לקוח/חברה"
+          v-model="supplierName"
+          label="שם ספק"
           outlined
           hide-details
         ></v-text-field>
@@ -21,7 +21,7 @@
         md="2"
       >
         <v-text-field
-          v-model="clientPhone"
+          v-model="supplierPhone"
           label="טלפון משרד"
           outlined
           hide-details
@@ -33,7 +33,7 @@
         md="2"
       >
         <v-text-field
-          v-model="clientEmail"
+          v-model="supplierEmail"
           label="אימייל"
           outlined
           hide-details
@@ -45,7 +45,7 @@
         md="2"
       >
         <v-text-field
-          v-model="clientNumber"
+          v-model="supplierNumber"
           label="מספר עוסק"
           outlined
           hide-details
@@ -57,7 +57,7 @@
         md="2"
       >
         <v-text-field
-          v-model="clientType"
+          v-model="supplierType"
           label="סוג חברה"
           outlined
           hide-details
@@ -69,7 +69,7 @@
         md="2"
       >
         <v-text-field
-          v-model="clientAddress"
+          v-model="supplierAddress"
           label="כתובת חברה"
           outlined
           hide-details
@@ -81,7 +81,7 @@
         md="2"
       >
         <v-text-field
-          v-model="clientContactPerson"
+          v-model="supplierContactPerson"
           label="שם איש קשר"
           outlined
           hide-details
@@ -93,7 +93,7 @@
         md="2"
       >
         <v-text-field
-          v-model="clientContactPersonPhone"
+          v-model="supplierContactPersonPhone"
           label="טלפון איש קשר"
           outlined
           hide-details
@@ -108,7 +108,7 @@
           outlined
           block
           height="56px"
-          :disabled="clientFieldInvalid"
+          :disabled="supplierFieldInvalid"
           type="submit"
         >
           שמור לקוח
@@ -120,54 +120,54 @@
 
 <script>
   export default {
-    name: 'FieldAddClient',
+    name: 'FieldAddSupplier',
     data: () => ({
-      clientName: '',
-      clientPhone: '',
-      clientEmail: '',
-      clientNumber: '',
-      clientType: '',
-      clientAddress: '',
-      clientContactPerson: '',
-      clientContactPersonPhone: '',
+      supplierName: '',
+      supplierPhone: '',
+      supplierEmail: '',
+      supplierNumber: '',
+      supplierType: '',
+      supplierAddress: '',
+      supplierContactPerson: '',
+      supplierContactPersonPhone: '',
     }),
     computed: {
-      clientFieldInvalid() {
+      supplierFieldInvalid() {
         return (
-          !this.clientName ||
-          !this.clientPhone ||
-          !this.clientEmail ||
-          !this.clientNumber ||
-          !this.clientType ||
-          !this.clientAddress ||
-          !this.clientContactPerson ||
-          !this.clientContactPersonPhone
+          !this.supplierName ||
+          !this.supplierPhone ||
+          !this.supplierEmail ||
+          !this.supplierNumber ||
+          !this.supplierType ||
+          !this.supplierAddress ||
+          !this.supplierContactPerson ||
+          !this.supplierContactPersonPhone
         )
       }
     },
     methods:{
-      addClient() {
-        if(!this.clientFieldInvalid){
-          const clientFields = {
-            name: this.clientName,
-            phone: this.clientPhone,
-            email: this.clientEmail,
-            number: this.clientNumber,
-            type: this.clientType,
-            address: this.clientAddress,
-            contactPerson: this.clientContactPerson,
-            contactPersonPhone: this.clientContactPersonPhone
+      addSupplier() {
+        if(!this.supplierFieldInvalid){
+          const supplierFields = {
+            name: this.supplierName,
+            phone: this.supplierPhone,
+            email: this.supplierEmail,
+            number: this.supplierNumber,
+            type: this.supplierType,
+            address: this.supplierAddress,
+            contactPerson: this.supplierContactPerson,
+            contactPersonPhone: this.supplierContactPersonPhone
           }
 
-          this.$store.dispatch('addClient', clientFields)
-          this.clientName = ''
-          this.clientPhone = ''
-          this.clientEmail = ''
-          this.clientNumber = ''
-          this.clientType = ''
-          this.clientAddress = ''
-          this.clientContactPerson = ''
-          this.clientContactPersonPhone = ''
+          this.$store.dispatch('addSupplier', supplierFields)
+          this.supplierName = ''
+          this.supplierPhone = ''
+          this.supplierEmail = ''
+          this.supplierNumber = ''
+          this.supplierType = ''
+          this.supplierAddress = ''
+          this.supplierContactPerson = ''
+          this.supplierContactPersonPhone = ''
         }
       }
     }

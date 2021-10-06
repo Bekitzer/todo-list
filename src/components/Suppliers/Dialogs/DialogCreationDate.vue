@@ -3,12 +3,12 @@
     <v-dialog
       ref="dialog"
       :value="true"
-      :return-value.sync="clientDate"
+      :return-value.sync="supplierDate"
       persistent
       width="290px"
     >
       <v-date-picker
-        v-model="clientDate"
+        v-model="supplierDate"
         scrollable
       >
         <v-spacer></v-spacer>
@@ -22,7 +22,7 @@
         <v-btn
           text
           color="primary"
-          @click="saveClient"
+          @click="saveSupplier"
         >
           OK
         </v-btn>
@@ -33,25 +33,25 @@
 
 <script>
   export default {
-    props: ['client'],
+    props: ['supplier'],
     data () {
       return {
-        clientDate: null
+        supplierDate: null
       }
     },
     methods: {
-      saveClient() {
+      saveSupplier() {
           let payload = {
-            id: this.client.id,
-            clientCreationDate: this.clientDate
+            id: this.supplier.id,
+            supplierCreationDate: this.supplierDate
           }
-          this.$store.dispatch('updateClientCreationDate', payload)
+          this.$store.dispatch('updateSupplierCreationDate', payload)
           this.$emit('close')
         }
     },
     mounted() {
-      if (this.client.clientCreationDate) {
-        this.clientDate = this.client.clientCreationDate
+      if (this.supplier.supplierCreationDate) {
+        this.supplierDate = this.supplier.supplierCreationDate
       }
     }
   }

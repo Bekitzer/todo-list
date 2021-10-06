@@ -26,13 +26,24 @@ const routes = [
     component: () => import('../views/Clients.vue')
   },
   {
+    path: '/clients/:id',
+    name: 'Client',
+    component: () => import('../views/Client.vue')
+  },
+  {
     path: '/suppliers',
     name: 'Suppliers',
     component: () => import('../views/Suppliers.vue')
-  }
+  },
+  {
+    path: '/suppliers/:id',
+    name: 'Supplier',
+    component: () => import('../views/Supplier.vue')
+  },
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 

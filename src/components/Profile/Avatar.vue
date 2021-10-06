@@ -2,9 +2,9 @@
   <v-avatar
     class="profile"
     color="grey"
-    size="36px"        
+    size="36px"
   >
-    <v-img 
+    <v-img
       src="images/marcus.jpg"
       rounded
     ></v-img>
