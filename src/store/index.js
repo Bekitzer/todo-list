@@ -16,6 +16,7 @@ export default new Vuex.Store({
     tasks: [],
     suppliers: [],
     clients: [],
+    orders: [],
     snackbar: {
       show: false,
       text: '',
@@ -48,6 +49,20 @@ export default new Vuex.Store({
     },
     setTasks(state, tasks) {
       state.tasks = tasks
+    },
+    // ORDERS
+    addOrder(state, newOrder){
+      state.orders.push(newOrder)
+    },
+    deleteOrder(state, id){
+      state.orders = state.orders.filter(order => order.id !== id)
+    },
+    updateOrder(state, payload){
+      let order = state.orders.filter(order => order.id === payload.id)[0]
+      Object.assign(order, payload)
+    },
+    setOrders(state, orders) {
+      state.orders = orders
     },
     // CLIENTS
     addClient(state, newClient){
@@ -146,6 +161,40 @@ export default new Vuex.Store({
       db.collection('tasks').set(tasks)
       commit('setTasks', tasks)
     },
+    // ORDERS
+    addOrder({ commit }, order) {
+      let isOrder = {
+        ...order,
+        id: uuid.v4(),
+        orderCreationDate: format(new Date(Date.now()), 'dd/MM/yyyy'),
+        orderUpdated: null
+      }
+      db.collection('orders').add(isOrder).then(() => {
+        commit('addOrder', isOrder)
+        commit('showSnackbar', 'Order added!')
+      })
+    },
+    deleteOrder({ commit }, id) {
+      db.collection('orders').doc({ id: id }).delete().then(() => {
+        commit('deleteOrder', id)
+        commit('showSnackbar', 'Order deleted!')
+      })
+    },
+    updateOrder({commit}, payload) {
+      db.collection('orders').doc({ id: payload.id }).update(payload).then(() => {
+        commit('updateOrder', payload)
+        commit('showSnackbar', 'Order Updated!')
+      })
+    },
+    getOrders({ commit }) {
+      db.collection('orders').get().then(orders => {
+        commit('setOrders', orders)
+      })
+    },
+    setOrders({ commit }, orders) {
+      db.collection('orders').set(orders)
+      commit('setOrders', orders)
+    },
     // CLIENTS
     addClient({ commit }, client) {
       let isClient = {
@@ -221,6 +270,12 @@ export default new Vuex.Store({
         return state.tasks
       }
       return state.tasks.filter(task => task.title.toLowerCase().includes(state.search.toLowerCase()))
+    },
+    ordersFiltered(state) {
+      if (!state.search) {
+        return state.orders
+      }
+      return state.orders.filter(order => order.name.toLowerCase().includes(state.search.toLowerCase()))
     },
     clientsFiltered(state) {
       if (!state.search) {

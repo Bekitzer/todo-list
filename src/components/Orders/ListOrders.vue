@@ -23,10 +23,10 @@
         </tr>
       </thead>
       <tbody>
-          <client
-            v-for="client in clients"
-            :key="client.id"
-            :client="client"
+          <order
+            v-for="order in orders"
+            :key="order.id"
+            :order="order"
           />
       </tbody>
     </template>
@@ -35,20 +35,20 @@
 
 <script>
 export default {
-  name: 'ListClients',
-  props: ['client'],
+  name: 'ListOrders',
+  props: ['order'],
   computed: {
-    clients: {
+    orders: {
       get() {
-        return this.$store.getters.clientsFiltered
+        return this.$store.getters.ordersFiltered
       },
       set(value) {
-        this.$store.dispatch('setClients', value)
+        this.$store.dispatch('setOrders', value)
       }
     }
   },
   components: {
-    'client': require('@/components/Clients/Client.vue').default
+    'order': require('@/components/Orders/Order.vue').default
   }
 }
 </script>

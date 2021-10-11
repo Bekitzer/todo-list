@@ -9,7 +9,7 @@
         elevation="8"
         shaped
       >
-        <v-card-title class="text-h5 text-center">עריכת לקוח</v-card-title>
+        <v-card-title class="text-h5 text-center">יצירת לקוח</v-card-title>
           <v-row class="pa-4">
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -136,9 +136,8 @@
             outlined
             large
             color="green"
-            @click="saveClient"
+            @click="addClient"
             :disabled="clientFieldInvalid"
-            @keyup.enter="saveClient"
           >
             <v-icon>
               mdi-check
@@ -153,57 +152,51 @@
 <script>
 import { format } from 'date-fns'
   export default {
-    data () {
-      return {
-        dialog: false,
-      }
-    },
-    props: ['client'],
-    data() {
-      return {
-        clientNumber: '',
-        clientName: '',
-        clientCompanyName: '',
-        clientPhone: '',
-        clientEmail: '',
-        clientIdNumber: '',
-        clientPaymentTerms: '',
-        clientPaymentMethod: '',
-        clientAddress: '',
-        clientWhatsapp: '',
-        clientHours: '',
-        clientDeliveryType: '',
-        clientStatus: ''
-      }
-    },
+    name: 'DialogCreate',
+    data: () => ({
+      dialog: false,
+      clientNumber: '',
+      clientName: '',
+      clientCompanyName: '',
+      clientPhone: '',
+      clientEmail: '',
+      clientIdNumber: '',
+      clientPaymentTerms: '',
+      clientPaymentMethod: '',
+      clientAddress: '',
+      clientWhatsapp: '',
+      clientHours: '',
+      clientDeliveryType: '',
+      clientStatus: '',
+    }),
     computed: {
       clientFieldInvalid() {
-        return
-        !this.clientNumber || this.clientNumber === this.client.number
-        !this.clientName || this.clientName === this.client.name
-        !this.clientCompanyName || this.clientCompanyName === this.client.companyName
-        !this.clientPhone || this.clientPhone === this.client.phone
-        !this.clientEmail || this.clientEmail === this.client.email
-        !this.clientIdNumber || this.clientIdNumber === this.client.numberId
-        !this.clientPaymentTerms || this.clientPaymentTerms === this.client.paymentTerms
-        !this.clientPaymentMethod || this.clientPaymentMethod === this.client.paymentMethod
-        !this.clientAddress || this.clientAddress === this.client.address
-        !this.clientWhatsapp || this.clientWhatsapp === this.client.whatsapp
-        !this.clientHours || this.clientHours === this.client.workingHours
-        !this.clientDeliveryType || this.clientDeliveryType === this.client.deliveryType
-        !this.clientStatus || this.clientStatus === this.client.status
+        return (
+          !this.clientNumber ||
+          !this.clientName ||
+          !this.clientCompanyName ||
+          !this.clientPhone ||
+          !this.clientEmail ||
+          !this.clientIdNumber ||
+          !this.clientPaymentTerms ||
+          !this.clientPaymentMethod ||
+          !this.clientAddress ||
+          !this.clientWhatsapp ||
+          !this.clientHours ||
+          !this.clientDeliveryType ||
+          !this.clientStatus
+        )
       }
     },
-    methods: {
-      saveClient() {
+    methods:{
+      addClient() {
         if(!this.clientFieldInvalid){
-          let payload = {
-            id: this.client.id,
+          const clientFields = {
             number: this.clientNumber,
-            phone: this.clientPhone,
-            email: this.clientEmail,
             name: this.clientName,
             companyName: this.clientCompanyName,
+            phone: this.clientPhone,
+            email: this.clientEmail,
             numberId: this.clientIdNumber,
             paymentTerms: this.clientPaymentTerms,
             paymentMethod: this.clientPaymentMethod,
@@ -211,28 +204,29 @@ import { format } from 'date-fns'
             whatsapp: this.clientWhatsapp,
             workingHours: this.clientHours,
             deliveryType: this.clientDeliveryType,
-            status: this.clientStatus,
-            clientUpdated: format(new Date(Date.now()), 'dd/MM/yyyy HH:mm:ss' )
+            status: this.clientStatus
           }
-          this.$store.dispatch('updateClient', payload)
-          this.$emit('close')
+
+          this.$store.dispatch('addClient', clientFields)
+          this.clientNumber = ''
+          this.clientName = ''
+          this.clientCompanyName = ''
+          this.clientPhone = ''
+          this.clientEmail = ''
+          this.clientIdNumber = ''
+          this.clientPaymentTerms = ''
+          this.clientPaymentMethod = ''
+          this.clientAddress = ''
+          this.clientWhatsapp = ''
+          this.clientHours = ''
+          this.clientDeliveryType = ''
+          this.clientStatus = ''
         }
+        this.clientCloseDialog()
+      },
+      clientCloseDialog() {
+        this.$emit('close')
       }
-    },
-    mounted() {
-      this.clientName = this.client.name
-      this.clientNumber = this.client.number
-      this.clientCompanyName = this.client.companyName
-      this.clientPhone = this.client.phone
-      this.clientEmail = this.client.email
-      this.clientIdNumber = this.client.numberId
-      this.clientPaymentTerms = this.client.paymentTerms
-      this.clientPaymentMethod = this.client.paymentMethod
-      this.clientAddress = this.client.address
-      this.clientWhatsapp = this.client.whatsapp
-      this.clientHours = this.client.workingHours
-      this.clientDeliveryType = this.client.deliveryType
-      this.clientStatus = this.client.status
     }
   }
 </script>

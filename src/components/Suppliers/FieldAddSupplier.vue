@@ -3,11 +3,7 @@
     <v-row
       class="pa-4"
     >
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="supplierName"
           label="שם ספק"
@@ -15,11 +11,7 @@
           hide-details
         ></v-text-field>
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="supplierPhone"
           label="טלפון משרד"
@@ -27,11 +19,7 @@
           hide-details
         ></v-text-field>
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="supplierEmail"
           label="אימייל"
@@ -39,11 +27,7 @@
           hide-details
         ></v-text-field>
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="supplierNumber"
           label="מספר עוסק"
@@ -51,11 +35,7 @@
           hide-details
         ></v-text-field>
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="supplierType"
           label="סוג חברה"
@@ -63,11 +43,7 @@
           hide-details
         ></v-text-field>
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="supplierAddress"
           label="כתובת חברה"
@@ -75,11 +51,7 @@
           hide-details
         ></v-text-field>
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="supplierContactPerson"
           label="שם איש קשר"
@@ -87,11 +59,7 @@
           hide-details
         ></v-text-field>
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-text-field
           v-model="supplierContactPersonPhone"
           label="טלפון איש קשר"
@@ -99,11 +67,7 @@
           hide-details
         ></v-text-field>
       </v-col>
-      <v-col
-        cols="12"
-        sm="6"
-        md="2"
-      >
+      <v-col cols="12" md="2" sm="6">
         <v-btn
           outlined
           block

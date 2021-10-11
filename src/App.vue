@@ -2,27 +2,28 @@
   <v-app id="inspire">
     <v-navigation-drawer
       v-model="drawer"
-      permanent
-      expand-on-hover
+      width="82"
       :right="$vuetify.rtl"
       :mobile-breakpoint="800"
       app
     >
-      <nav-logo />
       <v-list
         nav
       >
+      <v-list-item>
+        <nav-logo />
+      </v-list-item>
         <v-list-item
           v-for="item in items"
           :key="item.title"
           :to= "item.to"
-
           link
         >
           <v-list-item-icon>
-            <v-icon size="30px" >{{ item.icon }}</v-icon>
+
             <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title><v-icon>{{ item.icon }}</v-icon></v-list-item-title>
+            <v-list-item-subtitle caption>{{ item.title }}</v-list-item-subtitle>
           </v-list-item-content>
           </v-list-item-icon>
         </v-list-item>
@@ -32,7 +33,7 @@
       app
       color=primary
       dark
-      :height="$route.path === '/' || $route.path === '/clients' || $route.path === '/suppliers' ? '350px' : '140px' "
+      :height="$route.path === '/' ? '140px' : '80px' "
       src="images/mountains.jpg"
     >
       <template v-slot:img="{ props }">
@@ -62,12 +63,12 @@
           <v-row v-if="$route.path === '/'">
             <field-add-task />
           </v-row>
-          <v-row v-if="$route.path === '/clients'">
+          <!-- <v-row v-if="$route.path === '/clients'">
             <field-add-client />
-          </v-row>
-          <v-row v-if="$route.path === '/suppliers'">
+          </v-row> -->
+          <!-- <v-row v-if="$route.path === '/suppliers'">
             <field-add-supplier />
-          </v-row>
+          </v-row> -->
         </v-container>
     </v-app-bar>
     <v-main>
@@ -93,12 +94,13 @@
     mounted() {
       this.$store.dispatch('getTasks'),
       this.$store.dispatch('getClients'),
-      this.$store.dispatch('getSuppliers')
+      this.$store.dispatch('getSuppliers'),
+      this.$store.dispatch('getOrders')
     },
     components: {
       'field-add-task'    : require('@/components/Todo/FieldAddTask.vue').default,
-      'field-add-client'  : require('@/components/Clients/FieldAddClient.vue').default,
-      'field-add-supplier': require('@/components/Suppliers/FieldAddSupplier.vue').default,
+      // 'field-add-client'  : require('@/components/Clients/FieldAddClient.vue').default,
+      // 'field-add-supplier': require('@/components/Suppliers/FieldAddSupplier.vue').default,
       'snackbar'          : require('@/components/Global/Snackbar.vue').default,
       'search'            : require('@/components/Tools/Search.vue').default,
       'live-date-time'    : require('@/components/Tools/LiveDate.vue').default,
@@ -115,12 +117,22 @@
   .row
     align-items: center
   a.v-list-item.v-list-item--link
-    justify-content: center
+    justify-content: center !important
   .remove-hidden
     .v-app-bar-title__content
       overflow: visible !important
   .header-container
     max-width: none !important
-  .v-application .justify-center
-    margin: 0
+  .v-application .justify-center, .v-application--is-rtl .v-list-item__action:first-child, .v-application--is-rtl .v-list-item__icon:first-child
+    margin: 0 !important
+  .v-list-item__content
+    justify-content: center
+    flex-direction: column !important
+  .v-list-item__subtitle
+    font-size: 12px !important
+  .v-list--nav
+    padding-left: 0 !important
+    padding-right: 0 !important
+  .v-list--nav .v-list-item, .v-list--nav .v-list-item:before
+    border-radius: 0 !important
 </style>

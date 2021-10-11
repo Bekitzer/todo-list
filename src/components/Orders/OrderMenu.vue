@@ -8,7 +8,7 @@
         <v-btn
           icon
           dense
-          :to="{ name: 'Client', params: { id : client.id }}"
+          :to="{ name: 'Order', params: { id : order.id }}"
         >
           <v-icon>
             mdi-account-settings
@@ -23,28 +23,44 @@
             mdi-trash-can-outline
           </v-icon>
         </v-btn>
+        <v-btn
+          icon
+          dense
+          @click="dialogs.edit = true"
+        >
+          <v-icon>
+            mdi-pencil
+          </v-icon>
+        </v-btn>
       </template>
     </v-menu>
     <dialog-delete
       v-if="dialogs.delete"
       @close = 'dialogs.delete = false'
-      :client = 'client'
+      :order = 'order'
+    />
+    <dialog-edit
+      v-if="dialogs.edit"
+      @close = 'dialogs.edit = false'
+      :order = 'order'
     />
   </div>
 </template>
 
 <script>
 export default {
-    props: ['client'],
+    props: ['order'],
     data() {
         return{
           dialogs: {
+            edit: false,
             delete: false
           },
         }
     },
     components: {
-        'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default
+        'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,
+        'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default
     }
 }
 </script>

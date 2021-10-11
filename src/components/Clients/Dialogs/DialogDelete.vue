@@ -6,23 +6,34 @@
       max-width="290"
     >
       <v-card>
-        <v-card-title class="text-h5">Delete client?</v-card-title>
-        <v-card-text>Are you sure you want to delete this client?</v-card-text>
+        <v-card-title class="text-h5 text-center">מחיקת לקוח</v-card-title>
+        <v-card-text>אתה בטוח שאתה רוצה למחוק לקוח זה?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            text
+            fab
+            icon
+            outlined
+            large
+            color="red"
             @click="clientCloseDialog"
           >
-            Go Back
+            <v-icon>
+              mdi-close
+            </v-icon>
           </v-btn>
           <v-btn
-            color="red darken-1"
-            text
+            fab
+            icon
+            outlined
+            large
+            color="green"
             @click="clientDelete"
             @keyup.enter="clientDelete"
           >
-            Delete
+            <v-icon>
+              mdi-check
+            </v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>

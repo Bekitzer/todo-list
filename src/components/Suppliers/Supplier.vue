@@ -1,13 +1,26 @@
 <template>
   <tr>
-    <td>{{ supplier.name }}</td>
+    <td>{{ supplier.number}}</td>
+    <td>
+      <v-btn
+          icon
+          dense
+          :to="{ name: 'Supplier', params: { id : supplier.id }}"
+        >
+          {{ supplier.name }}
+        </v-btn>
+    </td>
+    <td>{{ supplier.companyName}}</td>
     <td>{{ supplier.phone }}</td>
-    <td>{{ supplier.email }}</td>
-    <td>{{ supplier.number }}</td>
-    <td>{{ supplier.type }}</td>
+    <td>{{ supplier.email}}</td>
+    <td>{{ supplier.numberId }}</td>
+    <td>{{ supplier.paymentTerms }}</td>
+    <td>{{ supplier.paymentMethod }}</td>
     <td>{{ supplier.address }}</td>
-    <td>{{ supplier.contactPerson }}</td>
-    <td>{{ supplier.contactPersonPhone }}</td>
+    <td>{{ supplier.whatsapp }}</td>
+    <td>{{ supplier.workingHours }}</td>
+    <td>{{ supplier.deliveryType }}</td>
+    <td>{{ supplier.status }}</td>
     <td>{{ supplier.supplierCreationDate }}</td>
     <td>{{ supplier.supplierUpdated }}</td>
     <td>
@@ -22,7 +35,6 @@ export default {
   name: 'Supplier',
   filters: {
     niceDate(value) {
-      debugger
       return format(new Date(value), 'MMM d')
     }
   },

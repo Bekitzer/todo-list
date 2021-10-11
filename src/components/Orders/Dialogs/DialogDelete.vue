@@ -3,14 +3,11 @@
     <v-dialog
       :value="true"
       persistent
-      max-width="600"
+      max-width="290"
     >
-      <v-card
-        elevation="8"
-        shaped
-      >
-        <v-card-title class="text-h5 text-center">מחיקת ספק</v-card-title>
-        <v-card-text>אתה בטוח שאתה רוצה למחוק ספק זה?</v-card-text>
+      <v-card>
+        <v-card-title class="text-h5 text-center">מחיקת הזמנה</v-card-title>
+        <v-card-text>אתה בטוח שאתה רוצה למחוק הזמנה זו?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -19,7 +16,7 @@
             outlined
             large
             color="red"
-            @click="supplierCloseDialog"
+            @click="orderCloseDialog"
           >
             <v-icon>
               mdi-close
@@ -31,8 +28,8 @@
             outlined
             large
             color="green"
-            @click="supplierDelete"
-            @keyup.enter="supplierDelete"
+            @click="orderDelete"
+            @keyup.enter="orderDelete"
           >
             <v-icon>
               mdi-check
@@ -51,13 +48,13 @@
         dialog: false,
       }
     },
-    props: ['supplier'],
+    props: ['order'],
     methods: {
-      supplierDelete() {
-        this.$store.dispatch('deleteSupplier', this.supplier.id)
-        this.supplierCloseDialog()
+      orderDelete() {
+        this.$store.dispatch('deleteOrder', this.order.id)
+        this.orderCloseDialog()
       },
-      supplierCloseDialog() {
+      orderCloseDialog() {
         this.$emit('close')
       }
     }

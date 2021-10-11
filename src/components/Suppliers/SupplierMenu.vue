@@ -23,25 +23,11 @@
             mdi-trash-can-outline
           </v-icon>
         </v-btn>
-        <v-btn
-          icon
-          dense
-          @click="dialogs.edit = true"
-        >
-          <v-icon>
-            mdi-pencil
-          </v-icon>
-        </v-btn>
       </template>
     </v-menu>
     <dialog-delete
       v-if="dialogs.delete"
       @close = 'dialogs.delete = false'
-      :supplier = 'supplier'
-    />
-    <dialog-edit
-      v-if="dialogs.edit"
-      @close = 'dialogs.edit = false'
       :supplier = 'supplier'
     />
   </div>
@@ -50,17 +36,14 @@
 <script>
 export default {
     props: ['supplier'],
-    data() {
-        return{
-          dialogs: {
-            edit: false,
-            delete: false
-          },
-        }
-    },
+    data: () => ({
+      dialogs: {
+        delete: false
+      },
+    }),
     components: {
-        'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
-        'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default
+        'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default,
+        'dialog-create': require('@/components/Suppliers/Dialogs/DialogCreate.vue').default
     }
 }
 </script>

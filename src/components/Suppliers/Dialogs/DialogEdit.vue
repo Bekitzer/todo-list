@@ -3,53 +3,146 @@
     <v-dialog
       :value="true"
       persistent
-      max-width="400"
+      max-width="600"
     >
-      <v-card>
-        <v-card-title class="text-h5">Edit Supplier</v-card-title>
-        <v-card-text>
-          Edit the title of this supplier
-          <v-text-field
-            v-model="supplierName"
-          />
-          <v-text-field
-            v-model="supplierPhone"
-          />
-          <v-text-field
-            v-model="supplierEmail"
-          />
-          <v-text-field
-            v-model="supplierNumber"
-          />
-          <v-text-field
-            v-model="supplierType"
-          />
-          <v-text-field
-            v-model="supplierAddress"
-          />
-          <v-text-field
-            v-model="supplierContactPerson"
-          />
-          <v-text-field
-            v-model="supplierContactPersonPhone"
-          />
-        </v-card-text>
+      <v-card
+        elevation="8"
+        shaped
+      >
+        <v-card-title class="text-h5 text-center">עריכת ספק</v-card-title>
+          <v-row class="pa-4">
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierNumber"
+                label="#"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierName"
+                label="שם ספק"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierCompanyName"
+                label="שם חברה"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierPhone"
+                label="טלפון משרד"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierEmail"
+                label="מייל משרד"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierIdNumber"
+                label="ח.פ."
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierPaymentTerms"
+                label="תנאי תשלום"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierPaymentMethod"
+                label="אופן תשלום"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierAddress"
+                label="כתובת"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierWhatsapp"
+                label="וואטסאפ"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierHours"
+                label="שעות פעילות"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierDeliveryType"
+                label="אופן אספקה"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierStatus"
+                label="סטטוס ספק"
+                outlined
+                hide-details
+              ></v-text-field>
+            </v-col>
+          </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            text
+            fab
+            icon
+            outlined
+            large
+            color="red"
             @click="$emit('close')"
           >
-            Cancel
+            <v-icon>
+              mdi-close
+            </v-icon>
           </v-btn>
           <v-btn
-            color="red darken-1"
-            text
+            fab
+            icon
+            outlined
+            large
+            color="green"
             @click="saveSupplier"
             :disabled="supplierFieldInvalid"
             @keyup.enter="saveSupplier"
           >
-            Save
+            <v-icon>
+              mdi-check
+            </v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -68,27 +161,37 @@ import { format } from 'date-fns'
     props: ['supplier'],
     data() {
       return {
+        supplierNumber: '',
         supplierName: '',
+        supplierCompanyName:'',
         supplierPhone: '',
         supplierEmail: '',
-        supplierNumber: '',
-        supplierType: '',
+        supplierIdNumber: '',
+        supplierPaymentTerms: '',
+        supplierPaymentMethod: '',
         supplierAddress: '',
-        supplierContactPerson: '',
-        supplierContactPersonPhone: ''
+        supplierWhatsapp: '',
+        supplierHours: '',
+        supplierDeliveryType: '',
+        supplierStatus: '',
       }
     },
     computed: {
       supplierFieldInvalid() {
         return
+        !this.supplierNumber || this.supplierNumber === this.supplier.number
         !this.supplierName || this.supplierName === this.supplier.name
+        !this.supplierCompanyName || this.supplierCompanyName === this.supplier.companyName
         !this.supplierPhone || this.supplierPhone === this.supplier.phone
         !this.supplierEmail || this.supplierEmail === this.supplier.email
-        !this.supplierNumber || this.supplierNumber === this.supplier.number
-        !this.supplierType || this.supplierType === this.supplier.type
+        !this.supplierIdNumber || this.supplierIdNumber === this.supplier.numberId
+        !this.supplierPaymentTerms || this.supplierPaymentTerms === this.supplier.paymentTerms
+        !this.supplierPaymentMethod || this.supplierPaymentMethod === this.supplier.paymentMethod
         !this.supplierAddress || this.supplierAddress === this.supplier.address
-        !this.supplierContactPerson || this.supplierContactPerson === this.supplier.contactPerson
-        !this.supplierContactPersonPhone || this.supplierContactPersonPhone === this.supplier.contactPersonPhone
+        !this.supplierWhatsapp || this.supplierWhatsapp === this.supplier.whatsapp
+        !this.supplierHours || this.supplierHours === this.supplier.workingHours
+        !this.supplierDeliveryType || this.supplierDeliveryType === this.supplier.deliveryType
+        !this.supplierStatus || this.supplierStatus === this.supplier.status
       }
     },
     methods: {
@@ -96,14 +199,19 @@ import { format } from 'date-fns'
         if(!this.supplierFieldInvalid){
           let payload = {
             id: this.supplier.id,
+            number: this.supplier.number,
             phone: this.supplierPhone,
             email: this.supplierEmail,
             name: this.supplierName,
-            number: this.supplierNumber,
-            type: this.supplierType,
+            companyName: this.supplierCompanyName,
+            numberId: this.supplierIdNumber,
+            paymentTerms: this.supplierPaymentTerms,
+            paymentMethod: this.supplierPaymentMethod,
             address: this.supplierAddress,
-            contactPerson: this.supplierContactPerson,
-            contactPersonPhone: this.supplierContactPersonPhone,
+            whatsapp: this.supplierWhatsapp,
+            workingHours: this.supplierHours,
+            deliveryType: this.supplierDeliveryType,
+            status: this.supplierStatus,
             supplierUpdated: format(new Date(Date.now()), 'dd/MM/yyyy HH:mm:ss' )
           }
           this.$store.dispatch('updateSupplier', payload)
@@ -113,13 +221,18 @@ import { format } from 'date-fns'
     },
     mounted() {
       this.supplierName = this.supplier.name
+      this.supplierNumber = this.supplier.number
+      this.supplierCompanyName = this.supplier.companyName
       this.supplierPhone = this.supplier.phone
       this.supplierEmail = this.supplier.email
-      this.supplierNumber = this.supplier.number
-      this.supplierType = this.supplier.type
+      this.supplierIdNumber = this.supplier.numberId
+      this.supplierPaymentTerms = this.supplier.paymentTerms
+      this.supplierPaymentMethod = this.supplier.paymentMethod
       this.supplierAddress = this.supplier.address
-      this.supplierContactPerson = this.supplier.contactPerson
-      this.supplierContactPersonPhone = this.supplier.contactPersonPhone
+      this.supplierWhatsapp = this.supplier.whatsapp
+      this.supplierHours = this.supplier.workingHours
+      this.supplierDeliveryType = this.supplier.deliveryType
+      this.supplierStatus = this.supplier.status
     }
   }
 </script>
