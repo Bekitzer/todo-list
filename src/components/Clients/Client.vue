@@ -13,16 +13,16 @@
     <td>{{ client.companyName}}</td>
     <td>{{ client.phone }}</td>
     <td>{{ client.email }}</td>
-    <td>{{ client.numberId }}</td>
-    <td>{{ client.paymentTerms }}</td>
-    <td>{{ client.paymentMethod }}</td>
+    <!-- <td>{{ client.numberId }}</td> -->
+    <!-- <td>{{ client.paymentTerms }}</td> -->
+    <!-- <td>{{ client.paymentMethod }}</td> -->
     <td>{{ client.address }}</td>
-    <td>{{ client.whatsapp }}</td>
-    <td>{{ client.workingHours }}</td>
+    <!-- <td>{{ client.whatsapp }}</td> -->
+    <!-- <td>{{ client.workingHours }}</td> -->
     <td>{{ client.deliveryType }}</td>
     <td>{{ client.status }}</td>
-    <td>{{ client.clientCreationDate }}</td>
-    <td>{{ client.clientUpdated }}</td>
+    <!-- <td>{{ client.clientCreationDate }}</td> -->
+    <!-- <td>{{ client.clientUpdated }}</td> -->
     <td>
       <client-menu :client="client"/>
     </td>
