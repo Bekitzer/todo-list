@@ -3,21 +3,14 @@
     <v-btn
       :to="{ name: 'Orders' }"
     >
-      חזרה לכל הלקוחות
+      חזרה לכל ההזמנות
     </v-btn>
-    <p>{{ order.name }}</p>
     <p>{{ order.number }}</p>
-    <p>{{ order.companyName }}</p>
-    <p>{{ order.phone }}</p>
-    <p>{{ order.email }}</p>
-    <p>{{ order.numberId }}</p>
-    <p>{{ order.paymentTerms }}</p>
-    <p>{{ order.paymentMethod }}</p>
-    <p>{{ order.address }}</p>
-    <p>{{ order.whatsapp }}</p>
-    <p>{{ order.workingHours }}</p>
+    <p>{{ order.clientName }}</p>
+    <p>{{ order.orderWork }}</p>
+    <p>{{ order.supplierName }}</p>
+    <p>{{ order.deliveryDate }}</p>
     <p>{{ order.deliveryType }}</p>
-    <p>{{ order.status }}</p>
     <p>{{ order.orderCreationDate }}</p>
     <p>{{ order.orderUpdated }}</p>
     <v-fab-transition>

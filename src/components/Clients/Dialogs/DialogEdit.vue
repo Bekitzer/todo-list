@@ -152,6 +152,7 @@
 
 <script>
 import { format } from 'date-fns'
+import { he } from 'date-fns/locale'
   export default {
     data () {
       return {
@@ -212,7 +213,7 @@ import { format } from 'date-fns'
             workingHours: this.clientHours,
             deliveryType: this.clientDeliveryType,
             status: this.clientStatus,
-            clientUpdated: format(new Date(Date.now()), 'dd/MM/yyyy HH:mm:ss' )
+            clientUpdated: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he})
           }
           this.$store.dispatch('updateClient', payload)
           this.$emit('close')

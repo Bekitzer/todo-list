@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import uuid from 'uuid'
 import Localbase from 'localbase'
 import { format } from 'date-fns'
+import { he } from 'date-fns/locale'
 
 let db = new Localbase('db')
 db.config.debug = false
@@ -166,7 +167,7 @@ export default new Vuex.Store({
       let isOrder = {
         ...order,
         id: uuid.v4(),
-        orderCreationDate: format(new Date(Date.now()), 'dd/MM/yyyy'),
+        orderCreationDate: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he}),
         orderUpdated: null
       }
       db.collection('orders').add(isOrder).then(() => {
@@ -200,7 +201,7 @@ export default new Vuex.Store({
       let isClient = {
         ...client,
         id: uuid.v4(),
-        clientCreationDate: format(new Date(Date.now()), 'dd/MM/yyyy'),
+        clientCreationDate: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he}),
         clientUpdated: null
       }
       db.collection('clients').add(isClient).then(() => {
@@ -234,7 +235,7 @@ export default new Vuex.Store({
       let isSupplier = {
         ...suppliers,
         id: uuid.v4(),
-        supplierCreationDate: format(new Date(Date.now()), 'dd/MM/yyyy'),
+        supplierCreationDate: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he}),
         supplierUpdated: null
       }
       db.collection('suppliers').add(isSupplier).then(() => {

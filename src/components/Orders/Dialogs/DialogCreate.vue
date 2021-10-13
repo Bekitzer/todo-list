@@ -11,7 +11,7 @@
       >
         <v-card-title class="text-h5 text-center">יצירת הזמנה</v-card-title>
           <v-row class="pa-4">
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="12" sm="12">
               <v-text-field
                 v-model="orderNumber"
                 label="#"
@@ -19,87 +19,63 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderName"
-                label="שם לקוח"
+            <v-col cols="12" md="12" sm="12">
+              <v-autocomplete
+                :items="clients"
+                item-text="name"
+                item-value="name"
+                v-model="orderClientName"
+                label="בחר לקוח"
+                clearable
+                hide-selected
+                outlined
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-autocomplete
+                :items="suppliers"
+                item-text="name"
+                item-value="name"
+                v-model="orderSupplierName"
+                label="בחר ספק"
+                clearable
+                hide-selected
+                outlined
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <!-- <v-text-field
+                v-model="orderDeliveryDate"
+                label="תאריך אספקה"
                 outlined
                 hide-details
-              />
+              /> -->
+              <v-menu
+                v-model="dateDialog"
+                :close-on-content-click="false"
+                max-width="290"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    :value="computedDate"
+                    clearable
+                    outlined
+                    label="בחר תאריך אספקה"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    @click:clear="orderDeliveryDate = null"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="orderDeliveryDate"
+                  @change="dateDialog = false"
+                  :first-day-of-week="0"
+                  locale="he-il"
+                ></v-date-picker>
+              </v-menu>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderCompanyName"
-                label="שם חברה"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderPhone"
-                label="טלפון משרד"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderEmail"
-                label="מייל משרד"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderIdNumber"
-                label="ח.פ."
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderPaymentTerms"
-                label="תנאי תשלום"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderPaymentMethod"
-                label="אופן תשלום"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderAddress"
-                label="כתובת"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderWhatsapp"
-                label="וואטסאפ"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderHours"
-                label="שעות פעילות"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="12" sm="12">
               <v-text-field
                 v-model="orderDeliveryType"
                 label="אופן אספקה"
@@ -107,13 +83,12 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderStatus"
-                label="סטטוס ספק"
+            <v-col cols="12" md="12" sm="12">
+              <v-textarea
+                v-model="orderWorkName"
+                label="מוצר / שם עבודה"
                 outlined
-                hide-details
-              />
+              ></v-textarea>
             </v-col>
           </v-row>
         <v-card-actions>
@@ -150,41 +125,48 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
+import { he } from 'date-fns/locale'
   export default {
     name: 'DialogCreate',
     data: () => ({
       dialog: false,
       orderNumber: '',
-      orderName: '',
-      orderCompanyName: '',
-      orderPhone: '',
-      orderEmail: '',
-      orderIdNumber: '',
-      orderPaymentTerms: '',
-      orderPaymentMethod: '',
-      orderAddress: '',
-      orderWhatsapp: '',
-      orderHours: '',
+      orderClientName: '',
+      orderWorkName: '',
+      orderSupplierName: '',
       orderDeliveryType: '',
-      orderStatus: '',
+      orderDeliveryDate: '',
+      dateDialog: false
     }),
     computed: {
+      computedDate () {
+        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yyyy', {locale: he}) : ''
+      },
+      clients: {
+        get() {
+          return this.$store.getters.clientsFiltered
+        },
+        set(value) {
+          this.$store.dispatch('setClients', value)
+        }
+      },
+      suppliers: {
+        get() {
+          return this.$store.getters.suppliersFiltered
+        },
+        set(value) {
+          this.$store.dispatch('setSuppliers', value)
+        }
+      },
       orderFieldInvalid() {
         return (
           !this.orderNumber ||
-          !this.orderName ||
-          !this.orderCompanyName ||
-          !this.orderPhone ||
-          !this.orderEmail ||
-          !this.orderIdNumber ||
-          !this.orderPaymentTerms ||
-          !this.orderPaymentMethod ||
-          !this.orderAddress ||
-          !this.orderWhatsapp ||
-          !this.orderHours ||
-          !this.orderDeliveryType ||
-          !this.orderStatus
+          !this.orderClientName ||
+          !this.orderWorkName ||
+          !this.orderSupplierName ||
+          !this.orderDeliveryDate ||
+          !this.orderDeliveryType
         )
       }
     },
@@ -193,34 +175,20 @@ import { format } from 'date-fns'
         if(!this.orderFieldInvalid){
           const orderFields = {
             number: this.orderNumber,
-            name: this.orderName,
-            companyName: this.orderCompanyName,
-            phone: this.orderPhone,
-            email: this.orderEmail,
-            numberId: this.orderIdNumber,
-            paymentTerms: this.orderPaymentTerms,
-            paymentMethod: this.orderPaymentMethod,
-            address: this.orderAddress,
-            whatsapp: this.orderWhatsapp,
-            workingHours: this.orderHours,
+            clientName: this.orderClientName,
+            orderWork: this.orderWorkName,
+            supplierName: this.orderSupplierName,
+            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE dd/MM/yyyy', {locale: he}),
             deliveryType: this.orderDeliveryType,
-            status: this.orderStatus
           }
 
           this.$store.dispatch('addOrder', orderFields)
           this.orderNumber = ''
-          this.orderName = ''
-          this.orderCompanyName = ''
-          this.orderPhone = ''
-          this.orderEmail = ''
-          this.orderIdNumber = ''
-          this.orderPaymentTerms = ''
-          this.orderPaymentMethod = ''
-          this.orderAddress = ''
-          this.orderWhatsapp = ''
-          this.orderHours = ''
+          this.orderClientName = ''
+          this.orderWorkName = ''
+          this.orderSupplierName = ''
+          this.orderDeliveryDate = ''
           this.orderDeliveryType = ''
-          this.orderStatus = ''
         }
         this.orderCloseDialog()
       },

@@ -57,6 +57,9 @@
       orderCloseDialog() {
         this.$emit('close')
       }
-    }
+    },
+    mounted () {
+      this.$refs.dialog.onKeyUp = () => {}
+   }
   }
 </script>

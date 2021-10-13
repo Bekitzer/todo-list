@@ -1,27 +1,20 @@
 <template>
   <tr>
-    <td>{{ order.number}}</td>
     <td>
       <v-btn
-          icon
-          dense
-          :to="{ name: 'Order', params: { id : order.id }}"
-        >
-          {{ order.name }}
-        </v-btn>
+        icon
+        dense
+        :to="{ name: 'Order', params: { id : order.id }}"
+      >
+        {{ order.number}}
+      </v-btn>
     </td>
-    <td>{{ order.companyName}}</td>
-    <td>{{ order.phone }}</td>
-    <td>{{ order.email }}</td>
-    <td>{{ order.numberId }}</td>
-    <td>{{ order.paymentTerms }}</td>
-    <td>{{ order.paymentMethod }}</td>
-    <td>{{ order.address }}</td>
-    <td>{{ order.whatsapp }}</td>
-    <td>{{ order.workingHours }}</td>
-    <td>{{ order.deliveryType }}</td>
-    <td>{{ order.status }}</td>
     <td>{{ order.orderCreationDate }}</td>
+    <td>{{ order.clientName}}</td>
+    <td>{{ order.orderWork }}</td>
+    <td>{{ order.supplierName }}</td>
+    <td>{{ order.deliveryDate }}</td>
+    <td>{{ order.deliveryType }}</td>
     <td>{{ order.orderUpdated }}</td>
     <td>
       <order-menu :order="order"/>
