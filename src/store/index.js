@@ -276,7 +276,7 @@ export default new Vuex.Store({
       if (!state.search) {
         return state.orders
       }
-      return state.orders.filter(order => order.name.toLowerCase().includes(state.search.toLowerCase()))
+      return state.orders.filter(order => order.number.toLowerCase().includes(state.search.toLowerCase()))
     },
     clientsFiltered(state) {
       if (!state.search) {

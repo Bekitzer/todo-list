@@ -1,6 +1,6 @@
 <template>
     <div
-        class="mr-4 text-subtitle-1"            
+        class="mr-4 text-subtitle-1"
     >
         {{ date }}
     </div>
@@ -8,7 +8,7 @@
 
 <script>
 import { format } from 'date-fns'
-import { setTimeout } from 'timers';
+// import { setTimeout } from 'timers';
 import { he } from 'date-fns/locale'
 
 export default {
@@ -19,9 +19,7 @@ export default {
     },
     methods: {
         getDate() {
-            this.date = format(new Date(), 'MMMM d - EEE H:mm:ss', {locale: he}),
-            
-            setTimeout(this.getDate, 1000)
+            this.date = format(new Date(), 'EEE H:mm:ss', {locale: he})
         }
     },
     mounted() {
@@ -30,7 +28,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

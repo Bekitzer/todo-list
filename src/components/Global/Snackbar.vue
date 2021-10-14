@@ -9,5 +9,5 @@
 <style lang="sass">
   .v-snack:not(.vsnack--absolute)
     height: 100%
-</style> 
+</style>
 

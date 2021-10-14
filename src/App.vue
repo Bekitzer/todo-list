@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <v-navigation-drawer
       v-model="drawer"
-      width="82"
+      width="70"
       :right="$vuetify.rtl"
       :mobile-breakpoint="800"
       app
@@ -10,7 +10,9 @@
       <v-list
         nav
       >
-      <v-list-item>
+      <v-list-item
+        class="spc-logo"
+      >
         <nav-logo />
       </v-list-item>
         <v-list-item
@@ -22,8 +24,8 @@
           <v-list-item-icon>
 
             <v-list-item-content>
-            <v-list-item-title><v-icon>{{ item.icon }}</v-icon></v-list-item-title>
-            <v-list-item-subtitle caption>{{ item.title }}</v-list-item-subtitle>
+            <v-list-item-title><v-icon color="white">{{ item.icon }}</v-icon></v-list-item-title>
+            <v-list-item-subtitle class="white--text">{{ item.title }}</v-list-item-subtitle>
           </v-list-item-content>
           </v-list-item-icon>
         </v-list-item>
@@ -33,7 +35,7 @@
       app
       color=primary
       dark
-      :height="$route.path === '/' ? '140px' : '80px' "
+      :height="$route.path === '/' ? '140px' : '86px' "
       src="images/mountains.jpg"
     >
       <template v-slot:img="{ props }">
@@ -45,8 +47,8 @@
         <v-container class="header-container pa-1">
           <v-row>
             <!-- <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> -->
-            <search />
-            <v-spacer></v-spacer>
+            <!-- <search />
+            <v-spacer></v-spacer> -->
             <client-profile />
 
           </v-row>
@@ -84,11 +86,11 @@
     data: () => ({
       drawer: null,
       items: [
-        { title: 'Home',      icon: 'mdi-format-list-checks',       to: '/' },
-        { title: 'About',     icon: 'mdi-information-outline',      to: '/about' },
-        { title: 'Orders',    icon: 'mdi-format-list-checks',       to: '/orders' },
-        { title: 'Clients',   icon: 'mdi-account',                  to: '/clients' },
-        { title: 'Suppliers', icon: 'mdi-account-multiple-outline', to: '/suppliers' },
+        { title: 'ראשי',      icon: 'mdi-format-list-checks',       to: '/' },
+        { title: 'אודות',     icon: 'mdi-information-outline',      to: '/about' },
+        { title: 'הזמנות',    icon: 'mdi-format-list-checks',       to: '/orders' },
+        { title: 'לקוחות',    icon: 'mdi-account',                  to: '/clients' },
+        { title: 'ספקים',     icon: 'mdi-account-multiple-outline', to: '/suppliers' },
       ],
     }),
     mounted() {
@@ -114,15 +116,16 @@
 </script>
 
 <style lang="sass">
-  .row
-    align-items: center
+  @font-face
+    font-family: 'Ploni-Regular'
+    src: url('/fonts/Ploni-Regular-AAA.eot')
+    src: local('☺'), url('/fonts/Ploni-Regular-AAA.woff') format('woff'), url('/fonts/Ploni-Regular-AAA.ttf') format('truetype'), url('/fonts/Ploni-Regular-AAA.svg') format('svg')
+    font-weight: normal
+    font-style: normal
+  .v-application
+    font-family: 'Ploni-Regular' !important
   a.v-list-item.v-list-item--link
     justify-content: center !important
-  .remove-hidden
-    .v-app-bar-title__content
-      overflow: visible !important
-  .header-container
-    max-width: none !important
   .v-application .justify-center, .v-application--is-rtl .v-list-item__action:first-child, .v-application--is-rtl .v-list-item__icon:first-child
     margin: 0 !important
   .v-list-item__content
@@ -135,4 +138,12 @@
     padding-right: 0 !important
   .v-list--nav .v-list-item, .v-list--nav .v-list-item:before
     border-radius: 0 !important
+  .spc-logo
+    background: #006D7B !important
+    margin: 0 !important
+    padding: 8px 10px !important
+  .v-list.v-sheet.theme--light.v-list--nav
+    padding-top: 0 !important
+  .header-container .row
+    align-items: center
 </style>

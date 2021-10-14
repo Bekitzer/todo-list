@@ -1,6 +1,6 @@
 <template>
-  <div class="pa-10">
-    <h1>Orders - {{ $store.state.appTitle }}</h1>
+  <div class="pa-5">
+    <h1>הזמנות - {{ $store.state.appTitle }}</h1>
     <list-orders v-if="$store.state.orders.length" />
     <no-orders v-else />
     <v-fab-transition>

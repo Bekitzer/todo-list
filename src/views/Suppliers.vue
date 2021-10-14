@@ -1,6 +1,6 @@
 <template>
-  <div class="pa-10">
-    <h1>Suppliers - {{ $store.state.appTitle }}</h1>
+  <div class="pa-5">
+    <h1>ספקים - {{ $store.state.appTitle }}</h1>
     <list-suppliers v-if="$store.state.suppliers.length" />
     <no-suppliers v-else />
     <v-fab-transition>
