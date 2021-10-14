@@ -4,15 +4,15 @@
       <thead
       >
         <tr>
-          <th>#</th>
-          <th>תאריך הזמנה</th>
-          <th>לקוח</th>
-          <th>מוצר / שם עבודה</th>
-          <th>ספק</th>
-          <th>תאריך אספקה</th>
-          <th>אופן אספקה</th>
-          <th>עודכן בתאריך ע״י</th>
-          <th>פעולות</th>
+          <th width="2%">#</th>
+          <th width="8%">תאריך הזמנה</th>
+          <th width="6%">לקוח</th>
+          <th width="52%">מוצר / שם עבודה</th>
+          <th width="6%">ספק</th>
+          <th width="8%">תאריך אספקה</th>
+          <th width="6%">אופן אספקה</th>
+          <th width="6%">סטטוס הזמנה</th>
+          <th width="6%">פעולות</th>
         </tr>
       </thead>
       <tbody>

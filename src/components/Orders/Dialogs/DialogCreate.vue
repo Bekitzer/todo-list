@@ -138,6 +138,7 @@ import { he } from 'date-fns/locale'
       orderSupplierName: '',
       orderDeliveryType: '',
       orderDeliveryDate: '',
+      orderStatusType: 'עבודה חדשה',
       dateDialog: false,
       orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
     }),
@@ -168,7 +169,8 @@ import { he } from 'date-fns/locale'
           !this.orderWorkName ||
           !this.orderSupplierName ||
           !this.orderDeliveryDate ||
-          !this.orderDeliveryType
+          !this.orderDeliveryType ||
+          !this.orderStatusType
         )
       }
     },
@@ -180,6 +182,7 @@ import { he } from 'date-fns/locale'
             clientName: this.orderClientName,
             orderWork: this.orderWorkName,
             supplierName: this.orderSupplierName,
+            statusType: this.orderStatusType,
             deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE dd/MM/yyyy', {locale: he}),
             deliveryType: this.orderDeliveryType,
           }
@@ -189,6 +192,7 @@ import { he } from 'date-fns/locale'
           this.orderClientName = ''
           this.orderWorkName = ''
           this.orderSupplierName = ''
+          this.orderStatusType = ''
           this.orderDeliveryDate = ''
           this.orderDeliveryType = ''
         }

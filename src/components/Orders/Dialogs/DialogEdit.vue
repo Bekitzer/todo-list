@@ -45,6 +45,15 @@
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="orderStatusType"
+                :items="orderStatusTypeList"
+                label="סטטוס הזמנה"
+                outlined
+                hide-details
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="orderDeliveryDate"
                 label="תאריך אספקה"
@@ -113,9 +122,11 @@ import { he } from 'date-fns/locale'
         orderSupplierName: '',
         orderWorkName: '',
         orderClientName: '',
+        orderStatusType: '',
         orderDeliveryDate: '',
         orderDeliveryType: '',
         orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
+        orderStatusTypeList: ["בעבודה","נשלח לספק","מחכה לספק","במשלוח","משלוח מתעכב","סופק"],
       }
     },
     computed: {
@@ -125,6 +136,7 @@ import { he } from 'date-fns/locale'
         !this.orderSupplierName || this.orderSupplierName === this.order.supplierName
         !this.orderWorkName || this.orderWorkName === this.order.orderWork
         !this.orderClientName || this.orderClientName === this.order.clientName
+        !this.orderStatusType || this.orderStatusType === this.order.statusType
         !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
         !this.orderDeliveryType || this.orderDeliveryType === this.order.deliveryType
       }
@@ -138,6 +150,7 @@ import { he } from 'date-fns/locale'
             clientName: this.orderClientName,
             orderWork: this.orderWorkName,
             supplierName: this.orderSupplierName,
+            statusType: this.orderStatusType,
             deliveryDate: this.orderDeliveryDate,
             deliveryType: this.orderDeliveryType,
             orderUpdated: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he})
@@ -152,6 +165,7 @@ import { he } from 'date-fns/locale'
       this.orderClientName = this.order.clientName
       this.orderWorkName = this.order.orderWork
       this.orderSupplierName = this.order.supplierName
+      this.orderStatusType = this.order.statusType
       this.orderDeliveryDate = this.order.deliveryDate
       this.orderDeliveryType = this.order.deliveryType
     }
