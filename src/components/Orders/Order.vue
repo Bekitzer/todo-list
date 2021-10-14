@@ -61,7 +61,7 @@ export default {
   .spc-status-dot i
     position: absolute !important
     right: 0 !important
-    width: 10px
-    height: 10px
-    margin-top: 6px
+    width: 10px !important
+    height: 10px !important
+    margin-top: 6px !important
 </style>

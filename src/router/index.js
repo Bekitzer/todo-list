@@ -45,6 +45,16 @@ const routes = [
     name: 'Supplier',
     component: () => import('../views/Supplier.vue')
   },
+  {
+    path: '/accountings',
+    name: 'Accountings',
+    component: () => import('../views/Accountings.vue')
+  },
+  {
+    path: '/accountings/:id',
+    name: 'Accounting',
+    component: () => import('../views/Accounting.vue')
+  },
 ]
 
 const router = new VueRouter({

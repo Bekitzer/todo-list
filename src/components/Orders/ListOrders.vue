@@ -7,11 +7,11 @@
           <th width="2%">#</th>
           <th width="8%">תאריך הזמנה</th>
           <th width="6%">לקוח</th>
-          <th width="52%">מוצר / שם עבודה</th>
+          <th width="50%">מוצר / שם עבודה</th>
           <th width="6%">ספק</th>
           <th width="8%">תאריך אספקה</th>
           <th width="6%">אופן אספקה</th>
-          <th width="6%">סטטוס הזמנה</th>
+          <th width="8%">סטטוס הזמנה</th>
           <th width="6%">פעולות</th>
         </tr>
       </thead>

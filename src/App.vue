@@ -86,18 +86,22 @@
     data: () => ({
       drawer: null,
       items: [
-        { title: 'ראשי',      icon: 'mdi-format-list-checks',       to: '/' },
-        { title: 'אודות',     icon: 'mdi-information-outline',      to: '/about' },
+
         { title: 'הזמנות',    icon: 'mdi-format-list-checks',       to: '/orders' },
-        { title: 'לקוחות',    icon: 'mdi-account',                  to: '/clients' },
         { title: 'ספקים',     icon: 'mdi-account-multiple-outline', to: '/suppliers' },
+        { title: 'לקוחות',    icon: 'mdi-account',                  to: '/clients' },
+        { title: 'הנה״ח',     icon: 'mdi-notebook-edit-outline',    to: '/accountings' },
+
+        // { title: 'ראשי',      icon: 'mdi-format-list-checks',       to: '/' },
+        // { title: 'אודות',     icon: 'mdi-information-outline',      to: '/about' },
       ],
     }),
     mounted() {
       this.$store.dispatch('getTasks'),
       this.$store.dispatch('getClients'),
       this.$store.dispatch('getSuppliers'),
-      this.$store.dispatch('getOrders')
+      this.$store.dispatch('getOrders'),
+      this.$store.dispatch('getAccountings')
     },
     components: {
       'field-add-task'    : require('@/components/Todo/FieldAddTask.vue').default,

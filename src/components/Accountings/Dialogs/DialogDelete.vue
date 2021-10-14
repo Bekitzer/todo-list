@@ -6,8 +6,8 @@
       max-width="290"
     >
       <v-card>
-        <v-card-title class="text-h5 text-center">מחיקת הזמנה</v-card-title>
-        <v-card-text>אתה בטוח שאתה רוצה למחוק הזמנה זו?</v-card-text>
+        <v-card-title class="text-h5 text-center">מחיקת הנהלת חשבון</v-card-title>
+        <v-card-text>אתה בטוח שאתה רוצה למחוק הנהלת חשבון זו?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -16,7 +16,7 @@
             outlined
             large
             color="red"
-            @click="orderCloseDialog"
+            @click="accountingCloseDialog"
           >
             <v-icon>
               mdi-close
@@ -28,8 +28,8 @@
             outlined
             large
             color="green"
-            @click="orderDelete"
-            @keyup.enter="orderDelete"
+            @click="accountingDelete"
+            @keyup.enter="accountingDelete"
           >
             <v-icon>
               mdi-check
@@ -48,13 +48,13 @@
         dialog: false,
       }
     },
-    props: ['order'],
+    props: ['accounting'],
     methods: {
-      orderDelete() {
-        this.$store.dispatch('deleteOrder', this.order.id)
-        this.orderCloseDialog()
+      accountingDelete() {
+        this.$store.dispatch('deleteAccounting', this.accounting.id)
+        this.accountingCloseDialog()
       },
-      orderCloseDialog() {
+      accountingCloseDialog() {
         this.$emit('close')
       }
     }

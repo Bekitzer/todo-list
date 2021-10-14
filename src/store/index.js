@@ -18,6 +18,7 @@ export default new Vuex.Store({
     suppliers: [],
     clients: [],
     orders: [],
+    accountings: [],
     snackbar: {
       show: false,
       text: '',
@@ -64,6 +65,20 @@ export default new Vuex.Store({
     },
     setOrders(state, orders) {
       state.orders = orders
+    },
+    // ACCOUNTINGS
+    addAccounting(state, newAccounting){
+      state.accountings.push(newAccounting)
+    },
+    deleteAccounting(state, id){
+      state.accountings = state.accountings.filter(accounting => accounting.id !== id)
+    },
+    updateAccounting(state, payload){
+      let accounting = state.accountings.filter(accounting => accounting.id === payload.id)[0]
+      Object.assign(accounting, payload)
+    },
+    setAccountings(state, accountings) {
+      state.accountings = accountings
     },
     // CLIENTS
     addClient(state, newClient){
@@ -196,6 +211,40 @@ export default new Vuex.Store({
       db.collection('orders').set(orders)
       commit('setOrders', orders)
     },
+    // ACCOUNTINGS
+    addAccounting({ commit }, accounting) {
+      let isAccounting = {
+        ...accounting,
+        id: uuid.v4(),
+        accountingCreationDate: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he}),
+        accountingUpdated: null
+      }
+      db.collection('accountings').add(isAccounting).then(() => {
+        commit('addAccounting', isAccounting)
+        commit('showSnackbar', 'Accounting added!')
+      })
+    },
+    deleteAccounting({ commit }, id) {
+      db.collection('accountings').doc({ id: id }).delete().then(() => {
+        commit('deleteAccounting', id)
+        commit('showSnackbar', 'Accounting deleted!')
+      })
+    },
+    updateAccounting({commit}, payload) {
+      db.collection('accountings').doc({ id: payload.id }).update(payload).then(() => {
+        commit('updateAccounting', payload)
+        commit('showSnackbar', 'Accounting Updated!')
+      })
+    },
+    getAccountings({ commit }) {
+      db.collection('accountings').get().then(accountings => {
+        commit('setAccountings', accountings)
+      })
+    },
+    setAccountings({ commit }, accountings) {
+      db.collection('accountings').set(accountings)
+      commit('setAccountings', accountings)
+    },
     // CLIENTS
     addClient({ commit }, client) {
       let isClient = {
@@ -277,6 +326,12 @@ export default new Vuex.Store({
         return state.orders
       }
       return state.orders.filter(order => order.number.toLowerCase().includes(state.search.toLowerCase()))
+    },
+    accountingsFiltered(state) {
+      if (!state.search) {
+        return state.accountings
+      }
+      return state.accountings.filter(accounting => accounting.number.toLowerCase().includes(state.search.toLowerCase()))
     },
     clientsFiltered(state) {
       if (!state.search) {
