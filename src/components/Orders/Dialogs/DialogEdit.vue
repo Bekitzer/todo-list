@@ -53,12 +53,13 @@
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
+              <v-select
                 v-model="orderDeliveryType"
+                :items="orderDeliveryTypeList"
                 label="אופן אספקה"
                 outlined
                 hide-details
-              />
+              ></v-select>
             </v-col>
           </v-row>
         <v-card-actions>
@@ -101,18 +102,20 @@ import { he } from 'date-fns/locale'
   export default {
     data () {
       return {
-        dialog: false,
+
       }
     },
     props: ['order'],
     data() {
       return {
+        dialog: false,
         // orderNumber: '',
         orderSupplierName: '',
         orderWorkName: '',
         orderClientName: '',
         orderDeliveryDate: '',
         orderDeliveryType: '',
+        orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
       }
     },
     computed: {

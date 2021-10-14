@@ -100,20 +100,22 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" sm="6">
-                <v-text-field
+                <v-select
                   v-model="supplierDeliveryType"
+                  :items="supplierDeliveryTypeList"
                   label="אופן אספקה"
                   outlined
                   hide-details
-                ></v-text-field>
+                ></v-select>
               </v-col>
               <v-col cols="12" md="6" sm="6">
-                <v-text-field
+                <v-select
                   v-model="supplierStatus"
+                  :items="supplierStatusList"
                   label="סטטוס ספק"
                   outlined
                   hide-details
-                ></v-text-field>
+                ></v-select>
               </v-col>
             </v-row>
           <v-card-actions>
@@ -168,6 +170,8 @@ import { format } from 'date-fns'
       supplierHours: '',
       supplierDeliveryType: '',
       supplierStatus: '',
+      supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
+      supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
      }),
     computed: {
       supplierFieldInvalid() {

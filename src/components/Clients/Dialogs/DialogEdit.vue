@@ -100,20 +100,22 @@
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
+              <v-select
                 v-model="clientDeliveryType"
+                :items="clientDeliveryTypeList"
                 label="אופן אספקה"
                 outlined
                 hide-details
-              />
+              ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
+              <v-select
                 v-model="clientStatus"
-                label="סטטוס ספק"
+                :items="clientStatusList"
+                label="סטטוס לקוח"
                 outlined
                 hide-details
-              />
+              ></v-select>
             </v-col>
           </v-row>
         <v-card-actions>
@@ -174,7 +176,9 @@ import { he } from 'date-fns/locale'
         clientWhatsapp: '',
         clientHours: '',
         clientDeliveryType: '',
-        clientStatus: ''
+        clientStatus: '',
+        clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
+        clientStatusList: ["קבוע","מזדמן","שת״פ"],
       }
     },
     computed: {

@@ -22,5 +22,13 @@ export default {}
     opacity: 0.2 !important
   .v-list-item__content
     padding: 26px 0 !important
+  .v-list--nav .v-list-item:not(:last-child):not(:only-child), .v-list--rounded .v-list-item:not(:last-child):not(:only-child)
+    margin-bottom: 1px !important
+  a.v-list-item.v-list-item--link:after
+    content: ""
+    border-bottom: 1px solid rgb(255 255 255 / 30%)
+    width: 30%
+    position: absolute
+    bottom: -1px
 </style>
 

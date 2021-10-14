@@ -75,13 +75,14 @@
                 ></v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-text-field
+            <v-col cols="12" md="6" sm="6">
+              <v-select
                 v-model="orderDeliveryType"
+                :items="orderDeliveryTypeList"
                 label="אופן אספקה"
                 outlined
                 hide-details
-              />
+              ></v-select>
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-textarea
@@ -137,7 +138,8 @@ import { he } from 'date-fns/locale'
       orderSupplierName: '',
       orderDeliveryType: '',
       orderDeliveryDate: '',
-      dateDialog: false
+      dateDialog: false,
+      orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
     }),
     computed: {
       computedDate () {

@@ -100,21 +100,23 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierDeliveryType"
-                label="אופן אספקה"
-                outlined
-                hide-details
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierStatus"
-                label="סטטוס ספק"
-                outlined
-                hide-details
-              ></v-text-field>
-            </v-col>
+                <v-select
+                  v-model="supplierDeliveryType"
+                  :items="supplierDeliveryTypeList"
+                  label="אופן אספקה"
+                  outlined
+                  hide-details
+                ></v-select>
+              </v-col>
+              <v-col cols="12" md="6" sm="6">
+                <v-select
+                  v-model="supplierStatus"
+                  :items="supplierStatusList"
+                  label="סטטוס ספק"
+                  outlined
+                  hide-details
+                ></v-select>
+              </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -153,15 +155,11 @@
 <script>
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
-  export default {
-    data () {
-      return {
-        dialog: false,
-      }
-    },
+export default {
     props: ['supplier'],
     data() {
       return {
+        dialog: false,
         supplierNumber: '',
         supplierName: '',
         supplierCompanyName:'',
@@ -175,6 +173,8 @@ import { he } from 'date-fns/locale'
         supplierHours: '',
         supplierDeliveryType: '',
         supplierStatus: '',
+        supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
+        supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
       }
     },
     computed: {
