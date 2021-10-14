@@ -5,13 +5,12 @@
       >
         <tr>
           <th width="2%">#</th>
-          <th width="8%">תאריך הזמנה</th>
+          <th width="8%">תאריך יצירת חשבון חייב</th>
           <th width="6%">לקוח</th>
-          <th width="56%">מוצר / שם עבודה</th>
-          <th width="6%">ספק</th>
+          <th width="62%"></th>
           <th width="8%">תאריך תשלום</th>
-          <th width="8%">סטטוס תשלום</th>
           <th width="6%">פעולות</th>
+          <th width="8%" class="spc-status-dot">סטטוס תשלום</th>
         </tr>
       </thead>
       <tbody>
@@ -44,3 +43,7 @@ export default {
   }
 }
 </script>
+<style lang="sass">
+  th.spc-status-dot
+    border-bottom: none !important
+</style>

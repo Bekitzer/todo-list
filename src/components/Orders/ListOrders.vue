@@ -11,8 +11,8 @@
           <th width="6%">ספק</th>
           <th width="8%">תאריך אספקה</th>
           <th width="6%">אופן אספקה</th>
-          <th width="8%">סטטוס הזמנה</th>
           <th width="6%">פעולות</th>
+          <th width="8%" class="spc-status-dot">סטטוס הזמנה</th>
         </tr>
       </thead>
       <tbody>
@@ -45,3 +45,7 @@ export default {
   }
 }
 </script>
+<style lang="sass">
+  th.spc-status-dot
+    border-bottom: none !important
+</style>

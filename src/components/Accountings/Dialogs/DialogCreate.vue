@@ -36,18 +36,6 @@
               ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-autocomplete
-                :items="suppliers"
-                item-text="name"
-                item-value="name"
-                v-model="accountingSupplierName"
-                label="בחר ספק"
-                clearable
-                hide-selected
-                outlined
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
               <v-menu
                 v-model="dateDialog"
                 :close-on-content-click="false"
@@ -72,13 +60,6 @@
                   locale="he-il"
                 ></v-date-picker>
               </v-menu>
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-textarea
-                v-model="accountingWorkName"
-                label="מוצר / שם עבודה"
-                outlined
-              ></v-textarea>
             </v-col>
           </v-row>
         <v-card-actions>
@@ -123,8 +104,6 @@ import { he } from 'date-fns/locale'
       dialog: false,
       accountingNumber: '',
       accountingClientName: '',
-      accountingWorkName: '',
-      accountingSupplierName: '',
       accountingPaymentType: 'מחכה לתשלום',
       accountingPaymentDate: '',
       dateDialog: false,
@@ -149,20 +128,10 @@ import { he } from 'date-fns/locale'
           this.$store.dispatch('setClients', value)
         }
       },
-      suppliers: {
-        get() {
-          return this.$store.getters.suppliersFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setSuppliers', value)
-        }
-      },
       accountingFieldInvalid() {
         return (
           !this.accountingNumber ||
           !this.accountingClientName ||
-          !this.accountingWorkName ||
-          !this.accountingSupplierName ||
           !this.accountingPaymentDate
         )
       }
@@ -173,9 +142,6 @@ import { he } from 'date-fns/locale'
           const accountingFields = {
             number: this.accountingNumber,
             clientName: this.accountingClientName,
-            orderWork: this.accountingWorkName,
-            supplierName: this.accountingSupplierName,
-            statusType: this.accountingStatusType,
             paymentDate: format(new Date(this.accountingPaymentDate), 'EEE dd/MM/yyyy', {locale: he}),
             paymentType: this.accountingPaymentType,
           }
@@ -183,9 +149,6 @@ import { he } from 'date-fns/locale'
           this.$store.dispatch('addAccounting', accountingFields)
           this.accountingNumber = ''
           this.accountingClientName = ''
-          this.accountingWorkName = ''
-          this.accountingSupplierName = ''
-          this.accountingStatusType = ''
           this.accountingPaymentDate = ''
           this.accountingPaymentType = ''
         }

@@ -150,4 +150,16 @@
     padding-top: 0 !important
   .header-container .row
     align-items: center
+  .theme--light.v-data-table > .v-data-table__ wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:not(.v-data-table__mobile-row)
+    border-bottom: none !important
+  .v-data-table>.v-data-table__wrapper>table>tbody>tr:nth-child(odd)>td
+    background-color: #f1f1f1
+  .v-data-table>.v-data-table__wrapper>table>tbody>tr:nth-child(odd)>td:last-child
+    background-color: #ffffff
+  .v-data-table > .v-data-table__wrapper > table > tbody > tr:nth-child(odd)>td:first-child
+    border-radius: 0px 10px 10px 0px !important
+  .v-data-table > .v-data-table__wrapper > table > tbody > tr:nth-child(odd)>td:nth-last-child(2)
+    border-radius: 10px 0px 0px 10px !important
+  .v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > thead > tr > th
+    border-bottom: none !important
 </style>

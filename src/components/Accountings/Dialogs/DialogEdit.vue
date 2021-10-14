@@ -21,31 +21,6 @@
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-textarea
-                v-model="accountingWorkName"
-                label="מוצר / שם עבודה"
-                outlined
-              ></v-textarea>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="accountingSupplierName"
-                disabled
-                label="ספק"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="accountingStatusType"
-                :items="accountingStatusTypeList"
-                label="סטטוס הזמנה"
-                outlined
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="accountingPaymentDate"
                 label="תאריך תשלום"
@@ -105,11 +80,7 @@ export default {
     data() {
       return {
         dialog: false,
-        // accountingNumber: '',
-        accountingSupplierName: '',
-        accountingWorkName: '',
         accountingClientName: '',
-        accountingStatusType: '',
         accountingPaymentDate: '',
         accountingPaymentType: '',
         accountingPaymentTypeList: ["נשלח לתשלום","תשלום מתעכב","שולם","לא שולם"],
@@ -118,11 +89,7 @@ export default {
     computed: {
       accountingFieldInvalid() {
         return
-        // !this.accountingNumber || this.accountingNumber === this.accounting.number
-        !this.accountingSupplierName || this.accountingSupplierName === this.accounting.supplierName
-        !this.accountingWorkName || this.accountingWorkName === this.accounting.orderWork
         !this.accountingClientName || this.accountingClientName === this.accounting.clientName
-        !this.accountingStatusType || this.accountingStatusType === this.accounting.statusType
         !this.accountingPaymentDate || this.accountingPaymentDate === this.accounting.paymentDate
         !this.accountingPaymentType || this.accountingPaymentType === this.accounting.paymentType
       }
@@ -132,11 +99,7 @@ export default {
         if(!this.accountingFieldInvalid){
           let payload = {
             id: this.accounting.id,
-            // number: this.accountingNumber,
             clientName: this.accountingClientName,
-            orderWork: this.accountingWorkName,
-            supplierName: this.accountingSupplierName,
-            statusType: this.accountingStatusType,
             paymentDate: this.accountingPaymentDate,
             paymentType: this.accountingPaymentType,
             accountingUpdated: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he})
@@ -149,9 +112,6 @@ export default {
     mounted() {
       // this.accountingNumber = this.accounting.number
       this.accountingClientName = this.accounting.clientName
-      this.accountingWorkName = this.accounting.orderWork
-      this.accountingSupplierName = this.accounting.supplierName
-      this.accountingStatusType = this.accounting.statusType
       this.accountingPaymentDate = this.accounting.paymentDate
       this.accountingPaymentType = this.accounting.paymentType
     }

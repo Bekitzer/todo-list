@@ -7,8 +7,6 @@
     </v-btn>
     <p>{{ accounting.number }}</p>
     <p>{{ accounting.clientName }}</p>
-    <p>{{ accounting.orderWork }}</p>
-    <p>{{ accounting.supplierName }}</p>
     <p>{{ accounting.paymentDate }}</p>
     <p>{{ accounting.paymentType }}</p>
     <p>{{ accounting.accountingCreationDate }}</p>

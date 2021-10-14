@@ -15,15 +15,15 @@
     <td>{{ order.supplierName }}</td>
     <td>{{ order.deliveryDate }}</td>
     <td>{{ order.deliveryType }}</td>
+    <td>
+      <order-menu :order="order"/>
+    </td>
     <td class="spc-status-dot">
         <v-icon
           :color="getColor(order.statusType)"
           size="60"
         >mdi-circle-small</v-icon>
          {{ order.statusType }}
-    </td>
-    <td>
-      <order-menu :order="order"/>
     </td>
   </tr>
 </template>
@@ -60,8 +60,11 @@ export default {
     position: relative !important
   .spc-status-dot i
     position: absolute !important
-    right: 0 !important
+    right: 10px !important
     width: 10px !important
     height: 10px !important
     margin-top: 6px !important
+  td.spc-status-dot
+    border-bottom: none !important
+    padding-right: 30px !important
 </style>

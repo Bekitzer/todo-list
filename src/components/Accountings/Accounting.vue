@@ -11,18 +11,17 @@
     </td>
     <td>{{ accounting.accountingCreationDate }}</td>
     <td>{{ accounting.clientName}}</td>
-    <td>{{ accounting.orderWork }}</td>
-    <td>{{ accounting.supplierName }}</td>
+    <td> </td>
     <td>{{ accounting.paymentDate }}</td>
+    <td>
+      <accounting-menu :accounting="accounting"/>
+    </td>
     <td class="spc-status-dot">
         <v-icon
           :color="getColor(accounting.paymentType)"
           size="60"
         >mdi-circle-small</v-icon>
          {{ accounting.paymentType }}
-    </td>
-    <td>
-      <accounting-menu :accounting="accounting"/>
     </td>
   </tr>
 </template>
@@ -52,13 +51,17 @@ export default {
   }
 }
 </script>
-<style lang="sass">
+<style lang="sass" scoped>
   .spc-status-dot
     position: relative !important
   .spc-status-dot i
     position: absolute !important
-    right: 0 !important
+    right: 10px !important
     width: 10px
     height: 10px
     margin-top: 6px
+  td.spc-status-dot
+    border-bottom: none !important
+    padding-right: 30px !important
+
 </style>
