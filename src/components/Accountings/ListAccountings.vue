@@ -4,10 +4,15 @@
       <thead
       >
         <tr>
-          <th width="2%">#</th>
+          <th width="4%">#</th>
           <th width="8%">תאריך יצירת חשבון חייב</th>
-          <th width="6%">לקוח</th>
-          <th width="62%"></th>
+          <th width="6%">מחיר יחידה</th>
+          <th width="6%">כמות</th>
+          <th width="6%">מחיר ספק</th>
+          <th width="6%">רווח</th>
+          <th width="30%"> </th>
+          <th width="6%">מחיר ללא מע״מ</th>
+          <th width="6%">מחיר כולל מע״מ</th>
           <th width="8%">תאריך תשלום</th>
           <th width="6%">פעולות</th>
           <th width="8%" class="spc-status-dot">סטטוס תשלום</th>

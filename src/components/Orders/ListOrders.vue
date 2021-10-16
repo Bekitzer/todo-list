@@ -4,12 +4,12 @@
       <thead
       >
         <tr>
-          <th width="2%">#</th>
-          <th width="8%">תאריך הזמנה</th>
-          <th width="6%">לקוח</th>
-          <th width="50%">מוצר / שם עבודה</th>
-          <th width="6%">ספק</th>
-          <th width="8%">תאריך אספקה</th>
+          <th width="4%">#</th>
+          <th width="10%">תאריך הזמנה</th>
+          <th width="16%">לקוח</th>
+          <th width="8%">ספק</th>
+          <th width="36%">מוצר / שם עבודה</th>
+          <th width="6%">תאריך אספקה</th>
           <th width="6%">אופן אספקה</th>
           <th width="6%">פעולות</th>
           <th width="8%" class="spc-status-dot">סטטוס הזמנה</th>

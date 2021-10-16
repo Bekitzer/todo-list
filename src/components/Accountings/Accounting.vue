@@ -1,17 +1,14 @@
 <template v-slot:[`accounting.paymentType`]="{ accounting }">
   <tr>
-    <td>
-      <v-btn
-        icon
-        dense
-        :to="{ name: 'Accounting', params: { id : accounting.id }}"
-      >
-        {{ accounting.number}}
-      </v-btn>
-    </td>
+    <td>{{ accounting.number}}</td>
     <td>{{ accounting.accountingCreationDate }}</td>
-    <td>{{ accounting.clientName}}</td>
+    <td>{{ accounting.unitPrice}}</td>
+    <td>{{ accounting.unitAmount}}</td>
+    <td>{{ accounting.unitSupplierAmount}}</td>
+    <td>{{ accounting.unitMargin}}</td>
     <td> </td>
+    <td>{{ accounting.unitSubtotal}}</td>
+    <td>{{ accounting.unitTotal}}</td>
     <td>{{ accounting.paymentDate }}</td>
     <td>
       <accounting-menu :accounting="accounting"/>
@@ -41,7 +38,7 @@ export default {
   },
   methods: {
     getColor (statusType) {
-      if (statusType === "מחכה לתשלום") return 'black'
+      if (statusType === "לתשלום") return 'black'
       else if (statusType === "נשלח לתשלום") return 'green accent-2'
       else if (statusType === "תשלום מתעכב") return 'red darken-1'
       else if (statusType === "שולם") return 'green'

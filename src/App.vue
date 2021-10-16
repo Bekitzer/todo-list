@@ -82,41 +82,41 @@
 
 
 <script>
-  export default {
-    data: () => ({
-      drawer: null,
-      items: [
+import db from '@/firebase'
+export default {
+  data: () => ({
+    drawer: null,
+    items: [
+      { title: 'הזמנות',    icon: 'mdi-format-list-checks',       to: '/orders' },
+      { title: 'ספקים',     icon: 'mdi-account-multiple-outline', to: '/suppliers' },
+      { title: 'לקוחות',    icon: 'mdi-account',                  to: '/clients' },
+      { title: 'הנה״ח',     icon: 'mdi-notebook-edit-outline',    to: '/accountings' },
 
-        { title: 'הזמנות',    icon: 'mdi-format-list-checks',       to: '/orders' },
-        { title: 'ספקים',     icon: 'mdi-account-multiple-outline', to: '/suppliers' },
-        { title: 'לקוחות',    icon: 'mdi-account',                  to: '/clients' },
-        { title: 'הנה״ח',     icon: 'mdi-notebook-edit-outline',    to: '/accountings' },
-
-        // { title: 'ראשי',      icon: 'mdi-format-list-checks',       to: '/' },
-        // { title: 'אודות',     icon: 'mdi-information-outline',      to: '/about' },
-      ],
-    }),
-    mounted() {
-      this.$store.dispatch('getTasks'),
-      this.$store.dispatch('getClients'),
-      this.$store.dispatch('getSuppliers'),
-      this.$store.dispatch('getOrders'),
-      this.$store.dispatch('getAccountings')
-    },
-    components: {
-      'field-add-task'    : require('@/components/Todo/FieldAddTask.vue').default,
-      // 'field-add-client'  : require('@/components/Clients/FieldAddClient.vue').default,
-      // 'field-add-supplier': require('@/components/Suppliers/FieldAddSupplier.vue').default,
-      'snackbar'          : require('@/components/Global/Snackbar.vue').default,
-      'search'            : require('@/components/Tools/Search.vue').default,
-      'live-date-time'    : require('@/components/Tools/LiveDate.vue').default,
-      'nav-logo'          : require('@/components/Global/NavDrawer.vue').default,
-      'client-profile'    : require('@/components/Profile/ClientTopHeader.vue').default
-    },
-    created () {
-       this.$vuetify.rtl = true;
-    }
+      // { title: 'ראשי',      icon: 'mdi-format-list-checks',       to: '/' },
+      // { title: 'אודות',     icon: 'mdi-information-outline',      to: '/about' },
+    ],
+  }),
+  mounted() {
+    this.$store.dispatch('getTasks'),
+    this.$store.dispatch('getClients'),
+    this.$store.dispatch('getSuppliers'),
+    this.$store.dispatch('getOrders'),
+    this.$store.dispatch('getAccountings')
+  },
+  components: {
+    'field-add-task'    : require('@/components/Todo/FieldAddTask.vue').default,
+    // 'field-add-client'  : require('@/components/Clients/FieldAddClient.vue').default,
+    // 'field-add-supplier': require('@/components/Suppliers/FieldAddSupplier.vue').default,
+    'snackbar'          : require('@/components/Global/Snackbar.vue').default,
+    'search'            : require('@/components/Tools/Search.vue').default,
+    'live-date-time'    : require('@/components/Tools/LiveDate.vue').default,
+    'nav-logo'          : require('@/components/Global/NavDrawer.vue').default,
+    'client-profile'    : require('@/components/Profile/ClientTopHeader.vue').default
+  },
+  created() {
+    this.$vuetify.rtl = true;
   }
+}
 </script>
 
 <style lang="sass">

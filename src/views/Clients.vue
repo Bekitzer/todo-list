@@ -1,7 +1,7 @@
 <template>
   <div class="pa-5">
     <h1>לקוחות</h1>
-    <list-clients v-if="$store.state.clients.length" />
+    <list-clients v-if="$store.state.clients" />
     <no-clients v-else />
     <v-fab-transition>
       <v-btn

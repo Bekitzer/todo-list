@@ -1,7 +1,7 @@
 <template>
   <div class="pa-5">
     <h1>הנהלת חשבונות</h1>
-    <list-accountings v-if="$store.state.accountings.length" />
+    <list-accountings v-if="$store.state.accountings" />
     <no-accountings v-else />
     <v-fab-transition>
       <v-btn

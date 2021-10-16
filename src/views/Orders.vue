@@ -1,7 +1,7 @@
 <template>
   <div class="pa-5">
     <h1>הזמנות</h1>
-    <list-orders v-if="$store.state.orders.length" />
+    <list-orders v-if="$store.state.orders" />
     <no-orders v-else />
     <v-fab-transition>
       <v-btn

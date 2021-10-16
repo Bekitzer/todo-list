@@ -4,9 +4,10 @@ import uuid from 'uuid'
 import Localbase from 'localbase'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
+import db from '@/firebase'
 
-let db = new Localbase('db')
-db.config.debug = false
+// let db = new Localbase('db')
+// db.config.debug = false
 
 Vue.use(Vuex)
 
@@ -39,7 +40,7 @@ export default new Vuex.Store({
       task.done = !task.done
     },
     deleteTask(state, id){
-      state.tasks = state.tasks.filter(task => task.id !== id)
+      state.tasks = state.tasks.filter(task => task.id != id)
     },
     updateTaskTitle(state, payload){
       let task = state.tasks.filter(task => task.id === payload.id)[0]
@@ -128,18 +129,22 @@ export default new Vuex.Store({
     // TASKS
     addTask({ commit }, newTaskTitle) {
       let newTask = {
-        id: Date.now(),
+        id: uuid.v4(),
         title: newTaskTitle,
         done: false,
         dueDate: null
       }
       db.collection('tasks').add(newTask).then(() => {
+        console.log('Added')
         commit('addTask', newTask)
         commit('showSnackbar', 'Task added!')
+      }).catch((error) => {
+        console.log(error);
       })
     },
     deleteTask({ commit }, id) {
-      db.collection('tasks').doc({ id: id }).delete().then(() => {
+      db.collection('tasks').doc( id ).delete().then(() => {
+        console.log(id)
         commit('deleteTask', id)
         commit('showSnackbar', 'Task deleted!')
       })
@@ -161,7 +166,11 @@ export default new Vuex.Store({
       })
     },
     getTasks({ commit }) {
-      db.collection('tasks').get().then(tasks => {
+      db.collection('tasks').get().then(querySnapshot => {
+        var tasks = [];
+        querySnapshot.forEach(doc => {
+          tasks.push(doc.data());
+        })
         commit('setTasks', tasks)
       })
     },
@@ -186,6 +195,7 @@ export default new Vuex.Store({
         orderUpdated: null
       }
       db.collection('orders').add(isOrder).then(() => {
+        console.log('Order Added')
         commit('addOrder', isOrder)
         commit('showSnackbar', 'Order added!')
       })
@@ -203,7 +213,11 @@ export default new Vuex.Store({
       })
     },
     getOrders({ commit }) {
-      db.collection('orders').get().then(orders => {
+      db.collection('orders').get().then(querySnapshot => {
+        var orders = [];
+        querySnapshot.forEach(doc => {
+          orders.push(doc.data());
+        })
         commit('setOrders', orders)
       })
     },
@@ -220,6 +234,7 @@ export default new Vuex.Store({
         accountingUpdated: null
       }
       db.collection('accountings').add(isAccounting).then(() => {
+        console.log('Accounting Added')
         commit('addAccounting', isAccounting)
         commit('showSnackbar', 'Accounting added!')
       })
@@ -237,7 +252,11 @@ export default new Vuex.Store({
       })
     },
     getAccountings({ commit }) {
-      db.collection('accountings').get().then(accountings => {
+      db.collection('accountings').get().then(querySnapshot => {
+        var accountings = [];
+        querySnapshot.forEach(doc => {
+          accountings.push(doc.data());
+        })
         commit('setAccountings', accountings)
       })
     },
@@ -254,6 +273,7 @@ export default new Vuex.Store({
         clientUpdated: null
       }
       db.collection('clients').add(isClient).then(() => {
+        console.log('Client Added')
         commit('addClient', isClient)
         commit('showSnackbar', 'Client added!')
       })
@@ -271,7 +291,11 @@ export default new Vuex.Store({
       })
     },
     getClients({ commit }) {
-      db.collection('clients').get().then(clients => {
+      db.collection('clients').get().then(querySnapshot => {
+        var clients = [];
+        querySnapshot.forEach(doc => {
+          clients.push(doc.data());
+        })
         commit('setClients', clients)
       })
     },
@@ -288,6 +312,7 @@ export default new Vuex.Store({
         supplierUpdated: null
       }
       db.collection('suppliers').add(isSupplier).then(() => {
+        console.log('Supplier Added')
         commit('addSupplier', isSupplier)
         commit('showSnackbar', 'Supplier added!')
       })
@@ -305,7 +330,11 @@ export default new Vuex.Store({
       })
     },
     getSuppliers({ commit }) {
-      db.collection('suppliers').get().then(suppliers => {
+      db.collection('suppliers').get().then(querySnapshot => {
+        var suppliers = [];
+        querySnapshot.forEach(doc => {
+          suppliers.push(doc.data());
+        })
         commit('setSuppliers', suppliers)
       })
     },

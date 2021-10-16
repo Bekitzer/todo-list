@@ -16,24 +16,40 @@
                 :items="orders"
                 item-text="number"
                 item-value="number"
-                v-model="accountingNumber"
+                v-model.number="accountingNumber"
+                type="number"
                 label="בחר הזמנה"
                 clearable
                 hide-selected
                 outlined
               ></v-autocomplete>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-autocomplete
-                :items="clients"
-                item-text="name"
-                item-value="name"
-                v-model="accountingClientName"
-                label="בחר לקוח"
-                clearable
-                hide-selected
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="accountingUnitPrice"
+                type="number"
+                label="מחיר יחידה"
                 outlined
-              ></v-autocomplete>
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model.number="accountingUnitAmount"
+                type="number"
+                label="כמות"
+                outlined
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model.number="accountingUnitSubtotal"
+                type="number"
+                label="מחיר סופי לפני מע״מ"
+                outlined
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-menu
@@ -103,10 +119,16 @@ import { he } from 'date-fns/locale'
     data: () => ({
       dialog: false,
       accountingNumber: '',
-      accountingClientName: '',
-      accountingPaymentType: 'מחכה לתשלום',
+      accountingPaymentType: 'לתשלום',
       accountingPaymentDate: '',
       dateDialog: false,
+      accountingUnitPrice: '',
+      accountingUnitAmount: '',
+      accountingUnitMargin: '',
+      accountingUnitSupplierAmount: '',
+      accountingPaymentTax: 1.17,
+      accountingUnitSubtotal: '',
+      accountingUnitTotal: '',
     }),
     computed: {
       computedDate () {
@@ -120,19 +142,13 @@ import { he } from 'date-fns/locale'
           this.$store.dispatch('setOrders', value)
         }
       },
-      clients: {
-        get() {
-          return this.$store.getters.clientsFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setClients', value)
-        }
-      },
       accountingFieldInvalid() {
         return (
           !this.accountingNumber ||
-          !this.accountingClientName ||
-          !this.accountingPaymentDate
+          !this.accountingPaymentDate ||
+          !this.accountingUnitPrice ||
+          !this.accountingUnitAmount ||
+          !this.accountingUnitSubtotal
         )
       }
     },
@@ -141,16 +157,27 @@ import { he } from 'date-fns/locale'
         if(!this.accountingFieldInvalid){
           const accountingFields = {
             number: this.accountingNumber,
-            clientName: this.accountingClientName,
+            unitPrice: this.accountingUnitPrice,
+            unitAmount: this.accountingUnitAmount,
+            unitSupplierAmount: this.accountingUnitSupplierAmount = (this.accountingUnitPrice * this.accountingUnitAmount),
+            unitMargin: this.accountingUnitMargin = (this.accountingUnitSubtotal - this.accountingUnitSupplierAmount),
+            unitSubtotal: this.accountingUnitSubtotal,
+            unitTotal: this.accountingUnitTotal = (this.accountingUnitSubtotal * this.accountingPaymentTax),
             paymentDate: format(new Date(this.accountingPaymentDate), 'EEE dd/MM/yyyy', {locale: he}),
-            paymentType: this.accountingPaymentType,
+            paymentType: this.accountingPaymentType
           }
 
           this.$store.dispatch('addAccounting', accountingFields)
-          this.accountingNumber = ''
-          this.accountingClientName = ''
-          this.accountingPaymentDate = ''
-          this.accountingPaymentType = ''
+            this.accountingNumber = ''
+            this.accountingUnitPrice = ''
+            this.accountingUnitAmount = ''
+            this.accountingUnitMargin = ''
+            this.accountingUnitSupplierAmount =
+            this.accountingUnitSubtotal = ''
+            this.accountingUnitTotal = ''
+            this.accountingPaymentDate = ''
+            this.accountingPaymentType = ''
+
         }
         this.accountingCloseDialog()
       },

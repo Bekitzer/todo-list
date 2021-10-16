@@ -4,15 +4,16 @@
       <thead
       >
         <tr>
-          <th width="2%">#</th>
+          <th width="4%">#</th>
           <th width="10%">שם ספק</th>
-          <th width="10%">שם חברה</th>
+          <th width="16%">שם חברה</th>
           <th width="8%">טלפון משרד</th>
-          <th width="22%">מייל משרד</th>
-          <th width="30%">כתובת</th>
+          <th width="10%">מייל משרד</th>
+          <th width="26%">כתובת</th>
           <th width="6%">אופן אספקה</th>
           <th width="6%">סטטוס ספק</th>
           <th width="6%">פעולות</th>
+          <th width="8%">ה.פעילות</th>
         </tr>
       </thead>
       <tbody>

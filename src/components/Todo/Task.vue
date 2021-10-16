@@ -1,5 +1,5 @@
 <template>
-    <div>        
+    <div>
         <v-list-item
             @click="$store.dispatch('taskDone', task.id)"
             :class="{ 'blue lighten-5' : task.done }"
@@ -32,7 +32,7 @@
                 <v-btn
                 icon
                 >
-                    <v-icon                
+                    <v-icon
                     color="primary"
                     class="handle"
                     >
@@ -42,23 +42,23 @@
             </v-list-item-action>
             </template>
         </v-list-item>
-    <v-divider></v-divider>    
+    <v-divider></v-divider>
     </div>
 </template>
 
 <script>
 import { format } from 'date-fns'
 export default {
-    name: 'Task',
-    filters: {
-        niceDate(value) {
-            return format(new Date(value), 'MMM d')
-        }
-    },
-    props: ['task'],
-    components: {        
-        'task-menu': require('@/components/Todo/TaskMenu.vue').default
+  name: 'Task',
+  filters: {
+    niceDate(value) {
+        return format(new Date(value), 'MMM d')
     }
+  },
+  props: ['task'],
+  components: {
+    'task-menu': require('@/components/Todo/TaskMenu.vue').default
+  }
 }
 </script>
 <style lang="sass">
