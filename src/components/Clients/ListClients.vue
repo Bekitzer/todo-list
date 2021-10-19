@@ -8,8 +8,8 @@
           <th width="10%">שם לקוח</th>
           <th width="16%">שם חברה</th>
           <th width="8%">טלפון משרד</th>
-          <th width="10%">מייל משרד</th>
-          <th width="26%">כתובת</th>
+          <th width="12%">מייל משרד</th>
+          <th width="24%">כתובת</th>
           <th width="6%">אופן אספקה</th>
           <th width="6%">סטטוס לקוח</th>
           <th width="6%">פעולות</th>

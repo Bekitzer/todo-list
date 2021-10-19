@@ -2,6 +2,8 @@
   <tr>
     <td>{{ accounting.number}}</td>
     <td>{{ accounting.accountingCreationDate }}</td>
+    <td>{{ accounting.clientName}}</td>
+    <td>{{ accounting.supplierName }}</td>
     <td>{{ accounting.unitPrice}}</td>
     <td>{{ accounting.unitAmount}}</td>
     <td>{{ accounting.unitSupplierAmount}}</td>

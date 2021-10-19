@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-5">
+  <div class="pt-5 pr-10 pl-10 pb-10">
     <h1>הנהלת חשבונות</h1>
     <list-accountings v-if="$store.state.accountings" />
     <no-accountings v-else />

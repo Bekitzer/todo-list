@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-5">
+  <div class="pt-5 pr-10 pl-10 pb-10">
     <h1>הזמנות</h1>
     <list-orders v-if="$store.state.orders" />
     <no-orders v-else />

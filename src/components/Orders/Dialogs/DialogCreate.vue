@@ -44,12 +44,6 @@
               ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <!-- <v-text-field
-                v-model="orderDeliveryDate"
-                label="תאריך אספקה"
-                outlined
-                hide-details
-              /> -->
               <v-menu
                 v-model="dateDialog"
                 :close-on-content-click="false"
@@ -75,7 +69,7 @@
                 ></v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="12" sm="12">
               <v-select
                 v-model="orderDeliveryType"
                 :items="orderDeliveryTypeList"
@@ -83,6 +77,14 @@
                 outlined
                 hide-details
               ></v-select>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-text-field
+                v-model="orderDeliveryAgent"
+                label="אחראי / סוכן"
+                outlined
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-textarea
@@ -138,6 +140,7 @@ import { he } from 'date-fns/locale'
       orderSupplierName: '',
       orderDeliveryType: '',
       orderDeliveryDate: '',
+      orderDeliveryAgent: '',
       orderStatusType: 'עבודה חדשה',
       dateDialog: false,
       orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
@@ -170,7 +173,8 @@ import { he } from 'date-fns/locale'
           !this.orderSupplierName ||
           !this.orderDeliveryDate ||
           !this.orderDeliveryType ||
-          !this.orderStatusType
+          !this.orderStatusType ||
+          !this.orderDeliveryAgent
         )
       }
     },
@@ -182,8 +186,9 @@ import { he } from 'date-fns/locale'
             clientName: this.orderClientName,
             orderWork: this.orderWorkName,
             supplierName: this.orderSupplierName,
+            deliveryAgent: this.orderDeliveryAgent,
             statusType: this.orderStatusType,
-            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE dd/MM/yyyy', {locale: he}),
+            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE, dd.MM.yy', {locale: he}),
             deliveryType: this.orderDeliveryType,
           }
 
@@ -192,6 +197,7 @@ import { he } from 'date-fns/locale'
           this.orderClientName = ''
           this.orderWorkName = ''
           this.orderSupplierName = ''
+          this.orderDeliveryAgent = ''
           this.orderStatusType = ''
           this.orderDeliveryDate = ''
           this.orderDeliveryType = ''

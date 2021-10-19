@@ -24,6 +24,30 @@
                 outlined
               ></v-autocomplete>
             </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-autocomplete
+                :items="clients"
+                item-text="name"
+                item-value="name"
+                v-model="accountingClientName"
+                label="בחר לקוח"
+                clearable
+                hide-selected
+                outlined
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-autocomplete
+                :items="suppliers"
+                item-text="name"
+                item-value="name"
+                v-model="accountingSupplierName"
+                label="בחר ספק"
+                clearable
+                hide-selected
+                outlined
+              ></v-autocomplete>
+            </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="accountingUnitPrice"
@@ -121,6 +145,8 @@ import { he } from 'date-fns/locale'
       accountingNumber: '',
       accountingPaymentType: 'לתשלום',
       accountingPaymentDate: '',
+      accountingSupplierName: '',
+      accountingClientName: '',
       dateDialog: false,
       accountingUnitPrice: '',
       accountingUnitAmount: '',
@@ -142,10 +168,28 @@ import { he } from 'date-fns/locale'
           this.$store.dispatch('setOrders', value)
         }
       },
+      clients: {
+        get() {
+          return this.$store.getters.clientsFiltered
+        },
+        set(value) {
+          this.$store.dispatch('setClients', value)
+        }
+      },
+      suppliers: {
+        get() {
+          return this.$store.getters.suppliersFiltered
+        },
+        set(value) {
+          this.$store.dispatch('setSuppliers', value)
+        }
+      },
       accountingFieldInvalid() {
         return (
           !this.accountingNumber ||
           !this.accountingPaymentDate ||
+          !this.accountingClientName ||
+          !this.accountingSupplierName ||
           !this.accountingUnitPrice ||
           !this.accountingUnitAmount ||
           !this.accountingUnitSubtotal
@@ -157,18 +201,22 @@ import { he } from 'date-fns/locale'
         if(!this.accountingFieldInvalid){
           const accountingFields = {
             number: this.accountingNumber,
+            clientName: this.accountingClientName,
+            supplierName: this.accountingSupplierName,
             unitPrice: this.accountingUnitPrice,
             unitAmount: this.accountingUnitAmount,
             unitSupplierAmount: this.accountingUnitSupplierAmount = (this.accountingUnitPrice * this.accountingUnitAmount),
             unitMargin: this.accountingUnitMargin = (this.accountingUnitSubtotal - this.accountingUnitSupplierAmount),
             unitSubtotal: this.accountingUnitSubtotal,
             unitTotal: this.accountingUnitTotal = (this.accountingUnitSubtotal * this.accountingPaymentTax),
-            paymentDate: format(new Date(this.accountingPaymentDate), 'EEE dd/MM/yyyy', {locale: he}),
+            paymentDate: format(new Date(this.accountingPaymentDate), 'EEE, dd.MM.yy', {locale: he}),
             paymentType: this.accountingPaymentType
           }
 
           this.$store.dispatch('addAccounting', accountingFields)
             this.accountingNumber = ''
+            this.accountingClientName = ''
+            this.accountingSupplierName = ''
             this.accountingUnitPrice = ''
             this.accountingUnitAmount = ''
             this.accountingUnitMargin = ''

@@ -191,7 +191,7 @@ export default new Vuex.Store({
       let isOrder = {
         ...order,
         id: uuid.v4(),
-        orderCreationDate: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he}),
+        orderCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         orderUpdated: null
       }
       db.collection('orders').add(isOrder).then(() => {
@@ -230,7 +230,7 @@ export default new Vuex.Store({
       let isAccounting = {
         ...accounting,
         id: uuid.v4(),
-        accountingCreationDate: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he}),
+        accountingCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         accountingUpdated: null
       }
       db.collection('accountings').add(isAccounting).then(() => {
@@ -269,7 +269,7 @@ export default new Vuex.Store({
       let isClient = {
         ...client,
         id: uuid.v4(),
-        clientCreationDate: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he}),
+        clientCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         clientUpdated: null
       }
       db.collection('clients').add(isClient).then(() => {
@@ -308,7 +308,7 @@ export default new Vuex.Store({
       let isSupplier = {
         ...suppliers,
         id: uuid.v4(),
-        supplierCreationDate: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he}),
+        supplierCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         supplierUpdated: null
       }
       db.collection('suppliers').add(isSupplier).then(() => {

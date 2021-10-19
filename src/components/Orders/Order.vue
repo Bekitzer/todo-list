@@ -3,8 +3,9 @@
     <td>{{ order.number}}</td>
     <td>{{ order.orderCreationDate }}</td>
     <td>{{ order.clientName}}</td>
-    <td>{{ order.supplierName }}</td>
     <td>{{ order.orderWork }}</td>
+    <td>{{ order.deliveryAgent }}</td>
+    <td>{{ order.supplierName }}</td>
     <td>{{ order.deliveryDate }}</td>
     <td>{{ order.deliveryType }}</td>
     <td>
