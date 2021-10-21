@@ -11,6 +11,7 @@
     <p>{{ order.supplierName }}</p>
     <p>{{ order.deliveryDate }}</p>
     <p>{{ order.deliveryType }}</p>
+    <p>{{ order.deliveryAgent }}</p>
     <p>{{ order.orderCreationDate }}</p>
     <p>{{ order.orderUpdated }}</p>
     <v-fab-transition>

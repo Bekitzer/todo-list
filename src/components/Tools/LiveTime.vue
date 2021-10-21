@@ -1,25 +1,27 @@
 <template>
-    <div>{{ date }}</div>
+    <div style="color:#006D7B;">{{ time }}</div>
 </template>
 
 <script>
-
 import { format } from 'date-fns'
+import { setTimeout } from 'timers';
 import { he } from 'date-fns/locale'
 
 export default {
     data() {
         return{
-            date: ''
+            time: ''
         }
     },
     methods: {
-        getDate() {
-            this.date = format(new Date(), 'EEE, dd.MM.yy', {locale: he})
+        getTime() {
+            this.time = format(new Date(), 'H:mm'),
+
+            setTimeout(this.getTime, 1000)
         }
     },
     mounted() {
-        this.getDate()
+        this.getTime()
 
     }
 }

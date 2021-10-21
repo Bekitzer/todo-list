@@ -1,12 +1,56 @@
 <template>
-  <v-img
-    src="images/logojp.png"
-    class="spc-img"
-  ></v-img>
+    <v-navigation-drawer
+      v-model="drawer"
+      width="70"
+      :right="$vuetify.rtl"
+      :mobile-breakpoint="800"
+      permanent
+      app
+    >
+      <v-list
+        nav
+      >
+      <v-list-item
+        class="spc-logo"
+      >
+        <v-img
+          src="images/logojp.png"
+          class="spc-img"
+        ></v-img>
+      </v-list-item>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          :to= "item.to"
+          link
+        >
+          <v-list-item-icon>
+
+            <v-list-item-content>
+            <v-list-item-title><v-icon color="white">{{ item.icon }}</v-icon></v-list-item-title>
+            <v-list-item-subtitle class="white--text">{{ item.title }}</v-list-item-subtitle>
+          </v-list-item-content>
+          </v-list-item-icon>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 </template>
 
 <script>
-export default {}
+export default {
+  data: () => ({
+    drawer: null,
+    items: [
+      { title: 'הזמנות',    icon: 'mdi-format-list-checks',       to: '/orders' },
+      { title: 'ספקים',     icon: 'mdi-account-multiple-outline', to: '/suppliers' },
+      { title: 'לקוחות',    icon: 'mdi-account',                  to: '/clients' },
+      { title: 'הנה״ח',     icon: 'mdi-notebook-edit-outline',    to: '/accountings' },
+
+      // { title: 'ראשי',      icon: 'mdi-format-list-checks',       to: '/' },
+      // { title: 'אודות',     icon: 'mdi-information-outline',      to: '/about' },
+    ],
+  }),
+}
 </script>
 
 <style lang="sass">

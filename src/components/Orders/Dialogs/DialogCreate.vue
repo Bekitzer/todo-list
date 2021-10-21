@@ -81,7 +81,7 @@
             <v-col cols="12" md="12" sm="12">
               <v-text-field
                 v-model="orderDeliveryAgent"
-                label="אחראי / סוכן"
+                label="אחראי"
                 outlined
                 hide-details
               />
@@ -132,6 +132,7 @@ import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
   export default {
     name: 'DialogCreate',
+    props: ['order'],
     data: () => ({
       dialog: false,
       orderNumber: '',
@@ -147,7 +148,7 @@ import { he } from 'date-fns/locale'
     }),
     computed: {
       computedDate () {
-        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yyyy', {locale: he}) : ''
+        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd.MM.yy', {locale: he}) : ''
       },
       clients: {
         get() {

@@ -52,6 +52,7 @@
     methods: {
       orderDelete() {
         this.$store.dispatch('deleteOrder', this.order.id)
+
         this.orderCloseDialog()
       },
       orderCloseDialog() {

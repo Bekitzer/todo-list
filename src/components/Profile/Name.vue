@@ -1,11 +1,7 @@
 <template>
   <div>
-    <strong>Just Print</strong>
-    <span
-      class="grey--text"
-    >
-      &nbsp;Owner
-    </span>
+    <span style="color:grey;">בוקר טוב  </span>
+    <strong style="color:#006D7B;">רדיק</strong>
   </div>
 </template>
 

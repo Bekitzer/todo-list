@@ -9,41 +9,65 @@
         elevation="8"
         shaped
       >
-        <v-card-title class="text-h5 text-center">עריכת הזמנה</v-card-title>
+        <v-card-title>יצירת הזמנה</v-card-title>
           <v-row class="pa-4">
-            <!-- <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderNumber"
-                label="#"
-                outlined
-                hide-details
-              />
-            </v-col> -->
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
+              <v-autocomplete
+                :items="clients"
+                item-text="name"
+                item-value="name"
                 v-model="orderClientName"
-                disabled
-                label="לקוח"
+                label="בחר לקוח"
+                clearable
+                hide-selected
                 outlined
-                hide-details
-              />
+              ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="6" sm="6">
+              <v-autocomplete
+                :items="suppliers"
+                item-text="name"
+                item-value="name"
+                v-model="orderSupplierName"
+                label="בחר ספק"
+                clearable
+                hide-selected
+                outlined
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
               <v-textarea
                 v-model="orderWorkName"
                 label="מוצר / שם עבודה"
                 outlined
               ></v-textarea>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderSupplierName"
-                disabled
-                label="ספק"
-                outlined
-                hide-details
-              />
-            </v-col>
+            <!-- <v-col cols="12" md="12" sm="12">
+              <v-menu
+                v-model="dateDialog"
+                :close-on-content-click="false"
+                max-width="290"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    :value="computedDate"
+                    clearable
+                    outlined
+                    label="בחר תאריך אספקה"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    @click:clear="orderDeliveryDate = null"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="orderDeliveryDate"
+                  @change="dateDialog = false"
+                  :first-day-of-week="0"
+                  locale="he-il"
+                ></v-date-picker>
+              </v-menu>
+            </v-col> -->
             <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="orderStatusType"
@@ -54,14 +78,6 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderDeliveryDate"
-                label="תאריך אספקה"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="orderDeliveryType"
                 :items="orderDeliveryTypeList"
@@ -69,6 +85,14 @@
                 outlined
                 hide-details
               ></v-select>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-text-field
+                v-model="orderDeliveryAgent"
+                label="אחראי"
+                outlined
+                hide-details
+              />
             </v-col>
           </v-row>
         <v-card-actions>
@@ -93,7 +117,6 @@
             color="green"
             @click="saveOrder"
             :disabled="orderFieldInvalid"
-            @keyup.enter="saveOrder"
           >
             <v-icon>
               mdi-check
@@ -106,38 +129,54 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
   export default {
-    data () {
-      return {
-
-      }
-    },
+    name: 'DialogEdit',
     props: ['order'],
-    data() {
-      return {
-        dialog: false,
-        // orderNumber: '',
-        orderSupplierName: '',
-        orderWorkName: '',
-        orderClientName: '',
-        orderStatusType: '',
-        orderDeliveryDate: '',
-        orderDeliveryType: '',
-        orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
-        orderStatusTypeList: ["בעבודה","נשלח לספק","מחכה לספק","במשלוח","משלוח מתעכב","סופק"],
-      }
-    },
+    data: () => ({
+      dialog: false,
+      // orderNumber: '',
+      orderClientName: '',
+      orderWorkName: '',
+      orderSupplierName: '',
+      orderDeliveryType: '',
+      // orderDeliveryDate: '',
+      orderDeliveryAgent: '',
+      orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
+      orderStatusType: '',
+      orderStatusTypeList: ["בעבודה","נשלח לספק","מחכה לספק","במשלוח","משלוח מתעכב","סופק"],
+      dateDialog: false,
+    }),
     computed: {
+      // computedDate () {
+      //   // return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd.MM.yy', {locale: he}) : ''
+      // },
+      clients: {
+        get() {
+          return this.$store.getters.clientsFiltered
+        },
+        set(value) {
+          this.$store.dispatch('setClients', value)
+        }
+      },
+      suppliers: {
+        get() {
+          return this.$store.getters.suppliersFiltered
+        },
+        set(value) {
+          this.$store.dispatch('setSuppliers', value)
+        }
+      },
       orderFieldInvalid() {
         return
         // !this.orderNumber || this.orderNumber === this.order.number
-        !this.orderSupplierName || this.orderSupplierName === this.order.supplierName
-        !this.orderWorkName || this.orderWorkName === this.order.orderWork
         !this.orderClientName || this.orderClientName === this.order.clientName
+        !this.orderWorkName || this.orderWorkName === this.order.orderWork
+        !this.orderSupplierName || this.orderSupplierName === this.order.supplierName
         !this.orderStatusType || this.orderStatusType === this.order.statusType
-        !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
+        // !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
+        !this.orderDeliveryAgent || this.orderDeliveryAgent === this.order.deliveryAgent
         !this.orderDeliveryType || this.orderDeliveryType === this.order.deliveryType
       }
     },
@@ -146,14 +185,14 @@ import { he } from 'date-fns/locale'
         if(!this.orderFieldInvalid){
           let payload = {
             id: this.order.id,
-            // number: this.orderNumber,
             clientName: this.orderClientName,
             orderWork: this.orderWorkName,
             supplierName: this.orderSupplierName,
             statusType: this.orderStatusType,
-            deliveryDate: this.orderDeliveryDate,
+            // deliveryDate: this.orderDeliveryDate,
+            deliveryAgent: this.orderDeliveryAgent,
             deliveryType: this.orderDeliveryType,
-            orderUpdated: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he})
+            orderUpdated: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he})
           }
           this.$store.dispatch('updateOrder', payload)
           this.$emit('close')
@@ -166,7 +205,8 @@ import { he } from 'date-fns/locale'
       this.orderWorkName = this.order.orderWork
       this.orderSupplierName = this.order.supplierName
       this.orderStatusType = this.order.statusType
-      this.orderDeliveryDate = this.order.deliveryDate
+      // this.orderDeliveryDate = this.order.deliveryDate
+      this.orderDeliveryAgent = this.order.deliveryAgent
       this.orderDeliveryType = this.order.deliveryType
     }
   }

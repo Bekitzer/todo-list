@@ -1,11 +1,10 @@
 <template>
   <v-avatar
     class="profile"
-    color="grey"
     size="36px"
   >
     <v-img
-      src="images/marcus.jpg"
+      src="images/radik.jpg"
       rounded
     ></v-img>
   </v-avatar>

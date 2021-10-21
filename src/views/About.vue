@@ -1,5 +1,18 @@
 <template>
   <div class="about pa-5">
-    <h1>אודות - {{ $store.state.appTitle }}</h1>
+    <nav-appbar :pname="pageName"/>
   </div>
 </template>
+
+<script>
+  export default {
+    name: 'About',
+    hidden: false,
+    data: () => ({
+      pageName: 'אודות',
+    }),
+    components: {
+      'nav-appbar'          : require('@/components/Global/AppBar.vue').default
+    }
+  }
+</script>

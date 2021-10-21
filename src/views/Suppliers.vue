@@ -1,6 +1,6 @@
 <template>
-  <div class="pt-5 pr-10 pl-10 pb-10">
-    <h1>ספקים</h1>
+  <div class="pa-10">
+    <nav-appbar :pname="pageName"/>
     <list-suppliers v-if="$store.state.suppliers" />
     <no-suppliers v-else />
     <v-fab-transition>
@@ -29,6 +29,7 @@
     name: 'Suppliers',
     hidden: false,
     data: () => ({
+      pageName: 'ספקים',
       dialogs: {
         create: false
       },
@@ -36,7 +37,19 @@
     components: {
       'list-suppliers': require('@/components/Suppliers/ListSuppliers.vue').default,
       'no-suppliers': require('@/components/Suppliers/NoSuppliers.vue').default,
-      'dialog-create': require('@/components/Suppliers/Dialogs/DialogCreate.vue').default
-    }
+      'dialog-create': require('@/components/Suppliers/Dialogs/DialogCreate.vue').default,
+      'nav-appbar'          : require('@/components/Global/AppBar.vue').default
+    },
+    computed: {
+    padding () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 150
+        case 'sm': return 86
+        case 'md': return 86
+        case 'lg': return 86
+        case 'xl': return 86
+      }
+    },
+  },
   }
 </script>

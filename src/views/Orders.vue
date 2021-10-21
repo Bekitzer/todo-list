@@ -1,6 +1,6 @@
 <template>
-  <div class="pt-5 pr-10 pl-10 pb-10">
-    <h1>הזמנות</h1>
+  <div class="pa-10">
+    <nav-appbar :pname="pageName"/>
     <list-orders v-if="$store.state.orders" />
     <no-orders v-else />
     <v-fab-transition>
@@ -29,6 +29,7 @@
     name: 'Orders',
     hidden: false,
     data: () => ({
+      pageName: 'הזמנות',
       dialogs: {
         create: false
       },
@@ -36,7 +37,8 @@
     components: {
       'list-orders': require('@/components/Orders/ListOrders.vue').default,
       'no-orders': require('@/components/Orders/NoOrders.vue').default,
-      'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default
+      'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
+      'nav-appbar'          : require('@/components/Global/AppBar.vue').default
     }
   }
 </script>

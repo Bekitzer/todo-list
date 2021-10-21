@@ -5,6 +5,7 @@ import Localbase from 'localbase'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 import db from '@/firebase'
+import { doc, deleteDoc, updateDoc, collection, setDoc } from "firebase/firestore";
 
 // let db = new Localbase('db')
 // db.config.debug = false
@@ -58,7 +59,7 @@ export default new Vuex.Store({
       state.orders.push(newOrder)
     },
     deleteOrder(state, id){
-      state.orders = state.orders.filter(order => order.id !== id)
+      state.orders = state.orders.filter(doc => doc.id !== id)
     },
     updateOrder(state, payload){
       let order = state.orders.filter(order => order.id === payload.id)[0]
@@ -135,7 +136,6 @@ export default new Vuex.Store({
         dueDate: null
       }
       db.collection('tasks').add(newTask).then(() => {
-        console.log('Added')
         commit('addTask', newTask)
         commit('showSnackbar', 'Task added!')
       }).catch((error) => {
@@ -143,7 +143,7 @@ export default new Vuex.Store({
       })
     },
     deleteTask({ commit }, id) {
-      db.collection('tasks').doc( id ).delete().then(() => {
+      db.collection('tasks').doc(id).delete().then(() => {
         console.log(id)
         commit('deleteTask', id)
         commit('showSnackbar', 'Task deleted!')
@@ -194,29 +194,32 @@ export default new Vuex.Store({
         orderCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         orderUpdated: null
       }
-      db.collection('orders').add(isOrder).then(() => {
-        console.log('Order Added')
+      setDoc(doc(collection(db, "orders")), isOrder).then(() => {
         commit('addOrder', isOrder)
-        commit('showSnackbar', 'Order added!')
+        commit('showSnackbar', 'הזמנה חדשה נוספה!')
       })
     },
     deleteOrder({ commit }, id) {
-      db.collection('orders').doc({ id: id }).delete().then(() => {
+      deleteDoc(doc(db, "orders", id)).then(() => {
         commit('deleteOrder', id)
-        commit('showSnackbar', 'Order deleted!')
+        commit('showSnackbar', 'הזמנה נמחקה!')
+      }).catch((error) => {
+        console.log(error);
       })
     },
     updateOrder({commit}, payload) {
-      db.collection('orders').doc({ id: payload.id }).update(payload).then(() => {
+      updateDoc(doc(db, "orders", id), {
+        ...order
+      }).then(() => {
         commit('updateOrder', payload)
-        commit('showSnackbar', 'Order Updated!')
+        commit('showSnackbar', 'הזמנה עודכנה!')
       })
     },
     getOrders({ commit }) {
       db.collection('orders').get().then(querySnapshot => {
         var orders = [];
         querySnapshot.forEach(doc => {
-          orders.push(doc.data());
+          orders.push({...doc.data(), id:doc.id})
         })
         commit('setOrders', orders)
       })
@@ -233,29 +236,30 @@ export default new Vuex.Store({
         accountingCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         accountingUpdated: null
       }
-      db.collection('accountings').add(isAccounting).then(() => {
-        console.log('Accounting Added')
+      setDoc(doc(collection(db, "accountings")), isAccounting).then(() => {
         commit('addAccounting', isAccounting)
-        commit('showSnackbar', 'Accounting added!')
+        commit('showSnackbar', 'חשבון חדש נוסף!')
       })
     },
     deleteAccounting({ commit }, id) {
-      db.collection('accountings').doc({ id: id }).delete().then(() => {
+      deleteDoc(doc(db, "accountings", id)).then(() => {
         commit('deleteAccounting', id)
-        commit('showSnackbar', 'Accounting deleted!')
+        commit('showSnackbar', 'חשבון נמחק!')
+      }).catch((error) => {
+        console.log(error);
       })
     },
     updateAccounting({commit}, payload) {
       db.collection('accountings').doc({ id: payload.id }).update(payload).then(() => {
         commit('updateAccounting', payload)
-        commit('showSnackbar', 'Accounting Updated!')
+        commit('showSnackbar', 'חשבון עודכן!')
       })
     },
     getAccountings({ commit }) {
       db.collection('accountings').get().then(querySnapshot => {
         var accountings = [];
         querySnapshot.forEach(doc => {
-          accountings.push(doc.data());
+          accountings.push({...doc.data(), id:doc.id})
         })
         commit('setAccountings', accountings)
       })
@@ -272,29 +276,30 @@ export default new Vuex.Store({
         clientCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         clientUpdated: null
       }
-      db.collection('clients').add(isClient).then(() => {
-        console.log('Client Added')
+      setDoc(doc(collection(db, "accountings")), isClient).then(() => {
         commit('addClient', isClient)
-        commit('showSnackbar', 'Client added!')
+        commit('showSnackbar', 'לקוח חדש נוסף!')
       })
     },
     deleteClient({ commit }, id) {
-      db.collection('clients').doc({ id: id }).delete().then(() => {
+      deleteDoc(doc(db, "clients", id)).then(() => {
         commit('deleteClient', id)
-        commit('showSnackbar', 'Client deleted!')
+        commit('showSnackbar', 'לקוח נמחק!')
+      }).catch((error) => {
+        console.log(error);
       })
     },
     updateClient({commit}, payload) {
       db.collection('clients').doc({ id: payload.id }).update(payload).then(() => {
         commit('updateClient', payload)
-        commit('showSnackbar', 'Client Updated!')
+        commit('showSnackbar', 'לקוח עודכן!')
       })
     },
     getClients({ commit }) {
       db.collection('clients').get().then(querySnapshot => {
         var clients = [];
         querySnapshot.forEach(doc => {
-          clients.push(doc.data());
+          clients.push({...doc.data(), id:doc.id})
         })
         commit('setClients', clients)
       })
@@ -311,29 +316,30 @@ export default new Vuex.Store({
         supplierCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         supplierUpdated: null
       }
-      db.collection('suppliers').add(isSupplier).then(() => {
-        console.log('Supplier Added')
+      setDoc(doc(collection(db, "accountings")), isSupplier).then(() => {
         commit('addSupplier', isSupplier)
-        commit('showSnackbar', 'Supplier added!')
+        commit('showSnackbar', 'ספק חדש נוסף!')
       })
     },
     deleteSupplier({ commit }, id) {
-      db.collection('suppliers').doc({ id: id }).delete().then(() => {
+      deleteDoc(doc(db, "suppliers", id)).then(() => {
         commit('deleteSupplier', id)
-        commit('showSnackbar', 'Supplier deleted!')
+        commit('showSnackbar', 'ספק נמחק!')
+      }).catch((error) => {
+        console.log(error);
       })
     },
     updateSupplier({commit}, payload) {
       db.collection('suppliers').doc({ id: payload.id }).update(payload).then(() => {
         commit('updateSupplier', payload)
-        commit('showSnackbar', 'Supplier Updated!')
+        commit('showSnackbar', 'ספק עודכן!')
       })
     },
     getSuppliers({ commit }) {
       db.collection('suppliers').get().then(querySnapshot => {
         var suppliers = [];
         querySnapshot.forEach(doc => {
-          suppliers.push(doc.data());
+          suppliers.push({...doc.data(), id:doc.id})
         })
         commit('setSuppliers', suppliers)
       })

@@ -1,0 +1,97 @@
+<template>
+     <v-app-bar
+      app
+      :height="height"
+      color="#f1f1f1"
+      class="pr-10 pl-10"
+    >
+        <v-container class="header-container pa-1">
+          <v-row>
+            <v-row style="font-size:16px;text-align:center;" no-gutters>
+
+
+              <v-col
+                xs="12"
+                md="4"
+                cols="2"
+              >
+                <h2 style="text-align:right;">{{pname}}</h2>
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col
+                xs="12"
+                md="4"
+                cols="12"
+              >
+                <search />
+              </v-col>
+              <v-col
+                xs="6"
+                md="1"
+                cols="6"
+              >
+                <live-time />
+              </v-col>
+              <v-col
+                xs="6"
+                md="1"
+                cols="6"
+              >
+              <live-date />
+              </v-col>
+              <v-col
+                xs="6"
+                md="1"
+                cols="6"
+              >
+                <user-name />
+              </v-col>
+              <v-col
+                xs="6"
+                md="1"
+                cols="6"
+              >
+                <user-avatar />
+              </v-col>
+            </v-row>
+          </v-row>
+          <v-row v-if="$route.path === '/'">
+            <field-add-task />
+          </v-row>
+        </v-container>
+    </v-app-bar>
+</template>
+
+<script>
+export default {
+  data: () => ({
+    pageName: 'הנהלת חשבונות',
+    dialogs: {
+      create: false
+    },
+  }),
+  props: ['pname'],
+  components: {
+    'user-avatar': require('@/components/Profile/Avatar.vue').default,
+    'user-name'  : require('@/components/Profile/Name.vue').default,
+    'live-date'  : require('@/components/Tools/LiveDate.vue').default,
+    'live-time'  : require('@/components/Tools/LiveTime.vue').default,
+    'search'     : require('@/components/Tools/Search.vue').default
+  },
+    computed: {
+      height () {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return 150
+          case 'sm': return 86
+          case 'md': return 86
+          case 'lg': return 86
+          case 'xl': return 86
+        }
+      },
+    }
+}
+</script>
+
+<style lang="sass">
+  </style>
+
