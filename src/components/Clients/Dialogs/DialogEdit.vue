@@ -162,25 +162,23 @@ import { he } from 'date-fns/locale'
       }
     },
     props: ['client'],
-    data() {
-      return {
-        clientNumber: '',
-        clientName: '',
-        clientCompanyName: '',
-        clientPhone: '',
-        clientEmail: '',
-        clientIdNumber: '',
-        clientPaymentTerms: '',
-        clientPaymentMethod: '',
-        clientAddress: '',
-        clientWhatsapp: '',
-        clientHours: '',
-        clientDeliveryType: '',
-        clientStatus: '',
-        clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
-        clientStatusList: ["קבוע","מזדמן","שת״פ"],
-      }
-    },
+    data: () => ({
+      clientNumber: '',
+      clientName: '',
+      clientCompanyName: '',
+      clientPhone: '',
+      clientEmail: '',
+      clientIdNumber: '',
+      clientPaymentTerms: '',
+      clientPaymentMethod: '',
+      clientAddress: '',
+      clientWhatsapp: '',
+      clientHours: '',
+      clientDeliveryType: '',
+      clientStatus: '',
+      clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
+      clientStatusList: ["קבוע","מזדמן","שת״פ"],
+    }),
     computed: {
       clientFieldInvalid() {
         return

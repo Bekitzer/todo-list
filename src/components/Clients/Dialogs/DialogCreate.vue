@@ -10,7 +10,6 @@
         shaped
       >
         <v-card-title class="text-h5 text-center">יצירת לקוח</v-card-title>
-        <location />
           <v-row class="pa-4">
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -232,10 +231,11 @@ import { format } from 'date-fns'
       clientCloseDialog() {
         this.$emit('close')
       }
-    },
-    components: {
-      'location': require('@/components/Tools/Places.vue').default
     }
+    // ,
+    // components: {
+    //   'location': require('@/components/Tools/Places.vue').default
+    // }
   }
 </script>
 <style lang="sass">

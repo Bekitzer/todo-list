@@ -54,8 +54,9 @@
     props: ['supplier'],
     methods: {
       supplierDelete() {
-        this.$store.dispatch('deleteSupplier', this.supplier.id)
+        this.$store.dispatch('deleteSupplier', this.$route.params.id)
         this.supplierCloseDialog()
+        this.$router.push('/suppliers')
       },
       supplierCloseDialog() {
         this.$emit('close')

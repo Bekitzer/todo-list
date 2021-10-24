@@ -51,8 +51,9 @@
     props: ['accounting'],
     methods: {
       accountingDelete() {
-        this.$store.dispatch('deleteAccounting', this.accounting.id)
+        this.$store.dispatch('deleteAccounting', this.$route.params.id)
         this.accountingCloseDialog()
+        this.$router.push('/accountings')
       },
       accountingCloseDialog() {
         this.$emit('close')

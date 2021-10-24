@@ -5,7 +5,7 @@ import Localbase from 'localbase'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 import db from '@/firebase'
-import { doc, deleteDoc, updateDoc, collection, setDoc } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, collection, setDoc, getDoc, getDocs } from "firebase/firestore";
 
 // let db = new Localbase('db')
 // db.config.debug = false
@@ -59,11 +59,11 @@ export default new Vuex.Store({
       state.orders.push(newOrder)
     },
     deleteOrder(state, id){
-      state.orders = state.orders.filter(doc => doc.id !== id)
+      state.orders = state.orders.filter(order => order.id !== id)
     },
     updateOrder(state, payload){
-      let doc = state.orders.filter(doc => doc.id === payload.id)[0]
-      Object.assign(doc, payload)
+      let order = state.orders.filter(order => order.id === payload.id)[0]
+      Object.assign(order, payload)
     },
     setOrders(state, orders) {
       state.orders = orders
@@ -196,6 +196,8 @@ export default new Vuex.Store({
       setDoc(doc(collection(db, "orders")), isOrder).then(() => {
         commit('addOrder', isOrder)
         commit('showSnackbar', 'הזמנה חדשה נוספה!')
+      }).catch((error) => {
+        console.log('Something went wrong - addOrder',error);
       })
     },
     deleteOrder({ commit }, id) {
@@ -203,13 +205,15 @@ export default new Vuex.Store({
         commit('deleteOrder', id)
         commit('showSnackbar', 'הזמנה נמחקה!')
       }).catch((error) => {
-        console.log(error);
+        console.log('Something went wrong - deleteOrder',error);
       })
     },
     updateOrder({commit}, payload) {
-      updateDoc(doc(db, "orders", id), payload).then(() => {
+      updateDoc(doc(db, "orders", payload.id), payload).then(() => {
         commit('updateOrder', payload)
         commit('showSnackbar', 'הזמנה עודכנה!')
+      }).catch((error) => {
+        console.log('Something went wrong - updateOrder',error);
       })
     },
 
@@ -220,11 +224,16 @@ export default new Vuex.Store({
           orders.push({...doc.data(), id:doc.id})
         })
         commit('setOrders', orders)
+      }).catch((error) => {
+        console.log('Something went wrong - getOrders',error);
       })
     },
     setOrders({ commit }, orders) {
-      db.collection('orders').set(orders)
-      commit('setOrders', orders)
+      setDoc(doc(collection(db, "orders")), orders).then(() => {
+        commit('setOrders', orders)
+      }).catch((error) => {
+        console.log('Something went wrong - setOrders',error);
+      })
     },
     // ACCOUNTINGS
     addAccounting({ commit }, accounting) {
@@ -237,6 +246,8 @@ export default new Vuex.Store({
       setDoc(doc(collection(db, "accountings")), isAccounting).then(() => {
         commit('addAccounting', isAccounting)
         commit('showSnackbar', 'חשבון חדש נוסף!')
+      }).catch((error) => {
+        console.log('Something went wrong - addAccounting',error);
       })
     },
     deleteAccounting({ commit }, id) {
@@ -244,13 +255,15 @@ export default new Vuex.Store({
         commit('deleteAccounting', id)
         commit('showSnackbar', 'חשבון נמחק!')
       }).catch((error) => {
-        console.log(error);
+        console.log('Something went wrong - deleteAccounting',error);
       })
     },
     updateAccounting({commit}, payload) {
-      db.collection('accountings').doc({ id: payload.id }).update(payload).then(() => {
+      updateDoc(doc(db, "accountings", payload.id), payload).then(() => {
         commit('updateAccounting', payload)
         commit('showSnackbar', 'חשבון עודכן!')
+      }).catch((error) => {
+        console.log('Something went wrong - updateAccounting',error);
       })
     },
     getAccountings({ commit }) {
@@ -260,11 +273,16 @@ export default new Vuex.Store({
           accountings.push({...doc.data(), id:doc.id})
         })
         commit('setAccountings', accountings)
+      }).catch((error) => {
+        console.log('Something went wrong - getAccountings',error);
       })
     },
     setAccountings({ commit }, accountings) {
-      db.collection('accountings').set(accountings)
-      commit('setAccountings', accountings)
+      setDoc(doc(collection(db, "accountings")), accountings).then(() => {
+        commit('setAccountings', accountings)
+      }).catch((error) => {
+        console.log('Something went wrong - setAccountings',error);
+      })
     },
     // CLIENTS
     addClient({ commit }, client) {
@@ -274,9 +292,11 @@ export default new Vuex.Store({
         clientCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         clientUpdated: null
       }
-      setDoc(doc(collection(db, "accountings")), isClient).then(() => {
+      setDoc(doc(collection(db, "clients")), isClient).then(() => {
         commit('addClient', isClient)
         commit('showSnackbar', 'לקוח חדש נוסף!')
+      }).catch((error) => {
+        console.log('Something went wrong - addClient',error);
       })
     },
     deleteClient({ commit }, id) {
@@ -284,13 +304,15 @@ export default new Vuex.Store({
         commit('deleteClient', id)
         commit('showSnackbar', 'לקוח נמחק!')
       }).catch((error) => {
-        console.log(error);
+        console.log('Something went wrong - deleteClient',error);
       })
     },
     updateClient({commit}, payload) {
-      db.collection('clients').doc({ id: payload.id }).update(payload).then(() => {
+      updateDoc(doc(db, "clients", payload.id), payload).then(() => {
         commit('updateClient', payload)
         commit('showSnackbar', 'לקוח עודכן!')
+      }).catch((error) => {
+        console.log('Something went wrong - updateClient',error);
       })
     },
     getClients({ commit }) {
@@ -300,11 +322,16 @@ export default new Vuex.Store({
           clients.push({...doc.data(), id:doc.id})
         })
         commit('setClients', clients)
+      }).catch((error) => {
+        console.log('Something went wrong - getClients',error);
       })
     },
     setClients({ commit }, clients) {
-      db.collection('clients').set(clients)
-      commit('setClients', clients)
+      setDoc(doc(collection(db, "clients")), clients).then(() => {
+        commit('setClients', clients)
+      }).catch((error) => {
+        console.log('Something went wrong - setClients',error);
+      })
     },
     // SUPPLIERS
     addSupplier({ commit }, suppliers) {
@@ -314,9 +341,11 @@ export default new Vuex.Store({
         supplierCreationDate: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he}),
         supplierUpdated: null
       }
-      setDoc(doc(collection(db, "accountings")), isSupplier).then(() => {
+      setDoc(doc(collection(db, "suppliers")), isSupplier).then(() => {
         commit('addSupplier', isSupplier)
         commit('showSnackbar', 'ספק חדש נוסף!')
+      }).catch((error) => {
+        console.log('Something went wrong - addSupplier',error);
       })
     },
     deleteSupplier({ commit }, id) {
@@ -324,13 +353,15 @@ export default new Vuex.Store({
         commit('deleteSupplier', id)
         commit('showSnackbar', 'ספק נמחק!')
       }).catch((error) => {
-        console.log(error);
+        console.log('Something went wrong - deleteSupplier',error);
       })
     },
     updateSupplier({commit}, payload) {
-      db.collection('suppliers').doc({ id: payload.id }).update(payload).then(() => {
+      updateDoc(doc(db, "suppliers", payload.id), payload).then(() => {
         commit('updateSupplier', payload)
         commit('showSnackbar', 'ספק עודכן!')
+      }).catch((error) => {
+        console.log('Something went wrong - updateSupplier',error);
       })
     },
     getSuppliers({ commit }) {
@@ -340,11 +371,16 @@ export default new Vuex.Store({
           suppliers.push({...doc.data(), id:doc.id})
         })
         commit('setSuppliers', suppliers)
+      }).catch((error) => {
+        console.log('Something went wrong - getSuppliers',error);
       })
     },
     setSuppliers({ commit }, suppliers) {
-      db.collection('suppliers').set(suppliers)
-      commit('setSuppliers', suppliers)
+      setDoc(doc(collection(db, "suppliers")), suppliers).then(() => {
+        commit('setSuppliers', suppliers)
+      }).catch((error) => {
+        console.log('Something went wrong - setSuppliers',error);
+      })
     },
   },
   getters: {

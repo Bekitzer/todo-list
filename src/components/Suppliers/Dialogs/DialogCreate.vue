@@ -46,7 +46,6 @@
               <v-col cols="12" md="6" sm="6">
                 <v-text-field
                   v-model="supplierEmail"
-                  :rules="emailRules"
                   label="מייל משרד"
                   outlined
                   hide-details

@@ -21,9 +21,10 @@ const routes = [
     component: () => import('../views/Orders.vue')
   },
   {
-    path: '/orders',
+    path: '/orders/:id',
     name: 'Order',
-    component: () => import('../views/Order.vue')
+    component: () => import('../views/Order.vue'),
+    props:true
   },
   {
     path: '/clients',
@@ -33,7 +34,8 @@ const routes = [
   {
     path: '/clients/:id',
     name: 'Client',
-    component: () => import('../views/Client.vue')
+    component: () => import('../views/Client.vue'),
+    props:true
   },
   {
     path: '/suppliers',
@@ -43,7 +45,8 @@ const routes = [
   {
     path: '/suppliers/:id',
     name: 'Supplier',
-    component: () => import('../views/Supplier.vue')
+    component: () => import('../views/Supplier.vue'),
+    props:true
   },
   {
     path: '/accountings',
@@ -53,7 +56,8 @@ const routes = [
   {
     path: '/accountings/:id',
     name: 'Accounting',
-    component: () => import('../views/Accounting.vue')
+    component: () => import('../views/Accounting.vue'),
+    props:true
   },
 ]
 

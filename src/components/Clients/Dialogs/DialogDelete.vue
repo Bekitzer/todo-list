@@ -45,14 +45,16 @@
   export default {
     data () {
       return {
+        id: null,
         dialog: false,
       }
     },
     props: ['client'],
     methods: {
       clientDelete() {
-        this.$store.dispatch('deleteClient', this.client.id)
+        this.$store.dispatch('deleteClient', this.$route.params.id)
         this.clientCloseDialog()
+        this.$router.push('/clients')
       },
       clientCloseDialog() {
         this.$emit('close')
