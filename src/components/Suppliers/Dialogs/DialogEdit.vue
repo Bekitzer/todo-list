@@ -217,6 +217,7 @@ export default {
           }
           this.$store.dispatch('updateSupplier', payload)
           this.$emit('close')
+          this.$router.push('/suppliers')
         }
       }
     },

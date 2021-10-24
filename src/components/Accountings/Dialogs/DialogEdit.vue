@@ -106,6 +106,7 @@ export default {
           }
           this.$store.dispatch('updateAccounting', payload)
           this.$emit('close')
+          this.$router.push('/accountings')
         }
       }
     },

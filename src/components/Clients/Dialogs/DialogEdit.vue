@@ -219,6 +219,7 @@ import { he } from 'date-fns/locale'
           }
           this.$store.dispatch('updateClient', payload)
           this.$emit('close')
+          this.$router.push('/clients')
         }
       }
     },
