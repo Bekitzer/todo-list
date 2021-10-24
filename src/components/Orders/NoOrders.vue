@@ -8,7 +8,7 @@
       >
         mdi-check
       </v-icon>
-      <div class="text-h5">No Orders</div>
+      <h2>אין הזמנות</h2>
     </div>
 </template>
 

@@ -8,7 +8,7 @@
       >
         mdi-check
       </v-icon>
-      <div class="text-h5">No Accountings</div>
+      <h2>אין חשבונות</h2>
     </div>
 </template>
 

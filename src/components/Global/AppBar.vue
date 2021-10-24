@@ -8,8 +8,6 @@
         <v-container class="header-container pa-1">
           <v-row>
             <v-row style="font-size:16px;text-align:center;" no-gutters>
-
-
               <v-col
                 xs="12"
                 md="4"
@@ -56,7 +54,7 @@
             </v-row>
           </v-row>
           <v-row v-if="$route.path === '/'">
-            <field-add-task />
+            <!-- <field-add-task /> -->
           </v-row>
         </v-container>
     </v-app-bar>
@@ -72,6 +70,7 @@ export default {
   }),
   props: ['pname'],
   components: {
+    'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
     'user-avatar': require('@/components/Profile/Avatar.vue').default,
     'user-name'  : require('@/components/Profile/Name.vue').default,
     'live-date'  : require('@/components/Tools/LiveDate.vue').default,

@@ -1,7 +1,7 @@
 <template>
   <div class="pa-10">
     <nav-appbar :pname="pageName"/>
-    <list-suppliers v-if="$store.state.suppliers" />
+    <list-suppliers v-if="$store.state.suppliers.length" />
     <no-suppliers v-else />
     <v-fab-transition>
       <v-btn

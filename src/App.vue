@@ -20,7 +20,6 @@ export default {
     this.$store.dispatch('getAccountings')
   },
   components: {
-    'field-add-task'    : require('@/components/Todo/FieldAddTask.vue').default,
     'nav-drawer'          : require('@/components/Global/NavDrawer.vue').default,
     'nav-appbar'          : require('@/components/Global/AppBar.vue').default,
     'snackbar'          : require('@/components/Global/Snackbar.vue').default
@@ -73,4 +72,6 @@ export default {
     border-radius: 10px 0px 0px 10px !important
   .v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > thead > tr > th
     border-bottom: none !important
+  .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
+    background: transparent
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="pa-10">
     <nav-appbar :pname="pageName"/>
-    <list-orders v-if="$store.state.orders" />
+    <list-orders v-if="$store.state.orders.length" />
     <no-orders v-else />
     <v-fab-transition>
       <v-btn

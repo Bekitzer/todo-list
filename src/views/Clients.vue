@@ -1,7 +1,7 @@
 <template>
   <div class="pa-10">
     <nav-appbar :pname="pageName"/>
-    <list-clients v-if="$store.state.clients" />
+    <list-clients v-if="$store.state.clients.length" />
     <no-clients v-else />
     <v-fab-transition>
       <v-btn

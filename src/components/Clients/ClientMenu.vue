@@ -8,12 +8,14 @@
         <v-btn
           icon
           dense
+          plain
           :to="{ name: 'Client', params: { id : client.id }}"
         >
-          <v-icon>
-            mdi-account-settings
-          </v-icon>
-        </v-btn>
+          <img
+            width="26px"
+            src="@/components/Icons/edit.svg"
+          >
+      </v-btn>
         <v-btn
           icon
           dense
@@ -37,11 +39,11 @@
 export default {
     props: ['client'],
     data() {
-        return{
-          dialogs: {
-            delete: false
-          },
-        }
+      return{
+        dialogs: {
+          delete: false
+        },
+      }
     },
     components: {
         'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default

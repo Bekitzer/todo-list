@@ -8,7 +8,7 @@
       >
         mdi-check
       </v-icon>
-      <div class="text-h5">No Suppliers</div>
+      <h2>אין ספקים</h2>
     </div>
 </template>
 

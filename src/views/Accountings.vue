@@ -1,7 +1,7 @@
 <template>
   <div class="pa-10">
     <nav-appbar :pname="pageName"/>
-    <list-accountings v-if="$store.state.accountings" />
+    <list-accountings v-if="$store.state.accountings.length" />
     <no-accountings v-else />
     <v-fab-transition>
       <v-btn

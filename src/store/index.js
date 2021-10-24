@@ -62,8 +62,8 @@ export default new Vuex.Store({
       state.orders = state.orders.filter(doc => doc.id !== id)
     },
     updateOrder(state, payload){
-      let order = state.orders.filter(order => order.id === payload.id)[0]
-      Object.assign(order, payload)
+      let doc = state.orders.filter(doc => doc.id === payload.id)[0]
+      Object.assign(doc, payload)
     },
     setOrders(state, orders) {
       state.orders = orders
@@ -144,7 +144,6 @@ export default new Vuex.Store({
     },
     deleteTask({ commit }, id) {
       db.collection('tasks').doc(id).delete().then(() => {
-        console.log(id)
         commit('deleteTask', id)
         commit('showSnackbar', 'Task deleted!')
       })
@@ -208,13 +207,12 @@ export default new Vuex.Store({
       })
     },
     updateOrder({commit}, payload) {
-      updateDoc(doc(db, "orders", id), {
-        ...order
-      }).then(() => {
+      updateDoc(doc(db, "orders", id), payload).then(() => {
         commit('updateOrder', payload)
         commit('showSnackbar', 'הזמנה עודכנה!')
       })
     },
+
     getOrders({ commit }) {
       db.collection('orders').get().then(querySnapshot => {
         var orders = [];
