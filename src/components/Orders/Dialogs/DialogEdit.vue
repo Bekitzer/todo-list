@@ -94,6 +94,20 @@
                 hide-details
               />
             </v-col>
+            <v-col cols="4" md="4" sm="4">
+              <v-text-field
+                v-model="orderSellPrice"
+                label="מחיר מכירה"
+                outlined
+              />
+            </v-col>
+            <v-col cols="4" md="4" sm="4">
+              <v-text-field
+                v-model="orderBuyPrice"
+                label="מחיר קנייה"
+                outlined
+              />
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -143,6 +157,9 @@ import { he } from 'date-fns/locale'
       orderDeliveryType: '',
       // orderDeliveryDate: '',
       orderDeliveryAgent: '',
+      orderSellPrice: '',
+      orderBuyPrice: '',
+      orderMargin: '',
       orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
       orderStatusType: '',
       orderStatusTypeList: ["בעבודה","נשלח לספק","מחכה לספק","במשלוח","משלוח מתעכב","סופק"],
@@ -177,6 +194,8 @@ import { he } from 'date-fns/locale'
         !this.orderStatusType || this.orderStatusType === this.order.statusType
         // !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
         !this.orderDeliveryAgent || this.orderDeliveryAgent === this.order.deliveryAgent
+        !this.orderSellPrice || this.orderSellPrice === this.order.sellPrice
+        !this.orderBuyPrice || this.orderBuyPrice === this.order.buyPrice
         !this.orderDeliveryType || this.orderDeliveryType === this.order.deliveryType
       }
     },
@@ -191,6 +210,9 @@ import { he } from 'date-fns/locale'
             statusType: this.orderStatusType,
             // deliveryDate: this.orderDeliveryDate,
             deliveryAgent: this.orderDeliveryAgent,
+            sellPrice: this.orderSellPrice,
+            buyPrice: this.orderBuyPrice,
+            margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             deliveryType: this.orderDeliveryType,
             orderUpdated: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he})
           }
@@ -208,6 +230,8 @@ import { he } from 'date-fns/locale'
       this.orderStatusType = this.order.statusType
       // this.orderDeliveryDate = this.order.deliveryDate
       this.orderDeliveryAgent = this.order.deliveryAgent
+      this.orderSellPrice = this.order.sellPrice
+      this.orderBuyPrice = this.order.buyPrice
       this.orderDeliveryType = this.order.deliveryType
     }
   }

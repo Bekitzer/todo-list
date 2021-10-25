@@ -4,7 +4,7 @@
       :height="height"
       color="#f1f1f1"
       class="pr-10 pl-10"
-      src="images/mountains.jpg"
+      src="images/stars.jpeg"
       style="background-size:cover;background-size: cover !important;background-position: center top !important;padding: 0 !important;"
     >
         <v-container class="header-container pa-1">

@@ -93,6 +93,20 @@
                 outlined
               ></v-textarea>
             </v-col>
+            <v-col cols="4" md="4" sm="4">
+              <v-text-field
+                v-model="orderSellPrice"
+                label="מחיר מכירה"
+                outlined
+              />
+            </v-col>
+            <v-col cols="4" md="4" sm="4">
+              <v-text-field
+                v-model="orderBuyPrice"
+                label="מחיר קנייה"
+                outlined
+              />
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -142,6 +156,9 @@ import { he } from 'date-fns/locale'
       orderDeliveryType: '',
       orderDeliveryDate: '',
       orderDeliveryAgent: '',
+      orderSellPrice: '',
+      orderBuyPrice: '',
+      orderMargin: '',
       orderStatusType: 'עבודה חדשה',
       dateDialog: false,
       orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
@@ -175,7 +192,9 @@ import { he } from 'date-fns/locale'
           !this.orderDeliveryDate ||
           !this.orderDeliveryType ||
           !this.orderStatusType ||
-          !this.orderDeliveryAgent
+          !this.orderDeliveryAgent ||
+          !this.orderSellPrice ||
+          !this.orderBuyPrice
         )
       }
     },
@@ -188,6 +207,9 @@ import { he } from 'date-fns/locale'
             orderWork: this.orderWorkName,
             supplierName: this.orderSupplierName,
             deliveryAgent: this.orderDeliveryAgent,
+            sellPrice: this.orderSellPrice,
+            buyPrice: this.orderBuyPrice,
+            margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             statusType: this.orderStatusType,
             deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE, dd/MM/yy HH:mm', {locale: he}),
             deliveryType: this.orderDeliveryType,
@@ -199,6 +221,9 @@ import { he } from 'date-fns/locale'
           this.orderWorkName = ''
           this.orderSupplierName = ''
           this.orderDeliveryAgent = ''
+          this.orderSellPrice = ''
+          this.orderBuyPrice = ''
+          this.orderMargin = ''
           this.orderStatusType = ''
           this.orderDeliveryDate = ''
           this.orderDeliveryType = ''

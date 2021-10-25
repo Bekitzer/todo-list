@@ -8,6 +8,9 @@
     <td>{{ order.deliveryDate }}</td>
     <td>{{ order.deliveryType }}</td>
     <td>{{ order.deliveryAgent }}</td>
+    <td>{{ order.sellPrice }}</td>
+    <td>{{ order.buyPrice }}</td>
+    <td>{{ order.margin }}</td>
     <td>
       <order-menu :order="order"/>
     </td>

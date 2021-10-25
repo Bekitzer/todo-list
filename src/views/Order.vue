@@ -7,6 +7,9 @@
     <p>{{ order.deliveryDate }}</p>
     <p>{{ order.deliveryType }}</p>
     <p>{{ order.deliveryAgent }}</p>
+    <p>{{ order.sellPrice }}</p>
+    <p>{{ order.buyPrice }}</p>
+    <p>{{ order.margin }}</p>
     <p>{{ order.orderCreationDate }}</p>
     <p>{{ order.orderUpdated }}</p>
     <v-speed-dial
