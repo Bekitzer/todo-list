@@ -79,12 +79,13 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-text-field
+              <v-select
                 v-model="orderDeliveryAgent"
+                :items="orderDeliveryAgentList"
                 label="אחראי"
                 outlined
                 hide-details
-              />
+              ></v-select>
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-textarea
@@ -93,14 +94,14 @@
                 outlined
               ></v-textarea>
             </v-col>
-            <v-col cols="4" md="4" sm="4">
+            <v-col cols="6" md="6" sm="6">
               <v-text-field
                 v-model="orderSellPrice"
                 label="מחיר מכירה"
                 outlined
               />
             </v-col>
-            <v-col cols="4" md="4" sm="4">
+            <v-col cols="6" md="6" sm="6">
               <v-text-field
                 v-model="orderBuyPrice"
                 label="מחיר קנייה"
@@ -161,11 +162,12 @@ import { he } from 'date-fns/locale'
       orderMargin: '',
       orderStatusType: 'עבודה חדשה',
       dateDialog: false,
-      orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
+      orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
+      orderDeliveryAgentList: ["יניב","רדיק"],
     }),
     computed: {
       computedDate () {
-        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yy HH:mm', {locale: he}) : ''
+        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yy', {locale: he}) : ''
       },
       clients: {
         get() {
@@ -211,7 +213,7 @@ import { he } from 'date-fns/locale'
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             statusType: this.orderStatusType,
-            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE, dd/MM/yy HH:mm', {locale: he}),
+            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE, dd/MM/yy', {locale: he}),
             deliveryType: this.orderDeliveryType,
           }
 

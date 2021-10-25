@@ -6,8 +6,8 @@
         <tr>
           <th width="4%">#</th>
           <th width="10%">ת.הזמנה</th>
-          <th width="16%">לקוח</th>
-          <th width="12%">מוצר / שם עבודה</th>
+          <th width="10%">לקוח</th>
+          <th width="18%">מוצר / שם עבודה</th>
           <th width="8%">ספק</th>
           <th width="10%">ת.אספקה</th>
           <th width="6%">אופן אספקה</th>

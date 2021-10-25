@@ -46,22 +46,56 @@
                 </v-col>
               </v-row>
           </v-col>
-          </v-row>
+        </v-row>
+        <v-row class="pt-6">
+          <v-expansion-panels flat style="border:1px solid 0 1px 1px 1px">
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                תנאי פעילות
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-row>
+                  <v-col cols="3" md="3" sm="3">
+                    <p style="font-size:14px;">אופן אספקה <br />{{ client.paymentTerms }}</p>
+                  </v-col>
+                  <v-col cols="3" md="3" sm="3">
+                    <p style="font-size:14px;">תנאי תשלום <br />{{ client.paymentMethod }}</p>
+                  </v-col>
+                  <v-col cols="3" md="3" sm="3">
+                    <p style="font-size:14px;">שעות פעילות <br />{{ client.workingHours }}</p>
+                  </v-col>
+                  <v-col cols="3" md="3" sm="3">
+                    <p style="font-size:14px;">סוג משלוח<br />{{ client.deliveryType }}</p>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                אנשי קשר
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-row>
+                  <v-col cols="4" md="4" sm="4">
+                    <p style="font-size:14px;">אופן אספקה <br />{{ client.paymentTerms }}</p>
+                  </v-col>
+                  <v-col cols="4" md="4" sm="4">
+                    <p style="font-size:14px;">אופן אספקה <br />{{ client.paymentTerms }}</p>
+                  </v-col>
+                  <v-col cols="4" md="4" sm="4">
+                    <p style="font-size:14px;">אופן אספקה <br />{{ client.paymentTerms }}</p>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-row>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12" md="5" sm="5">
       </v-col>
     </v-row>
-
-
-    <p>{{ client.paymentTerms }}</p>
-    <p>{{ client.paymentMethod }}</p>
-
-
-    <p>{{ client.workingHours }}</p>
-    <p>{{ client.deliveryType }}</p>
-
     <v-speed-dial
       v-model="fab"
       bottom
@@ -149,3 +183,12 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+  .v-expansion-panel
+    border-radius: 0px 0px 20px 20px !important
+  .theme--light.v-expansion-panels .v-expansion-panel
+    border-width: 0px 1px 1px 1px !important
+    border-style: solid !important
+    border-color: #dbdbdb !important
+
+</style>

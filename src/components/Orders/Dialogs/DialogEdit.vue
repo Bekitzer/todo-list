@@ -42,32 +42,14 @@
                 outlined
               ></v-textarea>
             </v-col>
-            <!-- <v-col cols="12" md="12" sm="12">
-              <v-menu
-                v-model="dateDialog"
-                :close-on-content-click="false"
-                max-width="290"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    :value="computedDate"
-                    clearable
-                    outlined
-                    label="בחר תאריך אספקה"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    @click:clear="orderDeliveryDate = null"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="orderDeliveryDate"
-                  @change="dateDialog = false"
-                  :first-day-of-week="0"
-                  locale="he-il"
-                ></v-date-picker>
-              </v-menu>
-            </v-col> -->
+            <v-col cols="12" md="12" sm="12">
+              <v-text-field
+                v-model="orderDeliveryDate"
+                label="תאריך אספקה"
+                outlined
+                hide-details
+              />
+            </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="orderStatusType"
@@ -87,12 +69,13 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-text-field
+              <v-select
                 v-model="orderDeliveryAgent"
+                :items="orderDeliveryAgentList"
                 label="אחראי"
                 outlined
                 hide-details
-              />
+              ></v-select>
             </v-col>
             <v-col cols="4" md="4" sm="4">
               <v-text-field
@@ -155,20 +138,21 @@ import { he } from 'date-fns/locale'
       orderWorkName: '',
       orderSupplierName: '',
       orderDeliveryType: '',
-      // orderDeliveryDate: '',
+      orderDeliveryDate: '',
       orderDeliveryAgent: '',
       orderSellPrice: '',
       orderBuyPrice: '',
       orderMargin: '',
-      orderDeliveryTypeList: ["משלוח","איסוף עצמי"],
+      orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
+      orderDeliveryAgentList: ["יניב","רדיק"],
       orderStatusType: '',
       orderStatusTypeList: ["בעבודה","נשלח לספק","מחכה לספק","במשלוח","משלוח מתעכב","סופק"],
       dateDialog: false,
     }),
     computed: {
-      // computedDate () {
-      //   // return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yy HH:mm', {locale: he}) : ''
-      // },
+      computedDate () {
+        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yy', {locale: he}) : ''
+      },
       clients: {
         get() {
           return this.$store.getters.clientsFiltered
@@ -192,7 +176,7 @@ import { he } from 'date-fns/locale'
         !this.orderWorkName || this.orderWorkName === this.order.orderWork
         !this.orderSupplierName || this.orderSupplierName === this.order.supplierName
         !this.orderStatusType || this.orderStatusType === this.order.statusType
-        // !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
+        !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
         !this.orderDeliveryAgent || this.orderDeliveryAgent === this.order.deliveryAgent
         !this.orderSellPrice || this.orderSellPrice === this.order.sellPrice
         !this.orderBuyPrice || this.orderBuyPrice === this.order.buyPrice
@@ -208,12 +192,12 @@ import { he } from 'date-fns/locale'
             orderWork: this.orderWorkName,
             supplierName: this.orderSupplierName,
             statusType: this.orderStatusType,
-            // deliveryDate: this.orderDeliveryDate,
+            deliveryDate: this.orderDeliveryDate,
             deliveryAgent: this.orderDeliveryAgent,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-            deliveryType: this.orderDeliveryType,
+            deliveryType: format(new Date(this.Timestamp.orderDeliveryDate), 'EEE, dd/MM/yy', {locale: he}),
             orderUpdated: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateOrder', payload)
@@ -223,12 +207,12 @@ import { he } from 'date-fns/locale'
       }
     },
     mounted() {
-      // this.orderNumber = this.order.number
+      this.orderNumber = this.order.number
       this.orderClientName = this.order.clientName
       this.orderWorkName = this.order.orderWork
       this.orderSupplierName = this.order.supplierName
       this.orderStatusType = this.order.statusType
-      // this.orderDeliveryDate = this.order.deliveryDate
+      this.orderDeliveryDate = this.order.deliveryDate
       this.orderDeliveryAgent = this.order.deliveryAgent
       this.orderSellPrice = this.order.sellPrice
       this.orderBuyPrice = this.order.buyPrice
