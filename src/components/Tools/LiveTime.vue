@@ -1,5 +1,5 @@
 <template>
-    <div style="color:#006D7B;">{{ time }}</div>
+    <div style="color:white;">{{ time }}</div>
 </template>
 
 <script>

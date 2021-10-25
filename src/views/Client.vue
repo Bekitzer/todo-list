@@ -1,21 +1,66 @@
 <template>
-  <div class="pa-10">
-    <p>{{ client.id }}</p>
-    <p>{{ client.name }}</p>
-    <p>{{ client.number }}</p>
-    <p>{{ client.companyName }}</p>
-    <p>{{ client.phone }}</p>
-    <p>{{ client.email }}</p>
-    <p>{{ client.numberId }}</p>
+  <div class="pr-10 pl-10">
+    <nav-appbar :pname="pageName"/>
+    <v-row>
+      <v-col cols="12" md="7" sm="7">
+        <v-row class="pa-10 grey lighten-3 rounded-b-xl">
+          <v-col cols="2" md="2" sm="2">
+            <v-avatar
+              class="profile"
+              size="100px"
+            >
+              <v-img
+                src="images/marcus.jpg"
+                rounded
+              ></v-img>
+            </v-avatar>
+          </v-col>
+          <v-col cols="4" md="4" sm="4">
+            <h2>{{ client.name }}</h2>
+            <p style="font-size:14px;">{{ client.companyName }} / ח.פ. {{ client.numberId }}</p>
+          </v-col>
+          <v-col cols="3" md="3" sm="3">
+            <p>
+              <v-icon color="#006D7B" small>mdi-phone-outline</v-icon> {{ client.phone }}
+            </p>
+            <p>
+              <v-icon color="#006D7B" small>mdi-email-outline</v-icon> {{ client.email }}
+            </p>
+            <p>
+              <v-icon color="#006D7B" small>mdi-whatsapp</v-icon> {{ client.whatsapp }}
+            </p>
+          </v-col>
+          <v-col cols="3" md="3" sm="3">
+            <p>
+              <v-icon color="#006D7B" small>mdi-map-marker-outline</v-icon> {{ client.address }}
+            </p>
+            <p>
+              <v-icon color="#006D7B" small>mdi-account-tie-outline</v-icon> סטטוס לקוח > {{ client.status }}
+            </p>
+              <v-row>
+                <v-col cols="6" md="6" sm="6">
+                  <p style="font-size:14px;">ת.רישום <br />{{ client.clientCreationDate }}</p>
+                </v-col>
+                <v-col cols="6" md="6" sm="6">
+                  <p style="font-size:14px;">ת.עידכון <br />{{ client.clientUpdated }}</p>
+                </v-col>
+              </v-row>
+          </v-col>
+          </v-row>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="5" sm="5">
+      </v-col>
+    </v-row>
+
+
     <p>{{ client.paymentTerms }}</p>
     <p>{{ client.paymentMethod }}</p>
-    <p>{{ client.address }}</p>
-    <p>{{ client.whatsapp }}</p>
+
+
     <p>{{ client.workingHours }}</p>
     <p>{{ client.deliveryType }}</p>
-    <p>{{ client.status }}</p>
-    <p>{{ client.clientCreationDate }}</p>
-    <p>{{ client.clientUpdated }}</p>
 
     <v-speed-dial
       v-model="fab"
@@ -84,6 +129,7 @@
 export default {
   name: 'Client',
   data: () => ({
+    pageName: 'Client Name',
     fab: false,
     transition: 'slide-y-transition',
     dialogs: {
@@ -98,7 +144,8 @@ export default {
   },
   components: {
       'dialog-edit': require('@/components/Clients/Dialogs/DialogEdit.vue').default,
-      'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default
+      'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default,
+      'nav-appbar' : require('@/components/Global/AppBar.vue').default
   }
 }
 </script>

@@ -213,7 +213,7 @@ export default {
             workingHours: this.supplierHours,
             deliveryType: this.supplierDeliveryType,
             status: this.supplierStatus,
-            supplierUpdated: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he})
+            supplierUpdated: format(new Date(Date.now()), 'EEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateSupplier', payload)
           this.$emit('close')

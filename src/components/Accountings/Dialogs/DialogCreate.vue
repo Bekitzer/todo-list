@@ -158,7 +158,7 @@ import { he } from 'date-fns/locale'
     }),
     computed: {
       computedDate () {
-        return this.accountingPaymentDate ? format(parseISO(this.accountingPaymentDate), 'EEE, dd/MM/yyyy', {locale: he}) : ''
+        return this.accountingPaymentDate ? format(parseISO(this.accountingPaymentDate), 'EEE, dd/MM/yy HH:mm', {locale: he}) : ''
       },
       orders: {
         get() {
@@ -209,7 +209,7 @@ import { he } from 'date-fns/locale'
             unitMargin: this.accountingUnitMargin = (this.accountingUnitSubtotal - this.accountingUnitSupplierAmount),
             unitSubtotal: this.accountingUnitSubtotal,
             unitTotal: this.accountingUnitTotal = (this.accountingUnitSubtotal * this.accountingPaymentTax),
-            paymentDate: format(new Date(this.accountingPaymentDate), 'EEE, dd.MM.yy', {locale: he}),
+            paymentDate: format(new Date(this.accountingPaymentDate), 'EEE, dd/MM/yy HH:mm', {locale: he}),
             paymentType: this.accountingPaymentType
           }
 

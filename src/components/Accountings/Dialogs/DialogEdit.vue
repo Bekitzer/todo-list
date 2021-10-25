@@ -102,7 +102,7 @@ export default {
             clientName: this.accountingClientName,
             paymentDate: this.accountingPaymentDate,
             paymentType: this.accountingPaymentType,
-            accountingUpdated: format(new Date(Date.now()), 'EEE dd/MM/yyyy', {locale: he})
+            accountingUpdated: format(new Date(Date.now()), 'EEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateAccounting', payload)
           this.$emit('close')

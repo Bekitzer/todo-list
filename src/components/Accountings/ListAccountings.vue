@@ -5,17 +5,17 @@
       >
         <tr>
           <th width="4%">#</th>
-          <th width="8%">ת.חשבון</th>
+          <th width="10%">ת.חשבון</th>
           <th width="10%">לקוח</th>
           <th width="8%">ספק</th>
           <th width="6%">מחיר יחידה</th>
           <th width="6%">כמות</th>
           <th width="6%">מחיר ספק</th>
           <th width="6%">רווח</th>
-          <th width="12%"> </th>
+          <th width="8%"> </th>
           <th width="6%">מחיר ללא מע״מ</th>
           <th width="6%">מחיר כולל מע״מ</th>
-          <th width="8%">ת.תשלום</th>
+          <th width="10%">ת.תשלום</th>
           <th width="6%">פעולות</th>
           <th width="8%" class="spc-status-dot">סטטוס תשלום</th>
         </tr>

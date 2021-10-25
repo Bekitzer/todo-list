@@ -148,7 +148,7 @@ import { he } from 'date-fns/locale'
     }),
     computed: {
       computedDate () {
-        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd.MM.yy', {locale: he}) : ''
+        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yy HH:mm', {locale: he}) : ''
       },
       clients: {
         get() {
@@ -189,7 +189,7 @@ import { he } from 'date-fns/locale'
             supplierName: this.orderSupplierName,
             deliveryAgent: this.orderDeliveryAgent,
             statusType: this.orderStatusType,
-            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE, dd.MM.yy', {locale: he}),
+            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE, dd/MM/yy HH:mm', {locale: he}),
             deliveryType: this.orderDeliveryType,
           }
 

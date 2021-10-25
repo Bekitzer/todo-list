@@ -9,7 +9,7 @@
   export default {
     name: 'Home',
     data: () => ({
-      pageName: 'עמוד בית',
+      pageName: 'לוח בקרה',
     }),
     components: {
       'nav-appbar' : require('@/components/Global/AppBar.vue').default,

@@ -12,6 +12,7 @@
       >
       <v-list-item
         class="spc-logo"
+        :to="{ name: 'Home' }"
       >
         <v-img
           src="images/logojp.png"

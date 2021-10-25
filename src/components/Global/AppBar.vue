@@ -4,6 +4,8 @@
       :height="height"
       color="#f1f1f1"
       class="pr-10 pl-10"
+      src="images/mountains.jpg"
+      style="background-size:cover;background-size: cover !important;background-position: center top !important;padding: 0 !important;"
     >
         <v-container class="header-container pa-1">
           <v-row>
@@ -13,7 +15,7 @@
                 md="4"
                 cols="2"
               >
-                <h2 style="text-align:right;">{{pname}}</h2>
+                <h2 style="color:white;text-align:right;">{{pname}}</h2>
               </v-col>
               <v-spacer></v-spacer>
               <v-col
@@ -28,7 +30,7 @@
                 md="1"
                 cols="6"
               >
-                <live-time />
+                <!-- <live-time /> -->
               </v-col>
               <v-col
                 xs="6"

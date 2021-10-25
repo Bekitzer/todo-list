@@ -1,7 +1,7 @@
 <template>
   <div>
-    <span style="color:grey;">בוקר טוב  </span>
-    <strong style="color:#006D7B;">רדיק</strong>
+    <span style="color:white;">בוקר טוב  </span>
+    <strong style="color:white;">רדיק</strong>
   </div>
 </template>
 

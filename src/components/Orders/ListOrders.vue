@@ -8,10 +8,10 @@
           <th width="10%">ת.הזמנה</th>
           <th width="16%">לקוח</th>
           <th width="24%">מוצר / שם עבודה</th>
-          <th width="8%">אחראי</th>
           <th width="8%">ספק</th>
           <th width="10%">ת.אספקה</th>
           <th width="6%">אופן אספקה</th>
+          <th width="8%">אחראי</th>
           <th width="6%">פעולות</th>
           <th width="8%" class="spc-status-dot">סטטוס הזמנה</th>
         </tr>

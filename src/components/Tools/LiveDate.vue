@@ -1,10 +1,10 @@
 <template>
-    <div>{{ date }}</div>
+    <div style="color:white;">{{ date }}</div>
 </template>
 
 <script>
-
 import { format } from 'date-fns'
+import { setTimeout } from 'timers';
 import { he } from 'date-fns/locale'
 
 export default {
@@ -15,7 +15,8 @@ export default {
     },
     methods: {
         getDate() {
-            this.date = format(new Date(), 'EEE, dd.MM.yy', {locale: he})
+            this.date = format(new Date(), 'EEE, dd/MM/yy HH:mm', {locale: he})
+            setTimeout(this.getTime, 1000)
         }
     },
     mounted() {

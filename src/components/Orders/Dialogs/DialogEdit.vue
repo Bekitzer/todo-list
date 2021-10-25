@@ -150,7 +150,7 @@ import { he } from 'date-fns/locale'
     }),
     computed: {
       // computedDate () {
-      //   // return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd.MM.yy', {locale: he}) : ''
+      //   // return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yy HH:mm', {locale: he}) : ''
       // },
       clients: {
         get() {
@@ -192,7 +192,7 @@ import { he } from 'date-fns/locale'
             // deliveryDate: this.orderDeliveryDate,
             deliveryAgent: this.orderDeliveryAgent,
             deliveryType: this.orderDeliveryType,
-            orderUpdated: format(new Date(Date.now()), 'EEE, dd.MM.yy', {locale: he})
+            orderUpdated: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateOrder', payload)
           this.$emit('close')
