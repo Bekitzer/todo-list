@@ -93,7 +93,8 @@
             outlined
             large
             color="red"
-            @click="$emit('close')"
+            @keyup:esc="closeDialog"
+            @click="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -185,9 +186,12 @@ import { he } from 'date-fns/locale'
             orderUpdated: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateOrder', payload)
-          this.$emit('close')
+          this.closeDialog()
           this.$router.push('/orders')
         }
+      },
+      closeDialog() {
+        this.$emit('close')
       }
     },
     mounted() {
@@ -201,6 +205,11 @@ import { he } from 'date-fns/locale'
       this.orderSellPrice = this.order.sellPrice
       this.orderBuyPrice = this.order.buyPrice
       this.orderDeliveryType = this.order.deliveryType
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
   }
 </script>

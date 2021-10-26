@@ -9,7 +9,7 @@
         elevation="8"
         shaped
       >
-        <v-card-title class="text-h5 text-center">עריכת הנהלת חשבון</v-card-title>
+        <v-card-title>עריכת הנהלת חשבון</v-card-title>
           <v-row class="pa-4">
             <v-col cols="12" md="12" sm="12">
               <v-autocomplete
@@ -61,7 +61,8 @@
             outlined
             large
             color="red"
-            @click="$emit('close')"
+            @click="closeDialog"
+            @keyup.esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -129,12 +130,20 @@ export default {
             accountingUpdated: format(new Date(Date.now()), 'EEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateAccounting', payload)
-          this.$emit('close')
+          this.closeDialog()
           this.$router.push('/accountings')
         }
+      },
+      closeDialog() {
+        this.$emit('close')
       }
     },
     mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
       this.accountingSupplierName = this.accounting.supplierName
       this.accountingClientName = this.accounting.clientName
       this.accountingPaymentDate = this.accounting.paymentDate

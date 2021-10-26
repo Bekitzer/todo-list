@@ -2,6 +2,7 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
+      persistent
       max-width="600"
     >
       <v-card
@@ -116,8 +117,8 @@
             outlined
             large
             color="red"
-            @click="orderCloseDialog"
-            @keyup:escape="orderCloseDialog"
+            @click="closeDialog"
+            @keyup:esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -224,11 +225,18 @@ import { he } from 'date-fns/locale'
           this.orderDeliveryDate = ''
           this.orderDeliveryType = ''
         }
-        this.orderCloseDialog()
+        this.closeDialog()
       },
-      orderCloseDialog() {
+      closeDialog() {
         this.$emit('close')
       }
+    },
+    mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
   }
 </script>

@@ -9,7 +9,7 @@
         elevation="8"
         shaped
       >
-        <v-card-title class="text-h5 text-center">יצירת לקוח</v-card-title>
+        <v-card-title>יצירת לקוח</v-card-title>
           <v-row class="pa-4">
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -126,7 +126,8 @@
             outlined
             large
             color="red"
-            @click="$emit('close')"
+            @click="closeDialog"
+            @keyup:esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -226,16 +227,19 @@ import { format } from 'date-fns'
           this.clientDeliveryType = ''
           this.clientStatus = ''
         }
-        this.clientCloseDialog()
+        this.closeDialog()
       },
-      clientCloseDialog() {
+      closeDialog() {
         this.$emit('close')
       }
+    },
+    mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
-    // ,
-    // components: {
-    //   'location': require('@/components/Tools/Places.vue').default
-    // }
   }
 </script>
 <style lang="sass">

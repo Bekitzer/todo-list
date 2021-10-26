@@ -45,8 +45,7 @@ export default {
       { title: 'הזמנות',    icon: 'mdi-format-list-checks',       to: '/orders' },
       { title: 'ספקים',     icon: 'mdi-account-multiple-outline', to: '/suppliers' },
       { title: 'לקוחות',    icon: 'mdi-account',                  to: '/clients' },
-      { title: 'הנה״ח',     icon: 'mdi-notebook-edit-outline',    to: '/accountings' },
-
+      // { title: 'הנה״ח',     icon: 'mdi-notebook-edit-outline',    to: '/accountings' },
       // { title: 'ראשי',      icon: 'mdi-format-list-checks',       to: '/' },
       // { title: 'אודות',     icon: 'mdi-information-outline',      to: '/about' },
     ],

@@ -9,7 +9,7 @@
         elevation="8"
         shaped
       >
-        <v-card-title class="text-h5 text-center">עריכת ספק</v-card-title>
+        <v-card-title>עריכת ספק</v-card-title>
           <v-row class="pa-4">
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -126,7 +126,8 @@
             outlined
             large
             color="red"
-            @click="$emit('close')"
+            @click="closeDialog"
+            @keyup:esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -216,9 +217,12 @@ export default {
             supplierUpdated: format(new Date(Date.now()), 'EEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateSupplier', payload)
-          this.$emit('close')
+          this.closeDialog()
           this.$router.push('/suppliers')
         }
+      },
+      closeDialog() {
+        this.$emit('close')
       }
     },
     mounted() {
@@ -235,6 +239,11 @@ export default {
       this.supplierHours = this.supplier.workingHours
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
   }
 </script>

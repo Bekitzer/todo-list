@@ -9,7 +9,7 @@
         elevation="8"
         shaped
       >
-        <v-card-title class="text-h5 text-center">מחיקת ספק</v-card-title>
+        <v-card-title>מחיקת ספק</v-card-title>
         <v-card-text>אתה בטוח שאתה רוצה למחוק ספק זה?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -19,7 +19,8 @@
             outlined
             large
             color="red"
-            @click="supplierCloseDialog"
+            @click="closeDialog"
+            @keyup:esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -55,12 +56,19 @@
     methods: {
       supplierDelete() {
         this.$store.dispatch('deleteSupplier', this.$route.params.id)
-        this.supplierCloseDialog()
+        this.closeDialog()
         this.$router.push('/suppliers')
       },
-      supplierCloseDialog() {
+      closeDialog() {
         this.$emit('close')
       }
+    },
+    mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
   }
 </script>

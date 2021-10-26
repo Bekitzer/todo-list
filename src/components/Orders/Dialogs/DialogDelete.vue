@@ -15,7 +15,8 @@
             outlined
             large
             color="red"
-            @click="orderCloseDialog"
+            @click="closeDialog"
+            @keyup.esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -28,7 +29,6 @@
             large
             color="green"
             @click="orderDelete"
-            @keyup.enter="orderDelete"
           >
             <v-icon>
               mdi-check
@@ -51,12 +51,19 @@
     methods: {
       orderDelete() {
         this.$store.dispatch('deleteOrder', this.$route.params.id)
-        this.orderCloseDialog()
+        this.closeDialog()
         this.$router.push('/orders')
       },
-      orderCloseDialog() {
+      closeDialog() {
         this.$emit('close')
       }
+    },
+    mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
   }
 </script>

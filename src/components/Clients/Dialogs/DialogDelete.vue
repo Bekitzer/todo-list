@@ -6,7 +6,7 @@
       max-width="290"
     >
       <v-card>
-        <v-card-title class="text-h5 text-center">מחיקת לקוח</v-card-title>
+        <v-card-title>מחיקת לקוח</v-card-title>
         <v-card-text>אתה בטוח שאתה רוצה למחוק לקוח זה?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -16,7 +16,8 @@
             outlined
             large
             color="red"
-            @click="clientCloseDialog"
+            @click="closeDialog"
+            @keyup:esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -29,7 +30,6 @@
             large
             color="green"
             @click="clientDelete"
-            @keyup.enter="clientDelete"
           >
             <v-icon>
               mdi-check
@@ -53,12 +53,19 @@
     methods: {
       clientDelete() {
         this.$store.dispatch('deleteClient', this.$route.params.id)
-        this.clientCloseDialog()
+        this.closeDialog()
         this.$router.push('/clients')
       },
-      clientCloseDialog() {
+      closeDialog() {
         this.$emit('close')
       }
+    },
+    mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
   }
 </script>

@@ -9,7 +9,7 @@
         elevation="8"
         shaped
       >
-        <v-card-title class="text-h5 text-center">עריכת לקוח</v-card-title>
+        <v-card-title>עריכת לקוח</v-card-title>
           <v-row class="pa-4">
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -126,7 +126,8 @@
             outlined
             large
             color="red"
-            @click="$emit('close')"
+            @click="closeDialog"
+            @keyup.esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -140,7 +141,6 @@
             color="green"
             @click="saveClient"
             :disabled="clientFieldInvalid"
-            @keyup.enter="saveClient"
           >
             <v-icon>
               mdi-check
@@ -218,12 +218,20 @@ import { he } from 'date-fns/locale'
             clientUpdated: format(new Date(Date.now()), 'EEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateClient', payload)
-          this.$emit('close')
+          this.closeDialog()
           this.$router.push('/clients')
         }
+      },
+      closeDialog() {
+        this.$emit('close')
       }
     },
     mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
       this.clientName = this.client.name
       this.clientNumber = this.client.number
       this.clientCompanyName = this.client.companyName

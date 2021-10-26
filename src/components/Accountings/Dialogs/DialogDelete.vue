@@ -6,7 +6,7 @@
       max-width="290"
     >
       <v-card>
-        <v-card-title class="text-h5 text-center">מחיקת הנהלת חשבון</v-card-title>
+        <v-card-title>מחיקת הנהלת חשבון</v-card-title>
         <v-card-text>אתה בטוח שאתה רוצה למחוק הנהלת חשבון זו?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -16,7 +16,8 @@
             outlined
             large
             color="red"
-            @click="accountingCloseDialog"
+            @click="closeDialog"
+            @keyup.esc="closeDialog"
           >
             <v-icon>
               mdi-close
@@ -29,7 +30,6 @@
             large
             color="green"
             @click="accountingDelete"
-            @keyup.enter="accountingDelete"
           >
             <v-icon>
               mdi-check
@@ -52,12 +52,19 @@
     methods: {
       accountingDelete() {
         this.$store.dispatch('deleteAccounting', this.$route.params.id)
-        this.accountingCloseDialog()
+        this.closeDialog()
         this.$router.push('/accountings')
       },
-      accountingCloseDialog() {
+      closeDialog() {
         this.$emit('close')
       }
+    },
+    mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
   }
 </script>

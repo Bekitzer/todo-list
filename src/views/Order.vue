@@ -83,7 +83,8 @@ export default {
     fab: false,
     transition: 'slide-y-transition',
     dialogs: {
-      edit: false
+      edit: false,
+      delete: false
     },
   }),
   computed: {
