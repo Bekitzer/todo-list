@@ -72,6 +72,7 @@
 <script>
 export default {
   name: 'Accounting',
+  pageName: '',
   data: () => ({
     fab: false,
     transition: 'slide-y-transition',
@@ -87,6 +88,9 @@ export default {
   components: {
       'dialog-edit': require('@/components/Accountings/Dialogs/DialogEdit.vue').default,
       'dialog-delete': require('@/components/Accountings/Dialogs/DialogDelete.vue').default
+  },
+  mounted() {
+    this.pageName = this.accounting.number
   }
 }
 </script>

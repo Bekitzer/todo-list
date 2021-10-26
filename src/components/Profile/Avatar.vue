@@ -4,7 +4,7 @@
     size="36px"
   >
     <v-img
-      src="images/radik.jpg"
+      src="/images/radik.jpg"
       rounded
     ></v-img>
   </v-avatar>

@@ -79,6 +79,7 @@
 export default {
   name: 'Client',
   data: () => ({
+    pageName: '',
     fab: false,
     transition: 'slide-y-transition',
     dialogs: {
@@ -93,6 +94,9 @@ export default {
   components: {
       'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,
       'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default
+  },
+  mounted() {
+    this.pageName = this.order.number
   }
 }
 </script>

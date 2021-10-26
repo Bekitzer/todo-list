@@ -78,32 +78,32 @@ export default {
     'live-date'  : require('@/components/Tools/LiveDate.vue').default,
     'search'     : require('@/components/Tools/Search.vue').default
   },
-    computed: {
-      tableList() {
-        if(this.$route.path === '/clients'){
-          return true
-        }else if(this.$route.path === '/suppliers'){
-          return true
-        }else if(this.$route.path === '/accountings'){
-          return true
-        }else if(this.$route.path === '/orders'){
-          return true
-        }else{
-          return false
-        }
+  computed: {
+    tableList() {
+      if(this.$route.path === '/clients'){
+        return true
+      }else if(this.$route.path === '/suppliers'){
+        return true
+      }else if(this.$route.path === '/accountings'){
+        return true
+      }else if(this.$route.path === '/orders'){
+        return true
+      }else{
+        return false
+      }
 
 
-      },
-      height() {
-        switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return 150
-          case 'sm': return 86
-          case 'md': return 86
-          case 'lg': return 86
-          case 'xl': return 86
-        }
-      },
-    }
+    },
+    height() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 150
+        case 'sm': return 86
+        case 'md': return 86
+        case 'lg': return 86
+        case 'xl': return 86
+      }
+    },
+  }
 }
 </script>
 

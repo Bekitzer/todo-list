@@ -163,7 +163,7 @@
 export default {
   name: 'Client',
   data: () => ({
-    pageName: 'Client Name',
+    pageName: '',
     fab: false,
     transition: 'slide-y-transition',
     dialogs: {
@@ -180,6 +180,9 @@ export default {
       'dialog-edit': require('@/components/Clients/Dialogs/DialogEdit.vue').default,
       'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
+  },
+  mounted() {
+    this.pageName = this.client.name
   }
 }
 </script>
