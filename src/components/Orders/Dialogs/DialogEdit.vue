@@ -2,7 +2,6 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
-      persistent
       max-width="600"
     >
       <v-card
@@ -140,7 +139,7 @@ import { he } from 'date-fns/locale'
       orderMargin: '',
       orderDeliveryAgentList: ["יניב","רדיק"],
       orderStatusType: '',
-      orderStatusTypeList: ["בעבודה","נשלח לספק","מחכה לספק","במשלוח","משלוח מתעכב","סופק"],
+      orderStatusTypeList: [ "בעבודה" , "מוכן לאיסוף" , "מוכן לשילוח" , "סופק" ],
       dateDialog: false,
     }),
     computed: {

@@ -2,11 +2,10 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
-      persistent
       max-width="290"
     >
       <v-card>
-        <v-card-title class="text-h5 text-center">מחיקת הזמנה</v-card-title>
+        <v-card-title>מחיקת הזמנה</v-card-title>
         <v-card-text>אתה בטוח שאתה רוצה למחוק הזמנה זו?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>

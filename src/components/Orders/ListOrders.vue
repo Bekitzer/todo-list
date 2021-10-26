@@ -57,13 +57,11 @@ export default {
       this.$router.push({ name: 'Order', params: { id : order.id }})
     },
     getColor (statusType) {
-      if (statusType === "עבודה חדשה") return 'black'
-      else if (statusType === "בעבודה") return 'green accent-2'
-      else if (statusType === "נשלח לספק") return 'deep-orange lighten-2'
-      else if (statusType === "מחכה לספק") return 'deep-orange accent-4'
-      else if (statusType === "במשלוח") return 'green darken-4'
-      else if (statusType === "משלוח מתעכב") return 'red darken-1'
-      else if (statusType === "סופק") return 'green'
+      if (statusType === "הזמנה חדשה") return '#FF9800'
+      else if (statusType === "בעבודה") return '#2196F3'
+      else if (statusType === "מוכן לאיסוף") return '#4CAF50'
+      else if (statusType === "מוכן לשילוח") return '#4CAF50'
+      else if (statusType === "סופק") return '#9E9E9E'
       else return 'grey darken-1'
     },
   },

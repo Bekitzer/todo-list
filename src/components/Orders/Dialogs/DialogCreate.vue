@@ -2,14 +2,13 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
-      persistent
       max-width="600"
     >
       <v-card
         elevation="8"
         shaped
       >
-        <v-card-title class="text-h5 text-center">יצירת הזמנה</v-card-title>
+        <v-card-title>יצירת הזמנה</v-card-title>
           <v-row class="pa-4">
             <v-col cols="12" md="12" sm="12">
               <v-text-field
@@ -117,7 +116,8 @@
             outlined
             large
             color="red"
-            @click="$emit('close')"
+            @click="orderCloseDialog"
+            @keyup:escape="orderCloseDialog"
           >
             <v-icon>
               mdi-close
@@ -161,7 +161,7 @@ import { he } from 'date-fns/locale'
       orderSellPrice: '',
       orderBuyPrice: '',
       orderMargin: '',
-      orderStatusType: 'עבודה חדשה',
+      orderStatusType: 'הזמנה חדשה',
       dateDialog: false,
       orderDeliveryAgentList: ["יניב","רדיק"],
     }),
