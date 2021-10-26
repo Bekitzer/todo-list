@@ -4,7 +4,7 @@
       :height="height"
       color="#f1f1f1"
       class="pr-10 pl-10"
-      src="images/stars.jpeg"
+      src="/images/stars.jpeg"
       style="background-size:cover;background-size: cover !important;background-position: center top !important;padding: 0 !important;"
     >
         <v-container class="header-container pa-1">
@@ -19,18 +19,18 @@
               </v-col>
               <v-spacer></v-spacer>
               <v-col
+
                 xs="12"
                 md="4"
                 cols="12"
               >
-                <search />
+                <search v-if="tableList"/>
               </v-col>
               <v-col
                 xs="6"
                 md="1"
                 cols="6"
               >
-                <!-- <live-time /> -->
               </v-col>
               <v-col
                 xs="6"
@@ -76,11 +76,25 @@ export default {
     'user-avatar': require('@/components/Profile/Avatar.vue').default,
     'user-name'  : require('@/components/Profile/Name.vue').default,
     'live-date'  : require('@/components/Tools/LiveDate.vue').default,
-    'live-time'  : require('@/components/Tools/LiveTime.vue').default,
     'search'     : require('@/components/Tools/Search.vue').default
   },
     computed: {
-      height () {
+      tableList() {
+        if(this.$route.path === '/clients'){
+          return true
+        }else if(this.$route.path === '/suppliers'){
+          return true
+        }else if(this.$route.path === '/accountings'){
+          return true
+        }else if(this.$route.path === '/orders'){
+          return true
+        }else{
+          return false
+        }
+
+
+      },
+      height() {
         switch (this.$vuetify.breakpoint.name) {
           case 'xs': return 150
           case 'sm': return 86

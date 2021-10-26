@@ -1,39 +1,72 @@
 <template>
-  <v-simple-table>
-    <template v-slot:default>
-      <thead
-      >
-        <tr>
-          <th width="4%">#</th>
-          <th width="10%">ת.הזמנה</th>
-          <th width="10%">לקוח</th>
-          <th width="18%">מוצר / שם עבודה</th>
-          <th width="8%">ספק</th>
-          <th width="10%">ת.אספקה</th>
-          <th width="6%">אופן אספקה</th>
-          <th width="8%">אחראי</th>
-          <th width="4%">מכירה</th>
-          <th width="4%">קניה</th>
-          <th width="4%">רווח</th>
-          <th width="6%">פעולות</th>
-          <th width="8%" class="spc-status-dot">סטטוס הזמנה</th>
-        </tr>
-      </thead>
-      <tbody>
-          <order
-            v-for="order in orders"
-            :key="order.id"
-            :order="order"
-          />
-      </tbody>
+  <v-data-table
+    flat
+    :headers="headers"
+    :items="orders"
+    fixed-header
+    item-key="id"
+    sort-by="number"
+    class="elevation-1"
+  >
+    <template v-slot:item.actions="{ item }">
+      <v-btn
+          icon
+          dense
+          plain
+          @click="handleClick(item)"
+        >
+          <img
+            width="26px"
+            src="@/components/Icons/edit.svg"
+          >
+      </v-btn>
     </template>
-  </v-simple-table>
+    <template v-slot:[`item.statusType`]="{ item }">
+      <v-icon
+          :color="getColor(item.statusType)"
+          class="spc-status-dot"
+          size="60"
+        >mdi-circle-small</v-icon>
+        {{ item.statusType }}
+    </template>
+  </v-data-table>
 </template>
-
 <script>
 export default {
   name: 'ListOrders',
+  data: () => ({
+    headers: [
+      { text: '#', value: 'number', align: 'start', width: '3%' },
+      { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%'},
+      { text: 'לקוח', value: 'clientName', width: '10%' },
+      { text: 'מוצר / שם עבודה', value: 'orderWork', width: '17%' },
+      { text: 'ספק', value: 'supplierName', width: '10%' },
+      { text: 'ת.אספקה', value: 'deliveryDate', width: '10%' },
+      { text: 'אופן אספקה', value: 'deliveryType', width: '7%' },
+      { text: 'אחראי', value: 'deliveryAgent', width: '5%' },
+      { text: 'מכירה', value: 'sellPrice', width: '5%' },
+      { text: 'קניה', value: 'buyPrice', width: '5%' },
+      { text: 'רווח', value: 'margin', width: '5%' },
+      { text: 'פעולות', value: 'actions', width: '5%' },
+      { text: 'סטטוס הזמנה', value: 'statusType', width: '8%' },
+    ],
+  }),
   props: ['order'],
+  methods: {
+    handleClick(order){
+      this.$router.push({ name: 'Order', params: { id : order.id }})
+    },
+    getColor (statusType) {
+      if (statusType === "עבודה חדשה") return 'black'
+      else if (statusType === "בעבודה") return 'green accent-2'
+      else if (statusType === "נשלח לספק") return 'deep-orange lighten-2'
+      else if (statusType === "מחכה לספק") return 'deep-orange accent-4'
+      else if (statusType === "במשלוח") return 'green darken-4'
+      else if (statusType === "משלוח מתעכב") return 'red darken-1'
+      else if (statusType === "סופק") return 'green'
+      else return 'grey darken-1'
+    },
+  },
   computed: {
     orders: {
       get() {
@@ -43,13 +76,19 @@ export default {
         this.$store.dispatch('setOrders', value)
       }
     }
-  },
-  components: {
-    'order': require('@/components/Orders/Order.vue').default
   }
 }
 </script>
 <style lang="sass">
   th.spc-status-dot
     border-bottom: none !important
+  .v-application .elevation-1, .theme--light.v-data-table.v-data-table--fixed-header thead th
+    box-shadow: none !important
+  .theme--light.v-data-table .v-data-footer
+    border-top: none !important
+  .spc-status-dot
+    width: 12px
+    margin-left: 6px
+  .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
+    background: transparent
 </style>

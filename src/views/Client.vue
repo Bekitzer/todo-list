@@ -10,7 +10,7 @@
               size="100px"
             >
               <v-img
-                src="images/marcus.jpg"
+                src="/images/marcus.jpg"
                 rounded
               ></v-img>
             </v-avatar>
@@ -154,7 +154,7 @@
     <dialog-delete
       v-if="dialogs.delete"
       @close = 'dialogs.delete = false'
-      :order = 'client'
+      :client = 'client'
     />
   </div>
 </template>

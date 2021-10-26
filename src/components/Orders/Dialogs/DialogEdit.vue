@@ -43,12 +43,6 @@
               ></v-textarea>
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-text-field
-                v-model="orderDeliveryDate"
-                label="תאריך אספקה"
-                outlined
-                hide-details
-              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
@@ -138,35 +132,26 @@ import { he } from 'date-fns/locale'
       orderWorkName: '',
       orderSupplierName: '',
       orderDeliveryType: '',
-      orderDeliveryDate: '',
+      orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
+      // orderDeliveryDate: '',
       orderDeliveryAgent: '',
       orderSellPrice: '',
       orderBuyPrice: '',
       orderMargin: '',
-      orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
       orderDeliveryAgentList: ["יניב","רדיק"],
       orderStatusType: '',
       orderStatusTypeList: ["בעבודה","נשלח לספק","מחכה לספק","במשלוח","משלוח מתעכב","סופק"],
       dateDialog: false,
     }),
     computed: {
-      computedDate () {
-        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yy', {locale: he}) : ''
-      },
       clients: {
         get() {
           return this.$store.getters.clientsFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setClients', value)
         }
       },
       suppliers: {
         get() {
           return this.$store.getters.suppliersFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setSuppliers', value)
         }
       },
       orderFieldInvalid() {
@@ -176,7 +161,7 @@ import { he } from 'date-fns/locale'
         !this.orderWorkName || this.orderWorkName === this.order.orderWork
         !this.orderSupplierName || this.orderSupplierName === this.order.supplierName
         !this.orderStatusType || this.orderStatusType === this.order.statusType
-        !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
+        // !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
         !this.orderDeliveryAgent || this.orderDeliveryAgent === this.order.deliveryAgent
         !this.orderSellPrice || this.orderSellPrice === this.order.sellPrice
         !this.orderBuyPrice || this.orderBuyPrice === this.order.buyPrice
@@ -192,12 +177,12 @@ import { he } from 'date-fns/locale'
             orderWork: this.orderWorkName,
             supplierName: this.orderSupplierName,
             statusType: this.orderStatusType,
-            deliveryDate: this.orderDeliveryDate,
+            // deliveryDate: this.orderDeliveryDate,
             deliveryAgent: this.orderDeliveryAgent,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-            deliveryType: format(new Date(this.Timestamp.orderDeliveryDate), 'EEE, dd/MM/yy', {locale: he}),
+            deliveryType: this.orderDeliveryType,
             orderUpdated: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateOrder', payload)
@@ -207,12 +192,12 @@ import { he } from 'date-fns/locale'
       }
     },
     mounted() {
-      this.orderNumber = this.order.number
+      // this.orderNumber = this.order.number
       this.orderClientName = this.order.clientName
       this.orderWorkName = this.order.orderWork
       this.orderSupplierName = this.order.supplierName
       this.orderStatusType = this.order.statusType
-      this.orderDeliveryDate = this.order.deliveryDate
+      // this.orderDeliveryDate = this.order.deliveryDate
       this.orderDeliveryAgent = this.order.deliveryAgent
       this.orderSellPrice = this.order.sellPrice
       this.orderBuyPrice = this.order.buyPrice

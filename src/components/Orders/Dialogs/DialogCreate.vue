@@ -155,6 +155,7 @@ import { he } from 'date-fns/locale'
       orderWorkName: '',
       orderSupplierName: '',
       orderDeliveryType: '',
+      orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
       orderDeliveryDate: '',
       orderDeliveryAgent: '',
       orderSellPrice: '',
@@ -162,7 +163,6 @@ import { he } from 'date-fns/locale'
       orderMargin: '',
       orderStatusType: 'עבודה חדשה',
       dateDialog: false,
-      orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
       orderDeliveryAgentList: ["יניב","רדיק"],
     }),
     computed: {
@@ -172,17 +172,11 @@ import { he } from 'date-fns/locale'
       clients: {
         get() {
           return this.$store.getters.clientsFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setClients', value)
         }
       },
       suppliers: {
         get() {
           return this.$store.getters.suppliersFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setSuppliers', value)
         }
       },
       orderFieldInvalid() {

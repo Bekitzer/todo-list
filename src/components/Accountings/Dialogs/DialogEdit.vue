@@ -11,14 +11,29 @@
       >
         <v-card-title class="text-h5 text-center">עריכת הנהלת חשבון</v-card-title>
           <v-row class="pa-4">
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
+            <v-col cols="12" md="12" sm="12">
+              <v-autocomplete
+                :items="clients"
+                item-text="name"
+                item-value="name"
                 v-model="accountingClientName"
-                disabled
-                label="לקוח"
+                label="בחר לקוח"
+                clearable
+                hide-selected
                 outlined
-                hide-details
-              />
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-autocomplete
+                :items="suppliers"
+                item-text="name"
+                item-value="name"
+                v-model="accountingSupplierName"
+                label="בחר ספק"
+                clearable
+                hide-selected
+                outlined
+              ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -80,6 +95,7 @@ export default {
     data() {
       return {
         dialog: false,
+        accountingSupplierName: '',
         accountingClientName: '',
         accountingPaymentDate: '',
         accountingPaymentType: '',
@@ -87,8 +103,15 @@ export default {
       }
     },
     computed: {
+      clients() {
+          return this.$store.state.clients
+      },
+      suppliers() {
+          return this.$store.state.suppliers
+      },
       accountingFieldInvalid() {
         return
+        !this.accountingSupplierName || this.accountingSupplierName === this.accounting.supplierName
         !this.accountingClientName || this.accountingClientName === this.accounting.clientName
         !this.accountingPaymentDate || this.accountingPaymentDate === this.accounting.paymentDate
         !this.accountingPaymentType || this.accountingPaymentType === this.accounting.paymentType
@@ -99,6 +122,7 @@ export default {
         if(!this.accountingFieldInvalid){
           let payload = {
             id: this.accounting.id,
+            supplierName: this.accountingSupplierName,
             clientName: this.accountingClientName,
             paymentDate: this.accountingPaymentDate,
             paymentType: this.accountingPaymentType,
@@ -111,7 +135,7 @@ export default {
       }
     },
     mounted() {
-      // this.accountingNumber = this.accounting.number
+      this.accountingSupplierName = this.accounting.supplierName
       this.accountingClientName = this.accounting.clientName
       this.accountingPaymentDate = this.accounting.paymentDate
       this.accountingPaymentType = this.accounting.paymentType

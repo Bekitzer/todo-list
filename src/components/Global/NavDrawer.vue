@@ -15,7 +15,7 @@
         :to="{ name: 'Home' }"
       >
         <v-img
-          src="images/logojp.png"
+          src="/images/logojp.png"
           class="spc-img"
         ></v-img>
       </v-list-item>

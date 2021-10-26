@@ -12,13 +12,23 @@
         <v-card-title class="text-h5 text-center">יצירת הנהלת חשבון</v-card-title>
           <v-row class="pa-4">
             <v-col cols="12" md="12" sm="12">
+              <v-text-field
+                v-model.number="accountingNumber"
+                type="number"
+                label="מספר חשבון"
+                clearable
+                hide-selected
+                outlined
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
               <v-autocomplete
                 :items="orders"
                 item-text="number"
                 item-value="number"
-                v-model.number="accountingNumber"
+                v-model.number="accountingOrderNumber"
                 type="number"
-                label="בחר הזמנה"
+                label="בחר מספר הזמנה"
                 clearable
                 hide-selected
                 outlined
@@ -75,7 +85,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <v-col cols="12" md="6" sm="6">
               <v-menu
                 v-model="dateDialog"
                 :close-on-content-click="false"
@@ -143,6 +153,7 @@ import { he } from 'date-fns/locale'
     data: () => ({
       dialog: false,
       accountingNumber: '',
+      accountingOrderNumber: '',
       accountingPaymentType: 'לתשלום',
       accountingPaymentDate: '',
       accountingSupplierName: '',
@@ -160,33 +171,19 @@ import { he } from 'date-fns/locale'
       computedDate () {
         return this.accountingPaymentDate ? format(parseISO(this.accountingPaymentDate), 'EEE, dd/MM/yy HH:mm', {locale: he}) : ''
       },
-      orders: {
-        get() {
-          return this.$store.getters.ordersFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setOrders', value)
-        }
+      orders() {
+          return this.$store.state.orders
       },
-      clients: {
-        get() {
-          return this.$store.getters.clientsFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setClients', value)
-        }
+      clients() {
+          return this.$store.state.clients
       },
-      suppliers: {
-        get() {
-          return this.$store.getters.suppliersFiltered
-        },
-        set(value) {
-          this.$store.dispatch('setSuppliers', value)
-        }
+      suppliers() {
+          return this.$store.state.suppliers
       },
       accountingFieldInvalid() {
         return (
           !this.accountingNumber ||
+          !this.accountingOrderNumber ||
           !this.accountingPaymentDate ||
           !this.accountingClientName ||
           !this.accountingSupplierName ||
@@ -201,6 +198,7 @@ import { he } from 'date-fns/locale'
         if(!this.accountingFieldInvalid){
           const accountingFields = {
             number: this.accountingNumber,
+            orderNumber: this.accountingOrderNumber,
             clientName: this.accountingClientName,
             supplierName: this.accountingSupplierName,
             unitPrice: this.accountingUnitPrice,
@@ -215,6 +213,7 @@ import { he } from 'date-fns/locale'
 
           this.$store.dispatch('addAccounting', accountingFields)
             this.accountingNumber = ''
+            this.accountingOrderNumber = ""
             this.accountingClientName = ''
             this.accountingSupplierName = ''
             this.accountingUnitPrice = ''
