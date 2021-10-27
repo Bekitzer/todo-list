@@ -43,12 +43,12 @@ export default {
   data: () => ({
     drawer: null,
     items: [
-      { title: 'הזמנות',    icon: 'mdi-format-list-checks',       to: '/orders' },
-      { title: 'ספקים',     icon: 'mdi-account-multiple-outline', to: '/suppliers' },
-      { title: 'לקוחות',    icon: 'mdi-account',                  to: '/clients' },
-      { title: 'לוח בקרה',    icon: 'mdi-view-dashboard',              to: '/dashboard' },
+      { title: 'הזמנות', icon: 'mdi-format-list-checks', to: '/orders' },
+      { title: 'ספקים', icon: 'mdi-account-multiple-outline', to: '/suppliers' },
+      { title: 'לקוחות', icon: 'mdi-account', to: '/clients' },
+      { title: 'לוח בקרה', icon: 'mdi-view-dashboard', to: '/dashboard' },
     ],
-  }),
+  })
 }
 </script>
 

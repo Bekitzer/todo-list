@@ -31,7 +31,10 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../components/Form/Register.vue')
+    component: () => import('../components/Form/Register.vue'),
+    meta: {
+      requiresGuest: true
+   }
   },
   {
     path: '/about',
