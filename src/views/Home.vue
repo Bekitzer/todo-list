@@ -1,7 +1,21 @@
 <template>
   <div class="about pa-5">
     <nav-appbar :pname="pageName"/>
-    <location />
+      <div class="text-center">
+        <v-btn
+          color="primary"
+          :to="{ name: 'Login' }"
+        >
+          Login
+        </v-btn>
+        <!-- <v-btn
+          color="primary"
+          :to="{ name: 'Register' }"
+        >
+          Register
+        </v-btn> -->
+      </div>
+    <!-- <location /> -->
   </div>
 </template>
 

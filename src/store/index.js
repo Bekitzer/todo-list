@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import uuid from 'uuid'
-import Localbase from 'localbase'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 import db from '@/firebase'
-import { doc, deleteDoc, updateDoc, collection, setDoc, getDoc, getDocs } from "firebase/firestore";
-
-// let db = new Localbase('db')
-// db.config.debug = false
+import { doc, deleteDoc, updateDoc, collection, setDoc, getDoc, getDocs } from "firebase/firestore"
+import authStore from './modules/authStore'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: {
+    authStore
+  },
   state: {
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
@@ -413,6 +413,6 @@ export default new Vuex.Store({
         return state.suppliers
       }
       return state.suppliers.filter(supplier => supplier.name.toLowerCase().includes(state.search.toLowerCase()))
-    },
+    }
   }
 })
