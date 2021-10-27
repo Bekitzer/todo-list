@@ -60,20 +60,22 @@
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
+              <v-select
                 v-model="clientPaymentTerms"
+                :items="clientPaymentTermsList"
                 label="תנאי תשלום"
                 outlined
                 hide-details
-              />
+              ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
+              <v-select
                 v-model="clientPaymentMethod"
-                label="אופן תשלום"
+                :items="clientPaymentMethodList"
+                label="תנאי תשלום"
                 outlined
                 hide-details
-              />
+              ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -165,7 +167,9 @@ import { format } from 'date-fns'
       clientEmail: '',
       clientIdNumber: '',
       clientPaymentTerms: '',
+      clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
       clientPaymentMethod: '',
+      clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק"],
       clientAddress: '',
       clientWhatsapp: '',
       clientHours: '',

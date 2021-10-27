@@ -56,7 +56,7 @@
               <v-expansion-panel-content>
                 <v-row>
                   <v-col cols="3" md="3" sm="3">
-                    <p style="font-size:14px;">אופן אספקה <br />{{ client.paymentTerms }}</p>
+                    <p style="font-size:14px;">אופן תשלום <br />{{ client.paymentTerms }}</p>
                   </v-col>
                   <v-col cols="3" md="3" sm="3">
                     <p style="font-size:14px;">תנאי תשלום <br />{{ client.paymentMethod }}</p>
@@ -65,7 +65,7 @@
                     <p style="font-size:14px;">שעות פעילות <br />{{ client.workingHours }}</p>
                   </v-col>
                   <v-col cols="3" md="3" sm="3">
-                    <p style="font-size:14px;">סוג משלוח<br />{{ client.deliveryType }}</p>
+                    <p style="font-size:14px;">אופן אספקה<br />{{ client.deliveryType }}</p>
                   </v-col>
                 </v-row>
               </v-expansion-panel-content>
