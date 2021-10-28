@@ -3,11 +3,10 @@
       app
       :height="height"
       color="#f1f1f1"
-      class="pr-10 pl-10"
       src="/images/stars.jpeg"
       style="background-size:cover;background-size: cover !important;background-position: center top !important;padding: 0 !important;"
     >
-        <v-container class="header-container pa-1">
+        <v-container class="header-container pr-12 pl-12">
           <v-row>
             <v-row style="font-size:16px;text-align:center;" no-gutters>
               <v-col
@@ -55,9 +54,6 @@
               </v-col>
             </v-row>
           </v-row>
-          <v-row v-if="$route.path === '/'">
-            <!-- <field-add-task /> -->
-          </v-row>
         </v-container>
     </v-app-bar>
 </template>
@@ -72,7 +68,6 @@ export default {
   }),
   props: ['pname'],
   components: {
-    'field-add-task': require('@/components/Todo/FieldAddTask.vue').default,
     'user-avatar': require('@/components/Profile/Avatar.vue').default,
     'user-name'  : require('@/components/Profile/Name.vue').default,
     'live-date'  : require('@/components/Tools/LiveDate.vue').default,
@@ -83,8 +78,6 @@ export default {
       if(this.$route.path === '/clients'){
         return true
       }else if(this.$route.path === '/suppliers'){
-        return true
-      }else if(this.$route.path === '/accountings'){
         return true
       }else if(this.$route.path === '/orders'){
         return true

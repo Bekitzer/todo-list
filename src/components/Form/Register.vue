@@ -12,10 +12,7 @@
       >
         <h1>Register component</h1>
         <v-row>
-          <v-col
-            cols="12"
-            md="12"
-          >
+          <v-col cols="12" md="12">
             <v-text-field
               v-model="userData.firstname"
               label="שם פרטי"
@@ -23,10 +20,7 @@
             ></v-text-field>
           </v-col>
 
-          <v-col
-            cols="12"
-            md="12"
-          >
+          <v-col cols="12" md="12">
             <v-text-field
               v-model="userData.lastname"
               label="שם משפחה"
@@ -34,20 +28,14 @@
             ></v-text-field>
           </v-col>
 
-          <v-col
-            cols="12"
-            md="12"
-          >
+          <v-col cols="12" md="12">
             <v-text-field
               v-model="userData.username"
               label="כינוי"
               required
             ></v-text-field>
           </v-col>
-          <v-col
-            cols="12"
-            md="12"
-          >
+          <v-col cols="12" md="12">
             <v-text-field
               v-model="userData.email"
               :rules="[rules.required, rules.email]"
@@ -55,10 +43,7 @@
               required
             ></v-text-field>
           </v-col>
-          <v-col
-            cols="12"
-            md="12"
-          >
+          <v-col cols="12" md="12">
             <v-text-field
               v-model="userData.password"
               :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -69,12 +54,14 @@
               required
             ></v-text-field>
           </v-col>
-          <v-btn
-            color="primary"
-            @click="registerUser"
-          >
-            הירשם
-          </v-btn>
+          <v-col cols="12" md="12">
+            <v-btn
+              color="primary"
+              @click="registerUser"
+            >
+              הירשם
+            </v-btn>
+          </v-col>
         </v-row>
       </v-col>
       <v-col

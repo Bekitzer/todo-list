@@ -5,9 +5,9 @@
     :items="suppliers"
     fixed-header
     item-key="id"
+    hide-default-footer
     :items-per-page="-1"
     sort-by="number"
-    class="elevation-1"
   >
     <template v-slot:item.actions="{ item }">
       <v-btn

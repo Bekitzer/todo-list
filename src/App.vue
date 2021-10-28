@@ -18,11 +18,9 @@ export default {
     isLoggedIn: false
   }),
   mounted() {
-    this.$store.dispatch('getTasks'),
     this.$store.dispatch('getClients'),
     this.$store.dispatch('getSuppliers'),
-    this.$store.dispatch('getOrders'),
-    this.$store.dispatch('getAccountings')
+    this.$store.dispatch('getOrders')
   },
   components: {
     'nav-drawer-logged-in' : require('@/components/Global/NavDrawerLoggedIn.vue').default,

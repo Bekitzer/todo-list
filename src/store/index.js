@@ -16,11 +16,9 @@ export default new Vuex.Store({
   state: {
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
-    tasks: [],
     suppliers: [],
     clients: [],
     orders: [],
-    accountings: [],
     snackbar: {
       show: false,
       text: '',
@@ -31,28 +29,6 @@ export default new Vuex.Store({
   mutations: {
     setSearch(state, value) {
       state.search = value
-    },
-    // TASKS
-    addTask(state, newTask){
-      state.tasks.push(newTask)
-    },
-    taskDone(state, id){
-      let task = state.tasks.filter(task => task.id === id)[0]
-      task.done = !task.done
-    },
-    deleteTask(state, id){
-      state.tasks = state.tasks.filter(task => task.id != id)
-    },
-    updateTaskTitle(state, payload){
-      let task = state.tasks.filter(task => task.id === payload.id)[0]
-      Object.assign(task, payload)
-    },
-    updateTaskDueDate(state, payload){
-      let task = state.tasks.filter(task => task.id === payload.id)[0]
-      task.dueDate = payload.dueDate
-    },
-    setTasks(state, tasks) {
-      state.tasks = tasks
     },
     // ORDERS
     addOrder(state, newOrder){
@@ -67,20 +43,6 @@ export default new Vuex.Store({
     },
     setOrders(state, orders) {
       state.orders = orders
-    },
-    // ACCOUNTINGS
-    addAccounting(state, newAccounting){
-      state.accountings.push(newAccounting)
-    },
-    deleteAccounting(state, id){
-      state.accountings = state.accountings.filter(accounting => accounting.id !== id)
-    },
-    updateAccounting(state, payload){
-      let accounting = state.accountings.filter(accounting => accounting.id === payload.id)[0]
-      Object.assign(accounting, payload)
-    },
-    setAccountings(state, accountings) {
-      state.accountings = accountings
     },
     // CLIENTS
     addClient(state, newClient){
@@ -127,64 +89,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // TASKS
-    addTask({ commit }, newTaskTitle) {
-      let newTask = {
-        id: uuid.v4(),
-        title: newTaskTitle,
-        done: false,
-        dueDate: null
-      }
-      db.collection('tasks').add(newTask).then(() => {
-        commit('addTask', newTask)
-        commit('showSnackbar', 'Task added!')
-      }).catch((error) => {
-        console.log(error);
-      })
-    },
-    deleteTask({ commit }, id) {
-      db.collection('tasks').doc(id).delete().then(() => {
-        commit('deleteTask', id)
-        commit('showSnackbar', 'Task deleted!')
-      })
-    },
-    updateTaskTitle({commit}, payload) {
-      db.collection('tasks').doc({ id: payload.id }).update({
-        title: payload.title
-      }).then(() => {
-        commit('updateTaskTitle', payload)
-        commit('showSnackbar', 'Task Changed!')
-      })
-    },
-    updateTaskDueDate({commit}, payload) {
-      db.collection('tasks').doc({ id: payload.id }).update({
-        dueDate: payload.dueDate
-      }).then(() => {
-        commit('updateTaskDueDate', payload)
-        commit('showSnackbar', 'Due Date Changed!')
-      })
-    },
-    getTasks({ commit }) {
-      db.collection('tasks').get().then(querySnapshot => {
-        var tasks = [];
-        querySnapshot.forEach(doc => {
-          tasks.push(doc.data());
-        })
-        commit('setTasks', tasks)
-      })
-    },
-    taskDone({ state, commit }, id) {
-      let task = state.tasks.filter(task => task.id === id)[0]
-      db.collection('tasks').doc({ id: id }).update({
-        done: !task.done
-      }).then(() => {
-        commit('taskDone', id)
-      })
-    },
-    setTasks ({ commit }, tasks) {
-      db.collection('tasks').set(tasks)
-      commit('setTasks', tasks)
-    },
     // ORDERS
     addOrder({ commit }, order) {
       let isOrder = {
@@ -233,55 +137,6 @@ export default new Vuex.Store({
         commit('setOrders', orders)
       }).catch((error) => {
         console.log('Something went wrong - setOrders',error);
-      })
-    },
-    // ACCOUNTINGS
-    addAccounting({ commit }, accounting) {
-      let isAccounting = {
-        ...accounting,
-        id: uuid.v4(),
-        accountingCreationDate: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he}),
-        accountingUpdated: null
-      }
-      setDoc(doc(collection(db, "accountings")), isAccounting).then(() => {
-        commit('addAccounting', isAccounting)
-        commit('showSnackbar', 'חשבון חדש נוסף!')
-      }).catch((error) => {
-        console.log('Something went wrong - addAccounting',error);
-      })
-    },
-    deleteAccounting({ commit }, id) {
-      deleteDoc(doc(db, "accountings", id)).then(() => {
-        commit('deleteAccounting', id)
-        commit('showSnackbar', 'חשבון נמחק!')
-      }).catch((error) => {
-        console.log('Something went wrong - deleteAccounting',error);
-      })
-    },
-    updateAccounting({commit}, payload) {
-      updateDoc(doc(db, "accountings", payload.id), payload).then(() => {
-        commit('updateAccounting', payload)
-        commit('showSnackbar', 'חשבון עודכן!')
-      }).catch((error) => {
-        console.log('Something went wrong - updateAccounting',error);
-      })
-    },
-    getAccountings({ commit }) {
-      db.collection('accountings').get().then(querySnapshot => {
-        var accountings = [];
-        querySnapshot.forEach(doc => {
-          accountings.push({...doc.data(), id:doc.id})
-        })
-        commit('setAccountings', accountings)
-      }).catch((error) => {
-        console.log('Something went wrong - getAccountings',error);
-      })
-    },
-    setAccountings({ commit }, accountings) {
-      setDoc(doc(collection(db, "accountings")), accountings).then(() => {
-        commit('setAccountings', accountings)
-      }).catch((error) => {
-        console.log('Something went wrong - setAccountings',error);
       })
     },
     // CLIENTS
@@ -384,23 +239,11 @@ export default new Vuex.Store({
     },
   },
   getters: {
-    tasksFiltered(state) {
-      if (!state.search) {
-        return state.tasks
-      }
-      return state.tasks.filter(task => task.title.toLowerCase().includes(state.search.toLowerCase()))
-    },
     ordersFiltered(state) {
       if (!state.search) {
         return state.orders
       }
-      return state.orders.filter(order => order.number.toLowerCase().includes(state.search.toLowerCase()))
-    },
-    accountingsFiltered(state) {
-      if (!state.search) {
-        return state.accountings
-      }
-      return state.accountings.filter(accounting => accounting.number.toLowerCase().includes(state.search.toLowerCase()))
+      return state.orders.filter(order => order.clientName.toLowerCase().includes(state.search.toLowerCase()))
     },
     clientsFiltered(state) {
       if (!state.search) {

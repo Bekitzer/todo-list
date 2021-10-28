@@ -94,24 +94,7 @@ const routes = [
     meta: {
        requiresAuth: true
     }
-  },
-  {
-    path: '/accountings',
-    name: 'Accountings',
-    component: () => import('../views/Accountings.vue'),
-    meta: {
-       requiresAuth: true
-    }
-  },
-  {
-    path: '/accountings/:id',
-    name: 'Accounting',
-    component: () => import('../views/Accounting.vue'),
-    props:true,
-    meta: {
-       requiresAuth: true
-    }
-  },
+  }
 ]
 
 const router = new VueRouter({

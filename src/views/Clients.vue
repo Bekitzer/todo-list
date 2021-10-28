@@ -1,5 +1,5 @@
 <template>
-  <div class="pa-10">
+  <div class="pr-16 pt-10 pl-16">
     <nav-appbar :pname="pageName"/>
     <list-clients v-if="$store.state.clients.length" />
     <no-clients v-else />
