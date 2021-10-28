@@ -3,7 +3,6 @@
     flat
     :headers="headers"
     :items="accountings"
-    hide-default-footer
     fixed-header
     item-key="id"
     sort-by="number"

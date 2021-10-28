@@ -140,7 +140,7 @@ import { he } from 'date-fns/locale'
       orderMargin: '',
       orderDeliveryAgentList: ["יניב","רדיק"],
       orderStatusType: '',
-      orderStatusTypeList: [ "בעבודה" , "מוכן לאיסוף" , "מוכן לשילוח" , "סופק" ],
+      orderStatusTypeList: [ "בעבודה" , "מוכן - משרד" , "מוכן - ספק" , "סופק" ],
       dateDialog: false,
     }),
     computed: {
