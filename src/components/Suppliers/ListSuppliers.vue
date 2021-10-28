@@ -5,6 +5,7 @@
     :items="suppliers"
     fixed-header
     item-key="id"
+    :items-per-page="-1"
     sort-by="number"
     class="elevation-1"
   >

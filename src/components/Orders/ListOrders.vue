@@ -5,6 +5,7 @@
     :items="orders"
     fixed-header
     item-key="id"
+    :items-per-page="-1"
     sort-by="number"
     class="elevation-1"
   >
@@ -59,8 +60,8 @@ export default {
     getColor (statusType) {
       if (statusType === "הזמנה חדשה") return '#FF9800'
       else if (statusType === "בעבודה") return '#2196F3'
-      else if (statusType === "מוכן לאיסוף") return '#4CAF50'
-      else if (statusType === "מוכן לשילוח") return '#4CAF50'
+      else if (statusType === "מוכן - משרד") return '#4CAF50'
+      else if (statusType === "מוכן - ספק") return '#4CAF50'
       else if (statusType === "סופק") return '#9E9E9E'
       else return 'grey darken-1'
     },

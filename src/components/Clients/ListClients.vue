@@ -4,6 +4,7 @@
     :headers="headers"
     :items="clients"
     fixed-header
+    :items-per-page="-1"
     item-key="id"
     sort-by="number"
     class="elevation-1"
