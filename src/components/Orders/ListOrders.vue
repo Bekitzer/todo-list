@@ -14,6 +14,7 @@
         text
         dense
         plain
+        style="color:#006d7b;"
         @click="handleClickClient(item)"
       >
         {{ item.clientName }}
@@ -24,6 +25,7 @@
         text
         dense
         plain
+        style="color:#006d7b;"
         @click="handleClickSupplier(item)"
       >
         {{ item.supplierName }}

@@ -10,15 +10,15 @@
       <v-list
         nav
       >
-      <v-list-item
-        class="spc-logo"
-        :to="{ name: 'Home' }"
-      >
-        <v-img
-          src="/images/logojp.png"
-          class="spc-img"
-        ></v-img>
-      </v-list-item>
+        <v-list-item
+          class="spc-logo"
+          :to="{ name: 'Home' }"
+        >
+          <v-img
+            src="/images/logojp.png"
+            class="spc-img"
+          ></v-img>
+        </v-list-item>
         <v-list-item
 
           v-for="item in items"
@@ -34,7 +34,22 @@
           </v-list-item-content>
           </v-list-item-icon>
         </v-list-item>
+        <v-list-item
+          @click="dialogs.exit = true"
+        >
+          <v-list-item-icon>
+
+            <v-list-item-content>
+            <v-list-item-title><v-icon color="white">mdi-logout</v-icon></v-list-item-title>
+            <v-list-item-subtitle class="white--text">יציאה</v-list-item-subtitle>
+          </v-list-item-content>
+          </v-list-item-icon>
+        </v-list-item>
       </v-list>
+      <dialog-exit
+        v-if="dialogs.exit"
+        @close = 'dialogs.exit = false'
+      />
     </v-navigation-drawer>
 </template>
 
@@ -42,13 +57,20 @@
 export default {
   data: () => ({
     drawer: null,
+    dialogs: {
+      exit: false
+    },
     items: [
       { title: 'הזמנות', icon: 'mdi-format-list-checks', to: '/orders' },
       { title: 'ספקים', icon: 'mdi-account-multiple-outline', to: '/suppliers' },
       { title: 'לקוחות', icon: 'mdi-account', to: '/clients' },
       { title: 'לוח בקרה', icon: 'mdi-view-dashboard', to: '/dashboard' },
+
     ],
-  })
+  }),
+  components: {
+    'dialog-exit': require('@/components/Global/Dialogs/DialogExit.vue').default,
+  }
 }
 </script>
 

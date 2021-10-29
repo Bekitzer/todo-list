@@ -45,7 +45,7 @@ export default {
     font-style: normal
   .v-application
     font-family: 'Ploni-Regular' !important
-  a.v-list-item.v-list-item--link
+  .v-list-item.v-list-item--link
     justify-content: center !important
   .v-application .justify-center, .v-application--is-rtl .v-list-item__action:first-child, .v-application--is-rtl .v-list-item__icon:first-child
     margin: 0 !important
