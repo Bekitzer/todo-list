@@ -15,6 +15,8 @@
     </v-row>
     <v-data-table
       flat
+      height="800px"
+      fixed-header
       :expanded.sync="expanded"
       show-expand
       :headers="headers"

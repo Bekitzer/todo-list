@@ -15,6 +15,8 @@
     </v-row>
     <v-data-table
       flat
+      height="800px"
+      fixed-header
       :headers="headers"
       :items="suppliers"
       item-key="id"
