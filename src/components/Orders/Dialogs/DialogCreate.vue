@@ -13,7 +13,8 @@
           <v-row class="pa-4">
             <v-col cols="12" md="12" sm="12">
               <v-text-field
-                v-model="orderNumber"
+                v-model.number="orderNumber"
+                type="number"
                 label="#"
                 outlined
                 hide-details
@@ -88,9 +89,16 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="12" sm="12">
+              <v-text-field
+                v-model="orderWorkTitle"
+                label="שם עבודה"
+                outlined
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
               <v-textarea
-                v-model="orderWorkName"
-                label="מוצר / שם עבודה"
+                v-model="orderWorkProducts"
+                label="מוצרים"
                 outlined
               ></v-textarea>
             </v-col>
@@ -153,7 +161,8 @@ import { he } from 'date-fns/locale'
       dialog: false,
       orderNumber: '',
       orderClientName: '',
-      orderWorkName: '',
+      orderWorkTitle: '',
+      orderWorkProducts: '',
       orderSupplierName: '',
       orderDeliveryType: '',
       orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
@@ -184,7 +193,8 @@ import { he } from 'date-fns/locale'
         return (
           !this.orderNumber ||
           !this.orderClientName ||
-          !this.orderWorkName ||
+          !this.orderWorkTitle ||
+          !this.orderWorkProducts ||
           !this.orderSupplierName ||
           !this.orderDeliveryDate ||
           !this.orderDeliveryType ||
@@ -201,7 +211,8 @@ import { he } from 'date-fns/locale'
           const orderFields = {
             number: this.orderNumber,
             clientName: this.orderClientName,
-            orderWork: this.orderWorkName,
+            orderWorkTitle: this.orderWorkTitle,
+            orderWork: this.orderWorkProducts,
             supplierName: this.orderSupplierName,
             deliveryAgent: this.orderDeliveryAgent,
             sellPrice: this.orderSellPrice,
@@ -215,7 +226,8 @@ import { he } from 'date-fns/locale'
           this.$store.dispatch('addOrder', orderFields)
           this.orderNumber = ''
           this.orderClientName = ''
-          this.orderWorkName = ''
+          this.orderWorkTitle = ''
+          this.orderWorkProducts = ''
           this.orderSupplierName = ''
           this.orderDeliveryAgent = ''
           this.orderSellPrice = ''

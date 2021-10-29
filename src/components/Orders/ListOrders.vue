@@ -1,75 +1,111 @@
 <template>
-  <v-data-table
-    flat
-    :headers="headers"
-    :items="orders"
-    fixed-header
-    item-key="id"
-    hide-default-footer
-    :items-per-page="-1"
-    sort-by="number"
-  >
-    <template v-slot:item.clients="{ item }">
-      <a
-        text
-        dense
-        plain
-        style="color:#006d7b;"
-        @click="handleClickClient(item)"
-      >
-        {{ item.clientName }}
-      </a>
-    </template>
-    <template v-slot:item.suppliers="{ item }">
-      <a
-        text
-        dense
-        plain
-        style="color:#006d7b;"
-        @click="handleClickSupplier(item)"
-      >
-        {{ item.supplierName }}
-      </a>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-btn
-          icon
+  <div>
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-col>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="חפש הזמנה..."
+          outlined
+          hide-details
+        ></v-text-field>
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
+    <v-data-table
+      flat
+      :expanded.sync="expanded"
+      show-expand
+      :headers="headers"
+      :items="orders"
+      item-key="id"
+      hide-default-footer
+      :search="search"
+      :items-per-page="-1"
+      sort-by="number"
+    >
+      <template v-slot:expanded-item="{ headers, item }">
+        <td class="orderWorkInfo" :colspan="headers.length">
+          {{ item.orderWork }}
+        </td>
+      </template>
+      <template v-slot:item.clients="{ item }">
+        <a
+          text
           dense
           plain
-          @click="handleClick(item)"
+          style="color:#006d7b;"
+          @click="handleClickClient(item)"
         >
-          <img
-            width="26px"
-            src="@/components/Icons/edit.svg"
+          {{ item.clientName }}
+        </a>
+      </template>
+      <template v-slot:item.suppliers="{ item }">
+        <a
+          text
+          dense
+          plain
+          style="color:#006d7b;"
+          @click="handleClickSupplier(item)"
+        >
+          {{ item.supplierName }}
+        </a>
+      </template>
+      <template v-slot:item.sell="{ item }">
+          {{ item.sellPrice | formatNumber }}
+      </template>
+      <template v-slot:item.buy="{ item }">
+          {{ item.buyPrice | formatNumber }}
+      </template>
+      <template v-slot:item.margins="{ item }">
+          {{ item.margin | formatNumber }}
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-btn
+            icon
+            dense
+            plain
+            @click="handleClick(item)"
           >
-      </v-btn>
-    </template>
-    <template v-slot:[`item.statusType`]="{ item }">
-      <v-icon
-          :color="getColor(item.statusType)"
-          class="spc-status-dot"
-          size="60"
-        >mdi-circle-small</v-icon>
-        {{ item.statusType }}
-    </template>
-  </v-data-table>
+            <img
+              width="26px"
+              src="@/components/Icons/edit.svg"
+            >
+        </v-btn>
+      </template>
+      <template v-slot:[`item.statusType`]="{ item }">
+        <v-icon
+            :color="getColor(item.statusType)"
+            class="spc-status-dot"
+            size="60"
+          >mdi-circle-small</v-icon>
+          {{ item.statusType }}
+      </template>
+    </v-data-table>
+  </div>
 </template>
 <script>
+
 export default {
   name: 'ListOrders',
   data: () => ({
+    search: '',
+    expanded: [],
+    singleExpand: true,
     headers: [
       { text: '#', value: 'number', align: 'start', width: '3%' },
       { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%'},
       { text: 'לקוח', value: 'clients', width: '10%' },
-      { text: 'מוצר / שם עבודה', value: 'orderWork', width: '17%' },
+      { text: '', value: 'data-table-expand' },
+      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%' },
       { text: 'ספק', value: 'suppliers', width: '10%' },
       { text: 'ת.אספקה', value: 'deliveryDate', width: '10%' },
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%' },
       { text: 'אחראי', value: 'deliveryAgent', width: '5%' },
-      { text: 'מכירה', value: 'sellPrice', width: '5%' },
-      { text: 'קניה', value: 'buyPrice', width: '5%' },
-      { text: 'רווח', value: 'margin', width: '5%' },
+      { text: 'מכירה', value: 'sell', width: '5%' },
+      { text: 'קניה', value: 'buy', width: '5%' },
+      { text: 'רווח', value: 'margins', width: '5%' },
       { text: 'פעולות', value: 'actions', width: '5%' },
       { text: 'סטטוס הזמנה', value: 'statusType', width: '8%' },
     ],
@@ -121,4 +157,11 @@ export default {
     margin-left: 6px
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
     background: transparent !important
+  .orderWorkInfo
+    padding: 20px !important
+    white-space: pre-line !important
+    border-radius: 20px !important
+  .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content
+    box-shadow: none !important
+    background: #fbfbfb !important
 </style>

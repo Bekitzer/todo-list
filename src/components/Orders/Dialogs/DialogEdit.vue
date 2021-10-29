@@ -35,9 +35,16 @@
               ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="12" sm="12">
+              <v-text-field
+                v-model="orderWorkTitle"
+                label="שם עבודה"
+                outlined
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
               <v-textarea
-                v-model="orderWorkName"
-                label="מוצר / שם עבודה"
+                v-model="orderWorkProducts"
+                label="מוצרים"
                 outlined
               ></v-textarea>
             </v-col>
@@ -70,14 +77,14 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="4" md="4" sm="4">
+            <v-col cols="4" md="6" sm="6">
               <v-text-field
                 v-model="orderSellPrice"
                 label="מחיר מכירה"
                 outlined
               />
             </v-col>
-            <v-col cols="4" md="4" sm="4">
+            <v-col cols="4" md="6" sm="6">
               <v-text-field
                 v-model="orderBuyPrice"
                 label="מחיר קנייה"
@@ -129,7 +136,8 @@ import { he } from 'date-fns/locale'
       dialog: false,
       // orderNumber: '',
       orderClientName: '',
-      orderWorkName: '',
+      orderWorkTitle: '',
+      orderWorkProducts: '',
       orderSupplierName: '',
       orderDeliveryType: '',
       orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
@@ -158,7 +166,8 @@ import { he } from 'date-fns/locale'
         return
         // !this.orderNumber || this.orderNumber === this.order.number
         !this.orderClientName || this.orderClientName === this.order.clientName
-        !this.orderWorkName || this.orderWorkName === this.order.orderWork
+        !this.orderWorkTitle || this.orderWorkTitle === this.order.orderWorkTitle
+        !this.orderWorkProducts || this.orderWorkProducts === this.order.orderWork
         !this.orderSupplierName || this.orderSupplierName === this.order.supplierName
         !this.orderStatusType || this.orderStatusType === this.order.statusType
         // !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
@@ -174,7 +183,8 @@ import { he } from 'date-fns/locale'
           let payload = {
             id: this.order.id,
             clientName: this.orderClientName,
-            orderWork: this.orderWorkName,
+            orderWorkTitle: this.orderWorkTitle,
+            orderWork: this.orderWorkProducts,
             supplierName: this.orderSupplierName,
             statusType: this.orderStatusType,
             // deliveryDate: this.orderDeliveryDate,
@@ -197,7 +207,8 @@ import { he } from 'date-fns/locale'
     mounted() {
       // this.orderNumber = this.order.number
       this.orderClientName = this.order.clientName
-      this.orderWorkName = this.order.orderWork
+      this.orderWorkTitle = this.order.orderWorkTitle,
+      this.orderWorkProducts = this.order.orderWork
       this.orderSupplierName = this.order.supplierName
       this.orderStatusType = this.order.statusType
       // this.orderDeliveryDate = this.order.deliveryDate

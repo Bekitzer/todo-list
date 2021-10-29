@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span style="color:white;">בוקר טוב </span>
+    <span style="color:white;"><live-timeofday /></span>
     <strong v-if="isLoggedIn" style="color:white;"> {{name}}</strong>
     <strong v-if="!isLoggedIn" style="color:white;"> אורח</strong>
   </div>
@@ -29,6 +29,9 @@ export default {
       this.emailVerified = user.emailVerified;
       this.uid = user.uid;
     }
+  },
+  components: {
+    'live-timeofday'  : require('@/components/Tools/profileDate.vue').default
   }
 }
 </script>

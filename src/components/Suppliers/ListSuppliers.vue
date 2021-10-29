@@ -1,28 +1,42 @@
 <template>
-<v-data-table
-    flat
-    :headers="headers"
-    :items="suppliers"
-    fixed-header
-    item-key="id"
-    hide-default-footer
-    :items-per-page="-1"
-    sort-by="number"
-  >
-    <template v-slot:item.actions="{ item }">
-      <v-btn
-          icon
-          dense
-          plain
-          @click="handleClick(item)"
-        >
-          <img
-            width="26px"
-            src="@/components/Icons/edit.svg"
+  <div>
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-col>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="חפש ספק..."
+          outlined
+          hide-details
+        ></v-text-field>
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
+    <v-data-table
+      flat
+      :headers="headers"
+      :items="suppliers"
+      item-key="id"
+      hide-default-footer
+      :items-per-page="-1"
+      sort-by="number"
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-btn
+            icon
+            dense
+            plain
+            @click="handleClick(item)"
           >
-      </v-btn>
-    </template>
-  </v-data-table>
+            <img
+              width="26px"
+              src="@/components/Icons/edit.svg"
+            >
+        </v-btn>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 <template>
   <div class="about pa-5">
     <nav-appbar :pname="pageName"/>
-      <div class="text-center">
-        <h1>{{email}}</h1>
-      </div>
+    <div class="text-center">
+      <h1>{{email}}</h1>
+    </div>
   </div>
 </template>
 
@@ -17,6 +17,8 @@ export default {
   data: () => ({
     pageName: 'לוח בקרה',
   }),
+  methods: {
+  },
   created() {
     this.$vuetify.rtl = true
     const user = getAuth().currentUser;
@@ -30,3 +32,5 @@ export default {
   }
 }
 </script>
+<style lang="sass">
+</style>
