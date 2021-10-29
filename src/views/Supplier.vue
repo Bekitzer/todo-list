@@ -3,7 +3,12 @@
     <nav-appbar :pname="pageName"/>
     <v-row>
       <v-col cols="12" md="7" sm="7">
-        <v-row class="pa-10 grey lighten-3 rounded-b-xl">
+        <v-row class="pa-10 grey lighten-3 rounded-b-xl pos-rel">
+          <v-icon
+            :color="getColor(supplier.status)"
+            class="spc-status-dot pos-abs"
+            size="60"
+          >mdi-circle-small</v-icon>
           <v-col cols="2" md="2" sm="2">
             <v-avatar
               class="profile"
@@ -33,9 +38,6 @@
           <v-col cols="3" md="3" sm="3">
             <p>
               <v-icon color="#006D7B" small>mdi-map-marker-outline</v-icon> {{ supplier.address }}
-            </p>
-            <p>
-              <v-icon color="#006D7B" small>mdi-account-tie-outline</v-icon> סטטוס לקוח > {{ supplier.status }}
             </p>
               <v-row>
                 <v-col cols="6" md="6" sm="6">
@@ -171,6 +173,14 @@ export default {
       delete: false
     },
   }),
+  methods: {
+    getColor (statusType) {
+      if (statusType === "פעיל") return 'green'
+      else if (statusType === "לא פעיל") return 'red'
+      else if (statusType === "מזדמן") return 'blue'
+      else if (statusType === "שת״פ") return 'orange'
+    },
+  },
   computed: {
     supplier() {
       return this.$store.state.suppliers.find(supplier => supplier.id === this.$route.params.id)
@@ -193,5 +203,11 @@ export default {
     border-width: 0px 1px 1px 1px !important
     border-style: solid !important
     border-color: #dbdbdb !important
-
+  .pos-abs
+    position: absolute !important
+    bottom: 0
+    right: 0
+    display: block
+  .pos-rel
+    position: relative !important
 </style>
