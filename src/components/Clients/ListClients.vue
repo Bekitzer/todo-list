@@ -19,6 +19,7 @@
       fixed-header
       :headers="headers"
       :items="clients"
+      :search="search"
       :items-per-page="-1"
       hide-default-footer
       item-key="id"
@@ -46,6 +47,7 @@ export default {
   name: 'ListClients',
   props: ['client'],
   data: () => ({
+    search: '',
     headers: [
       { text: '#', value: 'number', align: 'start', width: '3%' },
       { text: 'שם לקוח', value: 'name', width: '10%'},

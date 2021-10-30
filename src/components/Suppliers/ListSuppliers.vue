@@ -17,6 +17,7 @@
       flat
       height="800px"
       fixed-header
+      :search="search"
       :headers="headers"
       :items="suppliers"
       item-key="id"
@@ -46,6 +47,7 @@ export default {
   name: 'Listuppliers',
   props: ['supplier'],
   data: () => ({
+    search: '',
     headers: [
       { text: '#', value: 'number', align: 'start', width: '3%' },
       { text: 'שם ספק', value: 'name', width: '10%'},

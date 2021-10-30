@@ -23,7 +23,7 @@
                 md="4"
                 cols="12"
               >
-                <!-- <search v-if="tableList"/> -->
+                <!-- <search v-if="tableListSearch"/> -->
               </v-col>
               <v-col
                 xs="6"
@@ -74,7 +74,7 @@ export default {
     'search'     : require('@/components/Tools/Search.vue').default
   },
   computed: {
-    tableList() {
+    tableListSearch() {
       if(this.$route.path === '/clients'){
         return true
       }else if(this.$route.path === '/suppliers'){

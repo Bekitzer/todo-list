@@ -17,7 +17,7 @@
             md="12"
           >
             <v-text-field
-              v-model="email"
+              v-model="userData.email"
               :rules="[rules.required, rules.email]"
               label="אימייל"
               required
@@ -28,7 +28,7 @@
             md="12"
           >
             <v-text-field
-              v-model="password"
+              v-model="userData.password"
               :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
               :rules="[rules.required]"
               :type="showPass ? 'text' : 'password'"
@@ -40,7 +40,7 @@
           <v-btn
             color="primary"
             text
-            @click="login"
+            @click="loginUser"
           >
             היכנס
           </v-btn>
@@ -68,19 +68,43 @@ import firebase from 'firebase/compat/app'
             return pattern.test(value) || 'Invalid e-mail.'
           },
         },
-        email: '',
-        password: '',
-        successMessage: 'חוברת בהצלחה',
-        errorMessage: 'משהו קרה'
+        userData: {
+          email: '',
+          password: ''
+        },
+        successMessage: '',
+        errorMessage: ''
       }),
-      methods: {
-        login(){
-          firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(user => {
+      computed: {
+        user () {
+          return this.$store.getters.user
+        },
+        clientFieldInvalid() {
+          return (
+            !this.userData.email ||
+            !this.userData.password
+          )
+        }
+      },
+      watch: {
+        user (value) {
+          if (value !== null && value !== undefined) {
             this.$router.go({path: this.$router.path})
-          })
-          .catch(err => {
-            this.errorMessage = err.message
-          });
+          }
+        },
+      },
+      methods: {
+        loginUser(){
+          if(!this.clientFieldInvalid){
+            const userFields = {
+              email: this.userData.email,
+              password: this.userData.password
+            }
+
+            this.$store.dispatch('signUserIn', userFields)
+            this.userData.email = '',
+            this.userData.password = ''
+          }
         }
       }
    }

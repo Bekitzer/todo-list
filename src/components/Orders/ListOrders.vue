@@ -14,43 +14,39 @@
       <v-spacer></v-spacer>
     </v-row>
     <v-data-table
-      flat
-      height="800px"
-      fixed-header
-      :expanded.sync="expanded"
-      show-expand
       :headers="headers"
       :items="orders"
+      :expanded="expanded"
       item-key="id"
-      hide-default-footer
       :search="search"
       :items-per-page="-1"
       sort-by="number"
+      show-expand
+      flat
+      height="800px"
+      fixed-header
+      hide-default-footer
     >
       <template v-slot:expanded-item="{ headers, item }">
         <td class="orderWorkInfo" :colspan="headers.length">
           {{ item.orderWork }}
         </td>
       </template>
+      <template v-slot:item.actions="{ item }">
+        <v-btn @click="clickOrder(item)" dense icon plain>
+          <img
+            width="26px"
+            src="@/components/Icons/edit.svg"
+          >
+        </v-btn>
+      </template>
       <template v-slot:item.clients="{ item }">
-        <a
-          text
-          dense
-          plain
-          style="color:#006d7b;"
-          @click="handleClickClient(item)"
-        >
+        <a @click="clickClient(item)" style="color:#006d7b;" dense plain text>
           {{ item.clientName }}
         </a>
       </template>
       <template v-slot:item.suppliers="{ item }">
-        <a
-          text
-          dense
-          plain
-          style="color:#006d7b;"
-          @click="handleClickSupplier(item)"
-        >
+        <a @click="clickSupplier(item)" style="color:#006d7b;" dense plain text>
           {{ item.supplierName }}
         </a>
       </template>
@@ -63,25 +59,10 @@
       <template v-slot:item.margins="{ item }">
           {{ item.margin | formatNumber }}
       </template>
-      <template v-slot:item.actions="{ item }">
-        <v-btn
-            icon
-            dense
-            plain
-            @click="handleClick(item)"
-          >
-            <img
-              width="26px"
-              src="@/components/Icons/edit.svg"
-            >
-        </v-btn>
-      </template>
       <template v-slot:[`item.statusType`]="{ item }">
-        <v-icon
-            :color="getColor(item.statusType)"
-            class="spc-status-dot"
-            size="60"
-          >mdi-circle-small</v-icon>
+        <v-icon :color="getColor(item.statusType)" class="spc-status-dot" size="60">
+          mdi-circle-small
+        </v-icon>
           {{ item.statusType }}
       </template>
     </v-data-table>
@@ -98,10 +79,10 @@ export default {
     headers: [
       { text: '#', value: 'number', align: 'start', width: '3%' },
       { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%'},
-      { text: 'לקוח', value: 'clients', width: '10%' },
+      { text: 'לקוח', value: 'clientName', width: '10%' },
       { text: '', value: 'data-table-expand' },
       { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%' },
-      { text: 'ספק', value: 'suppliers', width: '10%' },
+      { text: 'ספק', value: 'supplierName', width: '10%' },
       { text: 'ת.אספקה', value: 'deliveryDate', width: '10%' },
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%' },
       { text: 'אחראי', value: 'deliveryAgent', width: '5%' },
@@ -113,16 +94,16 @@ export default {
     ],
   }),
   props: ['order'],
-  props: ['client'],
-  props: ['supplier'],
+  // props: ['client'],
+  // props: ['supplier'],
   methods: {
-    handleClick(order){
+    clickOrder(order){
       this.$router.push({ name: 'Order', params: { id : order.id }})
     },
-    handleClickClient(client){
+    clickClient(client){
       this.$router.push({ name: 'Client', params: { id : client.id }})
     },
-    handleClickSupplier(supplier){
+    clickSupplier(supplier){
       this.$router.push({ name: 'Supplier', params: { id : supplier.id }})
     },
 

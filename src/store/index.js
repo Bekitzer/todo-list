@@ -6,12 +6,14 @@ import { he } from 'date-fns/locale'
 import db from '@/firebase'
 import { doc, deleteDoc, updateDoc, collection, setDoc, getDoc, getDocs } from "firebase/firestore"
 import authStore from './modules/authStore'
+import firebase from 'firebase/compat/app'
+import { router } from "../main"
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    authStore
+    authStore,
   },
   state: {
     appTitle: process.env.VUE_APP_TITLE,
@@ -24,9 +26,15 @@ export default new Vuex.Store({
       text: '',
       timeout: 2000
     },
-    sorting: false
+    sorting: false,
+    user: null
   },
   mutations: {
+    //USER
+    setUser(state, payload){
+      state.user = payload
+    },
+    // SEARCH
     setSearch(state, value) {
       state.search = value
     },
@@ -89,6 +97,36 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    // SIGNUP
+    signUserUp ({commit}, payload){
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+      .then(() => {
+        let newUser = {
+          ...payload,
+        }
+        commit('setUser', newUser),
+        firebase.auth().currentUser.updateProfile({
+            displayName: payload.username
+        }).then(() => {
+          db.collection('users').add({
+            firstname: payload.firstname,
+            lastname: payload.lastname,
+            username: payload.username,
+            email: payload.email,
+          })
+        })
+      })
+    },
+    // SIGNIN
+    signUserIn ({commit}, payload){
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+      .then(() => {
+        let newUser = {
+          ...payload,
+        }
+        commit('setUser', newUser)
+      })
+    },
     // ORDERS
     addOrder({ commit }, order) {
       let isOrder = {
@@ -239,6 +277,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    user (state) {
+      return state.user
+    },
     ordersFiltered(state) {
       if (!state.search) {
         return state.orders
