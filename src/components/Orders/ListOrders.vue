@@ -1,18 +1,5 @@
 <template>
   <div>
-    <v-row>
-      <v-spacer></v-spacer>
-      <v-col>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="חפש הזמנה..."
-          outlined
-          hide-details
-        ></v-text-field>
-      </v-col>
-      <v-spacer></v-spacer>
-    </v-row>
     <v-data-table
       :headers="headers"
       :items="orders"
@@ -33,7 +20,7 @@
         </td>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-btn @click="clickOrder(item)" dense icon plain>
+        <v-btn @click="clickOrder(item)" dense plain>
           <img
             width="26px"
             src="@/components/Icons/edit.svg"
@@ -41,14 +28,14 @@
         </v-btn>
       </template>
       <template v-slot:item.clients="{ item }">
-        <a @click="clickClient(item)" style="color:#006d7b;" dense plain text>
+        <v-btn @click="clickClient(item)" dense plain style="color:#006d7b;">
           {{ item.clientName }}
-        </a>
+        </v-btn>
       </template>
       <template v-slot:item.suppliers="{ item }">
-        <a @click="clickSupplier(item)" style="color:#006d7b;" dense plain text>
+        <v-btn @click="clickSupplier(item)" dense plain style="color:#006d7b;">
           {{ item.supplierName }}
-        </a>
+        </v-btn>
       </template>
       <template v-slot:item.sell="{ item }">
           {{ item.sellPrice | formatNumber }}
@@ -59,11 +46,35 @@
       <template v-slot:item.margins="{ item }">
           {{ item.margin | formatNumber }}
       </template>
-      <template v-slot:[`item.statusType`]="{ item }">
+      <template v-slot:item.statusType="{ item }">
         <v-icon :color="getColor(item.statusType)" class="spc-status-dot" size="60">
           mdi-circle-small
         </v-icon>
           {{ item.statusType }}
+      </template>
+      <template v-slot:top>
+        <v-container fluid>
+          <v-row>
+            <v-col cols="2">
+                <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="חפש הזמנה..."
+                  hide-details
+                ></v-text-field>
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="2">
+                <v-select
+                  hide-selected
+                  :items="orderStatusTypeList"
+                  v-model="statusesFilterValue"
+                  label="סנן לפי סטטוס..."
+                ></v-select>
+            </v-col>
+
+          </v-row>
+        </v-container>
       </template>
     </v-data-table>
   </div>
@@ -73,30 +84,29 @@
 export default {
   name: 'ListOrders',
   data: () => ({
+    statusesFilterValue: null,
     search: '',
     expanded: [],
     singleExpand: true,
-    headers: [
-      { text: '#', value: 'number', align: 'start', width: '3%' },
-      { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%'},
-      { text: 'לקוח', value: 'clientName', width: '10%' },
-      { text: '', value: 'data-table-expand' },
-      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%' },
-      { text: 'ספק', value: 'supplierName', width: '10%' },
-      { text: 'ת.אספקה', value: 'deliveryDate', width: '10%' },
-      { text: 'אופן אספקה', value: 'deliveryType', width: '7%' },
-      { text: 'אחראי', value: 'deliveryAgent', width: '5%' },
-      { text: 'מכירה', value: 'sell', width: '5%' },
-      { text: 'קניה', value: 'buy', width: '5%' },
-      { text: 'רווח', value: 'margins', width: '5%' },
-      { text: 'פעולות', value: 'actions', width: '5%' },
-      { text: 'סטטוס הזמנה', value: 'statusType', width: '8%' },
+    orderStatusTypeList: [
+      {text: "הכל", value: null},
+      {text: "הזמנה חדש", value: "הזמנה חדש"},
+      {text: "בעבודה", value: "בעבודה"},
+      {text: "מוכן - משרד", value: "מוכן - משרד"},
+      {text: "מוכן - ספק", value: "מוכן - ספק"},
+      {text: "סופק", value: "סופק"}
     ],
   }),
-  props: ['order'],
+  // props: ['order'],
   // props: ['client'],
   // props: ['supplier'],
   methods: {
+    statusesFilter(item) {
+      if (!this.statusesFilterValue) {
+        return true;
+      }
+      return item === this.statusesFilterValue;
+    },
     clickOrder(order){
       this.$router.push({ name: 'Order', params: { id : order.id }})
     },
@@ -106,7 +116,6 @@ export default {
     clickSupplier(supplier){
       this.$router.push({ name: 'Supplier', params: { id : supplier.id }})
     },
-
     getColor (statusType) {
       if (statusType === "הזמנה חדשה") return '#FF9800'
       else if (statusType === "בעבודה") return '#2196F3'
@@ -117,6 +126,24 @@ export default {
     },
   },
   computed: {
+    headers () {
+      return [
+      { text: '#', value: 'number', align: 'start', width: '3%' },
+      { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false, },
+      { text: 'לקוח', value: 'clientName', width: '10%' },
+      { text: '', value: 'data-table-expand', 'sortable': false,  },
+      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%', 'sortable': false,  },
+      { text: 'ספק', value: 'supplierName', width: '10%' },
+      { text: 'ת.אספקה', value: 'deliveryDate', width: '10%' },
+      { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
+      { text: 'אחראי', value: 'deliveryAgent', width: '5%', 'sortable': false,  },
+      { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false,  },
+      { text: 'קניה', value: 'buy', width: '5%', 'sortable': false,  },
+      { text: 'רווח', value: 'margins', width: '5%', 'sortable': false,  },
+      { text: 'פעולות', value: 'actions', width: '5%', 'sortable': false,  },
+      { text: 'סטטוס הזמנה', value: 'statusType', width: '8%', filter: this.statusesFilter},
+    ]
+    } ,
     orders: {
       get() {
         return this.$store.getters.ordersFiltered
@@ -129,6 +156,8 @@ export default {
 }
 </script>
 <style lang="sass">
+  .v-list-item__content
+    padding: 12px 0 !important
   th.spc-status-dot
     border-bottom: none !important
   .v-application .elevation-1, .theme--light.v-data-table.v-data-table--fixed-header thead th

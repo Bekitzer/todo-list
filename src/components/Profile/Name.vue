@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span style="color:white;"><live-timeofday /></span>
+    <span style="color:white;"> <day-period /> </span>
     <strong v-if="isLoggedIn" style="color:white;"> {{name}}</strong>
     <strong v-if="!isLoggedIn" style="color:white;"> אורח</strong>
   </div>
@@ -8,7 +8,7 @@
 
 <script>
 import firebase from 'firebase/compat/app'
-import { getAuth } from "firebase/auth";
+import { getAuth } from 'firebase/auth'
 
 export default {
   name: 'Name',
@@ -31,7 +31,7 @@ export default {
     }
   },
   components: {
-    'live-timeofday'  : require('@/components/Tools/profileDate.vue').default
+    'day-period' : require('@/components/Tools/DayPeriod.vue').default
   }
 }
 </script>

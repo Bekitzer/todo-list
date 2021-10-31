@@ -51,6 +51,7 @@ export default {
     margin: 0 !important
   .v-list-item__content
     justify-content: center
+    padding: 20px 0 !important
     flex-direction: column !important
   .v-list-item__subtitle
     font-size: 12px !important

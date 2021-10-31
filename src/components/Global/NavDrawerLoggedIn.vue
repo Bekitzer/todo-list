@@ -85,8 +85,6 @@ export default {
     background-color: white !important
   .v-list-item--active::before
     opacity: 0.2 !important
-  .v-list-item__content
-    padding: 26px 0 !important
   .v-list--nav .v-list-item:not(:last-child):not(:only-child), .v-list--rounded .v-list-item:not(:last-child):not(:only-child)
     margin-bottom: 1px !important
   a.v-list-item.v-list-item--link:after
