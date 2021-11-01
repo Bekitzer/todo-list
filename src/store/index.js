@@ -7,7 +7,6 @@ import db from '@/firebase'
 import { doc, deleteDoc, updateDoc, collection, setDoc, getDoc, getDocs } from "firebase/firestore"
 import authStore from './modules/authStore'
 import firebase from 'firebase/compat/app'
-import { router } from "../main"
 
 Vue.use(Vuex)
 
@@ -21,6 +20,7 @@ export default new Vuex.Store({
     suppliers: [],
     clients: [],
     orders: [],
+    products: [],
     snackbar: {
       show: false,
       text: '',
@@ -37,6 +37,20 @@ export default new Vuex.Store({
     // SEARCH
     setSearch(state, value) {
       state.search = value
+    },
+    // PRODUCTS
+    addProduct(state, newProduct){
+      state.products.push(newProduct)
+    },
+    deleteProduct(state, id){
+      state.products = state.products.filter(product => product.id !== id)
+    },
+    updateProduct(state, payload){
+      let product = state.products.filter(product => product.id === payload.id)[0]
+      Object.assign(product, payload)
+    },
+    setProducts(state, products) {
+      state.products = products
     },
     // ORDERS
     addOrder(state, newOrder){
@@ -127,6 +141,55 @@ export default new Vuex.Store({
         commit('setUser', newUser)
       })
     },
+    // PRODUCTS
+    addProduct({ commit }, product) {
+      let isProduct = {
+        ...product,
+        id: uuid.v4(),
+        productCreationDate: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he}),
+        productUpdated: null
+      }
+      setDoc(doc(collection(db, "products")), isProduct).then(() => {
+        commit('addProduct', isProduct)
+        commit('showSnackbar', 'מוצר חדש נוסף!')
+      }).catch((error) => {
+        console.log('Something went wrong - addProduct',error);
+      })
+    },
+    deleteProduct({ commit }, id) {
+      deleteDoc(doc(db, "products", id)).then(() => {
+        commit('deleteProduct', id)
+        commit('showSnackbar', 'מוצר נמחק!')
+      }).catch((error) => {
+        console.log('Something went wrong - deleteProduct',error);
+      })
+    },
+    updateProduct({commit}, payload) {
+      updateDoc(doc(db, "products", payload.id), payload).then(() => {
+        commit('updateProduct', payload)
+        commit('showSnackbar', 'מוצר עודכן!')
+      }).catch((error) => {
+        console.log('Something went wrong - updateProduct',error);
+      })
+    },
+    getProducts({ commit }) {
+      db.collection('products').get().then(querySnapshot => {
+        var products = [];
+        querySnapshot.forEach(doc => {
+          products.push({...doc.data(), id:doc.id})
+        })
+        commit('setProducts', products)
+      }).catch((error) => {
+        console.log('Something went wrong - getProducts',error);
+      })
+    },
+    setProducts({ commit }, products) {
+      setDoc(doc(collection(db, "products")), products).then(() => {
+        commit('setProducts', products)
+      }).catch((error) => {
+        console.log('Something went wrong - setProducts',error);
+      })
+    },
     // ORDERS
     addOrder({ commit }, order) {
       let isOrder = {
@@ -158,7 +221,6 @@ export default new Vuex.Store({
         console.log('Something went wrong - updateOrder',error);
       })
     },
-
     getOrders({ commit }) {
       db.collection('orders').get().then(querySnapshot => {
         var orders = [];
@@ -279,6 +341,12 @@ export default new Vuex.Store({
   getters: {
     user (state) {
       return state.user
+    },
+    productsFiltered(state) {
+      if (!state.search) {
+        return state.products
+      }
+      return state.products.filter(product => product.name.toLowerCase().includes(state.search.toLowerCase()))
     },
     ordersFiltered(state) {
       if (!state.search) {

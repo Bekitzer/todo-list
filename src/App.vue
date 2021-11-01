@@ -20,7 +20,8 @@ export default {
   mounted() {
     this.$store.dispatch('getClients'),
     this.$store.dispatch('getSuppliers'),
-    this.$store.dispatch('getOrders')
+    this.$store.dispatch('getOrders'),
+    this.$store.dispatch('getProducts')
   },
   components: {
     'nav-drawer-logged-in' : require('@/components/Global/NavDrawerLoggedIn.vue').default,

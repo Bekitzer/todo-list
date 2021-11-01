@@ -8,7 +8,7 @@
         elevation="8"
         shaped
       >
-        <v-card-title>יצירת הזמנה</v-card-title>
+        <v-card-title>שינוי הזמנה</v-card-title>
           <v-row class="pa-4">
             <v-col cols="12" md="6" sm="6">
               <v-autocomplete

@@ -62,6 +62,7 @@ export default {
       { title: 'הזמנות', icon: 'mdi-format-list-checks', to: '/orders' },
       { title: 'ספקים', icon: 'mdi-account-multiple-outline', to: '/suppliers' },
       { title: 'לקוחות', icon: 'mdi-account', to: '/clients' },
+      { title: 'מוצרים', icon: 'mdi-view-list', to: '/products' },
       { title: 'לוח בקרה', icon: 'mdi-view-dashboard', to: '/dashboard' },
 
     ],
