@@ -9,9 +9,14 @@ import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 
 Vue.config.productionTip = false
-Vue.use(VueMeta, {
-  refreshOnceOnNavigation: true
-})
+Vue.use(
+  VueMeta, {
+    refreshOnceOnNavigation: true
+  }
+)
+
+
+
 var numeral = require("numeral");
 Vue.filter("formatNumber", function (value) {
   return numeral(value).format("0,0")

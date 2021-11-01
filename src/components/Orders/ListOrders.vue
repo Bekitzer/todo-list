@@ -1,83 +1,83 @@
 <template>
-  <div>
-    <v-data-table
-      :headers="headers"
-      :items="orders"
-      :expanded="expanded"
-      item-key="id"
-      :search="search"
-      :items-per-page="-1"
-      sort-by="number"
-      show-expand
-      flat
-      height="800px"
-      fixed-header
-      hide-default-footer
-    >
-      <template v-slot:expanded-item="{ headers, item }">
-        <td class="orderWorkInfo" :colspan="headers.length">
-          {{ item.orderWork }}
-        </td>
-      </template>
-      <template v-slot:item.actions="{ item }">
-        <v-btn @click="clickOrder(item)" dense plain>
-          <img
-            width="26px"
-            src="@/components/Icons/edit.svg"
-          >
-        </v-btn>
-      </template>
-      <template v-slot:item.clients="{ item }">
-        <v-btn @click="clickClient(item)" dense plain style="color:#006d7b;">
-          {{ item.clientName }}
-        </v-btn>
-      </template>
-      <template v-slot:item.suppliers="{ item }">
-        <v-btn @click="clickSupplier(item)" dense plain style="color:#006d7b;">
-          {{ item.supplierName }}
-        </v-btn>
-      </template>
-      <template v-slot:item.sell="{ item }">
-          {{ item.sellPrice | formatNumber }}
-      </template>
-      <template v-slot:item.buy="{ item }">
-          {{ item.buyPrice | formatNumber }}
-      </template>
-      <template v-slot:item.margins="{ item }">
-          {{ item.margin | formatNumber }}
-      </template>
-      <template v-slot:item.statusType="{ item }">
-        <v-icon :color="getColor(item.statusType)" class="spc-status-dot" size="60">
-          mdi-circle-small
-        </v-icon>
-          {{ item.statusType }}
-      </template>
-      <template v-slot:top>
-        <v-container fluid>
-          <v-row>
-            <v-col cols="2">
-                <v-text-field
-                  v-model="search"
-                  append-icon="mdi-magnify"
-                  label="חפש הזמנה..."
-                  hide-details
-                ></v-text-field>
-            </v-col>
-            <v-spacer></v-spacer>
-            <v-col cols="2">
-                <v-select
-                  hide-selected
-                  :items="orderStatusTypeList"
-                  v-model="statusesFilterValue"
-                  label="סנן לפי סטטוס..."
-                ></v-select>
-            </v-col>
+  <v-data-table
+    :headers="headers"
+    :items="orders"
+    :expanded="expanded"
+    item-key="id"
+    :search="search"
+    :items-per-page="-1"
+    sort-by="number"
+    show-expand
+    flat
+    height="800px"
+    :disable-sort="true"
+    fixed-header
+    hide-default-footer
+  >
+    <template v-slot:expanded-item="{ headers, item }">
+      <td class="orderWorkInfo" :colspan="headers.length">
+        {{ item.orderWork }}
+      </td>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-btn @click="clickOrder(item)" dense plain>
+        <img
+          width="26px"
+          src="@/components/Icons/edit.svg"
+        >
+      </v-btn>
+    </template>
+    <template v-slot:item.clients="{ item }">
+      <v-btn @click="clickClient(item)" dense plain style="color:#006d7b;">
+        {{ item.clientName }}
+      </v-btn>
+    </template>
+    <template v-slot:item.suppliers="{ item }">
+      <v-btn @click="clickSupplier(item)" dense plain style="color:#006d7b;">
+        {{ item.supplierName }}
+      </v-btn>
+    </template>
+    <template v-slot:item.sell="{ item }">
+        {{ item.sellPrice | formatNumber }}
+    </template>
+    <template v-slot:item.buy="{ item }">
+        {{ item.buyPrice | formatNumber }}
+    </template>
+    <template v-slot:item.margins="{ item }">
+        {{ item.margin | formatNumber }}
+    </template>
+    <template v-slot:item.statusType="{ item }">
+      <v-icon :color="getColor(item.statusType)" class="spc-status-dot" size="60">
+        mdi-circle-small
+      </v-icon>
+        {{ item.statusType }}
+    </template>
+    <template v-slot:top>
+      <v-container fluid>
+        <v-row>
+          <v-col cols="12" md="2" sm="6">
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="חפש הזמנה..."
+                hide-details
+                clearable
+              ></v-text-field>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="12" md="2" sm="6">
+              <v-select
+                hide-selected
+                :items="orderStatusTypeList"
+                v-model="statusesFilterValue"
+                label="סנן לפי סטטוס..."
+              ></v-select>
+          </v-col>
 
-          </v-row>
-        </v-container>
-      </template>
-    </v-data-table>
-  </div>
+        </v-row>
+      </v-container>
+    </template>
+  </v-data-table>
 </template>
 <script>
 
@@ -129,7 +129,7 @@ export default {
     headers () {
       return [
       { text: '#', value: 'number', align: 'start', width: '3%' },
-      { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false, },
+      { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
       { text: 'לקוח', value: 'clientName', width: '10%' },
       { text: '', value: 'data-table-expand', 'sortable': false,  },
       { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%', 'sortable': false,  },
@@ -137,9 +137,9 @@ export default {
       { text: 'ת.אספקה', value: 'deliveryDate', width: '10%' },
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
       { text: 'אחראי', value: 'deliveryAgent', width: '5%', 'sortable': false,  },
-      { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false,  },
-      { text: 'קניה', value: 'buy', width: '5%', 'sortable': false,  },
-      { text: 'רווח', value: 'margins', width: '5%', 'sortable': false,  },
+      { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
+      { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
+      { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
       { text: 'פעולות', value: 'actions', width: '5%', 'sortable': false,  },
       { text: 'סטטוס הזמנה', value: 'statusType', width: '8%', filter: this.statusesFilter},
     ]
@@ -176,4 +176,10 @@ export default {
   .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content
     box-shadow: none !important
     background: #fbfbfb !important
+  @media only screen and (max-width:800px)
+    .v-data-table__wrapper
+      height: 200px !important
+  @media only screen and (max-width:600px)
+    .v-data-table__wrapper
+      height: 420px !important
 </style>

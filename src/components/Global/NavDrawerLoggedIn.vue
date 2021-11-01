@@ -1,49 +1,45 @@
 <template>
+  <v-card>
     <v-navigation-drawer
       v-model="drawer"
-      width="70"
       :right="$vuetify.rtl"
       :mobile-breakpoint="800"
       permanent
+      width="70"
       app
     >
-      <v-list
-        nav
+      <v-list-item
+        class="spc-logo"
+        :to="{ name: 'Home' }"
       >
+        <v-img
+          src="/images/logojp.png"
+          class="spc-img"
+        ></v-img>
+      </v-list-item>
+      <v-list nav >
         <v-list-item
-          class="spc-logo"
-          :to="{ name: 'Home' }"
-        >
-          <v-img
-            src="/images/logojp.png"
-            class="spc-img"
-          ></v-img>
-        </v-list-item>
-        <v-list-item
-
           v-for="item in items"
           :key="item.title"
-          :to= "item.to"
           link
+          :to= "item.to"
         >
-          <v-list-item-icon>
-
-            <v-list-item-content>
-            <v-list-item-title><v-icon color="white">{{ item.icon }}</v-icon></v-list-item-title>
-            <v-list-item-subtitle class="white--text">{{ item.title }}</v-list-item-subtitle>
+          <v-list-item-content>
+            <v-list-item-icon>
+              <v-icon color="white">{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-subtitle class="white--text" style="z-index: 1;font-size:12px">{{ item.title }}</v-list-item-subtitle>
           </v-list-item-content>
-          </v-list-item-icon>
         </v-list-item>
         <v-list-item
           @click="dialogs.exit = true"
         >
+        <v-list-item-content>
           <v-list-item-icon>
-
-            <v-list-item-content>
-            <v-list-item-title><v-icon color="white">mdi-logout</v-icon></v-list-item-title>
-            <v-list-item-subtitle class="white--text">יציאה</v-list-item-subtitle>
-          </v-list-item-content>
+          <v-icon color="white">mdi-logout</v-icon>
           </v-list-item-icon>
+          <v-list-item-subtitle class="white--text" style="z-index: 1;font-size:12px">התנתק</v-list-item-subtitle>
+        </v-list-item-content>
         </v-list-item>
       </v-list>
       <dialog-exit
@@ -51,12 +47,14 @@
         @close = 'dialogs.exit = false'
       />
     </v-navigation-drawer>
+  </v-card>
 </template>
 
 <script>
 export default {
   data: () => ({
-    drawer: null,
+    drawer: true,
+    mini: true,
     dialogs: {
       exit: false
     },
@@ -75,23 +73,32 @@ export default {
 </script>
 
 <style lang="sass">
+  .v-image.v-responsive.spc-img.theme--light .v-image__image, .v-image__placeholder
+    background-size: 30px!important
+
+  .v-navigation-drawer__content .v-list-item
+    padding: 0 !important
+
+  .v-image.v-responsive.spc-img.theme--light .v-responsive__sizer
+    padding-bottom: 86px !important
+
+  .v-list--nav
+    padding-left: 0px !important
+    padding-right: 0px !important
+  .v-application--is-rtl .v-list-item__icon:first-child
+    margin-right: 23px !important
+    margin-left: auto !important
   .v-navigation-drawer__content
-    background-color: #626262
-  .spc-img .v-responsive__sizer
-    padding-bottom: 70px !important
-  .spc-img .v-image__image--cover
-    background-size: 60% !important
-  .v-list-item--link:before
-    background-color: white !important
-  .v-list-item--active::before
-    opacity: 0.2 !important
-  .v-list--nav .v-list-item:not(:last-child):not(:only-child), .v-list--rounded .v-list-item:not(:last-child):not(:only-child)
-    margin-bottom: 1px !important
-  a.v-list-item.v-list-item--link:after
-    content: ""
-    border-bottom: 1px solid rgb(255 255 255 / 30%)
-    width: 30%
-    position: absolute
-    bottom: -1px
+    background: #626262 !important
+  .v-list--nav .v-list-item, .v-list--nav .v-list-item:before
+    border-radius: 0px !important
+  .v-list-item--link:hover:before
+    opacity: 1 !important
+    background: #026e85 !important
+  .v-list--nav .v-list-item:not(:last-child):not(:only-child)
+    margin-bottom: 0px !important
+  .v-list .v-list-item--active
+    opacity: 1 !important
+    background: #026e85 !important
 </style>
 

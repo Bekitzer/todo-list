@@ -42,3 +42,13 @@
     }
   }
 </script>
+<style lang="sass">
+@media (max-width: 800px)
+  .v-application .pl-16
+    padding-left: 20px !important
+  .v-application .pr-16
+    padding-right: 20px !important
+  .v-application .pt-10
+    padding-top: 0px !important
+</style>
+

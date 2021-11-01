@@ -45,29 +45,18 @@ export default {
     font-style: normal
   .v-application
     font-family: 'Ploni-Regular' !important
-  .v-list-item.v-list-item--link
-    justify-content: center !important
-  .v-application .justify-center, .v-application--is-rtl .v-list-item__action:first-child, .v-application--is-rtl .v-list-item__icon:first-child
-    margin: 0 !important
+
+
   .v-list-item__content
     justify-content: center
     padding: 20px 0 !important
     flex-direction: column !important
-  .v-list-item__subtitle
-    font-size: 12px !important
-  .v-list--nav
-    padding-left: 0 !important
-    padding-right: 0 !important
-  .v-list--nav .v-list-item, .v-list--nav .v-list-item:before
-    border-radius: 0 !important
+
   .spc-logo
     background: #006D7B !important
-    margin: 0 !important
-    padding: 8px 10px !important
   .v-list.v-sheet.theme--light.v-list--nav
     padding-top: 0 !important
-  .header-container .row
-    align-items: center
+
   .theme--light.v-data-table > .v-data-table__ wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:not(.v-data-table__mobile-row)
     border-bottom: none !important
   .v-data-table>.v-data-table__wrapper>table>tbody>tr:nth-child(odd)>td
