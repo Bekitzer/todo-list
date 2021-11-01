@@ -5,7 +5,6 @@
 <script>
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
-import { setTimeout } from 'timers';
 
 export default {
     data: () => ({
@@ -13,19 +12,18 @@ export default {
     }),
     methods: {
       getDate() {
-        this.dayPeriod = format(new Date(), 'HH', {locale: he})
-        if( this.dayPeriod >= 22){
-          this.dayPeriod = 'לילה טוב'
-        }else if( this.dayPeriod >= 6){
-          this.dayPeriod = 'בוקר טוב'
-        }else if( this.dayPeriod >= 12){
-          this.dayPeriod = 'צהריים טובים'
-        }else if( this.dayPeriod >= 18){
+        this.dayPeriod = parseInt(format(new Date(), 'H', {locale: he}))
+        if( this.dayPeriod <= 22 && this.dayPeriod > 18){
           this.dayPeriod = 'ערב טוב'
+        }else if( this.dayPeriod <= 18 && this.dayPeriod > 12){
+          this.dayPeriod = 'צהריים טובים'
+        }else if( this.dayPeriod <= 12 && this.dayPeriod > 6){
+          this.dayPeriod = 'בוקר טוב'
+        }else if( this.dayPeriod <= 6 && this.dayPeriod > 22){
+          this.dayPeriod = 'לילה טוב'
         }else{
           this.timeDay = 'משהו שבור'
         }
-        setTimeout(this.getTime, 1000)
       },
     },
     mounted() {
