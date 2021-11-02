@@ -69,6 +69,7 @@
                 :items="orderStatusTypeList"
                 v-model="statusesFilterValue"
                 label="סנן לפי סטטוס..."
+                clearable
               ></v-select>
           </v-col>
 
@@ -87,7 +88,6 @@ export default {
     expanded: [],
     singleExpand: true,
     orderStatusTypeList: [
-      {text: "הכל", value: null},
       {text: "הזמנה חדשה", value: "הזמנה חדשה"},
       {text: "בעבודה", value: "בעבודה"},
       {text: "מוכן - משרד", value: "מוכן - משרד"},
@@ -127,7 +127,7 @@ export default {
     headers () {
       return [
       { text: '#', value: 'number', align: 'start', width: '3%' },
-      { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
+      { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%' },
       { text: 'לקוח', value: 'clientName', width: '10%' },
       { text: '', value: 'data-table-expand', 'sortable': false,  },
       { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%', 'sortable': false,  },
