@@ -10,7 +10,6 @@
     show-expand
     flat
     height="800px"
-    :disable-sort="true"
     fixed-header
     hide-default-footer
   >
@@ -67,7 +66,6 @@
           <v-spacer></v-spacer>
           <v-col cols="12" md="2" sm="6">
               <v-select
-                hide-selected
                 :items="orderStatusTypeList"
                 v-model="statusesFilterValue"
                 label="סנן לפי סטטוס..."
@@ -90,7 +88,7 @@ export default {
     singleExpand: true,
     orderStatusTypeList: [
       {text: "הכל", value: null},
-      {text: "הזמנה חדש", value: "הזמנה חדש"},
+      {text: "הזמנה חדשה", value: "הזמנה חדשה"},
       {text: "בעבודה", value: "בעבודה"},
       {text: "מוכן - משרד", value: "מוכן - משרד"},
       {text: "מוכן - ספק", value: "מוכן - ספק"},
@@ -141,7 +139,7 @@ export default {
       { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
       { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
       { text: 'פעולות', value: 'actions', width: '5%', 'sortable': false,  },
-      { text: 'סטטוס הזמנה', value: 'statusType', width: '8%', filter: this.statusesFilter},
+      { text: 'סטטוס הזמנה', value: 'statusType', width: '8%','sortable': true, filter: this.statusesFilter},
     ]
     } ,
     orders: {

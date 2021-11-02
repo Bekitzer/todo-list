@@ -177,7 +177,7 @@ import { he } from 'date-fns/locale'
     }),
     computed: {
       computedDate () {
-        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEE, dd/MM/yy', {locale: he}) : ''
+        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}) : ''
       },
       clients: {
         get() {
@@ -219,7 +219,7 @@ import { he } from 'date-fns/locale'
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             statusType: this.orderStatusType,
-            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEE, dd/MM/yy', {locale: he}),
+            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}),
             deliveryType: this.orderDeliveryType,
           }
 

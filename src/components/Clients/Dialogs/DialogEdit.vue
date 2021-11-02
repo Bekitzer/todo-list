@@ -219,7 +219,7 @@ import { he } from 'date-fns/locale'
             workingHours: this.clientHours,
             deliveryType: this.clientDeliveryType,
             status: this.clientStatus,
-            clientUpdated: format(new Date(Date.now()), 'EEE dd/MM/yy HH:mm', {locale: he})
+            clientUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateClient', payload)
           this.closeDialog()

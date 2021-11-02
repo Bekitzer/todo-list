@@ -15,7 +15,7 @@ export default {
     },
     methods: {
         getDate() {
-            this.date = format(new Date(), 'EEE, dd/MM/yy HH:mm', {locale: he})
+            this.date = format(new Date(), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
             setTimeout(this.getTime, 1000)
         }
     },

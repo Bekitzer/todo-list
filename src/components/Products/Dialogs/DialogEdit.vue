@@ -74,7 +74,7 @@ import { he } from 'date-fns/locale'
           let payload = {
             id: this.product.id,
             name: this.productName,
-            productUpdated: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he})
+            productUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateProduct', payload)
           this.closeDialog()

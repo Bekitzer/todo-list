@@ -94,8 +94,7 @@ export default {
   .v-list--nav .v-list-item, .v-list--nav .v-list-item:before
     border-radius: 0px !important
   .v-list-item--link:hover:before
-    opacity: 1 !important
-    background: #026e85 !important
+    opacity: 0.3 !important
   .v-list--nav .v-list-item:not(:last-child):not(:only-child)
     margin-bottom: 0px !important
   .v-list .v-list-item--active

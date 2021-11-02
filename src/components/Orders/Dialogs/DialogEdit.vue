@@ -193,7 +193,7 @@ import { he } from 'date-fns/locale'
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             deliveryType: this.orderDeliveryType,
-            orderUpdated: format(new Date(Date.now()), 'EEE, dd/MM/yy HH:mm', {locale: he})
+            orderUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateOrder', payload)
           this.closeDialog()
