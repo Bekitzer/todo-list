@@ -4,7 +4,7 @@
 
 <script>
 import { format } from 'date-fns'
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 import { he } from 'date-fns/locale'
 
 export default {

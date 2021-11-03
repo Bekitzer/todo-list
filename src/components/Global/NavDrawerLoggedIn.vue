@@ -94,11 +94,8 @@ export default {
   .v-list--nav .v-list-item, .v-list--nav .v-list-item:before
     border-radius: 0px !important
   .v-navigation-drawer__content .v-list-item--link:hover:before
-    opacity: 0.3 !important
+    opacity: 0.4 !important
   .v-list--nav .v-list-item:not(:last-child):not(:only-child)
     margin-bottom: 0px !important
-  .v-navigation-drawer__content .v-list .v-list-item--active
-    opacity: 1 !important
-    background: #026e85 !important
 </style>
 
