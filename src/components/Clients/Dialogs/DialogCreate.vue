@@ -181,6 +181,26 @@
                 hide-details
               ></v-select>
             </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="clientLead"
+                :items="clientLeadList"
+                label="מקור הגעה"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="clientNewsletter"
+                :items="clientNewsletterList"
+                label="מאשר ניוזלטר?"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -243,15 +263,17 @@ import { format } from 'date-fns'
       clientStatus: '',
       clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
       clientStatusList: ["קבוע","מזדמן","שת״פ"],
+      clientLead: '',
+      clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן"],
+      clientNewsletter: '',
+      clientNewsletterList: ["כן","לא"]
     }),
     computed: {
       clientFieldInvalid() {
         return (
           !this.clientStatus ||
           !this.clientNumber ||
-          !this.clientName ||
-          !this.clientCompanyName ||
-          !this.clientIdNumber
+          !this.clientName
         )
       }
     },
@@ -275,7 +297,9 @@ import { format } from 'date-fns'
             whatsapp: this.clientWhatsapp,
             workingHours: this.clientHours,
             deliveryType: this.clientDeliveryType,
-            status: this.clientStatus
+            status: this.clientStatus,
+            lead: this.clientLead,
+            newsletter: this.clientNewsletter
           }
 
           this.$store.dispatch('addClient', clientFields)
@@ -296,6 +320,8 @@ import { format } from 'date-fns'
           this.clientHours = ''
           this.clientDeliveryType = ''
           this.clientStatus = ''
+          this.clientLead = ''
+          this.clientNewsletter = ''
         }
         this.closeDialog()
       },

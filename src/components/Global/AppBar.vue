@@ -4,7 +4,7 @@
       class="pr-10 pl-10"
       app
       flat
-      :height="86"
+      :height="100"
     >
         <v-container>
           <v-row style="font-size:14px;" class="align-center">

@@ -181,6 +181,16 @@
                 hide-details
               ></v-select>
             </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="clientNewsletter"
+                :items="clientNewsletterList"
+                label="מאשר ניוזלטר?"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -248,27 +258,16 @@ import { he } from 'date-fns/locale'
       clientStatus: '',
       clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
       clientStatusList: ["קבוע","מזדמן","שת״פ"],
+      clientNewsletter: '',
+      clientNewsletterList: ["כן","לא"]
     }),
     computed: {
       clientFieldInvalid() {
         return
         !this.clientNumber || this.clientNumber === this.client.number
         !this.clientName || this.clientName === this.client.name
-        !this.clientCompanyName || this.clientCompanyName === this.client.companyName
-        !this.clientPhone || this.clientPhone === this.client.phone
-        !this.clientEmail || this.clientEmail === this.client.email
-        !this.clientIdNumber || this.clientIdNumber === this.client.numberId
-        !this.clientWebsite || this.clientWebsite === this.client.website
-        !this.clientFacebook || this.clientFacebook === this.client.facebook
-        !this.clientInstagram || this.clientInstagram === this.client.instagram
-        !this.clientAddressAdditional || this.clientAddressAdditional === this.client.addressAdditional
-        !this.clientPaymentTerms || this.clientPaymentTerms === this.client.paymentTerms
-        !this.clientPaymentMethod || this.clientPaymentMethod === this.client.paymentMethod
-        !this.clientAddress || this.clientAddress === this.client.address
-        !this.clientWhatsapp || this.clientWhatsapp === this.client.whatsapp
-        !this.clientHours || this.clientHours === this.client.workingHours
-        !this.clientDeliveryType || this.clientDeliveryType === this.client.deliveryType
         !this.clientStatus || this.clientStatus === this.client.status
+
       }
     },
     methods: {
@@ -293,6 +292,7 @@ import { he } from 'date-fns/locale'
             workingHours: this.clientHours,
             deliveryType: this.clientDeliveryType,
             status: this.clientStatus,
+            newsletter: this.clientNewsletter,
             clientUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateClient', payload)
@@ -324,6 +324,7 @@ import { he } from 'date-fns/locale'
       this.clientHours = this.client.workingHours
       this.clientDeliveryType = this.client.deliveryType
       this.clientStatus = this.client.status
+      this.clientNewsletter = this.client.newsletter
     }
   }
 </script>

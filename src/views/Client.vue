@@ -52,7 +52,13 @@
                       <v-icon color="#006D7B" small>mdi-map-marker-outline</v-icon> {{ client.address }}
                     </p>
                     <p>
-                      <v-icon color="#006D7B" small>mdi-map-marker-outline</v-icon> {{ client.addressAdditional }}
+                      <v-icon color="#006D7B" small>mdi-reorder-vertical</v-icon> {{ client.addressAdditional }}
+                    </p>
+                    <p>
+                      <v-icon color="#006D7B" small>mdi-account-filter</v-icon> {{ client.lead }}
+                    </p>
+                    <p>
+                      <v-icon color="#006D7B" small>mdi-newspaper</v-icon> {{ client.newsletter }}
                     </p>
                     <p>
                       <v-icon color="#006D7B" small>mdi-calendar-plus</v-icon> {{ client.clientCreationDate }}

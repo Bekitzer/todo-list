@@ -83,7 +83,7 @@ export default {
     box-shadow: none !important
     border-radius: 0 !important
   .v-image.v-responsive.spc-img.theme--light .v-responsive__sizer
-    padding-bottom: 86px !important
+    padding-bottom: 100px !important
   .theme--light.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border
     background-color: rgba(0, 0, 0, 0) !important
   .v-list--nav
@@ -102,5 +102,7 @@ export default {
     margin-bottom: 0px !important
   .v-navigation-drawer__content .v-list-item__icon
     margin: 0 0
+  .v-navigation-drawer__content .v-list-item__content
+    padding: 30px 0 !important
 </style>
 
