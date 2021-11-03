@@ -79,15 +79,6 @@
                 hide-details
               ></v-select>
             </v-col>
-            <!-- <v-col cols="12" md="12" sm="12">
-              <v-select
-                v-model="orderDeliveryAgent"
-                :items="orderDeliveryAgentList"
-                label="אחראי"
-                outlined
-                hide-details
-              ></v-select>
-            </v-col> -->
             <v-col cols="12" md="12" sm="12">
               <v-text-field
                 v-model="orderWorkTitle"
