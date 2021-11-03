@@ -1,7 +1,6 @@
 
 <template>
      <v-app-bar
-      class="pr-10 pl-10"
       app
       flat
       :height="100"

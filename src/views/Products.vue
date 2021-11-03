@@ -1,5 +1,5 @@
 <template>
-  <div class="pr-16 pt-10 pl-16">
+  <v-container>
     <nav-appbar :pname="pageName"/>
     <v-row>
       <list-products
@@ -26,7 +26,7 @@
       v-if="dialogs.create"
       @close = 'dialogs.create = false'
     />
-  </div>
+  </v-container>
 </template>
 
 <script>

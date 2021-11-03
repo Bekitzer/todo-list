@@ -1,5 +1,5 @@
 <template>
-  <div class="pr-6 pl-10">
+  <v-container>
     <nav-appbar :pname="pageName"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
@@ -186,7 +186,7 @@
       @close = 'dialogs.delete = false'
       :client = 'client'
     />
-  </div>
+  </v-container>
 </template>
 
 <script>
