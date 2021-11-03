@@ -50,8 +50,7 @@
       </v-icon>
         {{ item.statusType }}
     </template>
-    <template >
-      <!-- v-slot:top -->
+    <template v-slot:top>
       <v-container fluid>
         <v-row>
           <v-col cols="12" md="2" sm="6">
