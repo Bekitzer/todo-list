@@ -192,7 +192,7 @@ export default {
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
   },
   mounted() {
-    this.pageName = this.supplier.name
+    this.pageName = 'שם ספק > ' + this.supplier.name
   }
 }
 </script>

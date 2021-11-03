@@ -10,7 +10,7 @@
         shaped
       >
         <v-card-title text-center>יצירת לקוח</v-card-title>
-          <v-row class="pa-4">
+          <v-row class="pr-10 pl-10">
             <v-col cols="12">
               <h3>פרטי לקוח</h3>
             </v-col>
@@ -60,7 +60,7 @@
               ></v-textarea>
             </v-col>
           </v-row>
-          <v-row class="pa-4">
+          <v-row class="pr-10 pl-10">
             <v-col cols="12">
               <h3>פרטי התקשרות</h3>
             </v-col>
@@ -119,9 +119,19 @@
               />
             </v-col>
           </v-row>
-          <v-row class="pa-4">
+          <v-row class="pr-10 pl-10">
             <v-col cols="12">
-              <h3>תנאי פעילות</h3>
+              <h3>הגדרות תשלום</h3>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="clientPaymentMethod"
+                :items="clientPaymentMethodList"
+                label="תנאי תשלום"
+                filled
+                dense
+                hide-details
+              ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
@@ -133,15 +143,10 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"
-                label="תנאי תשלום"
-                filled
-                dense
-                hide-details
-              ></v-select>
+          </v-row>
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12">
+              <h3>הגדרות לקוח</h3>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
