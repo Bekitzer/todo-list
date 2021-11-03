@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import goTo from 'vuetify/es5/services/goto'
 import firebase from 'firebase/compat/app'
+import VueRouteKey from 'vue-route-key'
 
 Vue.use(VueRouter)
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="pr-16 pt-10 pl-16">
+  <div class="mr-16 ml-16">
     <nav-appbar :pname="pageName"/>
     <list-orders v-if="$store.state.orders.length" />
     <no-orders v-else />

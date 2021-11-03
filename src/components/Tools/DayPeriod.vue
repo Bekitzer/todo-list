@@ -1,5 +1,5 @@
 <template>
-    <span style="color:white;">{{ dayPeriod }}</span>
+    <span>{{ dayPeriod }}</span>
 </template>
 
 <script>

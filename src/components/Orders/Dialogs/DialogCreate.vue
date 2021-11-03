@@ -79,7 +79,7 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <!-- <v-col cols="12" md="12" sm="12">
               <v-select
                 v-model="orderDeliveryAgent"
                 :items="orderDeliveryAgentList"
@@ -87,7 +87,7 @@
                 outlined
                 hide-details
               ></v-select>
-            </v-col>
+            </v-col> -->
             <v-col cols="12" md="12" sm="12">
               <v-text-field
                 v-model="orderWorkTitle"
@@ -154,6 +154,7 @@
 <script>
 import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
+import { getAuth } from 'firebase/auth'
   export default {
     name: 'DialogCreate',
     props: ['order'],
@@ -173,8 +174,17 @@ import { he } from 'date-fns/locale'
       orderMargin: '',
       orderStatusType: 'הזמנה חדשה',
       dateDialog: false,
-      orderDeliveryAgentList: ["יניב","רדיק"],
     }),
+    created() {
+      const user = getAuth().currentUser;
+      if (user !== null) {
+        this.name = user.displayName;
+        this.email = user.email;
+        this.photoURL = user.photoURL;
+        this.emailVerified = user.emailVerified;
+        this.uid = user.uid;
+      }
+    },
     computed: {
       computedDate () {
         return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}) : ''
@@ -199,7 +209,7 @@ import { he } from 'date-fns/locale'
           !this.orderDeliveryDate ||
           !this.orderDeliveryType ||
           !this.orderStatusType ||
-          !this.orderDeliveryAgent ||
+          // !this.orderDeliveryAgent ||
           !this.orderSellPrice ||
           !this.orderBuyPrice
         )
@@ -214,7 +224,7 @@ import { he } from 'date-fns/locale'
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
             supplierName: this.orderSupplierName,
-            deliveryAgent: this.orderDeliveryAgent,
+            deliveryAgent: this.name,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),

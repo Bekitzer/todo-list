@@ -6,6 +6,7 @@
       :mobile-breakpoint="800"
       permanent
       width="70"
+      flat
       app
     >
       <v-list-item
@@ -26,9 +27,9 @@
         >
           <v-list-item-content>
             <v-list-item-icon>
-              <v-icon color="white">{{ item.icon }}</v-icon>
+              <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
-            <v-list-item-subtitle class="white--text" style="z-index: 1;font-size:12px">{{ item.title }}</v-list-item-subtitle>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">{{ item.title }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -36,9 +37,9 @@
         >
         <v-list-item-content>
           <v-list-item-icon>
-          <v-icon color="white">mdi-logout</v-icon>
+          <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
-          <v-list-item-subtitle class="white--text" style="z-index: 1;font-size:12px">התנתק</v-list-item-subtitle>
+          <v-list-item-subtitle style="z-index: 1;font-size:12px">התנתק</v-list-item-subtitle>
         </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -53,8 +54,7 @@
 <script>
 export default {
   data: () => ({
-    drawer: true,
-    mini: true,
+    drawer: null,
     dialogs: {
       exit: false
     },
@@ -79,10 +79,13 @@ export default {
 
   .v-navigation-drawer__content .v-list-item
     padding: 0 !important
-
+  .v-sheet.v-card:not(.v-sheet--outlined)
+    box-shadow: none !important
+    border-radius: 0 !important
   .v-image.v-responsive.spc-img.theme--light .v-responsive__sizer
     padding-bottom: 86px !important
-
+  .theme--light.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border
+    background-color: rgba(0, 0, 0, 0) !important
   .v-list--nav
     padding-left: 0px !important
     padding-right: 0px !important
@@ -90,12 +93,14 @@ export default {
     margin-right: 23px !important
     margin-left: auto !important
   .v-navigation-drawer__content
-    background: #626262 !important
+    background: #f1f1f1 !important
   .v-list--nav .v-list-item, .v-list--nav .v-list-item:before
     border-radius: 0px !important
   .v-navigation-drawer__content .v-list-item--link:hover:before
     opacity: 0.4 !important
   .v-list--nav .v-list-item:not(:last-child):not(:only-child)
     margin-bottom: 0px !important
+  .v-navigation-drawer__content .v-list-item__icon
+    margin: 0 0
 </style>
 

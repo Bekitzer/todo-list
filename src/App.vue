@@ -57,7 +57,8 @@ export default {
     background: #006D7B !important
   .v-list.v-sheet.theme--light.v-list--nav
     padding-top: 0 !important
-
+  .theme--light.v-app-bar.v-toolbar.v-sheet
+    background-color: #ffffff !important
   .theme--light.v-data-table > .v-data-table__ wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:not(.v-data-table__mobile-row)
     border-bottom: none !important
   .v-data-table>.v-data-table__wrapper>table>tbody>tr:nth-child(odd)>td

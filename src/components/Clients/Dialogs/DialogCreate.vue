@@ -9,21 +9,17 @@
         elevation="8"
         shaped
       >
-        <v-card-title>יצירת לקוח</v-card-title>
+        <v-card-title text-center>יצירת לקוח</v-card-title>
           <v-row class="pa-4">
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientNumber"
-                label="#"
-                outlined
-                hide-details
-              />
+            <v-col cols="12">
+              <h3>פרטי לקוח</h3>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="clientName"
                 label="שם לקוח"
-                outlined
+                filled
+                dense
                 hide-details
               />
             </v-col>
@@ -31,15 +27,49 @@
               <v-text-field
                 v-model="clientCompanyName"
                 label="שם חברה"
-                outlined
+                filled
+                dense
                 hide-details
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
+                v-model="clientIdNumber"
+                label="ח.פ. / ע.מ."
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="clientAddress"
+                label="כתובת"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-textarea
+                v-model="clientAddressAdditional"
+                label="הערות"
+                filled
+                dense
+                hide-details
+              ></v-textarea>
+            </v-col>
+          </v-row>
+          <v-row class="pa-4">
+            <v-col cols="12">
+              <h3>פרטי התקשרות</h3>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
                 v-model="clientPhone"
                 label="טלפון משרד"
-                outlined
+                filled
+                dense
                 hide-details
               />
             </v-col>
@@ -47,24 +77,59 @@
               <v-text-field
                 v-model="clientEmail"
                 label="מייל משרד"
-                outlined
+                filled
+                dense
                 hide-details
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="clientIdNumber"
-                label="ח.פ."
-                outlined
+                v-model="clientWhatsapp"
+                label="וואטסאפ"
+                filled
+                dense
                 hide-details
               />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="clientWebsite"
+                label="אתר אינטרנט"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="clientFacebook"
+                label="פייסבוק"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="clientInstagram"
+                label="אינסטגרם"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row class="pa-4">
+            <v-col cols="12">
+              <h3>תנאי פעילות</h3>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="clientPaymentTerms"
                 :items="clientPaymentTermsList"
-                label="תנאי תשלום"
-                outlined
+                label="אופן התשלום"
+                filled
+                dense
                 hide-details
               ></v-select>
             </v-col>
@@ -73,49 +138,46 @@
                 v-model="clientPaymentMethod"
                 :items="clientPaymentMethodList"
                 label="תנאי תשלום"
-                outlined
+                filled
+                dense
                 hide-details
               ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientAddress"
-                label="כתובת"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientWhatsapp"
-                label="וואטסאפ"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientHours"
-                label="שעות פעילות"
-                outlined
-                hide-details
-              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="clientDeliveryType"
                 :items="clientDeliveryTypeList"
                 label="אופן אספקה"
-                outlined
+                filled
+                dense
                 hide-details
               ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="clientHours"
+                label="שעות פעילות"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="clientNumber"
+                label="#"
+                filled
+                dense
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="clientStatus"
                 :items="clientStatusList"
                 label="סטטוס לקוח"
-                outlined
+                filled
+                dense
                 hide-details
               ></v-select>
             </v-col>
@@ -166,11 +228,15 @@ import { format } from 'date-fns'
       clientPhone: '',
       clientEmail: '',
       clientIdNumber: '',
+      clientWebsite: '',
+      clientFacebook: '',
+      clientInstagram: '',
       clientPaymentTerms: '',
       clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
       clientPaymentMethod: '',
       clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק"],
       clientAddress: '',
+      clientAddressAdditional: '',
       clientWhatsapp: '',
       clientHours: '',
       clientDeliveryType: '',
@@ -181,19 +247,11 @@ import { format } from 'date-fns'
     computed: {
       clientFieldInvalid() {
         return (
+          !this.clientStatus ||
           !this.clientNumber ||
           !this.clientName ||
           !this.clientCompanyName ||
-          !this.clientPhone ||
-          !this.clientEmail ||
-          !this.clientIdNumber ||
-          !this.clientPaymentTerms ||
-          !this.clientPaymentMethod ||
-          !this.clientAddress ||
-          !this.clientWhatsapp ||
-          !this.clientHours ||
-          !this.clientDeliveryType ||
-          !this.clientStatus
+          !this.clientIdNumber
         )
       }
     },
@@ -207,9 +265,13 @@ import { format } from 'date-fns'
             phone: this.clientPhone,
             email: this.clientEmail,
             numberId: this.clientIdNumber,
+            website: this.clientWebsite,
+            facebook: this.clientFacebook,
+            instagram: this.clientInstagram,
             paymentTerms: this.clientPaymentTerms,
             paymentMethod: this.clientPaymentMethod,
             address: this.clientAddress,
+            addressAditional: this.clientAddressAdditional,
             whatsapp: this.clientWhatsapp,
             workingHours: this.clientHours,
             deliveryType: this.clientDeliveryType,
@@ -223,9 +285,13 @@ import { format } from 'date-fns'
           this.clientPhone = ''
           this.clientEmail = ''
           this.clientIdNumber = ''
+          this.clientWebsite = ''
+          this.clientFacebook = ''
+          this.clientInstagram = ''
           this.clientPaymentTerms = ''
           this.clientPaymentMethod = ''
           this.clientAddress = ''
+          this.clientAddressAdditional = ''
           this.clientWhatsapp = ''
           this.clientHours = ''
           this.clientDeliveryType = ''
@@ -247,24 +313,7 @@ import { format } from 'date-fns'
   }
 </script>
 <style lang="sass">
-  @-moz-keyframes loader
-    from
-      transform: rotate(0)
-    to
-      transform: rotate(360deg)
-  @-webkit-keyframes loader
-    from
-      transform: rotate(0)
-    to
-      transform: rotate(360deg)
-  @-o-keyframes loader
-    from
-      transform: rotate(0)
-    to
-      transform: rotate(360deg)
-  @keyframes loader
-    from
-      transform: rotate(0)
-    to
-      transform: rotate(360deg)
+  .v-application .primary--text
+    color: #036e86 !important
+    caret-color: #036e86 !important
 </style>

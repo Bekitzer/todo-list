@@ -1,8 +1,8 @@
 <template>
   <div>
-    <span style="color:white;"> <day-period /> </span>
-    <strong v-if="isLoggedIn" style="color:white;"> {{name}}</strong>
-    <strong v-if="!isLoggedIn" style="color:white;"> אורח</strong>
+    <span><day-period /> </span>
+    <strong v-if="isLoggedIn"> {{name}}</strong>
+    <strong v-if="!isLoggedIn"> אורח</strong>
   </div>
 </template>
 

@@ -1,16 +1,15 @@
 
 <template>
      <v-app-bar
+      class="pr-10 pl-10"
       app
+      flat
       :height="86"
-      color="#f1f1f1"
-      src="/images/stars.jpeg"
-      style="background-size:cover;background-size: cover !important;background-position: center top !important;padding: 0 !important;"
     >
         <v-container>
           <v-row style="font-size:14px;" class="align-center">
             <v-col cols="5" lg="2" md="2" sm="3">
-              <h2 class="white--text" style="text-align:right;">{{pname}}</h2>
+              <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86">{{pname}}</h2>
             </v-col>
             <v-spacer></v-spacer>
             <!-- <v-col cols="12">

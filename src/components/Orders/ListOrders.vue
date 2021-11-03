@@ -8,7 +8,6 @@
     :items-per-page="-1"
     sort-by="number"
     show-expand
-    flat
     height="800px"
     fixed-header
     hide-default-footer
@@ -51,7 +50,8 @@
       </v-icon>
         {{ item.statusType }}
     </template>
-    <template v-slot:top>
+    <template >
+      <!-- v-slot:top -->
       <v-container fluid>
         <v-row>
           <v-col cols="12" md="2" sm="6">
@@ -70,7 +70,10 @@
                 v-model="statusesFilterValue"
                 label="סנן לפי סטטוס..."
                 clearable
-              ></v-select>
+                multiple
+                small-chips
+              >
+              </v-select>
           </v-col>
 
         </v-row>
@@ -127,14 +130,14 @@ export default {
     headers () {
       return [
       { text: '#', value: 'number', align: 'start', width: '3%' },
-      { text: 'ת.הזמנה', value: 'orderCreationDate', width: '10%' },
+      { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%' },
       { text: 'לקוח', value: 'clientName', width: '10%' },
       { text: '', value: 'data-table-expand', 'sortable': false,  },
       { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%', 'sortable': false,  },
       { text: 'ספק', value: 'supplierName', width: '10%' },
-      { text: 'ת.אספקה', value: 'deliveryDate', width: '10%' },
+      { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
-      { text: 'אחראי', value: 'deliveryAgent', width: '5%', 'sortable': false,  },
+      // { text: 'אחראי', value: 'deliveryAgent', width: '5%', 'sortable': false,  },
       { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
       { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
       { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },

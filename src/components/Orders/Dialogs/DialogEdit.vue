@@ -129,6 +129,7 @@
 <script>
 import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
+import { getAuth } from 'firebase/auth'
   export default {
     name: 'DialogEdit',
     props: ['order'],
@@ -146,11 +147,20 @@ import { he } from 'date-fns/locale'
       orderSellPrice: '',
       orderBuyPrice: '',
       orderMargin: '',
-      orderDeliveryAgentList: ["יניב","רדיק"],
       orderStatusType: '',
       orderStatusTypeList: [ "בעבודה" , "מוכן - משרד" , "מוכן - ספק" , "סופק" ],
       dateDialog: false,
     }),
+    created() {
+      const user = getAuth().currentUser;
+      if (user !== null) {
+        this.name = user.displayName;
+        this.email = user.email;
+        this.photoURL = user.photoURL;
+        this.emailVerified = user.emailVerified;
+        this.uid = user.uid;
+      }
+    },
     computed: {
       clients: {
         get() {
@@ -187,13 +197,13 @@ import { he } from 'date-fns/locale'
             orderWork: this.orderWorkProducts,
             supplierName: this.orderSupplierName,
             statusType: this.orderStatusType,
-            // deliveryDate: this.orderDeliveryDate,
+            deliveryDate: this.orderDeliveryDate,
             deliveryAgent: this.orderDeliveryAgent,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             deliveryType: this.orderDeliveryType,
-            orderUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
+            orderUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}) + ' > ' + this.name
           }
           this.$store.dispatch('updateOrder', payload)
           this.closeDialog()
