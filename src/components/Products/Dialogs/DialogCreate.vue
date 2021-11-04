@@ -54,43 +54,44 @@
 </template>
 
 <script>
-  export default {
-    name: 'DialogCreate',
-    props: ['product'],
-    data: () => ({
-      dialog: false,
-      productNumber: '',
-      productName: '',
-    }),
-    computed: {
-      productFieldInvalid() {
-        return (
-          !this.productName
-        )
-      }
-    },
-    methods:{
-      addProduct() {
-        if(!this.productFieldInvalid){
-          const productFields = {
-            name: this.productName
-          }
-
-          this.$store.dispatch('addProduct', productFields)
-          this.productName = ''
-        }
-        this.closeDialog()
-      },
-      closeDialog() {
-        this.$emit('close')
-      }
-    },
-    mounted() {
-      document.addEventListener("keydown", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
+export default {
+  name: 'DialogCreate',
+  props: ['product'],
+  data: () => ({
+    dialog: false,
+    productNumber: '',
+    productName: '',
+  }),
+  computed: {
+    productFieldInvalid() {
+      return (
+        !this.productName
+      )
     }
+  },
+  methods:{
+    addProduct() {
+      if(!this.productFieldInvalid){
+        const productFields = {
+          name: this.productName
+        }
+
+        this.$store.dispatch('addProduct', productFields)
+        this.productName = ''
+      }
+      this.closeDialog()
+    },
+    closeDialog() {
+      this.$emit('close'),
+      setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+    }
+  },
+  mounted() {
+    document.addEventListener("keydown", (e) => {
+      if (e.keyCode == 27) {
+          this.$emit('close')
+      }
+    })
   }
+}
 </script>
