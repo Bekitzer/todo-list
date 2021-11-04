@@ -168,15 +168,6 @@
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientNumber"
-                label="#"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="clientStatus"
                 :items="clientStatusList"
@@ -200,7 +191,7 @@
               <v-select
                 v-model="clientNewsletter"
                 :items="clientNewsletterList"
-                label="מאשר ניוזלטר?"
+                label="דיוור"
                 filled
                 dense
                 hide-details
@@ -247,7 +238,6 @@ import { format } from 'date-fns'
     name: 'DialogCreate',
     data: () => ({
       dialog: false,
-      clientNumber: '',
       clientName: '',
       clientCompanyName: '',
       clientPhone: '',
@@ -277,7 +267,6 @@ import { format } from 'date-fns'
       clientFieldInvalid() {
         return (
           !this.clientStatus ||
-          !this.clientNumber ||
           !this.clientName
         )
       }
@@ -286,7 +275,6 @@ import { format } from 'date-fns'
       addClient() {
         if(!this.clientFieldInvalid){
           const clientFields = {
-            number: this.clientNumber,
             name: this.clientName,
             companyName: this.clientCompanyName,
             phone: this.clientPhone,
@@ -308,7 +296,6 @@ import { format } from 'date-fns'
           }
 
           this.$store.dispatch('addClient', clientFields)
-          this.clientNumber = ''
           this.clientName = ''
           this.clientCompanyName = ''
           this.clientPhone = ''

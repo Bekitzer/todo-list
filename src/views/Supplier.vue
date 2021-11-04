@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <nav-appbar :pname="pageName"/>
+    <nav-appbar :pname="'שם ספק > ' + this.supplier.name"/>
     <v-row>
       <v-col cols="12" md="7" sm="7">
         <v-row class="pa-10 grey lighten-3 rounded-b-xl pos-rel">
@@ -183,16 +183,13 @@ export default {
   },
   computed: {
     supplier() {
-      return this.$store.state.suppliers.find(supplier => supplier.id === this.$route.params.id)
+      return this.$store.state.suppliers.find(supplier => supplier.id === this.$route.params.id) || {name: ''}
     }
   },
   components: {
       'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
       'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
-  },
-  mounted() {
-    this.pageName = 'שם ספק > ' + this.supplier.name
   }
 }
 </script>

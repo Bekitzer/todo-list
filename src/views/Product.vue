@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <nav-appbar :pname="pageName"/>
+    <nav-appbar :pname="'שם מוצר > ' + this.product.name"/>
     <v-row>
       <v-col cols="12" md="7" sm="7">
         <v-row class="pa-10 grey lighten-3 rounded-b-xl">
@@ -100,16 +100,13 @@ export default {
   }),
   computed: {
     product() {
-      return this.$store.state.products.find(product => product.id === this.$route.params.id)
+      return this.$store.state.products.find(product => product.id === this.$route.params.id) || {name: ""}
     }
   },
   components: {
       'dialog-edit': require('@/components/Products/Dialogs/DialogEdit.vue').default,
       'dialog-delete': require('@/components/Products/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
-  },
-  mounted() {
-    this.pageName = 'שם מוצר > ' + this.product.name
   }
 }
 </script>

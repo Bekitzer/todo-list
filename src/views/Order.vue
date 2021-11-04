@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <nav-appbar :pname="pageName"/>
+    <nav-appbar :pname="'מספר הזמנה > ' + this.order.number"/>
     <v-row>
       <v-col cols="12" md="7" sm="7">
         <v-row class="pa-10 grey lighten-3 rounded-b-xl">
@@ -135,7 +135,6 @@
 export default {
   name: 'Order',
   data: () => ({
-    pageName: '',
     fab: false,
     transition: 'slide-y-transition',
     dialogs: {
@@ -145,16 +144,13 @@ export default {
   }),
   computed: {
     order() {
-      return this.$store.state.orders.find(order => order.id === this.$route.params.id)
+      return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: ''}
     }
   },
   components: {
       'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,
       'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
-  },
-  mounted() {
-    this.pageName = 'מספר הזמנה > ' + this.order.number
   }
 }
 </script>

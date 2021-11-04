@@ -58,7 +58,7 @@ export default {
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%' },
       { text: 'ס.לקוח', value: 'status', width: '5%' },
       { text: 'פעולות', value: 'actions', width: '5%' },
-      { text: 'ה.פעילות', value: '', width: '8%' },
+      { text: 'ה.פעילות', value: 'orders', width: '8%' },
     ],
   }),
   methods: {
@@ -69,7 +69,17 @@ export default {
   computed: {
     clients: {
       get() {
-        return this.$store.getters.clientsFiltered
+        const ordersMap = {}
+
+        this.$store.state.orders.forEach(order => {
+          ordersMap[order.clientName] = ordersMap[order.clientName] || 0
+          ordersMap[order.clientName]++
+        })
+
+        return this.$store.getters.clientsFiltered.map(client => {
+          client.orders = ordersMap[client.name] || 0
+          return client
+        })
       },
       set(value) {
         this.$store.dispatch('setClients', value)

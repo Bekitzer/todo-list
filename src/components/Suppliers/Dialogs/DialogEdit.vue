@@ -13,14 +13,6 @@
           <v-row class="pa-4">
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="supplierNumber"
-                label="#"
-                outlined
-                hide-details
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
                 v-model="supplierName"
                 label="שם ספק"
                 outlined
@@ -161,7 +153,6 @@ export default {
     data() {
       return {
         dialog: false,
-        supplierNumber: '',
         supplierName: '',
         supplierCompanyName:'',
         supplierPhone: '',
@@ -181,7 +172,6 @@ export default {
     computed: {
       supplierFieldInvalid() {
         return
-        !this.supplierNumber || this.supplierNumber === this.supplier.number
         !this.supplierName || this.supplierName === this.supplier.name
         !this.supplierCompanyName || this.supplierCompanyName === this.supplier.companyName
         !this.supplierPhone || this.supplierPhone === this.supplier.phone
@@ -201,7 +191,6 @@ export default {
         if(!this.supplierFieldInvalid){
           let payload = {
             id: this.supplier.id,
-            number: this.supplier.number,
             phone: this.supplierPhone,
             email: this.supplierEmail,
             name: this.supplierName,
@@ -227,7 +216,6 @@ export default {
     },
     mounted() {
       this.supplierName = this.supplier.name
-      this.supplierNumber = this.supplier.number
       this.supplierCompanyName = this.supplier.companyName
       this.supplierPhone = this.supplier.phone
       this.supplierEmail = this.supplier.email

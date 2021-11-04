@@ -13,15 +13,6 @@
           <v-row class="pa-4">
             <v-col cols="12" md="12" sm="12">
               <v-text-field
-                v-model.number="productNumber"
-                type="number"
-                label="#"
-                outlined
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-text-field
                 v-model="productName"
                 label="שם מוצר"
                 outlined
@@ -74,7 +65,6 @@
     computed: {
       productFieldInvalid() {
         return (
-          !this.productNumber ||
           !this.productName
         )
       }
@@ -83,12 +73,10 @@
       addProduct() {
         if(!this.productFieldInvalid){
           const productFields = {
-            number: this.productNumber,
             name: this.productName
           }
 
           this.$store.dispatch('addProduct', productFields)
-          this.productNumber = ''
           this.productName = ''
         }
         this.closeDialog()

@@ -13,14 +13,6 @@
             <v-row class="pa-4">
               <v-col cols="12" md="6" sm="6">
                 <v-text-field
-                  v-model="supplierNumber"
-                  label="#"
-                  outlined
-                  hide-details
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" md="6" sm="6">
-                <v-text-field
                   v-model="supplierName"
                   label="שם ספק"
                   outlined
@@ -158,7 +150,6 @@ import { format } from 'date-fns'
     name: 'DialogCreate',
     data: () => ({
       dialog: false,
-      supplierNumber: '',
       supplierName: '',
       supplierCompanyName: '',
       supplierPhone: '',
@@ -177,7 +168,6 @@ import { format } from 'date-fns'
     computed: {
       supplierFieldInvalid() {
         return (
-          !this.supplierNumber ||
           !this.supplierName ||
           !this.supplierCompanyName ||
           !this.supplierPhone ||
@@ -197,7 +187,6 @@ import { format } from 'date-fns'
       addSupplier() {
         if(!this.supplierFieldInvalid){
           const supplierFields = {
-            number: this.supplierNumber,
             name: this.supplierName,
             companyName: this.supplierCompanyName,
             phone: this.supplierPhone,
@@ -213,7 +202,6 @@ import { format } from 'date-fns'
           }
 
           this.$store.dispatch('addSupplier', supplierFields)
-          this.supplierNumber = ''
           this.supplierName = ''
           this.supplierCompanyName= ''
           this.supplierPhone = ''

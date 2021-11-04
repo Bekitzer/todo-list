@@ -168,15 +168,6 @@
               />
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientNumber"
-                label="#"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="clientStatus"
                 :items="clientStatusList"
@@ -187,14 +178,12 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-select
+              <v-switch
                 v-model="clientNewsletter"
-                :items="clientNewsletterList"
-                label="מאשר ניוזלטר?"
-                filled
-                dense
-                hide-details
-              ></v-select>
+                :label="`${clientNewsletter.toString()} דיוור`"
+                false-value="מסרב"
+                true-value="מאשר"
+              ></v-switch>
             </v-col>
           </v-row>
         <v-card-actions>
@@ -242,7 +231,6 @@ import { he } from 'date-fns/locale'
     },
     props: ['client'],
     data: () => ({
-      clientNumber: '',
       clientName: '',
       clientCompanyName: '',
       clientPhone: '',
@@ -263,13 +251,11 @@ import { he } from 'date-fns/locale'
       clientStatus: '',
       clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
       clientStatusList: ["קבוע","מזדמן","שת״פ"],
-      clientNewsletter: '',
-      clientNewsletterList: ["כן","לא"]
+      clientNewsletter: ''
     }),
     computed: {
       clientFieldInvalid() {
         return
-        !this.clientNumber || this.clientNumber === this.client.number
         !this.clientName || this.clientName === this.client.name
         !this.clientStatus || this.clientStatus === this.client.status
 
@@ -280,7 +266,6 @@ import { he } from 'date-fns/locale'
         if(!this.clientFieldInvalid){
           let payload = {
             id: this.client.id,
-            number: this.clientNumber,
             phone: this.clientPhone,
             email: this.clientEmail,
             name: this.clientName,
@@ -316,7 +301,6 @@ import { he } from 'date-fns/locale'
         }
       })
       this.clientName = this.client.name
-      this.clientNumber = this.client.number
       this.clientCompanyName = this.client.companyName
       this.clientPhone = this.client.phone
       this.clientEmail = this.client.email

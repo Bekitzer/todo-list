@@ -9,17 +9,9 @@
         elevation="8"
         shaped
       >
+      <!-- <v-btn @click="test">test</v-btn> -->
         <v-card-title>יצירת הזמנה</v-card-title>
           <v-row class="pa-4">
-            <v-col cols="12" md="12" sm="12">
-              <v-text-field
-                v-model.number="orderNumber"
-                type="number"
-                label="#"
-                outlined
-                hide-details
-              />
-            </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-autocomplete
                 :items="clients"
@@ -151,7 +143,6 @@ import { getAuth } from 'firebase/auth'
     props: ['order'],
     data: () => ({
       dialog: false,
-      orderNumber: '',
       orderClientName: '',
       orderWorkTitle: '',
       orderWorkProducts: '',
@@ -192,7 +183,6 @@ import { getAuth } from 'firebase/auth'
       },
       orderFieldInvalid() {
         return (
-          !this.orderNumber ||
           !this.orderClientName ||
           !this.orderWorkTitle ||
           !this.orderWorkProducts ||
@@ -200,17 +190,31 @@ import { getAuth } from 'firebase/auth'
           !this.orderDeliveryDate ||
           !this.orderDeliveryType ||
           !this.orderStatusType ||
-          // !this.orderDeliveryAgent ||
           !this.orderSellPrice ||
           !this.orderBuyPrice
         )
       }
     },
     methods:{
+      // test() {
+      //     const orderFields = {
+      //       clientName: 'test',
+      //       orderWorkTitle: 'this',
+      //       orderWork: 'rderWorkProducts',
+      //       supplierName: 'orderSupplierName',
+      //       deliveryAgent: 'name',
+      //       sellPrice: 12,
+      //       buyPrice: 2,
+      //       margin: 1,
+      //       statusType: 'this.orderStatusType',
+      //       deliveryDate: format(new Date(), 'EEEEE, dd/MM/yy', {locale: he}),
+      //       deliveryType: 'this.orderDeliveryType'
+      //     }
+      //     this.$store.dispatch('addOrder', orderFields)
+      // },
       addOrder() {
         if(!this.orderFieldInvalid){
           const orderFields = {
-            number: this.orderNumber,
             clientName: this.orderClientName,
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
@@ -225,7 +229,6 @@ import { getAuth } from 'firebase/auth'
           }
 
           this.$store.dispatch('addOrder', orderFields)
-          this.orderNumber = ''
           this.orderClientName = ''
           this.orderWorkTitle = ''
           this.orderWorkProducts = ''

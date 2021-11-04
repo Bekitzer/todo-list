@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import uuid from 'uuid'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 import db from '@/firebase'
-import { doc, deleteDoc, updateDoc, collection, setDoc, getDoc, getDocs } from "firebase/firestore"
+import { doc, deleteDoc, updateDoc, collection, setDoc, runTransaction, getDoc, getDocs } from "firebase/firestore"
 import authStore from './modules/authStore'
 import firebase from 'firebase/compat/app'
 
@@ -143,17 +142,34 @@ export default new Vuex.Store({
     },
     // PRODUCTS
     addProduct({ commit }, product) {
-      let isProduct = {
-        ...product,
-        id: uuid.v4(),
-        productCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
-        productUpdated: null
-      }
-      setDoc(doc(collection(db, "products")), isProduct).then(() => {
-        commit('addProduct', isProduct)
-        commit('showSnackbar', 'מוצר חדש נוסף!')
-      }).catch((error) => {
-        console.log('Something went wrong - addProduct',error);
+      const incrementDocRef = db.collection('--stats--').doc('products');
+
+      db.runTransaction((transaction) => {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction
+        .get(incrementDocRef)
+        .then((incrementDoc) => {
+          if (!incrementDoc.exists) {
+              throw "Document does not exist!";
+          }
+
+          var incremented = incrementDoc.data().increment + 1;
+          transaction.update(incrementDocRef, { increment: incremented });
+          return incremented;
+        })
+        .then(async (number) => {
+          let isProduct = {
+            ...product,
+            number: number,
+            productCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
+            productUpdated: null
+          }
+          await setDoc(doc(collection(db, "products")), isProduct)
+          commit('addProduct', isProduct)
+          commit('showSnackbar', 'מוצר חדש נוסף!')
+        }).catch((error) => {
+          console.log('Something went wrong - addProduct',error);
+        })
       })
     },
     deleteProduct({ commit }, id) {
@@ -191,19 +207,39 @@ export default new Vuex.Store({
       })
     },
     // ORDERS
-    addOrder({ commit }, order) {
-      let isOrder = {
-        ...order,
-        id: uuid.v4(),
-        orderCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
-        orderUpdated: null
-      }
-      setDoc(doc(collection(db, "orders")), isOrder).then(() => {
-        commit('addOrder', isOrder)
-        commit('showSnackbar', 'הזמנה חדשה נוספה!')
-      }).catch((error) => {
-        console.log('Something went wrong - addOrder',error);
-      })
+    async addOrder({ commit }, order) {
+      const incrementDocRef = db.collection('--stats--').doc('orders');
+
+      db.runTransaction((transaction) => {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction
+        .get(incrementDocRef)
+        .then((incrementDoc) => {
+          if (!incrementDoc.exists) {
+              throw "Document does not exist!";
+          }
+
+          var incremented = incrementDoc.data().increment + 1;
+          transaction.update(incrementDocRef, { increment: incremented });
+          return incremented;
+        })
+        .then(async (number) => {
+          let isOrder = {
+            ...order,
+            number: number,
+            orderCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
+            orderUpdated: null
+          }
+
+          await setDoc(doc(collection(db, "orders")), isOrder)
+          commit('addOrder', isOrder)
+          commit('showSnackbar', 'הזמנה חדשה נוספה!')
+          console.log("Transaction successfully committed!");
+        })
+        .catch((error) => {
+          console.log('Something went wrong - addOrder',error);
+        });
+      });
     },
     deleteOrder({ commit }, id) {
       deleteDoc(doc(db, "orders", id)).then(() => {
@@ -241,17 +277,34 @@ export default new Vuex.Store({
     },
     // CLIENTS
     addClient({ commit }, client) {
-      let isClient = {
-        ...client,
-        id: uuid.v4(),
-        clientCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
-        clientUpdated: null
-      }
-      setDoc(doc(collection(db, "clients")), isClient).then(() => {
-        commit('addClient', isClient)
-        commit('showSnackbar', 'לקוח חדש נוסף!')
-      }).catch((error) => {
-        console.log('Something went wrong - addClient',error);
+      const incrementDocRef = db.collection('--stats--').doc('clients');
+
+      db.runTransaction((transaction) => {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction
+        .get(incrementDocRef)
+        .then((incrementDoc) => {
+          if (!incrementDoc.exists) {
+              throw "Document does not exist!";
+          }
+
+          var incremented = incrementDoc.data().increment + 1;
+          transaction.update(incrementDocRef, { increment: incremented });
+          return incremented;
+        })
+        .then(async (number) => {
+          let isClient = {
+            ...client,
+            number: number,
+            clientCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
+            clientUpdated: null
+          }
+          await setDoc(doc(collection(db, "clients")), isClient)
+          commit('addClient', isClient)
+          commit('showSnackbar', 'לקוח חדש נוסף!')
+        }).catch((error) => {
+          console.log('Something went wrong - addClient',error);
+        })
       })
     },
     deleteClient({ commit }, id) {
@@ -290,17 +343,34 @@ export default new Vuex.Store({
     },
     // SUPPLIERS
     addSupplier({ commit }, suppliers) {
-      let isSupplier = {
-        ...suppliers,
-        id: uuid.v4(),
-        supplierCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
-        supplierUpdated: null
-      }
-      setDoc(doc(collection(db, "suppliers")), isSupplier).then(() => {
-        commit('addSupplier', isSupplier)
-        commit('showSnackbar', 'ספק חדש נוסף!')
-      }).catch((error) => {
-        console.log('Something went wrong - addSupplier',error);
+      const incrementDocRef = db.collection('--stats--').doc('suppliers');
+
+      db.runTransaction((transaction) => {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction
+        .get(incrementDocRef)
+        .then((incrementDoc) => {
+          if (!incrementDoc.exists) {
+              throw "Document does not exist!";
+          }
+
+          var incremented = incrementDoc.data().increment + 1;
+          transaction.update(incrementDocRef, { increment: incremented });
+          return incremented;
+        })
+        .then(async (number) => {
+          let isSupplier = {
+            ...suppliers,
+            number: number,
+            supplierCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
+            supplierUpdated: null
+          }
+          await setDoc(doc(collection(db, "suppliers")), isSupplier)
+            commit('addSupplier', isSupplier)
+            commit('showSnackbar', 'ספק חדש נוסף!')
+        }).catch((error) => {
+          console.log('Something went wrong - addSupplier',error);
+        })
       })
     },
     deleteSupplier({ commit }, id) {

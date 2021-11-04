@@ -35,6 +35,32 @@
               ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="12" sm="12">
+              <v-menu
+                v-model="dateDialog"
+                :close-on-content-click="false"
+                max-width="290"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    :value="orderDeliveryDate"
+                    clearable
+                    outlined
+                    label="בחר תאריך אספקה"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                    @click:clear="orderDeliveryDate = null"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="computedDate"
+                  @change="dateDialog = false"
+                  :first-day-of-week="0"
+                  locale="he-il"
+                ></v-date-picker>
+              </v-menu>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
               <v-text-field
                 v-model="orderWorkTitle"
                 label="שם עבודה"
@@ -118,7 +144,7 @@
 </template>
 
 <script>
-import { format, parseISO } from 'date-fns'
+import { format, parseISO, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
 import { getAuth } from 'firebase/auth'
   export default {
@@ -133,7 +159,7 @@ import { getAuth } from 'firebase/auth'
       orderSupplierName: '',
       orderDeliveryType: '',
       orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
-      // orderDeliveryDate: '',
+      orderDeliveryDate: '',
       orderDeliveryAgent: '',
       orderSellPrice: '',
       orderBuyPrice: '',
@@ -153,6 +179,14 @@ import { getAuth } from 'firebase/auth'
       }
     },
     computed: {
+      computedDate: {
+        get() {
+          return this.orderDeliveryDate && parse(this.orderDeliveryDate, 'EEEEE, dd/MM/yy', new Date(), {locale: he}).toISOString().substr(0, 10)
+        },
+        set(newValue) {
+          this.orderDeliveryDate = format(parseISO(newValue), 'EEEEE, dd/MM/yy', {locale: he})
+        }
+      },
       clients: {
         get() {
           return this.$store.getters.clientsFiltered
@@ -165,13 +199,12 @@ import { getAuth } from 'firebase/auth'
       },
       orderFieldInvalid() {
         return
-        // !this.orderNumber || this.orderNumber === this.order.number
         !this.orderClientName || this.orderClientName === this.order.clientName
         !this.orderWorkTitle || this.orderWorkTitle === this.order.orderWorkTitle
         !this.orderWorkProducts || this.orderWorkProducts === this.order.orderWork
         !this.orderSupplierName || this.orderSupplierName === this.order.supplierName
         !this.orderStatusType || this.orderStatusType === this.order.statusType
-        // !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
+        !this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate
         !this.orderDeliveryAgent || this.orderDeliveryAgent === this.order.deliveryAgent
         !this.orderSellPrice || this.orderSellPrice === this.order.sellPrice
         !this.orderBuyPrice || this.orderBuyPrice === this.order.buyPrice
@@ -188,7 +221,7 @@ import { getAuth } from 'firebase/auth'
             orderWork: this.orderWorkProducts,
             supplierName: this.orderSupplierName,
             statusType: this.orderStatusType,
-            // deliveryDate: this.orderDeliveryDate,
+            deliveryDate: this.orderDeliveryDate,
             deliveryAgent: this.orderDeliveryAgent,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
@@ -206,13 +239,12 @@ import { getAuth } from 'firebase/auth'
       }
     },
     mounted() {
-      // this.orderNumber = this.order.number
       this.orderClientName = this.order.clientName
       this.orderWorkTitle = this.order.orderWorkTitle,
       this.orderWorkProducts = this.order.orderWork
       this.orderSupplierName = this.order.supplierName
       this.orderStatusType = this.order.statusType
-      // this.orderDeliveryDate = this.order.deliveryDate
+      this.orderDeliveryDate = this.order.deliveryDate
       this.orderDeliveryAgent = this.order.deliveryAgent
       this.orderSellPrice = this.order.sellPrice
       this.orderBuyPrice = this.order.buyPrice

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <nav-appbar :pname="pageName"/>
+    <nav-appbar :pname="'שם לקוח > ' + this.client.name"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
@@ -71,12 +71,12 @@
           </v-col>
           <v-col cols="6">
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-cash-multiple</v-icon> אופן תשלום > {{ client.paymentTerms }}
+              <v-icon color="#006D7B" small>mdi-cash-fast</v-icon> תנאי תשלום > {{ client.paymentMethod }}
             </p>
           </v-col>
           <v-col cols="6">
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-cash-fast</v-icon> תנאי תשלום > {{ client.paymentMethod }}
+              <v-icon color="#006D7B" small>mdi-cash-multiple</v-icon> אופן תשלום > {{ client.paymentTerms }}
             </p>
           </v-col>
         </v-row>
@@ -210,16 +210,13 @@ export default {
   },
   computed: {
     client() {
-      return this.$store.state.clients.find(client => client.id === this.$route.params.id)
+      return this.$store.state.clients.find(client => client.id === this.$route.params.id) || {name: ''}
     }
   },
   components: {
       'dialog-edit': require('@/components/Clients/Dialogs/DialogEdit.vue').default,
       'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
-  },
-  mounted() {
-    this.pageName = 'שם לקוח > ' + this.client.name
   }
 }
 </script>
