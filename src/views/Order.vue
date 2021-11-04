@@ -108,7 +108,7 @@
       >
         <v-icon>mdi-backburger</v-icon>
       </v-btn>
-      <!-- <v-btn
+      <v-btn
         fab
         dark
         small
@@ -116,7 +116,7 @@
         @click="dialogs.delete = true"
       >
         <v-icon>mdi-delete</v-icon>
-      </v-btn> -->
+      </v-btn>
     </v-speed-dial>
     <dialog-edit
       v-if="dialogs.edit"

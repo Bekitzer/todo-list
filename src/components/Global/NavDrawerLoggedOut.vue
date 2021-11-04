@@ -1,23 +1,23 @@
 <template>
     <v-navigation-drawer
       v-model="drawer"
-      expand-on-hover
       :right="$vuetify.rtl"
       :mobile-breakpoint="800"
       permanent
-      mini-variant-width="70"
+      width="70"
+      flat
       app
     >
-      <v-list-item
-        class="spc-logo"
-        :to="{ name: 'Home' }"
-      >
-        <v-img
-          src="/images/logojp.png"
-          class="spc-img"
-        ></v-img>
-      </v-list-item>
       <v-list nav >
+        <v-list-item
+          class="spc-logo"
+          :to="{ name: 'Home' }"
+        >
+          <v-img
+            src="/images/logojp.png"
+            class="spc-img"
+          ></v-img>
+        </v-list-item>
         <v-list-item
           v-for="item in items"
           :key="item.title"

@@ -9,16 +9,16 @@
       flat
       app
     >
-      <v-list-item
-        class="spc-logo"
-        :to="{ name: 'Home' }"
-      >
-        <v-img
-          src="/images/logojp.png"
-          class="spc-img"
-        ></v-img>
-      </v-list-item>
       <v-list nav >
+        <v-list-item
+          class="spc-logo"
+          :to="{ name: 'Home' }"
+        >
+          <v-img
+            src="/images/logojp.png"
+            class="spc-img"
+          ></v-img>
+        </v-list-item>
         <v-list-item
           v-for="item in items"
           :key="item.title"
@@ -32,9 +32,7 @@
             <v-list-item-subtitle style="z-index: 1;font-size:12px">{{ item.title }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          @click="dialogs.exit = true"
-        >
+        <v-list-item @click="dialogs.exit = true">
         <v-list-item-content>
           <v-list-item-icon>
           <v-icon>mdi-logout</v-icon>

@@ -173,28 +173,11 @@ export default new Vuex.Store({
       })
     },
     deleteProduct({ commit }, id) {
-      const incrementDocRef = db.collection('--stats--').doc('products');
-
-      db.runTransaction((transaction) => {
-        // This code may get re-run multiple times if there are conflicts.
-        return transaction
-        .get(incrementDocRef)
-        .then((incrementDoc) => {
-          if (!incrementDoc.exists) {
-              throw "Document does not exist!";
-          }
-
-          var incremented = incrementDoc.data().increment - 1;
-          transaction.update(incrementDocRef, { increment: incremented });
-          return incremented;
-        })
-        .then(() => {
-          deleteDoc(doc(db, "products", id))
-          commit('deleteProduct', id)
-          commit('showSnackbar', 'מוצר נמחק!')
-        }).catch((error) => {
-          console.log('Something went wrong - addProduct',error);
-        })
+      deleteDoc(doc(db, "products", id)).then(() => {
+        commit('deleteProduct', id)
+        commit('showSnackbar', 'מוצר נמחק!')
+      }).catch((error) => {
+        console.log('Something went wrong - deleteProduct',error);
       })
     },
     updateProduct({commit}, payload) {
@@ -259,28 +242,11 @@ export default new Vuex.Store({
       });
     },
     deleteOrder({ commit }, id) {
-      const incrementDocRef = db.collection('--stats--').doc('orders');
-
-      db.runTransaction((transaction) => {
-        // This code may get re-run multiple times if there are conflicts.
-        return transaction
-        .get(incrementDocRef)
-        .then((incrementDoc) => {
-          if (!incrementDoc.exists) {
-              throw "Document does not exist!";
-          }
-
-          var incremented = incrementDoc.data().increment - 1;
-          transaction.update(incrementDocRef, { increment: incremented });
-          return incremented;
-        })
-        .then(() => {
-          deleteDoc(doc(db, "orders", id))
-          commit('deleteOrder', id)
-          commit('showSnackbar', 'הזמנה נמחקה!')
-        }).catch((error) => {
-          console.log('Something went wrong - deleteOrder',error);
-        })
+      deleteDoc(doc(db, "orders", id)).then(() => {
+        commit('deleteOrder', id)
+        commit('showSnackbar', 'הזמנה נמחקה!')
+      }).catch((error) => {
+        console.log('Something went wrong - deleteOrder',error);
       })
     },
     updateOrder({commit}, payload) {
@@ -342,28 +308,11 @@ export default new Vuex.Store({
       })
     },
     deleteClient({ commit }, id) {
-      const incrementDocRef = db.collection('--stats--').doc('clients');
-
-      db.runTransaction((transaction) => {
-        // This code may get re-run multiple times if there are conflicts.
-        return transaction
-        .get(incrementDocRef)
-        .then((incrementDoc) => {
-          if (!incrementDoc.exists) {
-              throw "Document does not exist!";
-          }
-
-          var incremented = incrementDoc.data().increment - 1;
-          transaction.update(incrementDocRef, { increment: incremented });
-          return incremented;
-        })
-        .then(() => {
-          deleteDoc(doc(db, "clients", id))
-          commit('deleteClient', id)
-          commit('showSnackbar', 'לקוח נמחק!')
-        }).catch((error) => {
-          console.log('Something went wrong - deleteClient',error);
-        })
+      deleteDoc(doc(db, "clients", id)).then(() => {
+        commit('deleteClient', id)
+        commit('showSnackbar', 'לקוח נמחק!')
+      }).catch((error) => {
+        console.log('Something went wrong - deleteClient',error);
       })
     },
     updateClient({commit}, payload) {
@@ -425,28 +374,11 @@ export default new Vuex.Store({
       })
     },
     deleteSupplier({ commit }, id) {
-      const incrementDocRef = db.collection('--stats--').doc('suppliers');
-
-      db.runTransaction((transaction) => {
-        // This code may get re-run multiple times if there are conflicts.
-        return transaction
-        .get(incrementDocRef)
-        .then((incrementDoc) => {
-          if (!incrementDoc.exists) {
-              throw "Document does not exist!";
-          }
-
-          var incremented = incrementDoc.data().increment - 1;
-          transaction.update(incrementDocRef, { increment: incremented });
-          return incremented;
-        })
-        .then(() => {
-          deleteDoc(doc(db, "suppliers", id))
-          commit('deleteSupplier', id)
-          commit('showSnackbar', 'ספק נמחק!')
-        }).catch((error) => {
-          console.log('Something went wrong - deleteSupplier',error);
-        })
+      deleteDoc(doc(db, "suppliers", id)).then(() => {
+        commit('deleteSupplier', id)
+        commit('showSnackbar', 'ספק נמחק!')
+      }).catch((error) => {
+        console.log('Something went wrong - deleteSupplier',error);
       })
     },
     updateSupplier({commit}, payload) {
