@@ -56,7 +56,7 @@ export default {
         const ordersMap = {}
 
         this.$store.state.orders.forEach(order => {
-          ordersMap[order.supplierName] = ordersMap[order.supplierName] || 0
+          ordersMap[order.supplierName] = (ordersMap[order.supplierName] || 0) && (ordersMap[order.supplierStatus] != 'סופק')
           ordersMap[order.supplierName]++
         })
 

@@ -54,14 +54,14 @@ export default {
     clients: {
       get() {
         const ordersMap = {}
-
         this.$store.state.orders.forEach(order => {
-          ordersMap[order.clientName] = ordersMap[order.clientName] || 0
+
+          ordersMap[order.clientName] = (ordersMap[order.clientName] || 0) && (ordersMap[order.clientStatus] != 'סופק')
           ordersMap[order.clientName]++
         })
 
         return this.$store.state.clients.map(client => {
-          client.orders = ordersMap[client.name] || 0
+          client.orders = ( ordersMap[client.name] || 0 )
           return client
         })
       },
