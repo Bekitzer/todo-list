@@ -4,7 +4,7 @@
       @input="$store.commit('setSearch', $event)"
       append-icon="mdi-magnify"
       label="חפש..."
-      outlined
+      filled
       hide-details
     ></v-text-field>
 </template>
