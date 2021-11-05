@@ -1,45 +1,30 @@
 <template>
-  <div>
-    <v-row>
-      <v-spacer></v-spacer>
-      <v-col>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="חפש לקוח..."
-          outlined
-          hide-details
-        ></v-text-field>
-      </v-col>
-      <v-spacer></v-spacer>
-    </v-row>
-    <v-data-table
-      flat
-      height="800px"
-      fixed-header
-      :headers="headers"
-      :items="clients"
-      :search="search"
-      :items-per-page="-1"
-      hide-default-footer
-      item-key="id"
-      sort-by="number"
-    >
-      <template v-slot:item.actions="{ item }">
-        <v-btn
-            icon
-            dense
-            plain
-            @click="handleClick(item)"
+  <v-data-table
+    flat
+    height="800px"
+    fixed-header
+    :headers="headers"
+    :items="clients"
+    :search="$store.state.search"
+    :items-per-page="-1"
+    hide-default-footer
+    item-key="id"
+    sort-by="number"
+  >
+    <template v-slot:item.actions="{ item }">
+      <v-btn
+          icon
+          dense
+          plain
+          @click="handleClick(item)"
+        >
+          <img
+            width="26px"
+            src="@/components/Icons/edit.svg"
           >
-            <img
-              width="26px"
-              src="@/components/Icons/edit.svg"
-            >
-        </v-btn>
-      </template>
-    </v-data-table>
-  </div>
+      </v-btn>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
@@ -47,7 +32,6 @@ export default {
   name: 'ListClients',
   props: ['client'],
   data: () => ({
-    search: '',
     headers: [
       { text: '#', value: 'number', align: 'start', width: '3%' },
       { text: 'שם לקוח', value: 'name', width: '10%'},
@@ -76,7 +60,7 @@ export default {
           ordersMap[order.clientName]++
         })
 
-        return this.$store.getters.clientsFiltered.map(client => {
+        return this.$store.state.clients.map(client => {
           client.orders = ordersMap[client.name] || 0
           return client
         })

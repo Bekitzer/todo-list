@@ -29,18 +29,18 @@
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
-            <v-list-item-subtitle style="z-index: 1;font-size:12px">{{ item.title }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+              <v-list-item-subtitle style="z-index: 1;font-size:12px">{{ item.title }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
         <v-list-item @click="dialogs.exit = true">
         <v-list-item-content>
           <v-list-item-icon>
-          <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
-          <v-list-item-subtitle style="z-index: 1;font-size:12px">התנתק</v-list-item-subtitle>
-        </v-list-item-content>
-        </v-list-item>
-      </v-list>
+            <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
+              <v-list-item-subtitle style="z-index: 1;font-size:12px">התנתק</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
       <dialog-exit
         v-if="dialogs.exit"
         @close = 'dialogs.exit = false'

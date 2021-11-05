@@ -115,7 +115,7 @@ export default {
   watch: {
     user (value) {
       if (value !== null && value !== undefined) {
-        this.$router.go({path: this.$router.path})
+        // this.$router.go({path: this.$router.path})
       }
     },
   },

@@ -11,9 +11,10 @@
               <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86">{{pname}}</h2>
             </v-col>
             <v-spacer></v-spacer>
-            <!-- <v-col cols="12">
-              <search v-if="tableListSearch"/>
-            </v-col> -->
+            <v-col cols="12" lg="4" md="4" sm="6">
+              <search />
+            </v-col>
+            <v-spacer></v-spacer>
             <v-col cols="2" lg="1" md="1" sm="3" class="d-none d-sm-flex">
               <live-date />
             </v-col>

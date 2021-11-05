@@ -113,9 +113,10 @@ export default new Vuex.Store({
     // SIGNUP
     signUserUp ({commit}, payload){
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-      .then(() => {
+      .then(({user}) => {
         let newUser = {
           ...payload,
+          uid: user.uid
         }
         commit('setUser', newUser),
         firebase.auth().currentUser.updateProfile({
@@ -126,6 +127,7 @@ export default new Vuex.Store({
             lastname: payload.lastname,
             username: payload.username,
             email: payload.email,
+            uid: newUser.uid
           })
         })
       })
@@ -417,24 +419,28 @@ export default new Vuex.Store({
         return state.products
       }
       return state.products.filter(product => product.name.toLowerCase().includes(state.search.toLowerCase()))
+
     },
-    ordersFiltered(state) {
-      if (!state.search) {
-        return state.orders
-      }
-      return state.orders.filter(order => order.clientName.toLowerCase().includes(state.search.toLowerCase()))
-    },
+    // ordersFiltered(state) {
+    //   if (!state.search) {
+    //     return state.orders
+    //   }
+    //   return state.orders.filter(order => order.clientName.toLowerCase().includes(state.search.toLowerCase()))
+
+    // },
     clientsFiltered(state) {
       if (!state.search) {
         return state.clients
       }
       return state.clients.filter(client => client.name.toLowerCase().includes(state.search.toLowerCase()))
+
     },
     suppliersFiltered(state) {
       if (!state.search) {
         return state.suppliers
       }
       return state.suppliers.filter(supplier => supplier.name.toLowerCase().includes(state.search.toLowerCase()))
+
     }
   }
 })

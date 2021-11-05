@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <nav-appbar :pname="pageName"/>
-    <list-orders v-if="$store.state.orders.length" />
+    <list-orders v-if="$store.state.orders.length"/>
     <no-orders v-else />
     <v-fab-transition>
       <v-btn
@@ -29,6 +29,7 @@
     name: 'Orders',
     hidden: false,
     data: () => ({
+      search: '',
       pageName: 'הזמנות',
       dialogs: {
         create: false

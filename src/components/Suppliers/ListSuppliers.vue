@@ -1,45 +1,30 @@
 <template>
-  <div>
-    <v-row>
-      <v-spacer></v-spacer>
-      <v-col>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="חפש ספק..."
-          outlined
-          hide-details
-        ></v-text-field>
-      </v-col>
-      <v-spacer></v-spacer>
-    </v-row>
-    <v-data-table
-      flat
-      height="800px"
-      fixed-header
-      :search="search"
-      :headers="headers"
-      :items="suppliers"
-      item-key="id"
-      hide-default-footer
-      :items-per-page="-1"
-      sort-by="number"
-    >
-      <template v-slot:item.actions="{ item }">
-        <v-btn
-            icon
-            dense
-            plain
-            @click="handleClick(item)"
+  <v-data-table
+    flat
+    height="800px"
+    fixed-header
+    :search="$store.state.search"
+    :headers="headers"
+    :items="suppliers"
+    item-key="id"
+    hide-default-footer
+    :items-per-page="-1"
+    sort-by="number"
+  >
+    <template v-slot:item.actions="{ item }">
+      <v-btn
+          icon
+          dense
+          plain
+          @click="handleClick(item)"
+        >
+          <img
+            width="26px"
+            src="@/components/Icons/edit.svg"
           >
-            <img
-              width="26px"
-              src="@/components/Icons/edit.svg"
-            >
-        </v-btn>
-      </template>
-    </v-data-table>
-  </div>
+      </v-btn>
+    </template>
+  </v-data-table>
 </template>
 
 <script>
@@ -47,7 +32,6 @@ export default {
   name: 'Listuppliers',
   props: ['supplier'],
   data: () => ({
-    search: '',
     headers: [
       { text: '#', value: 'number', align: 'start', width: '3%' },
       { text: 'שם ספק', value: 'name', width: '10%'},
@@ -76,7 +60,7 @@ export default {
           ordersMap[order.supplierName]++
         })
 
-        return this.$store.getters.suppliersFiltered.map(supplier => {
+        return this.$store.state.suppliers.map(supplier => {
           supplier.orders = ordersMap[supplier.name] || 0
           return supplier
         })

@@ -1,39 +1,29 @@
 <template>
-  <v-text-field
-    :value="$store.state.search"
-    @input="$store.commit('setSearch', $event)"
-    placeholder="חיפוש..."
-    prepend-inner-icon="mdi-magnify"
-    solo
-    clearable
-  ></v-text-field>
-  <!-- <v-text-field
-    v-model="search"
-    append-icon="mdi-magnify"
-    placeholder="חיפוש..."
-    prepend-inner-icon="mdi-magnify"
-    solo
-    clearable
-  ></v-text-field> -->
+    <v-text-field
+      :value="$store.state.search"
+      @input="$store.commit('setSearch', $event)"
+      append-icon="mdi-magnify"
+      label="חפש..."
+      outlined
+      hide-details
+    ></v-text-field>
 </template>
 
 <script>
 export default {
-  name: 'Search',
-  data: () => ({
-    search: '',
-  }),
-  props: ['order'],
-  props: ['client'],
-  props: ['supplier'],
+
 }
 </script>
 
 <style lang="sass">
-  .v-input.theme--light.v-text-field.v-text-field--single-line.v-text-field--solo.v-text-field--is-booted.v-text-field--enclosed.v-text-field--placeholder
-    border-radius: 10px
-  .v-text-field__details
-    display: none !important
-  .v-input__slot
-    margin-bottom: 0 !important
+    .expanding-search
+        transition: max-width .3s
+        .v-input__slot
+            cursor: pointer !important
+            &:before, &:after
+                border: none !important
+        &.closed
+            max-width: 45px
+            .v-input__slot
+                background: transparent !important
 </style>

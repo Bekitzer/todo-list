@@ -4,7 +4,7 @@
     :items="orders"
     :expanded="expanded"
     item-key="id"
-    :search="search"
+    :search="$store.state.search"
     :items-per-page="-1"
     sort-by="number"
     show-expand
@@ -14,7 +14,7 @@
   >
     <template v-slot:expanded-item="{ headers, item }">
       <td class="orderWorkInfo" :colspan="headers.length">
-        {{ item.orderWork }}
+        {{ item.orderWork }}{{$store.state.search}}
       </td>
     </template>
     <template v-slot:item.actions="{ item }">
@@ -45,23 +45,29 @@
         {{ item.margin | formatNumber }}
     </template>
     <template v-slot:item.statusType="{ item }">
-      <v-icon :color="getColor(item.statusType)" class="spc-status-dot" size="60">
-        mdi-circle-small
-      </v-icon>
-        {{ item.statusType }}
+      <v-edit-dialog
+        :return-value.sync="item.statusType"
+        @save="save(item)"
+        @cancel="cancel"
+      >
+        <v-icon :color="getColor(item.statusType)" class="spc-status-dot" size="60">
+          mdi-circle-small
+        </v-icon>
+          {{ item.statusType }}
+        <template v-slot:input>
+          <v-select
+            :items="orderStatusTypeList"
+            v-model="item.statusType"
+            label="סטטוס"
+            single-line
+            counter
+          ></v-select>
+        </template>
+      </v-edit-dialog>
     </template>
     <template v-slot:top>
       <v-container fluid>
         <v-row>
-          <v-col cols="12" md="2" sm="6">
-              <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="חפש הזמנה..."
-                hide-details
-                clearable
-              ></v-text-field>
-          </v-col>
           <v-spacer></v-spacer>
           <v-col cols="12" md="2" sm="6">
               <v-select
@@ -81,12 +87,13 @@
   </v-data-table>
 </template>
 <script>
-
+import { format, parseISO, parse } from 'date-fns'
+import { he } from 'date-fns/locale'
+import { getAuth } from 'firebase/auth'
 export default {
   name: 'ListOrders',
   data: () => ({
     statusesFilterValue: null,
-    search: '',
     expanded: [],
     singleExpand: true,
     orderStatusTypeList: [
@@ -101,11 +108,21 @@ export default {
   // props: ['client'],
   // props: ['supplier'],
   methods: {
+    save (order) {
+      let payload = {
+        id: order.id,
+        statusType: order.statusType,
+        orderUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}) + ' > ' + this.name
+      }
+      this.$store.dispatch('updateOrder', payload)
+    },
+    cancel () {
+    },
     statusesFilter(item) {
-      if (!this.statusesFilterValue) {
+      if (!this.statusesFilterValue || !this.statusesFilterValue.length) {
         return true;
       }
-      return item === this.statusesFilterValue;
+      return this.statusesFilterValue.includes(item)
     },
     clickOrder(order){
       this.$router.push({ name: 'Order', params: { id : order.id }})
@@ -124,6 +141,16 @@ export default {
       else if (statusType === "סופק") return '#9E9E9E'
       else return 'grey darken-1'
     },
+  },
+  created() {
+    const user = getAuth().currentUser;
+    if (user !== null) {
+      this.name = user.displayName
+      this.email = user.email
+      this.photoURL = user.photoURL
+      this.emailVerified = user.emailVerified
+      this.uid = user.uid
+    }
   },
   computed: {
     headers () {
@@ -146,7 +173,7 @@ export default {
     } ,
     orders: {
       get() {
-        return this.$store.getters.ordersFiltered
+        return this.$store.state.orders
       },
       set(value) {
         this.$store.dispatch('setOrders', value)

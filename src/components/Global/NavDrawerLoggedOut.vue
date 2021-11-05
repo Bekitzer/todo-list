@@ -24,11 +24,11 @@
           link
           :to= "item.to"
         >
+        <v-list-item-content>
           <v-list-item-icon>
-            <v-icon color="white">{{ item.icon }}</v-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title class="white--text" style="z-index: 1;">{{ item.title }}</v-list-item-title>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">{{ item.title }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
