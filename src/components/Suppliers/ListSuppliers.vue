@@ -56,8 +56,10 @@ export default {
         const ordersMap = {}
 
         this.$store.state.orders.forEach(order => {
-          ordersMap[order.supplierName] = (ordersMap[order.supplierName] || 0) && (ordersMap[order.supplierStatus] != 'סופק')
-          ordersMap[order.supplierName]++
+          if( order.statusType !== 'סופק'){
+            ordersMap[order.supplierName] = ordersMap[order.supplierName] || 0
+            ordersMap[order.supplierName]++
+          }
         })
 
         return this.$store.state.suppliers.map(supplier => {

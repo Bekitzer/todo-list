@@ -163,7 +163,6 @@ export default {
       { text: 'ספק', value: 'supplierName', width: '10%' },
       { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
-      // { text: 'אחראי', value: 'deliveryAgent', width: '5%', 'sortable': false,  },
       { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
       { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
       { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
