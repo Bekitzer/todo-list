@@ -69,8 +69,7 @@
     <template v-slot:top>
       <v-container fluid>
         <v-row>
-          <v-spacer></v-spacer>
-          <v-col cols="12" md="2" sm="6">
+          <v-col cols="12" md="3" sm="6">
               <v-select
                 :items="orderStatusTypeList"
                 v-model="statusesFilterValue"
@@ -81,7 +80,7 @@
               >
               </v-select>
           </v-col>
-
+          <v-spacer></v-spacer>
         </v-row>
       </v-container>
     </template>
@@ -94,11 +93,13 @@ import { getAuth } from 'firebase/auth'
 export default {
   name: 'ListOrders',
   data: () => ({
-    statusesFilterValue: null,
+    statusesFilterValue:
+    ["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק"],
     expanded: [],
     singleExpand: true,
-    orderStatusTypeList: [
-      {text: "הזמנה חדשה", value: "הזמנה חדשה"},
+    orderStatusTypeList:
+    [
+      {text: "טיוטה", value: "טיוטה"},
       {text: "בעבודה", value: "בעבודה"},
       {text: "מוכן - משרד", value: "מוכן - משרד"},
       {text: "מוכן - ספק", value: "מוכן - ספק"},
@@ -135,7 +136,7 @@ export default {
       this.$router.push({ name: 'Supplier', params: { id : supplier.id }})
     },
     getColor (statusType) {
-      if (statusType === "הזמנה חדשה") return '#FF9800'
+      if (statusType === "טיוטה") return '#FF9800'
       else if (statusType === "בעבודה") return '#2196F3'
       else if (statusType === "מוכן - משרד") return '#4CAF50'
       else if (statusType === "מוכן - ספק") return '#4CAF50'

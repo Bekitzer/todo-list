@@ -154,7 +154,7 @@ import { getAuth } from 'firebase/auth'
       orderSellPrice: '',
       orderBuyPrice: '',
       orderMargin: '',
-      orderStatusType: 'הזמנה חדשה',
+      orderStatusType: 'טיוטה',
       dateDialog: false,
     }),
     created() {
