@@ -1,4 +1,4 @@
-<template>
+<template style="overflow: auto">
   <v-data-table
     :headers="headers"
     :items="orders"
@@ -7,8 +7,9 @@
     :search="$store.state.search"
     :items-per-page="-1"
     sort-by="number"
+    sort-desc
     show-expand
-    height="800px"
+    height="72vh"
     fixed-header
     hide-default-footer
   >
@@ -155,12 +156,12 @@ export default {
   computed: {
     headers () {
       return [
-      { text: '#', value: 'number', align: 'start', width: '3%' },
+      { text: '#', value: 'number', align: 'start', width: '3%', 'sortable': false },
       { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%' },
-      { text: 'לקוח', value: 'clientName', width: '10%' },
-      { text: '', value: 'data-table-expand', 'sortable': false,  },
+      { text: 'לקוח', value: 'clientName', width: '10%', 'sortable': false },
+      { text: '', value: 'data-table-expand', 'sortable': false },
       { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%', 'sortable': false,  },
-      { text: 'ספק', value: 'supplierName', width: '10%' },
+      { text: 'ספק', value: 'supplierName', width: '10%', 'sortable': false },
       { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
       { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },

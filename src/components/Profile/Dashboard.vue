@@ -3,6 +3,7 @@
     <nav-appbar :pname="pageName"/>
     <div class="text-center">
       <h1>{{email}}</h1>
+      <h1>{{uid}}</h1>
     </div>
   </div>
 </template>
@@ -18,12 +19,15 @@ export default {
     pageName: 'לוח בקרה',
   }),
   methods: {
+
   },
   created() {
     this.$vuetify.rtl = true
-    const user = getAuth().currentUser;
+    const user = getAuth().currentUser
+
     if (user !== null) {
-      this.email = user.email;
+      this.email = user.email
+      this.uid = user.uid
     }
   },
   components: {

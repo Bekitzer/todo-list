@@ -2,7 +2,7 @@
   <v-container>
     <nav-appbar :pname="'שם לקוח > ' + this.client.name"/>
     <v-row>
-      <v-col cols="12" md="3" sm="3">
+      <v-col cols="12" md="4" sm="4">
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12" md="4" sm="4">
             <v-icon
@@ -37,31 +37,31 @@
           </v-col>
           <v-col cols="6">
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-phone-outline</v-icon> {{ client.phone }}
+              טלפון: {{ client.phone }}
             </p>
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-whatsapp</v-icon> {{ client.whatsapp }}
+              וואטסאפ: {{ client.whatsapp }}
             </p>
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-reorder-vertical</v-icon> {{ client.addressAdditional }}
+              הערות: {{ client.addressAdditional }}
             </p>
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-calendar-edit</v-icon> {{ client.clientUpdated }}
+              תאריך עידכון: {{ client.clientUpdated }}
             </p>
           </v-col>
           <v-col cols="6">
 
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-email-outline</v-icon> {{ client.email }}
+              אימייל: {{ client.email }}
             </p>
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-map-marker-outline</v-icon> {{ client.address }}
+              כתובת: {{ client.address }}
             </p>
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-account-filter</v-icon> {{ client.lead }}
+              מקור הגעה: {{ client.lead }}
             </p>
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-calendar-plus</v-icon> {{ client.clientCreationDate }}
+              תאריך יצירת לקוח: {{ client.clientCreationDate }}
             </p>
           </v-col>
         </v-row>
@@ -71,12 +71,12 @@
           </v-col>
           <v-col cols="6">
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-cash-fast</v-icon> תנאי תשלום > {{ client.paymentMethod }}
+              תנאי תשלום: {{ client.paymentTerms }}
             </p>
           </v-col>
           <v-col cols="6">
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-cash-multiple</v-icon> אופן תשלום > {{ client.paymentTerms }}
+              אופן תשלום: {{ client.paymentMethod }}
             </p>
           </v-col>
         </v-row>
@@ -86,15 +86,15 @@
           </v-col>
           <v-col cols="6">
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-store-clock</v-icon> שעות פעילות > {{ client.workingHours }}
+              שעות פעילות: {{ client.workingHours }}
             </p>
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-newspaper</v-icon> {{ client.newsletter }}
+              דיוור: {{ client.newsletter }}
             </p>
           </v-col>
           <v-col cols="6">
             <p style="margin-bottom:0 !important;">
-              <v-icon color="#006D7B" small>mdi-moped</v-icon> אופן אספקה > {{ client.deliveryType }}
+              אופן אספקה: {{ client.deliveryType }}
             </p>
           </v-col>
         </v-row>

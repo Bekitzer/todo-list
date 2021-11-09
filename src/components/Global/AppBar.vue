@@ -11,8 +11,8 @@
               <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86">{{pname}}</h2>
             </v-col>
             <v-spacer></v-spacer>
-            <v-col cols="12" lg="4" md="4" sm="6">
-              <search />
+            <v-col cols="12" lg="3" md="3" sm="6">
+              <search v-if="tableListSearch"/>
             </v-col>
             <v-spacer></v-spacer>
             <v-col cols="2" lg="1" md="1" sm="3" class="d-none d-sm-flex">
@@ -51,6 +51,8 @@ export default {
       }else if(this.$route.path === '/suppliers'){
         return true
       }else if(this.$route.path === '/orders'){
+        return true
+      }else if(this.$route.path === '/products'){
         return true
       }else{
         return false
