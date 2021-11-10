@@ -3,7 +3,7 @@
     <v-dialog
       :value="true"
       persistent
-      max-width="600"
+      max-width="900"
     >
       <v-card
         elevation="8"
@@ -146,7 +146,7 @@
           </v-row>
           <v-row class="pr-10 pl-10">
             <v-col cols="12">
-              <h3>הגדרות לקוח</h3>
+              <h3>הגדרות ספק</h3>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
@@ -171,17 +171,7 @@
               <v-select
                 v-model="supplierStatus"
                 :items="supplierStatusList"
-                label="סטטוס לקוח"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="supplierLead"
-                :items="supplierLeadList"
-                label="מקור הגעה"
+                label="סטטוס ספק"
                 filled
                 dense
                 hide-details
@@ -261,8 +251,6 @@ export default {
         supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
         supplierStatus: '',
         supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
-        supplierLead: '',
-        supplierLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן"],
         supplierNewsletter: '',
         supplierNewsletterList: ["כן","לא"]
       }
@@ -295,7 +283,6 @@ export default {
             workingHours: this.supplierHours,
             deliveryType: this.supplierDeliveryType,
             status: this.supplierStatus,
-            lead: this.supplierLead,
             newsletter: this.supplierNewsletter,
             supplierUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
           }
@@ -325,7 +312,6 @@ export default {
       this.supplierHours = this.supplier.workingHours
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
-      this.supplierLead = this.supplier.lead,
       this.supplierNewsletter = this.supplier.newsletter
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {
