@@ -5,20 +5,24 @@
       <v-col cols="12" md="7" sm="7">
         <v-row class="pa-10 grey lighten-3 rounded-b-xl">
           <v-col cols="3" md="3" sm="3">
-            <h2>מוצר</h2>
-            <h3>{{ product.name }}</h3>
-          </v-col>
-          <v-col cols="3" md="3" sm="3">
             <h2>מספר</h2>
             <h3>{{ product.number }}</h3>
           </v-col>
           <v-col cols="3" md="3" sm="3">
-            <h2>תאריך יצירה</h2>
-            <h3>{{ product.productCreationDate }}</h3>
+            <h2>מוצר</h2>
+            <h3>{{ product.name }}</h3>
+          </v-col>
+          <v-col cols="3" md="3" sm="3">
+            <h2>קטגוריה</h2>
+            <h3>{{ product.category }}</h3>
           </v-col>
           <v-col cols="3" md="3" sm="3">
             <h2>תאריך שינוי</h2>
             <h3>{{ product.productUpdated }}</h3>
+          </v-col>
+          <v-col cols="12" md="12" sm="12">
+            <h2>מידע על המוצר</h2>
+            <h3>{{ product.productInfo }}</h3>
           </v-col>
         </v-row>
       </v-col>

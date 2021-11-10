@@ -28,18 +28,18 @@ export default {
     headers: [
       { text: '#', value: 'number', align: 'start', width: '5%' },
       { text: 'שם לקוח', value: 'name', width: '20%'},
-      { text: 'שם חברה', value: 'companyName', width: '20%' },
-      { text: 'טלפון משרד', value: 'phone', width: '10%' },
-      { text: 'מייל משרד', value: 'email', width: '10%' },
-      { text: 'כתובת', value: 'address', width: '20%' },
-      { text: 'אופן אספקה', value: 'deliveryType', width: '10%' },
+      { text: 'שם חברה', value: 'companyName', width: '20%', 'sortable': false },
+      { text: 'טלפון משרד', value: 'phone', width: '10%', 'sortable': false },
+      { text: 'מייל משרד', value: 'email', width: '10%', 'sortable': false },
+      { text: 'כתובת', value: 'address', width: '20%', 'sortable': false },
+      { text: 'אופן אספקה', value: 'deliveryType', width: '10%', 'sortable': false },
       { text: 'ה.פעילות', value: 'orders', width: '5%' },
     ],
   }),
   methods: {
-    // handleClick(client){
-    //   this.$router.push({ name: 'Client', params: { id : client.id }})
-    // }
+    handleClick(client){
+      this.$router.push({ name: 'Client', params: { id : client.id }})
+    }
   },
   computed: {
     clients: {

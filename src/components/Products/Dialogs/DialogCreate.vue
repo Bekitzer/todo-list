@@ -18,6 +18,20 @@
                 outlined
               />
             </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-text-field
+                v-model="productCategory"
+                label="שם קטגוריה"
+                outlined
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-textarea
+                v-model="productInfo"
+                label="מידע על המוצר"
+                outlined
+              ></v-textarea>
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -61,6 +75,8 @@ export default {
     dialog: false,
     productNumber: '',
     productName: '',
+    productCategory: '',
+    productInfo: '',
   }),
   computed: {
     productFieldInvalid() {
@@ -73,11 +89,15 @@ export default {
     addProduct() {
       if(!this.productFieldInvalid){
         const productFields = {
-          name: this.productName
+          name: this.productName,
+          category: this.productName,
+          productInfo: this.productInfo
         }
 
         this.$store.dispatch('addProduct', productFields)
         this.productName = ''
+        this.productCategory = ''
+        this.productInfo = ''
       }
       this.closeDialog()
     },

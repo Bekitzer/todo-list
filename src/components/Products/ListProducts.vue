@@ -1,16 +1,16 @@
 <template>
-    <v-col cols="12" md="3" sm="6">
+    <v-col cols="12" md="2" sm="6">
     <v-card>
       <v-img
         src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        height="200px"
+        height="100px"
       ></v-img>
 
       <v-card-title>
         {{product.name}}
       </v-card-title>
       <v-card-subtitle>
-        שם קטגוריה
+        {{product.category}}
       </v-card-subtitle>
       <v-card-actions>
         <v-btn @click="handleClick(product)" color="orange lighten-2" text>
@@ -25,7 +25,7 @@
         <div v-show="show">
           <v-divider></v-divider>
           <v-card-text>
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
+            {{product.productInfo}}
           </v-card-text>
         </div>
       </v-expand-transition>
