@@ -58,9 +58,6 @@
               כתובת: {{ client.address }}
             </p>
             <p style="margin-bottom:0 !important;">
-              מקור הגעה: {{ client.lead }}
-            </p>
-            <p style="margin-bottom:0 !important;">
               תאריך יצירת לקוח: {{ client.clientCreationDate }}
             </p>
           </v-col>
@@ -84,6 +81,9 @@
           <v-col cols="12">
             <h4>הגדרות לקוח</h4>
           </v-col>
+          <p style="margin-bottom:0 !important;">
+              מקור הגעה: {{ client.lead }}
+            </p>
           <v-col cols="6">
             <p style="margin-bottom:0 !important;">
               שעות פעילות: {{ client.workingHours }}
