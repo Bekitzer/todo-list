@@ -62,15 +62,14 @@ export default {
   .theme--light.v-data-table > .v-data-table__ wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:not(.v-data-table__mobile-row)
     border-bottom: none !important
   .v-data-table>.v-data-table__wrapper>table>tbody>tr:nth-child(odd)>td
-    background-color: #f1f1f1
-  .v-data-table>.v-data-table__wrapper>table>tbody>tr:nth-child(odd)>td:last-child
-    background-color: #ffffff
+    background-color: #fbf9f9
   .v-data-table > .v-data-table__wrapper > table > tbody > tr:nth-child(odd)>td:first-child
     border-radius: 0px 10px 10px 0px !important
-  .v-data-table > .v-data-table__wrapper > table > tbody > tr:nth-child(odd)>td:nth-last-child(2)
+  .v-data-table > .v-data-table__wrapper > table > tbody > tr:nth-child(odd)>td:last-child
     border-radius: 10px 0px 0px 10px !important
   .v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > thead > tr > th
     border-bottom: none !important
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
-    background: transparent
+    background: transparent !important
+    cursor: pointer !important
 </style>

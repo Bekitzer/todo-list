@@ -30,16 +30,6 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          :to="{ name: 'Suppliers' }"
-        >
-          <v-list-item-content>
-            <v-list-item-icon>
-              <icon-suppliers width="26"/>
-            </v-list-item-icon>
-            <v-list-item-subtitle style="z-index: 1;font-size:12px">ספקים</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
           :to="{ name: 'Clients' }"
         >
           <v-list-item-content>
@@ -47,6 +37,16 @@
               <icon-clients width="26"/>
             </v-list-item-icon>
             <v-list-item-subtitle style="z-index: 1;font-size:12px">לקוחות</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          :to="{ name: 'Suppliers' }"
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
+              <icon-suppliers width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">ספקים</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item
@@ -135,7 +135,7 @@ export default {
     box-shadow: none !important
     border-radius: 0 !important
   .v-image.v-responsive.spc-img.theme--light .v-responsive__sizer
-    padding-bottom: 100px !important
+    padding-bottom: 90px !important
   .theme--light.v-navigation-drawer:not(.v-navigation-drawer--floating) .v-navigation-drawer__border
     background-color: rgba(0, 0, 0, 0) !important
   .v-list--nav
@@ -155,6 +155,6 @@ export default {
   .v-navigation-drawer__content .v-list-item__icon
     margin: 0 0
   .v-navigation-drawer__content .v-list-item__content
-    padding: 30px 0 !important
+    padding: 24px 0 !important
 </style>
 

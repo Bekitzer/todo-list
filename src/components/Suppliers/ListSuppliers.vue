@@ -1,26 +1,16 @@
 <template>
   <v-data-table
-    flat
-    height="800px"
+    height="72vh"
     fixed-header
     :search="$store.state.search"
     :headers="headers"
     :items="suppliers"
     item-key="id"
-    hide-default-footer
-    :items-per-page="-1"
     sort-by="number"
+    @click:row="handleClick"
+    :items-per-page="-1"
+    hide-default-footer
   >
-    <template v-slot:item.actions="{ item }">
-      <v-btn
-          icon
-          dense
-          plain
-          @click="handleClick(item)"
-        >
-          <icon-edit width="26"/>
-      </v-btn>
-    </template>
   </v-data-table>
 </template>
 
@@ -30,16 +20,14 @@ export default {
   props: ['supplier'],
   data: () => ({
     headers: [
-      { text: '#', value: 'number', align: 'start', width: '3%' },
-      { text: 'שם ספק', value: 'name', width: '10%'},
-      { text: 'שם חברה', value: 'companyName', width: '10%' },
-      { text: 'טלפון משרד', value: 'phone', width: '17%' },
+      { text: '#', value: 'number', align: 'start', width: '5%' },
+      { text: 'שם ספק', value: 'name', width: '20%'},
+      { text: 'שם חברה', value: 'companyName', width: '20%' },
+      { text: 'טלפון משרד', value: 'phone', width: '10%' },
       { text: 'מייל משרד', value: 'email', width: '10%' },
-      { text: 'כתובת', value: 'address', width: '10%' },
-      { text: 'אופן אספקה', value: 'deliveryType', width: '7%' },
-      { text: 'ס.ספק', value: 'status', width: '5%' },
-      { text: 'פעולות', value: 'actions', width: '5%' },
-      { text: 'ה.פעילות', value: 'orders', width: '8%' },
+      { text: 'כתובת', value: 'address', width: '20%' },
+      { text: 'אופן אספקה', value: 'deliveryType', width: '10%' },
+      { text: 'ה.פעילות', value: 'orders', width: '5%' },
     ],
   }),
   methods: {

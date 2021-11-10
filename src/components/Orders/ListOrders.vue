@@ -1,29 +1,25 @@
-<template style="overflow: auto">
+<template>
   <v-data-table
-    :headers="headers"
-    :items="orders"
-    :expanded="expanded"
-    item-key="id"
-    :search="$store.state.search"
-    :items-per-page="-1"
-    sort-by="number"
-    sort-desc
-    show-expand
     height="72vh"
     fixed-header
+    :search="$store.state.search"
+    :headers="headers"
+    :items="orders"
+    item-key="id"
+    sort-by="number"
+    :expanded="expanded"
+    :items-per-page="-1"
     hide-default-footer
+    sort-desc
+    show-expand
+    @click:row="clickOrder"
   >
     <template v-slot:expanded-item="{ headers, item }">
       <td class="orderWorkInfo" :colspan="headers.length">
         {{ item.orderWork }}{{$store.state.search}}
       </td>
     </template>
-    <template v-slot:item.actions="{ item }">
-      <v-btn @click="clickOrder(item)" dense plain>
-        <icon-edit width="26"/>
-      </v-btn>
-    </template>
-    <template v-slot:item.clients="{ item }">
+    <!-- <template v-slot:item.clients="{ item }">
       <v-btn @click="clickClient(item)" dense plain style="color:#006d7b;">
         {{ item.clientName }}
       </v-btn>
@@ -32,7 +28,7 @@
       <v-btn @click="clickSupplier(item)" dense plain style="color:#006d7b;">
         {{ item.supplierName }}
       </v-btn>
-    </template>
+    </template> -->
     <template v-slot:item.sell="{ item }">
         {{ item.sellPrice | formatNumber }}
     </template>
@@ -45,6 +41,8 @@
     <template v-slot:item.statusType="{ item }">
       <v-edit-dialog
         :return-value.sync="item.statusType"
+        large
+        persistent
         @save="save(item)"
         @cancel="cancel"
       >
@@ -90,8 +88,7 @@ import { getAuth } from 'firebase/auth'
 export default {
   name: 'ListOrders',
   data: () => ({
-    statusesFilterValue:
-    ["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק"],
+    statusesFilterValue:["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק"],
     expanded: [],
     singleExpand: true,
     orderStatusTypeList:
@@ -158,14 +155,13 @@ export default {
       { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%' },
       { text: 'לקוח', value: 'clientName', width: '10%', 'sortable': false },
       { text: '', value: 'data-table-expand', 'sortable': false },
-      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%', 'sortable': false,  },
+      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '22%', 'sortable': false,  },
       { text: 'ספק', value: 'supplierName', width: '10%', 'sortable': false },
       { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
       { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
       { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
       { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
-      { text: 'פעולות', value: 'actions', width: '5%', 'sortable': false,  },
       { text: 'סטטוס הזמנה', value: 'statusType', width: '8%','sortable': true, filter: this.statusesFilter},
     ]
     } ,

@@ -1,24 +1,22 @@
 <template>
   <v-data-table
-    flat
-    height="800px"
+    height="72vh"
     fixed-header
+    :search="$store.state.search"
     :headers="headers"
     :items="clients"
-    :search="$store.state.search"
-    :items-per-page="-1"
-    hide-default-footer
     item-key="id"
     sort-by="number"
+    @click:row="handleClick"
+    :items-per-page="-1"
+    hide-default-footer
+
   >
-    <template v-slot:item.actions="{ item }">
+    <!-- <template v-slot:item.actions="{ item }">
       <a @click="handleClick(item)">
         <icon-contacts width="30"/>
       </a>
-      <a @click="handleClick(item)">
-        <icon-edit width="26"/>
-      </a>
-    </template>
+    </template> -->
   </v-data-table>
 </template>
 
@@ -28,22 +26,20 @@ export default {
   props: ['client'],
   data: () => ({
     headers: [
-      { text: '#', value: 'number', align: 'start', width: '3%' },
-      { text: 'שם לקוח', value: 'name', width: '10%'},
-      { text: 'שם חברה', value: 'companyName', width: '10%' },
-      { text: 'טלפון משרד', value: 'phone', width: '17%' },
+      { text: '#', value: 'number', align: 'start', width: '5%' },
+      { text: 'שם לקוח', value: 'name', width: '20%'},
+      { text: 'שם חברה', value: 'companyName', width: '20%' },
+      { text: 'טלפון משרד', value: 'phone', width: '10%' },
       { text: 'מייל משרד', value: 'email', width: '10%' },
-      { text: 'כתובת', value: 'address', width: '10%' },
-      { text: 'אופן אספקה', value: 'deliveryType', width: '7%' },
-      { text: 'ס.לקוח', value: 'status', width: '5%' },
-      { text: 'פעולות', value: 'actions', width: '5%' },
-      { text: 'ה.פעילות', value: 'orders', width: '8%' },
+      { text: 'כתובת', value: 'address', width: '20%' },
+      { text: 'אופן אספקה', value: 'deliveryType', width: '10%' },
+      { text: 'ה.פעילות', value: 'orders', width: '5%' },
     ],
   }),
   methods: {
-    handleClick(client){
-      this.$router.push({ name: 'Client', params: { id : client.id }})
-    }
+    // handleClick(client){
+    //   this.$router.push({ name: 'Client', params: { id : client.id }})
+    // }
   },
   computed: {
     clients: {
