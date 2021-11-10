@@ -158,7 +158,7 @@ import { getAuth } from 'firebase/auth'
       orderWorkProducts: '',
       orderSupplierName: '',
       orderDeliveryType: '',
-      orderDeliveryTypeList: ["משלוח נאנו","משלוח גט","משלוח תפוז","איסוף משרד","איסוף הרצליה"],
+      orderDeliveryTypeList: [ "משלוח > נאנו","משלוח > גט","משלוח > תפוז","עצמי > הרצליה","עצמי > משרד"],
       orderDeliveryDate: '',
       orderDeliveryAgent: '',
       orderSellPrice: '',
