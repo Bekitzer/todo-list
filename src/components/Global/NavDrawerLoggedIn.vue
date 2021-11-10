@@ -20,18 +20,73 @@
           ></v-img>
         </v-list-item>
         <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-          :to= "item.to"
+          :to="{ name: 'Orders' }"
         >
           <v-list-item-content>
             <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
+              <icon-orders width="26"/>
             </v-list-item-icon>
-              <v-list-item-subtitle style="z-index: 1;font-size:12px">{{ item.title }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">הזמנות</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          :to="{ name: 'Suppliers' }"
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
+              <icon-suppliers width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">ספקים</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          :to="{ name: 'Clients' }"
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
+              <icon-clients width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">לקוחות</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          :to="{ name: 'Products' }"
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
+              <icon-products width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">מוצרים</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
+              <icon-book-keeping width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">הנה״ח</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          :to="{ name: 'Dashboard' }"
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
+              <icon-dashboard width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">לוח בקרה</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
+              <icon-services width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">שירותים</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item @click="dialogs.exit = true">
         <v-list-item-content>
           <v-list-item-icon>
@@ -56,17 +111,16 @@ export default {
     dialogs: {
       exit: false
     },
-    items: [
-      { title: 'הזמנות', icon: 'mdi-format-list-checks', to: '/orders' },
-      { title: 'ספקים', icon: 'mdi-account-multiple-outline', to: '/suppliers' },
-      { title: 'לקוחות', icon: 'mdi-account', to: '/clients' },
-      { title: 'מוצרים', icon: 'mdi-view-list', to: '/products' },
-      { title: 'לוח בקרה', icon: 'mdi-view-dashboard', to: '/dashboard' },
-
-    ],
   }),
   components: {
     'dialog-exit': require('@/components/Global/Dialogs/DialogExit.vue').default,
+    'icon-suppliers': require('@/components/Icons/IconSupplier.vue').default,
+    'icon-clients': require('@/components/Icons/IconClient.vue').default,
+    'icon-book-keeping': require('@/components/Icons/IconBookeeping.vue').default,
+    'icon-dashboard': require('@/components/Icons/IconDashboard.vue').default,
+    'icon-orders': require('@/components/Icons/IconOrder.vue').default,
+    'icon-products': require('@/components/Icons/IconProduct.vue').default,
+    'icon-services': require('@/components/Icons/IconService.vue').default,
   }
 }
 </script>

@@ -18,11 +18,10 @@ Vue.component('my-component', {
     },
   },
 })
-
 export default new Vuetify({
   rtl: true,
   lang: {
     locales: { he },
     current: 'he',
   },
-});
+})

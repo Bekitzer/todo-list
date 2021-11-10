@@ -18,10 +18,7 @@
           plain
           @click="handleClick(item)"
         >
-          <img
-            width="26px"
-            src="@/components/Icons/edit.svg"
-          >
+          <icon-edit width="26"/>
       </v-btn>
     </template>
   </v-data-table>
@@ -71,6 +68,9 @@ export default {
         this.$store.dispatch('setSuppliers', value)
       }
     }
+  },
+  components: {
+    'icon-edit': require('@/components/Icons/IconEdit.vue').default
   }
 }
 </script>

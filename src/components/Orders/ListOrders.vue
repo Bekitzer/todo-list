@@ -20,10 +20,7 @@
     </template>
     <template v-slot:item.actions="{ item }">
       <v-btn @click="clickOrder(item)" dense plain>
-        <img
-          width="26px"
-          src="@/components/Icons/edit.svg"
-        >
+        <icon-edit width="26"/>
       </v-btn>
     </template>
     <template v-slot:item.clients="{ item }">
@@ -180,6 +177,9 @@ export default {
         this.$store.dispatch('setOrders', value)
       }
     }
+  },
+  components: {
+    'icon-edit': require('@/components/Icons/IconEdit.vue').default
   }
 }
 </script>

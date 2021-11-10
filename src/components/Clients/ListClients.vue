@@ -12,17 +12,12 @@
     sort-by="number"
   >
     <template v-slot:item.actions="{ item }">
-      <v-btn
-          icon
-          dense
-          plain
-          @click="handleClick(item)"
-        >
-          <img
-            width="26px"
-            src="@/components/Icons/edit.svg"
-          >
-      </v-btn>
+      <a @click="handleClick(item)">
+        <icon-contacts width="30"/>
+      </a>
+      <a @click="handleClick(item)">
+        <icon-edit width="26"/>
+      </a>
     </template>
   </v-data-table>
 </template>
@@ -70,6 +65,10 @@ export default {
         this.$store.dispatch('setClients', value)
       }
     }
+  },
+  components: {
+    'icon-edit': require('@/components/Icons/IconEdit.vue').default,
+    'icon-contacts': require('@/components/Icons/IconContact.vue').default
   }
 }
 </script>

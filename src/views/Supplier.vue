@@ -2,15 +2,16 @@
   <v-container>
     <nav-appbar :pname="'שם ספק > ' + this.supplier.name"/>
     <v-row>
-      <v-col cols="12" md="7" sm="7">
-        <v-row class="pa-10 grey lighten-3 rounded-b-xl pos-rel">
-          <v-icon
-            :color="getColor(supplier.status)"
-            class="spc-status-dot pos-abs"
-            size="60"
-          >mdi-circle-small</v-icon>
-          <v-col cols="2" md="2" sm="2">
+      <v-col cols="12" md="4" sm="4">
+        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+          <v-col cols="12" md="4" sm="4">
+            <v-icon
+              :color="getColor(supplier.status)"
+              class="spc-status-dot pos-abs"
+              size="60"
+            >mdi-circle-small</v-icon>
             <v-avatar
+              style="border:1px solid black"
               class="profile"
               size="100px"
             >
@@ -20,58 +21,85 @@
               ></v-img>
             </v-avatar>
           </v-col>
-          <v-col cols="4" md="4" sm="4">
-            <h2>{{ supplier.name }}</h2>
-            <p style="font-size:14px;">{{ supplier.companyName }} / ח.פ. {{ supplier.numberId }}</p>
-          </v-col>
-          <v-col cols="3" md="3" sm="3">
-            <p>
-              <v-icon color="#006D7B" small>mdi-phone-outline</v-icon> {{ supplier.phone }}
-            </p>
-            <p>
-              <v-icon color="#006D7B" small>mdi-email-outline</v-icon> {{ supplier.email }}
-            </p>
-            <p>
-              <v-icon color="#006D7B" small>mdi-whatsapp</v-icon> {{ supplier.whatsapp }}
-            </p>
-          </v-col>
-          <v-col cols="3" md="3" sm="3">
-            <p>
-              <v-icon color="#006D7B" small>mdi-map-marker-outline</v-icon> {{ supplier.address }}
-            </p>
-              <v-row>
-                <v-col cols="6" md="6" sm="6">
-                  <p style="font-size:14px;">ת.רישום <br />{{ supplier.supplierCreationDate }}</p>
-                </v-col>
-                <v-col cols="6" md="6" sm="6">
-                  <p style="font-size:14px;">ת.עידכון <br />{{ supplier.supplierUpdated }}</p>
-                </v-col>
-              </v-row>
+          <v-col cols="12" md="8" sm="8">
+            <div>
+              <small class="margin-bottom:0 !important;">שם חברה</small>
+              <h2>{{ supplier.name }}</h2>
+            </div>
+            <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
+            <p style="margin-bottom:0 !important;">ח.פ. {{ supplier.numberId }}</p>
+            <p style="margin-bottom:0 !important;">{{ supplier.website }} | {{ supplier.facebook }} | {{ supplier.instagram }}</p>
           </v-col>
         </v-row>
-        <v-row class="pt-6">
+        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+          <v-col cols="12">
+            <h4>פרטי התקשרות</h4>
+          </v-col>
+          <v-col cols="6">
+            <p style="margin-bottom:0 !important;">
+              טלפון: {{ supplier.phone }}
+            </p>
+            <p style="margin-bottom:0 !important;">
+              וואטסאפ: {{ supplier.whatsapp }}
+            </p>
+            <p style="margin-bottom:0 !important;">
+              הערות: {{ supplier.addressAditional }}
+            </p>
+            <p style="margin-bottom:0 !important;">
+              תאריך עידכון: {{ supplier.supplierUpdated }}
+            </p>
+          </v-col>
+          <v-col cols="6">
+
+            <p style="margin-bottom:0 !important;">
+              אימייל: {{ supplier.email }}
+            </p>
+            <p style="margin-bottom:0 !important;">
+              כתובת: {{ supplier.address }}
+            </p>
+            <p style="margin-bottom:0 !important;">
+              מקור הגעה: {{ supplier.lead }}
+            </p>
+            <p style="margin-bottom:0 !important;">
+              תאריך יצירת לקוח: {{ supplier.supplierCreationDate }}
+            </p>
+          </v-col>
+        </v-row>
+        <v-row class="pa-3 pos-rel mb-2 grey lighten-3">
+          <v-col cols="12">
+            <h4>הגדרות תשלום</h4>
+          </v-col>
+          <v-col cols="6">
+            <p style="margin-bottom:0 !important;">
+              תנאי תשלום: {{ supplier.paymentTerms }}
+            </p>
+          </v-col>
+          <v-col cols="6">
+            <p style="margin-bottom:0 !important;">
+              אופן תשלום: {{ supplier.paymentMethod }}
+            </p>
+          </v-col>
+        </v-row>
+        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+          <v-col cols="12">
+            <h4>הגדרות לקוח</h4>
+          </v-col>
+          <v-col cols="6">
+            <p style="margin-bottom:0 !important;">
+              שעות פעילות: {{ supplier.workingHours }}
+            </p>
+            <p style="margin-bottom:0 !important;">
+              דיוור: {{ supplier.newsletter }}
+            </p>
+          </v-col>
+          <v-col cols="6">
+            <p style="margin-bottom:0 !important;">
+              אופן אספקה: {{ supplier.deliveryType }}
+            </p>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-expansion-panels flat style="border:1px solid 0 1px 1px 1px">
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                תנאי פעילות
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-row>
-                  <v-col cols="3" md="3" sm="3">
-                    <p style="font-size:14px;">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
-                  </v-col>
-                  <v-col cols="3" md="3" sm="3">
-                    <p style="font-size:14px;">תנאי תשלום <br />{{ supplier.paymentMethod }}</p>
-                  </v-col>
-                  <v-col cols="3" md="3" sm="3">
-                    <p style="font-size:14px;">שעות פעילות <br />{{ supplier.workingHours }}</p>
-                  </v-col>
-                  <v-col cols="3" md="3" sm="3">
-                    <p style="font-size:14px;">סוג משלוח<br />{{ supplier.deliveryType }}</p>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
             <v-expansion-panel>
               <v-expansion-panel-header>
                 אנשי קשר
@@ -79,13 +107,13 @@
               <v-expansion-panel-content>
                 <v-row>
                   <v-col cols="4" md="4" sm="4">
-                    <p style="font-size:14px;">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
+                    <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
                   </v-col>
                   <v-col cols="4" md="4" sm="4">
-                    <p style="font-size:14px;">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
+                    <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
                   </v-col>
                   <v-col cols="4" md="4" sm="4">
-                    <p style="font-size:14px;">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
+                    <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
                   </v-col>
                 </v-row>
               </v-expansion-panel-content>
@@ -203,8 +231,8 @@ export default {
   .pos-abs
     position: absolute !important
     bottom: 0
-    right: 0
     display: block
+    right: 0
   .pos-rel
     position: relative !important
 </style>

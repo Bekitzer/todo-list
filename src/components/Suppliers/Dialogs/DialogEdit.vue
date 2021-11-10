@@ -9,106 +9,194 @@
         elevation="8"
         shaped
       >
-        <v-card-title>עריכת ספק</v-card-title>
-          <v-row class="pa-4">
+        <v-card-title>יצירת ספק</v-card-title>
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12">
+              <h3>פרטי ספק</h3>
+            </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="supplierName"
                 label="שם ספק"
-                outlined
+                filled
+                dense
                 hide-details
-              ></v-text-field>
+              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="supplierCompanyName"
                 label="שם חברה"
-                outlined
+                filled
+                dense
                 hide-details
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierPhone"
-                label="טלפון משרד"
-                outlined
-                hide-details
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierEmail"
-                label="מייל משרד"
-                outlined
-                hide-details
-              ></v-text-field>
+              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="supplierIdNumber"
-                label="ח.פ."
-                outlined
+                label="ח.פ. / ע.מ."
+                filled
+                dense
                 hide-details
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierPaymentTerms"
-                label="תנאי תשלום"
-                outlined
-                hide-details
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierPaymentMethod"
-                label="אופן תשלום"
-                outlined
-                hide-details
-              ></v-text-field>
+              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="supplierAddress"
                 label="כתובת"
-                outlined
+                filled
+                dense
                 hide-details
-              ></v-text-field>
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-textarea
+                v-model="supplierAddressAdditional"
+                label="הערות"
+                filled
+                dense
+                hide-details
+              ></v-textarea>
+            </v-col>
+          </v-row>
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12">
+              <h3>פרטי התקשרות</h3>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierPhone"
+                label="טלפון משרד"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierEmail"
+                label="מייל משרד"
+                filled
+                dense
+                hide-details
+              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="supplierWhatsapp"
                 label="וואטסאפ"
-                outlined
+                filled
+                dense
                 hide-details
-              ></v-text-field>
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierWebsite"
+                label="אתר אינטרנט"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierFacebook"
+                label="פייסבוק"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="supplierInstagram"
+                label="אינסטגרם"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+          </v-row>
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12">
+              <h3>הגדרות תשלום</h3>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="supplierPaymentTerms"
+                :items="supplierPaymentTermsList"
+                label="תנאי תשלום"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="supplierPaymentMethod"
+                :items="supplierPaymentMethodList"
+                label="אופן התשלום"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
+          </v-row>
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12">
+              <h3>הגדרות לקוח</h3>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="supplierDeliveryType"
+                :items="supplierDeliveryTypeList"
+                label="אופן אספקה"
+                filled
+                dense
+                hide-details
+              ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="supplierHours"
                 label="שעות פעילות"
-                outlined
+                filled
+                dense
                 hide-details
-              ></v-text-field>
+              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
-                <v-select
-                  v-model="supplierDeliveryType"
-                  :items="supplierDeliveryTypeList"
-                  label="אופן אספקה"
-                  outlined
-                  hide-details
-                ></v-select>
-              </v-col>
-              <v-col cols="12" md="6" sm="6">
-                <v-select
-                  v-model="supplierStatus"
-                  :items="supplierStatusList"
-                  label="סטטוס ספק"
-                  outlined
-                  hide-details
-                ></v-select>
-              </v-col>
+              <v-select
+                v-model="supplierStatus"
+                :items="supplierStatusList"
+                label="סטטוס לקוח"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="supplierLead"
+                :items="supplierLeadList"
+                label="מקור הגעה"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="supplierNewsletter"
+                :items="supplierNewsletterList"
+                label="דיוור"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -158,31 +246,31 @@ export default {
         supplierPhone: '',
         supplierEmail: '',
         supplierIdNumber: '',
+        supplierWebsite: '',
+        supplierFacebook: '',
+        supplierInstagram: '',
         supplierPaymentTerms: '',
+        supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
         supplierPaymentMethod: '',
+        supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק"],
         supplierAddress: '',
+        supplierAddressAdditional: '',
         supplierWhatsapp: '',
         supplierHours: '',
         supplierDeliveryType: '',
+        supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
         supplierStatus: '',
         supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
-        supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
+        supplierLead: '',
+        supplierLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן"],
+        supplierNewsletter: '',
+        supplierNewsletterList: ["כן","לא"]
       }
     },
     computed: {
       supplierFieldInvalid() {
         return
         !this.supplierName || this.supplierName === this.supplier.name
-        !this.supplierCompanyName || this.supplierCompanyName === this.supplier.companyName
-        !this.supplierPhone || this.supplierPhone === this.supplier.phone
-        !this.supplierEmail || this.supplierEmail === this.supplier.email
-        !this.supplierIdNumber || this.supplierIdNumber === this.supplier.numberId
-        !this.supplierPaymentTerms || this.supplierPaymentTerms === this.supplier.paymentTerms
-        !this.supplierPaymentMethod || this.supplierPaymentMethod === this.supplier.paymentMethod
-        !this.supplierAddress || this.supplierAddress === this.supplier.address
-        !this.supplierWhatsapp || this.supplierWhatsapp === this.supplier.whatsapp
-        !this.supplierHours || this.supplierHours === this.supplier.workingHours
-        !this.supplierDeliveryType || this.supplierDeliveryType === this.supplier.deliveryType
         !this.supplierStatus || this.supplierStatus === this.supplier.status
       }
     },
@@ -191,18 +279,24 @@ export default {
         if(!this.supplierFieldInvalid){
           let payload = {
             id: this.supplier.id,
-            phone: this.supplierPhone,
-            email: this.supplierEmail,
             name: this.supplierName,
             companyName: this.supplierCompanyName,
+            phone: this.supplierPhone,
+            email: this.supplierEmail,
             numberId: this.supplierIdNumber,
+            website: this.supplierWebsite,
+            facebook: this.supplierFacebook,
+            instagram: this.supplierInstagram,
             paymentTerms: this.supplierPaymentTerms,
             paymentMethod: this.supplierPaymentMethod,
             address: this.supplierAddress,
+            addressAditional: this.supplierAddressAdditional,
             whatsapp: this.supplierWhatsapp,
             workingHours: this.supplierHours,
             deliveryType: this.supplierDeliveryType,
             status: this.supplierStatus,
+            lead: this.supplierLead,
+            newsletter: this.supplierNewsletter,
             supplierUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateSupplier', payload)
@@ -220,13 +314,19 @@ export default {
       this.supplierPhone = this.supplier.phone
       this.supplierEmail = this.supplier.email
       this.supplierIdNumber = this.supplier.numberId
+      this.supplierWebsite = this.supplier.website,
+      this.supplierFacebook = this.supplier.facebook,
+      this.supplierInstagram = this.supplier.instagram,
       this.supplierPaymentTerms = this.supplier.paymentTerms
       this.supplierPaymentMethod = this.supplier.paymentMethod
       this.supplierAddress = this.supplier.address
+      this.supplierAddressAdditional = this.supplier.addressAditional,
       this.supplierWhatsapp = this.supplier.whatsapp
       this.supplierHours = this.supplier.workingHours
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
+      this.supplierLead = this.supplier.lead,
+      this.supplierNewsletter = this.supplier.newsletter
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')
