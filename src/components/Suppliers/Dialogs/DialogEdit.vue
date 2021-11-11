@@ -177,16 +177,6 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="supplierNewsletter"
-                :items="supplierNewsletterList"
-                label="דיוור"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -250,9 +240,7 @@ export default {
         supplierDeliveryType: '',
         supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
         supplierStatus: '',
-        supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
-        supplierNewsletter: '',
-        supplierNewsletterList: ["כן","לא"]
+        supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"]
       }
     },
     computed: {
@@ -283,7 +271,6 @@ export default {
             workingHours: this.supplierHours,
             deliveryType: this.supplierDeliveryType,
             status: this.supplierStatus,
-            newsletter: this.supplierNewsletter,
             supplierUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateSupplier', payload)
@@ -312,7 +299,6 @@ export default {
       this.supplierHours = this.supplier.workingHours
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
-      this.supplierNewsletter = this.supplier.newsletter
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')
