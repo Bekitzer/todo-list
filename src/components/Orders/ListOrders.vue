@@ -87,7 +87,7 @@ import { getAuth } from 'firebase/auth'
 export default {
   name: 'ListOrders',
   data: () => ({
-    statusesFilterValue:["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק"],
+    statusesFilterValue:["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק","במשלוח"],
     expanded: [],
     singleExpand: true,
     orderStatusTypeList:
