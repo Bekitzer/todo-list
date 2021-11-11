@@ -134,6 +134,7 @@ export default {
       else if (statusType === "בעבודה") return '#2196F3'
       else if (statusType === "מוכן - משרד") return '#4CAF50'
       else if (statusType === "מוכן - ספק") return '#4CAF50'
+      else if (statusType === "במשלוח") return '#2196F3'
       else if (statusType === "סופק") return '#9E9E9E'
       else return 'grey darken-1'
     },
