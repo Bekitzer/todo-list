@@ -165,7 +165,7 @@ import { getAuth } from 'firebase/auth'
       orderBuyPrice: '',
       orderMargin: '',
       orderStatusType: '',
-      orderStatusTypeList: [ "בעבודה" , "מוכן - משרד" , "מוכן - ספק" , "סופק" ],
+      orderStatusTypeList: ["בעבודה","מוכן - משרד","מוכן - ספק","במשלוח","סופק"],
       dateDialog: false,
     }),
     created() {

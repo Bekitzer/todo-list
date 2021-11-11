@@ -56,7 +56,6 @@
             v-model="item.statusType"
             label="סטטוס"
             single-line
-            counter
           ></v-select>
         </template>
       </v-edit-dialog>
