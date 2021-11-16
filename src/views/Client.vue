@@ -50,7 +50,6 @@
             </div>
           </v-col>
           <v-col cols="6">
-
             <div class="user-information">
               <p class="spc-titles">אימייל:</p> {{ client.email }}
             </div>
@@ -220,10 +219,7 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
-  .spc-titles
-    margin-bottom: 0
-    text-decoration: underline
+<style lang="sass" scoped>  
   .v-expansion-panel
     border-radius: 0px 0px 20px 20px !important
   .theme--light.v-expansion-panels .v-expansion-panel
@@ -239,4 +235,7 @@ export default {
     position: relative !important
   .user-information
     height: 60px
+  .spc-titles
+    margin-bottom: 0
+    text-decoration: underline
 </style>

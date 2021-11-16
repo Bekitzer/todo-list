@@ -2,65 +2,77 @@
   <v-container>
     <nav-appbar :pname="'מספר הזמנה > ' + this.order.number"/>
     <v-row>
-      <v-col cols="12" md="7" sm="7">
-        <v-row class="pa-10 grey lighten-3 rounded-b-xl">
-          <v-col cols="3" md="3" sm="3">
-            <h2>לקוח</h2>
-            <h3>{{ order.clientName }}</h3>
+      <v-col cols="12" md="4" sm="4">
+        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">          
+          <v-col cols="12" md="6" sm="6">
+            <div>
+              <small class="margin-bottom:0 !important;">שם לקוח</small>
+              <h2>{{ order.clientName }}</h2>
+            </div>
           </v-col>
-          <v-col cols="3" md="3" sm="3">
-            <h2>ספק</h2>
-            <h3>{{ order.supplierName }}</h3>
-          </v-col>
-          <v-col cols="2" md="2" sm="2">
-            <p>
-              מ.הזמנה > {{ order.number }}
-            </p>
-            <p>
-              מכירה > {{ order.sellPrice }}
-            </p>
-            <p>
-              קנייה > {{ order.buyPrice }}
-            </p>
-            <p>
-              רווח > {{ order.margin }}
-            </p>
-          </v-col>
-          <v-col cols="4" md="4" sm="4">
-            <p>
-              סוג משלוח > {{ order.deliveryType }}
-            </p>
-            <p>
-              אחראי > {{ order.deliveryAgent }}
-            </p>
-              <v-row>
-                <v-col cols="6" md="6" sm="6">
-                  <p style="font-size:14px;">ת.רישום <br />{{ order.orderCreationDate }}</p>
-                </v-col>
-                <v-col cols="6" md="6" sm="6">
-                  <p style="font-size:14px;">ת.עידכון <br />{{ order.orderUpdated }}</p>
-                </v-col>
-              </v-row>
+          <v-col cols="12" md="6" sm="6">
+            <div>
+              <small class="margin-bottom:0 !important;">שם ספק</small>
+              <h2>{{ order.supplierName }}</h2>
+            </div>
           </v-col>
         </v-row>
-        <v-row class="pt-6">
-          <v-expansion-panels flat style="border:1px solid 0 1px 1px 1px">
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                מוצר
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-row>
-                  <v-col cols="6" md="6" sm="6">
-                    <p style="font-size:14px;">אודות ההזמנה <br />{{ order.orderWork }}</p>
-                  </v-col>
-                  <v-col cols="6" md="6" sm="6">
-                    <p style="font-size:14px;">תאריך אספקה <br />{{ order.deliveryDate }}</p>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+          <v-col cols="12">
+            <h4>פרטי הזמנה</h4>
+          </v-col>
+          <v-col cols="6">
+            <div class="user-information">
+              <p class="spc-titles">מ.הזמנה:</p> {{ order.number }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">מכירה:</p> {{ order.sellPrice }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">קנייה:</p> {{ order.buyPrice }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">רווח:</p> {{ order.margin }}
+            </div>            
+          </v-col>
+          <v-col cols="6">
+            <div class="user-information">
+              <p class="spc-titles">סוג משלוח:</p> {{ order.deliveryType }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">אחראי:</p> {{ order.deliveryAgent }}
+            </div>            
+          </v-col>
+        </v-row>
+        <v-row class="pa-3 pos-rel mb-2 grey lighten-3">
+          <v-col cols="12">
+            <h4>ההזמנה</h4>
+          </v-col>
+          <v-col cols="6">
+            <div class="user-information">
+              <p class="spc-titles">אודות ההזמנה:</p> {{ order.orderWork }}
+            </div>
+          </v-col>
+          <v-col cols="6">
+            <div class="user-information">
+              <p class="spc-titles">תאריך אספקה:</p> {{ order.deliveryDate }}
+            </div>
+          </v-col>
+        </v-row>
+        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+          <v-col cols="12">
+            <h4>הגדרות הזמנה</h4>
+          </v-col>
+          <v-col cols="6">
+            <div class="user-information">
+              <p class="spc-titles">ת.רישום:</p> {{ order.orderCreationDate }}
+            </div>
+          </v-col>
+          <v-col cols="6">
+            <div class="user-information">
+              <p class="spc-titles">ת.עידכון:</p> {{ order.orderUpdated }}
+            </div>
+          </v-col>          
         </v-row>
       </v-col>
     </v-row>
@@ -135,6 +147,7 @@
 export default {
   name: 'Order',
   data: () => ({
+    pageName: '',
     fab: false,
     transition: 'slide-y-transition',
     dialogs: {
@@ -142,6 +155,14 @@ export default {
       delete: false
     },
   }),
+  methods: {
+    getColor (statusType) {
+      if (statusType === "פעיל") return 'green'
+      else if (statusType === "לא פעיל") return 'red'
+      else if (statusType === "מזדמן") return 'blue'
+      else if (statusType === "שת״פ") return 'orange'
+    },
+  },
   computed: {
     order() {
       return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: ''}
@@ -161,5 +182,16 @@ export default {
     border-width: 0px 1px 1px 1px !important
     border-style: solid !important
     border-color: #dbdbdb !important
-
+  .pos-abs
+    position: absolute !important
+    bottom: 0
+    display: block
+    right: 0
+  .pos-rel
+    position: relative !important
+  .user-information
+    height: 60px
+  .spc-titles
+    margin-bottom: 0
+    text-decoration: underline
 </style>

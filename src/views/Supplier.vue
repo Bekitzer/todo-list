@@ -36,33 +36,29 @@
             <h4>פרטי התקשרות</h4>
           </v-col>
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              טלפון: {{ supplier.phone }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              וואטסאפ: {{ supplier.whatsapp }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              הערות: {{ supplier.addressAditional }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              תאריך עידכון: {{ supplier.supplierUpdated }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">טלפון:</p> {{ supplier.phone }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">וואטסאפ:</p> {{ supplier.whatsapp }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">הנחיות שילוח:</p> {{ supplier.addressAdditional }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">תאריך עידכון:</p> {{ supplier.clientUpdated }}
+            </div>            
           </v-col>
           <v-col cols="6">
-
-            <p style="margin-bottom:0 !important;">
-              אימייל: {{ supplier.email }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              כתובת: {{ supplier.address }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              מקור הגעה: {{ supplier.lead }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              תאריך יצירת לקוח: {{ supplier.supplierCreationDate }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">אימייל:</p> {{ supplier.email }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">כתובת:</p> {{ supplier.address }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">תאריך יצירת לקוח:</p> {{ supplier.supplierCreationDate }}
+            </div>
           </v-col>
         </v-row>
         <v-row class="pa-3 pos-rel mb-2 grey lighten-3">
@@ -70,14 +66,14 @@
             <h4>הגדרות תשלום</h4>
           </v-col>
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              תנאי תשלום: {{ supplier.paymentTerms }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">תנאי תשלום:</p> {{ supplier.paymentTerms }}
+            </div>
           </v-col>
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              אופן תשלום: {{ supplier.paymentMethod }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">אופן תשלום:</p> {{ supplier.paymentMethod }}
+            </div>
           </v-col>
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
@@ -85,17 +81,17 @@
             <h4>הגדרות לקוח</h4>
           </v-col>
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              שעות פעילות: {{ supplier.workingHours }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              דיוור: {{ supplier.newsletter }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">שעות פעילות:</p> {{ supplier.workingHours }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">דיוור:</p> {{ supplier.newsletter }}
+            </div>
           </v-col>
-          <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              אופן אספקה: {{ supplier.deliveryType }}
-            </p>
+          <v-col cols="6">            
+            <div class="user-information">
+              <p class="spc-titles">אופן אספקה:</p> {{ supplier.deliveryType }}
+            </div>            
           </v-col>
         </v-row>
         <v-row>
@@ -235,4 +231,9 @@ export default {
     right: 0
   .pos-rel
     position: relative !important
+  .user-information
+    height: 60px
+  .spc-titles
+    margin-bottom: 0
+    text-decoration: underline
 </style>

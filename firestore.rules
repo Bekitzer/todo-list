@@ -4,6 +4,8 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if
           request.time < timestamp.date(2021, 11, 12);
+      allow read, write: if 
+      		request.auth != null;
     }
   }
 }
