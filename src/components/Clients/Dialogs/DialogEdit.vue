@@ -76,7 +76,7 @@
             <v-col cols="12" md="12" sm="6">
               <v-textarea
                 v-model="clientAddressAdditional"
-                label="הערות"
+                label="הנחיות שילוח"
                 filled
                 dense
                 hide-details
@@ -125,8 +125,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
-                v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"
+                v-model="clientPaymentTerms"
+                :items="clientPaymentTermsList"
                 label="תנאי תשלום"
                 filled
                 dense
@@ -135,8 +135,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
-                v-model="clientPaymentTerms"
-                :items="clientPaymentTermsList"
+                v-model="clientPaymentMethod"
+                :items="clientPaymentMethodList"                
                 label="אופן התשלום"
                 filled
                 dense
@@ -305,6 +305,9 @@ import { he } from 'date-fns/locale'
       this.clientPhone = this.client.phone
       this.clientEmail = this.client.email
       this.clientIdNumber = this.client.numberId
+      this.clientWebsite = this.client.website
+      this.clientFacebook = this.client.facebook
+      this.clientInstagram = this.client.instagram
       this.clientPaymentTerms = this.client.paymentTerms
       this.clientPaymentMethod = this.client.paymentMethod
       this.clientAddress = this.client.address

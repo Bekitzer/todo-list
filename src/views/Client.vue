@@ -23,12 +23,12 @@
           </v-col>
           <v-col cols="12" md="8" sm="8">
             <div>
-              <small class="margin-bottom:0 !important;">שם חברה</small>
+              <small>שם חברה</small>
               <h2>{{ client.name }}</h2>
             </div>
-            <p style="margin-bottom:0 !important;">{{ client.companyName }}</p>
-            <p style="margin-bottom:0 !important;">ח.פ. {{ client.numberId }}</p>
-            <p style="margin-bottom:0 !important;">{{ client.website }} | {{ client.facebook }} | {{ client.instagram }}</p>
+            <div>{{ client.companyName }}</div>
+            <div>ח.פ. {{ client.numberId }}</div>
+            <div>{{ client.website }} | {{ client.facebook }} | {{ client.instagram }}</div>
           </v-col>
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
@@ -36,30 +36,30 @@
             <h4>פרטי התקשרות</h4>
           </v-col>
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              טלפון: {{ client.phone }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              וואטסאפ: {{ client.whatsapp }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              הערות: {{ client.addressAdditional }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              תאריך עידכון: {{ client.clientUpdated }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">טלפון:</p> {{ client.phone }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">וואטסאפ:</p> {{ client.whatsapp }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">הנחיות שילוח:</p> {{ client.addressAdditional }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">תאריך עידכון:</p> {{ client.clientUpdated }}
+            </div>
           </v-col>
           <v-col cols="6">
 
-            <p style="margin-bottom:0 !important;">
-              אימייל: {{ client.email }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              כתובת: {{ client.address }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              תאריך יצירת לקוח: {{ client.clientCreationDate }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">אימייל:</p> {{ client.email }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">כתובת:</p> {{ client.address }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">תאריך יצירת לקוח:</p> {{ client.clientCreationDate }}
+            </div>
           </v-col>
         </v-row>
         <v-row class="pa-3 pos-rel mb-2 grey lighten-3">
@@ -67,35 +67,35 @@
             <h4>הגדרות תשלום</h4>
           </v-col>
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              תנאי תשלום: {{ client.paymentTerms }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">תנאי תשלום:</p> {{ client.paymentTerms }}
+            </div>
           </v-col>
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              אופן תשלום: {{ client.paymentMethod }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">אופן תשלום:</p> {{ client.paymentMethod }}
+            </div>
           </v-col>
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12">
             <h4>הגדרות לקוח</h4>
-          </v-col>
-          <p style="margin-bottom:0 !important;">
-              מקור הגעה: {{ client.lead }}
-            </p>
+          </v-col>            
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              שעות פעילות: {{ client.workingHours }}
-            </p>
-            <p style="margin-bottom:0 !important;">
-              דיוור: {{ client.newsletter }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">מקור הגעה:</p> {{ client.lead }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">שעות פעילות:</p> {{ client.workingHours }}
+            </div>
           </v-col>
           <v-col cols="6">
-            <p style="margin-bottom:0 !important;">
-              אופן אספקה: {{ client.deliveryType }}
-            </p>
+            <div class="user-information">
+              <p class="spc-titles">דיוור:</p> {{ client.newsletter }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">אופן אספקה:</p> {{ client.deliveryType }}
+            </div>
           </v-col>
         </v-row>
         <v-row>
@@ -221,6 +221,9 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+  .spc-titles
+    margin-bottom: 0
+    text-decoration: underline
   .v-expansion-panel
     border-radius: 0px 0px 20px 20px !important
   .theme--light.v-expansion-panels .v-expansion-panel
@@ -234,4 +237,6 @@ export default {
     right: 0
   .pos-rel
     position: relative !important
+  .user-information
+    height: 60px
 </style>

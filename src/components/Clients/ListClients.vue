@@ -74,4 +74,6 @@ export default {
     margin-left: 6px
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
     background: transparent
+  .v-data-table > .v-data-table__wrapper > table > thead > tr > th
+    font-size: 0.875rem !important
 </style>

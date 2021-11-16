@@ -201,6 +201,8 @@ export default {
   .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content
     box-shadow: none !important
     background: #fbfbfb !important
+  .v-data-table > .v-data-table__wrapper > table > thead > tr > th
+    font-size: 0.875rem !important
   @media only screen and (max-width:800px)
     .v-data-table__wrapper
       height: 200px !important

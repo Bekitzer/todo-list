@@ -53,7 +53,7 @@
             <v-col cols="12" md="12" sm="6">
               <v-textarea
                 v-model="clientAddressAdditional"
-                label="הערות"
+                label="הנחיות שילוח"
                 filled
                 dense
                 hide-details
