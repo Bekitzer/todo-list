@@ -10,13 +10,7 @@
     @click:row="handleClick"
     :items-per-page="-1"
     hide-default-footer
-
   >
-    <!-- <template v-slot:item.actions="{ item }">
-      <a @click="handleClick(item)">
-        <icon-contacts width="30"/>
-      </a>
-    </template> -->
   </v-data-table>
 </template>
 

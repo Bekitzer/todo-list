@@ -24,7 +24,7 @@
       <v-expand-transition>
         <div v-show="show">
           <v-divider></v-divider>
-          <v-card-text>
+          <v-card-text style="white-space:pre-line;">
             {{product.productInfo}}
           </v-card-text>
         </div>
