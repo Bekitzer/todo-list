@@ -49,15 +49,15 @@
             <h4>ההזמנה</h4>
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
+            <div class="user-info">
               <p class="spc-titles">אודות ההזמנה:</p> {{ order.orderWork }}
             </div>
-          </v-col>
+          </v-col> 
           <v-col cols="6">
             <div class="user-information">
               <p class="spc-titles">תאריך אספקה:</p> {{ order.deliveryDate }}
             </div>
-          </v-col>
+          </v-col>                   
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12">
@@ -177,4 +177,6 @@ export default {
   .spc-titles
     margin-bottom: 0
     text-decoration: underline
+  .user-info
+      white-space: pre-line
 </style>

@@ -255,7 +255,7 @@ import { format } from 'date-fns'
       clientAddressAdditional: '',
       clientWhatsapp: '',
       clientDeliveryType: '',
-      clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
+      clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
       clientStatus: '',
       clientStatusList: ["קבוע","מזדמן","שת״פ"],
       clientLead: '',

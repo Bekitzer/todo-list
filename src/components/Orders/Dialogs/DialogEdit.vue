@@ -9,18 +9,40 @@
         shaped
       >
         <v-card-title>שינוי הזמנה</v-card-title>
-          <v-row class="pa-4">
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12">
+              <h3>פרטי ההזמנה</h3>
+            </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-autocomplete
                 :items="clients"
                 item-text="name"
                 item-value="name"
                 v-model="orderClientName"
-                label="בחר לקוח"
+                label="לקוח"
                 clearable
-                hide-selected
-                outlined
+                filled
+                dense
+                hide-details
               ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="orderWorkTitle"
+                label="שם עבודה"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-textarea
+                v-model="orderWorkProducts"
+                label="מפרט"
+                filled
+                dense
+                hide-details
+              ></v-textarea>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-autocomplete
@@ -28,13 +50,14 @@
                 item-text="name"
                 item-value="name"
                 v-model="orderSupplierName"
-                label="בחר ספק"
+                label="ספק"
                 clearable
-                hide-selected
-                outlined
+                filled
+                dense
+                hide-details
               ></v-autocomplete>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <v-col cols="12" md="6" sm="6">
               <v-menu
                 v-model="dateDialog"
                 :close-on-content-click="false"
@@ -44,7 +67,7 @@
                   <v-text-field
                     :value="orderDeliveryDate"
                     clearable
-                    outlined
+                    filled
                     label="בחר תאריך אספקה"
                     readonly
                     v-bind="attrs"
@@ -60,28 +83,12 @@
                 ></v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-text-field
-                v-model="orderWorkTitle"
-                label="שם עבודה"
-                outlined
-              />
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-textarea
-                v-model="orderWorkProducts"
-                label="מוצרים"
-                outlined
-              ></v-textarea>
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-            </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="orderStatusType"
                 :items="orderStatusTypeList"
                 label="סטטוס הזמנה"
-                outlined
+                filled
                 hide-details
               ></v-select>
             </v-col>
@@ -90,22 +97,26 @@
                 v-model="orderDeliveryType"
                 :items="orderDeliveryTypeList"
                 label="אופן אספקה"
-                outlined
+                filled
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="4" md="6" sm="6">
+            <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="orderSellPrice"
                 label="מחיר מכירה"
-                outlined
+                filled
+                dense
+                hide-details
               />
             </v-col>
-            <v-col cols="4" md="6" sm="6">
+            <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="orderBuyPrice"
                 label="מחיר קנייה"
-                outlined
+                filled
+                dense
+                hide-details
               />
             </v-col>
           </v-row>

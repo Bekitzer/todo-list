@@ -2,8 +2,10 @@
     <v-text-field
       :value="$store.state.search"
       @input="$store.commit('setSearch', $event)"
-      append-icon="mdi-magnify"
-      label="חפש..."
+      prepend-inner-icon="mdi-magnify"
+      append-icon="mdi-filter-variant"
+      placeholder="חפש..."
+      clearable
       filled
       hide-details
     ></v-text-field>

@@ -112,8 +112,7 @@
                 dense
                 hide-details
               />
-            </v-col>
-            
+            </v-col>            
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
