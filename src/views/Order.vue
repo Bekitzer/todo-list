@@ -155,14 +155,6 @@ export default {
       delete: false
     },
   }),
-  methods: {
-    getColor (statusType) {
-      if (statusType === "פעיל") return 'green'
-      else if (statusType === "לא פעיל") return 'red'
-      else if (statusType === "מזדמן") return 'blue'
-      else if (statusType === "שת״פ") return 'orange'
-    },
-  },
   computed: {
     order() {
       return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: ''}

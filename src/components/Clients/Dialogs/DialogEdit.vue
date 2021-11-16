@@ -125,8 +125,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
-                v-model="clientPaymentTerms"
-                :items="clientPaymentTermsList"
+                v-model="clientPaymentMethod"
+                :items="clientPaymentMethodList"                
                 label="תנאי תשלום"
                 filled
                 dense
@@ -135,8 +135,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
-                v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"                
+                v-model="clientPaymentTerms"
+                :items="clientPaymentTermsList"                          
                 label="אופן התשלום"
                 filled
                 dense
@@ -178,12 +178,14 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-switch
+              <v-select
                 v-model="clientNewsletter"
-                :label="`${clientNewsletter.toString()} דיוור`"
-                false-value="מסרב"
-                true-value="מאשר"
-              ></v-switch>
+                :items="clientNewsletterList"
+                label="דיוור"
+                filled
+                dense
+                hide-details
+              ></v-select>
             </v-col>
           </v-row>
         <v-card-actions>
@@ -251,7 +253,8 @@ import { he } from 'date-fns/locale'
       clientStatus: '',
       clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
       clientStatusList: ["קבוע","מזדמן","שת״פ"],
-      clientNewsletter: ''
+      clientNewsletter: '',
+      clientNewsletterList: ["כן","לא"]
     }),
     computed: {
       clientFieldInvalid() {
@@ -294,12 +297,7 @@ import { he } from 'date-fns/locale'
         this.$emit('close')
       }
     },
-    mounted() {
-      document.addEventListener("keydown", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
+    mounted() {      
       this.clientName = this.client.name
       this.clientCompanyName = this.client.companyName
       this.clientPhone = this.client.phone
@@ -317,6 +315,11 @@ import { he } from 'date-fns/locale'
       this.clientDeliveryType = this.client.deliveryType
       this.clientStatus = this.client.status
       this.clientNewsletter = this.client.newsletter
+      document.addEventListener("keydown", (e) => {
+        if (e.keyCode == 27) {
+            this.$emit('close')
+        }
+      })
     }
   }
 </script>
