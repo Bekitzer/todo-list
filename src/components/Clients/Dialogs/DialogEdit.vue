@@ -58,7 +58,7 @@
             <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="clientPhone"
-                label="טלפון משרד"
+                label="טלפון"
                 filled
                 dense
                 hide-details
@@ -67,7 +67,7 @@
             <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="clientEmail"
-                label="מייל משרד"
+                label="מייל"
                 filled
                 dense
                 hide-details

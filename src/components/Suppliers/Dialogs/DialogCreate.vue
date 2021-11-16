@@ -64,19 +64,28 @@
             <v-col cols="12">
               <h3>פרטי התקשרות</h3>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="12">
               <v-text-field
-                v-model="supplierPhone"
-                label="טלפון משרד"
+                v-model="supplierContactName"
+                label="איש קשר ראשי"
                 filled
                 dense
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="12">
+              <v-text-field
+                v-model="supplierPhone"
+                label="טלפון"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6" sm="12">
               <v-text-field
                 v-model="supplierEmail"
-                label="מייל משרד"
+                label="מייל"
                 filled
                 dense
                 hide-details
@@ -220,6 +229,7 @@ import { format } from 'date-fns'
       dialog: false,
       supplierName: '',
       supplierCompanyName: '',
+      supplierContactName: '',
       supplierPhone: '',
       supplierEmail: '',
       supplierIdNumber: '',
@@ -253,6 +263,7 @@ import { format } from 'date-fns'
           const supplierFields = {
             name: this.supplierName,
             companyName: this.supplierCompanyName,
+            contactName: this.supplierContactName,
             phone: this.supplierPhone,
             email: this.supplierEmail,
             numberId: this.supplierIdNumber,
@@ -271,7 +282,8 @@ import { format } from 'date-fns'
 
           this.$store.dispatch('addSupplier', supplierFields)
           this.supplierName = ''
-          this.supplierCompanyName= ''
+          this.supplierCompanyName = ''
+          this.supplierContactName = ''
           this.supplierPhone = ''
           this.supplierEmail = ''
           this.supplierIdNumber = ''

@@ -64,6 +64,15 @@
             <v-col cols="12">
               <h3>פרטי התקשרות</h3>
             </v-col>
+            <v-col cols="12" md="4" sm="12">
+              <v-text-field
+                v-model="supplierContactName"
+                label="איש קשר ראשי"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="supplierPhone"
@@ -223,6 +232,7 @@ export default {
         dialog: false,
         supplierName: '',
         supplierCompanyName:'',
+        supplierContactName: '',
         supplierPhone: '',
         supplierEmail: '',
         supplierIdNumber: '',
@@ -257,6 +267,7 @@ export default {
             id: this.supplier.id,
             name: this.supplierName,
             companyName: this.supplierCompanyName,
+            contactName: this.supplierContactName,
             phone: this.supplierPhone,
             email: this.supplierEmail,
             numberId: this.supplierIdNumber,
@@ -285,6 +296,7 @@ export default {
     mounted() {
       this.supplierName = this.supplier.name
       this.supplierCompanyName = this.supplier.companyName
+      this.supplierContactName = this.supplier.contactName
       this.supplierPhone = this.supplier.phone
       this.supplierEmail = this.supplier.email
       this.supplierIdNumber = this.supplier.numberId
