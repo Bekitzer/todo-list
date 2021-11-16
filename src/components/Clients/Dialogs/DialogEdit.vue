@@ -133,9 +133,9 @@
               <h3>הגדרות תשלום</h3>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"                
+              <v-select                                
+                v-model="clientPaymentTerms"
+                :items="clientPaymentTermsList"
                 label="תנאי תשלום"
                 filled
                 dense
@@ -144,8 +144,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
-                v-model="clientPaymentTerms"
-                :items="clientPaymentTermsList"                          
+                v-model="clientPaymentMethod"
+                :items="clientPaymentMethodList"                   
                 label="אופן התשלום"
                 filled
                 dense
@@ -251,7 +251,7 @@ import { he } from 'date-fns/locale'
       clientWhatsapp: '',
       clientDeliveryType: '',
       clientStatus: '',
-      clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
+      clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
       clientStatusList: ["קבוע","מזדמן","שת״פ"],
       clientNewsletter: '',
       clientNewsletterList: ["כן","לא"]

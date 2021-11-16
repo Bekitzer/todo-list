@@ -63,7 +63,7 @@
     <template v-slot:top>
       <v-container fluid>
         <v-row>
-          <v-col cols="12" md="3" sm="6">
+          <v-col cols="12" md="4" sm="6">
               <v-select
                 :items="orderStatusTypeList"
                 v-model="statusesFilterValue"
