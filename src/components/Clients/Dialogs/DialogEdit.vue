@@ -46,7 +46,16 @@
             <v-col cols="12">
               <h3>פרטי התקשרות</h3>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="clientContactName"
+                label="איש קשר ראשי"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="clientPhone"
                 label="טלפון משרד"
@@ -55,7 +64,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="clientEmail"
                 label="מייל משרד"
@@ -159,15 +168,6 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientHours"
-                label="שעות פעילות"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="clientStatus"
                 :items="clientStatusList"
@@ -235,6 +235,7 @@ import { he } from 'date-fns/locale'
     data: () => ({
       clientName: '',
       clientCompanyName: '',
+      clientContactName: '',
       clientPhone: '',
       clientEmail: '',
       clientIdNumber: '',
@@ -248,7 +249,6 @@ import { he } from 'date-fns/locale'
       clientAddress: '',
       clientAddressAdditional: '',
       clientWhatsapp: '',
-      clientHours: '',
       clientDeliveryType: '',
       clientStatus: '',
       clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
@@ -269,6 +269,7 @@ import { he } from 'date-fns/locale'
         if(!this.clientFieldInvalid){
           let payload = {
             id: this.client.id,
+            contactName: this.clientContactName,
             phone: this.clientPhone,
             email: this.clientEmail,
             name: this.clientName,
@@ -282,7 +283,6 @@ import { he } from 'date-fns/locale'
             address: this.clientAddress,
             addressAdditional: this.clientAddressAdditional,
             whatsapp: this.clientWhatsapp,
-            workingHours: this.clientHours,
             deliveryType: this.clientDeliveryType,
             status: this.clientStatus,
             newsletter: this.clientNewsletter,
@@ -300,6 +300,7 @@ import { he } from 'date-fns/locale'
     mounted() {      
       this.clientName = this.client.name
       this.clientCompanyName = this.client.companyName
+      this.clientContactName = this.client.contactName
       this.clientPhone = this.client.phone
       this.clientEmail = this.client.email
       this.clientIdNumber = this.client.numberId
@@ -311,7 +312,6 @@ import { he } from 'date-fns/locale'
       this.clientAddress = this.client.address
       this.clientAddressAdditional = this.client.addressAdditional
       this.clientWhatsapp = this.client.whatsapp
-      this.clientHours = this.client.workingHours
       this.clientDeliveryType = this.client.deliveryType
       this.clientStatus = this.client.status
       this.clientNewsletter = this.client.newsletter

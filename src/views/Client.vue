@@ -26,9 +26,9 @@
               <small>שם חברה</small>
               <h2>{{ client.name }}</h2>
             </div>
-            <div class="user-information">{{ client.companyName }}</div>
-            <div class="user-information">ח.פ. {{ client.numberId }}</div>
-            <div class="user-information">{{ client.website }} | {{ client.facebook }} | {{ client.instagram }}</div>
+            <div>{{ client.companyName }}</div>
+            <div>ח.פ. {{ client.numberId }}</div>
+            <div>{{ client.website }} | {{ client.facebook }} | {{ client.instagram }}</div>
           </v-col>
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
@@ -43,14 +43,13 @@
               <p class="spc-titles">וואטסאפ:</p> {{ client.whatsapp }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">הערות:</p> {{ client.addressAdditional }}
+              <p class="spc-titles">הנחיות שילוח:</p> {{ client.addressAdditional }}
             </div>
             <div class="user-information">
               <p class="spc-titles">תאריך עידכון:</p> {{ client.clientUpdated }}
             </div>
           </v-col>
           <v-col cols="6">
-
             <div class="user-information">
               <p class="spc-titles">אימייל:</p> {{ client.email }}
             </div>
@@ -161,15 +160,6 @@
         fab
         dark
         small
-        color="indigo"
-        :to="{ name: 'Clients' }"
-      >
-        <v-icon>mdi-backburger</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
         color="red"
         @click="dialogs.delete = true"
       >
@@ -220,10 +210,7 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
-  .spc-titles
-    margin-bottom: 0
-    text-decoration: underline
+<style lang="sass" scoped>  
   .v-expansion-panel
     border-radius: 0px 0px 20px 20px !important
   .theme--light.v-expansion-panels .v-expansion-panel
@@ -237,4 +224,9 @@ export default {
     right: 0
   .pos-rel
     position: relative !important
+  .user-information
+    height: 60px
+  .spc-titles
+    margin-bottom: 0
+    text-decoration: underline
 </style>

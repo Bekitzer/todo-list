@@ -152,8 +152,8 @@ export default {
   computed: {
     headers () {
       return [
-      { text: '#', value: 'number', align: 'start', width: '3%', 'sortable': false },
-      { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%' },
+      { text: '#', value: 'number', align: 'start', width: '3%' },
+      { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
       { text: 'לקוח', value: 'clientName', width: '10%', 'sortable': false },
       { text: '', value: 'data-table-expand', 'sortable': false },
       { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '22%', 'sortable': false,  },

@@ -62,15 +62,6 @@
         fab
         dark
         small
-        color="indigo"
-        :to="{ name: 'Products' }"
-      >
-        <v-icon>mdi-backburger</v-icon>
-      </v-btn>
-      <v-btn
-        fab
-        dark
-        small
         color="red"
         @click="dialogs.delete = true"
       >

@@ -9,20 +9,41 @@
         elevation="8"
         shaped
       >
-      <!-- <v-btn @click="test">test</v-btn> -->
         <v-card-title>יצירת הזמנה</v-card-title>
-          <v-row class="pa-4">
-            <v-col cols="12" md="12" sm="12">
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12">
+              <h3>פרטי ההזמנה</h3>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
               <v-autocomplete
                 :items="clients"
                 item-text="name"
                 item-value="name"
                 v-model="orderClientName"
-                label="בחר לקוח"
+                label="לקוח"
                 clearable
-                hide-selected
-                outlined
+                filled
+                dense
+                hide-details
               ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="orderWorkTitle"
+                label="שם עבודה"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-textarea
+                v-model="orderWorkProducts"
+                label="מפרט"
+                filled
+                dense
+                hide-details
+              ></v-textarea>
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-autocomplete
@@ -30,13 +51,14 @@
                 item-text="name"
                 item-value="name"
                 v-model="orderSupplierName"
-                label="בחר ספק"
+                label="ספק"
                 clearable
-                hide-selected
-                outlined
+                filled
+                dense
+                hide-details
               ></v-autocomplete>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <v-col cols="12" md="6" sm="6">
               <v-menu
                 v-model="dateDialog"
                 :close-on-content-click="false"
@@ -46,8 +68,10 @@
                   <v-text-field
                     :value="computedDate"
                     clearable
-                    outlined
-                    label="בחר תאריך אספקה"
+                    filled
+                    dense
+                    hide-details
+                    label="תאריך אספקה"
                     readonly
                     v-bind="attrs"
                     v-on="on"
@@ -62,43 +86,34 @@
                 ></v-date-picker>
               </v-menu>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="orderDeliveryType"
                 :items="orderDeliveryTypeList"
                 label="אופן אספקה"
-                outlined
+                filled
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-text-field
-                v-model="orderWorkTitle"
-                label="שם עבודה"
-                outlined
-              />
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-textarea
-                v-model="orderWorkProducts"
-                label="מוצרים"
-                outlined
-              ></v-textarea>
-            </v-col>
-            <v-col cols="6" md="6" sm="6">
+            <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="orderSellPrice"
                 label="מחיר מכירה"
-                outlined
+                filled
+                dense
+                hide-details
               />
             </v-col>
-            <v-col cols="6" md="6" sm="6">
+            <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="orderBuyPrice"
                 label="מחיר קנייה"
-                outlined
+                filled
+                dense
+                hide-details
               />
             </v-col>
+            
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -196,22 +211,6 @@ import { getAuth } from 'firebase/auth'
       }
     },
     methods:{
-      // test() {
-      //     const orderFields = {
-      //       clientName: 'test',
-      //       orderWorkTitle: 'this',
-      //       orderWork: 'rderWorkProducts',
-      //       supplierName: 'orderSupplierName',
-      //       deliveryAgent: 'name',
-      //       sellPrice: 12,
-      //       buyPrice: 2,
-      //       margin: 1,
-      //       statusType: 'this.orderStatusType',
-      //       deliveryDate: format(new Date(), 'EEEEE, dd/MM/yy', {locale: he}),
-      //       deliveryType: 'this.orderDeliveryType'
-      //     }
-      //     this.$store.dispatch('addOrder', orderFields)
-      // },
       addOrder() {
         if(!this.orderFieldInvalid){
           const orderFields = {

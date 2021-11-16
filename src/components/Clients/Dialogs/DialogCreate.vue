@@ -64,19 +64,28 @@
             <v-col cols="12">
               <h3>פרטי התקשרות</h3>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
-                v-model="clientPhone"
-                label="טלפון משרד"
+                v-model="clientContactName"
+                label="איש קשר ראשי"
                 filled
                 dense
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="clientPhone"
+                label="טלפון"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="clientEmail"
-                label="מייל משרד"
+                label="מייל"
                 filled
                 dense
                 hide-details
@@ -125,8 +134,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
-                v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"
+                v-model="clientPaymentTerms"
+                :items="clientPaymentTermsList"
                 label="תנאי תשלום"
                 filled
                 dense
@@ -135,8 +144,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
-                v-model="clientPaymentTerms"
-                :items="clientPaymentTermsList"
+                v-model="clientPaymentMethod"
+                :items="clientPaymentMethodList"                
                 label="אופן התשלום"
                 filled
                 dense
@@ -157,15 +166,6 @@
                 dense
                 hide-details
               ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientHours"
-                label="שעות פעילות"
-                filled
-                dense
-                hide-details
-              />
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
@@ -240,6 +240,7 @@ import { format } from 'date-fns'
       dialog: false,
       clientName: '',
       clientCompanyName: '',
+      clientContactName: '',
       clientPhone: '',
       clientEmail: '',
       clientIdNumber: '',
@@ -253,7 +254,6 @@ import { format } from 'date-fns'
       clientAddress: '',
       clientAddressAdditional: '',
       clientWhatsapp: '',
-      clientHours: '',
       clientDeliveryType: '',
       clientDeliveryTypeList: ["איסוף עצמי","משלוח"],
       clientStatus: '',
@@ -277,6 +277,7 @@ import { format } from 'date-fns'
           const clientFields = {
             name: this.clientName,
             companyName: this.clientCompanyName,
+            contactName: this.clientContactName,
             phone: this.clientPhone,
             email: this.clientEmail,
             numberId: this.clientIdNumber,
@@ -288,7 +289,6 @@ import { format } from 'date-fns'
             address: this.clientAddress,
             addressAditional: this.clientAddressAdditional,
             whatsapp: this.clientWhatsapp,
-            workingHours: this.clientHours,
             deliveryType: this.clientDeliveryType,
             status: this.clientStatus,
             lead: this.clientLead,
@@ -298,6 +298,7 @@ import { format } from 'date-fns'
           this.$store.dispatch('addClient', clientFields)
           this.clientName = ''
           this.clientCompanyName = ''
+          this.clientContactName = ''
           this.clientPhone = ''
           this.clientEmail = ''
           this.clientIdNumber = ''
@@ -309,7 +310,6 @@ import { format } from 'date-fns'
           this.clientAddress = ''
           this.clientAddressAdditional = ''
           this.clientWhatsapp = ''
-          this.clientHours = ''
           this.clientDeliveryType = ''
           this.clientStatus = ''
           this.clientLead = ''
