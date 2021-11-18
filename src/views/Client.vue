@@ -4,7 +4,7 @@
     <v-row>
       <v-col cols="12" md="4" sm="4">
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
-          <v-col cols="12" md="4" sm="4">
+          <v-col cols="12" md="3" sm="3">
             <v-icon
               :color="getColor(client.status)"
               class="spc-status-dot pos-abs"
@@ -21,14 +21,19 @@
               ></v-img>
             </v-avatar>
           </v-col>
-          <v-col cols="12" md="8" sm="8">
+          <v-col cols="12" md="9" sm="9">
             <div>
               <small>שם חברה</small>
               <h2>{{ client.name }}</h2>
             </div>
             <div>{{ client.companyName }}</div>
             <div>ח.פ. {{ client.numberId }}</div>
-            <div>{{ client.website }} | {{ client.facebook }} | {{ client.instagram }}</div>
+            <!-- TODO : change all links to icons-->
+            <div>
+              <a :href="client.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> | 
+              <a :href="client.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> | 
+              <a :href="client.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a>
+            </div>
           </v-col>
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
@@ -120,9 +125,41 @@
           </v-expansion-panels>
         </v-row>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" md="5" sm="5">
+      <v-col cols="12" md="8" sm="8">
+        <v-data-table
+          height="40vh"
+          fixed-header
+          :search="$store.state.search"
+          :headers="headers"
+          :items="orders"
+          item-key="id"
+          sort-by="number"
+          :items-per-page="-1"
+          hide-default-footer
+          sort-desc
+        >
+          <template v-slot:item.clientLink="{ item }">
+              {{ item.clientLink }}
+          </template>
+          <template v-slot:item.supplierLink="{ item }">
+              {{ item.supplierLink }}
+          </template>
+          <template v-slot:item.sell="{ item }">
+              {{ item.sellPrice | formatNumber }}
+          </template>
+          <template v-slot:item.buy="{ item }">
+              {{ item.buyPrice | formatNumber }}
+          </template>
+          <template v-slot:item.margins="{ item }">
+              {{ item.margin | formatNumber }}
+          </template>
+          <template v-slot:item.statusType="props">
+            <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
+              mdi-circle-small
+            </v-icon>
+            {{ props.item.statusType }}              
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
     <v-speed-dial
@@ -201,6 +238,57 @@ export default {
   computed: {
     client() {
       return this.$store.state.clients.find(client => client.id === this.$route.params.id) || {name: ''}
+    },
+    headers () {
+      return [
+        { text: '#', value: 'number', align: 'start', width: '3%' },
+        { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
+        { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
+        { text: '', value: 'data-table-expand', 'sortable': false },
+        { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
+        { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
+        // { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
+        // { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
+        { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
+        { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
+        { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
+        { text: 'סטטוס הזמנה', value: 'statusType', width: '8%','sortable': true}
+      ]
+    },
+    clientsMap() {
+      const clientsMap = {}
+      this.$store.state.clients.forEach(client => {
+        clientsMap[client.id] = client
+      })
+
+      return clientsMap
+    },
+    suppliersMap() {
+      const suppliersMap = {}
+      this.$store.state.suppliers.forEach(supplier => {
+        suppliersMap[supplier.id] = supplier
+      })
+
+      return suppliersMap
+    },
+    orders: {
+      get() {
+        return this.$store.state.orders.map(order => {
+          const client = this.clientsMap[order.clientName] || {}
+          const supplier = this.suppliersMap[order.supplierName] || {}
+          return {
+            ...order,
+            clientLink: client.name,
+            supplierLink: supplier.name
+          }
+        })
+        .filter(order => {
+          return order.clientName == this.client.id && order.statusType === 'סופק'
+         })
+      },
+      set(value) {
+        this.$store.dispatch('setOrders', value)
+      }
     }
   },
   components: {

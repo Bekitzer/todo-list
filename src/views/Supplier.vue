@@ -117,9 +117,41 @@
           </v-expansion-panels>
         </v-row>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" md="5" sm="5">
+      <v-col cols="12" md="8" sm="8">
+        <v-data-table
+          height="40vh"
+          fixed-header
+          :search="$store.state.search"
+          :headers="headers"
+          :items="orders"
+          item-key="id"
+          sort-by="number"
+          :items-per-page="-1"
+          hide-default-footer
+          sort-desc
+        >
+          <template v-slot:item.clientLink="{ item }">
+              {{ item.clientLink }}
+          </template>
+          <template v-slot:item.supplierLink="{ item }">
+              {{ item.supplierLink }}
+          </template>
+          <template v-slot:item.sell="{ item }">
+              {{ item.sellPrice | formatNumber }}
+          </template>
+          <template v-slot:item.buy="{ item }">
+              {{ item.buyPrice | formatNumber }}
+          </template>
+          <template v-slot:item.margins="{ item }">
+              {{ item.margin | formatNumber }}
+          </template>
+          <template v-slot:item.statusType="props">
+            <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
+              mdi-circle-small
+            </v-icon>
+            {{ props.item.statusType }}              
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
     <v-speed-dial
@@ -199,6 +231,57 @@ export default {
   computed: {
     supplier() {
       return this.$store.state.suppliers.find(supplier => supplier.id === this.$route.params.id) || {name: ''}
+    },
+    headers () {
+      return [
+        { text: '#', value: 'number', align: 'start', width: '3%' },
+        { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
+        { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
+        { text: '', value: 'data-table-expand', 'sortable': false },
+        { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
+        { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
+        // { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
+        // { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
+        { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
+        { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
+        { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
+        { text: 'סטטוס הזמנה', value: 'statusType', width: '8%','sortable': true}
+      ]
+    },
+    clientsMap() {
+      const clientsMap = {}
+      this.$store.state.clients.forEach(client => {
+        clientsMap[client.id] = client
+      })
+
+      return clientsMap
+    },
+    suppliersMap() {
+      const suppliersMap = {}
+      this.$store.state.suppliers.forEach(supplier => {
+        suppliersMap[supplier.id] = supplier
+      })
+
+      return suppliersMap
+    },
+    orders: {
+      get() {
+        return this.$store.state.orders.map(order => {
+          const client = this.clientsMap[order.clientName] || {}
+          const supplier = this.suppliersMap[order.supplierName] || {}
+          return {
+            ...order,
+            clientLink: client.name,
+            supplierLink: supplier.name
+          }
+        })
+        .filter(order => {
+          return order.supplierName == this.supplier.id && order.statusType === 'סופק'
+         })
+      },
+      set(value) {
+        this.$store.dispatch('setOrders', value)
+      }
     }
   },
   components: {

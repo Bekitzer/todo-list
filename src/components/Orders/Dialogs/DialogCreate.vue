@@ -18,7 +18,7 @@
               <v-autocomplete
                 :items="clients"
                 item-text="name"
-                item-value="name"
+                item-value="id"
                 v-model="orderClientName"
                 label="לקוח"
                 clearable
@@ -187,12 +187,12 @@ import { getAuth } from 'firebase/auth'
       },
       clients: {
         get() {
-          return this.$store.getters.clientsFiltered
+          return this.$store.state.clients
         }
       },
       suppliers: {
         get() {
-          return this.$store.getters.suppliersFiltered
+          return this.$store.state.suppliers
         }
       },
       orderFieldInvalid() {
@@ -246,6 +246,18 @@ import { getAuth } from 'firebase/auth'
       }
     },
     mounted() {
+      if(this.order) {
+        this.orderClientName = this.order.clientName
+        //this.orderWorkTitle = this.order.orderWorkTitle,
+        // this.orderWorkProducts = this.order.orderWork
+        this.orderSupplierName = this.order.supplierName
+        // this.orderStatusType = this.order.statusType
+        // this.orderDeliveryDate = this.order.deliveryDate
+        // this.orderDeliveryAgent = this.order.deliveryAgent
+        // this.orderSellPrice = this.order.sellPrice
+        // this.orderBuyPrice = this.order.buyPrice
+        // this.orderDeliveryType = this.order.deliveryType
+      }
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')

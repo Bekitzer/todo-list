@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <nav-appbar :pname="pageName"/>
-    <list-orders v-if="$store.state.orders.length"/>
+    <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder"/>
     <no-orders v-else />
     <v-fab-transition>
       <v-btn
@@ -19,6 +19,7 @@
     </v-fab-transition>
     <dialog-create
       v-if="dialogs.create"
+      :order="order"
       @close = 'dialogs.create = false'
     />
   </v-container>
@@ -29,12 +30,26 @@
     name: 'Orders',
     hidden: false,
     data: () => ({
+      order: null,
       search: '',
       pageName: 'הזמנות',
       dialogs: {
         create: false
       },
     }),
+    watch: {
+      'dialogs.create': function (val) {
+        if(!val) {
+          this.order = null
+        }
+      }
+    },
+    methods: {
+      onDuplicateOrder(item) {
+        this.order = JSON.parse(JSON.stringify(item))
+        this.dialogs.create = true
+      }
+    },
     components: {
       'list-orders': require('@/components/Orders/ListOrders.vue').default,
       'no-orders': require('@/components/Orders/NoOrders.vue').default,

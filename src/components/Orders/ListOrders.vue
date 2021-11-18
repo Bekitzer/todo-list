@@ -19,16 +19,24 @@
         {{ item.orderWork }}{{$store.state.search}}
       </td>
     </template>
-    <!-- <template v-slot:item.clients="{ item }">
-      <v-btn @click="clickClient(item)" dense plain style="color:#006d7b;">
-        {{ item.clientName }}
+    <template v-slot:item.actions="{ item }">
+      <v-icon
+        small
+        @click.stop="duplicateItem(item)"
+      >
+        mdi-content-duplicate
+      </v-icon>
+    </template>
+    <template v-slot:item.clientLink="{ item }">
+      <v-btn @click.stop="clickClient(item)" dense plain style="color:#006d7b;height: auto;min-width: auto;padding: 0;">
+        {{ item.clientLink }}
       </v-btn>
     </template>
-    <template v-slot:item.suppliers="{ item }">
-      <v-btn @click="clickSupplier(item)" dense plain style="color:#006d7b;">
-        {{ item.supplierName }}
+    <template v-slot:item.supplierLink="{ item }">
+      <v-btn @click="clickSupplier(item)" dense plain style="color:#006d7b;height: auto;min-width: auto;padding: 0;">
+        {{ item.supplierLink }}
       </v-btn>
-    </template> -->
+    </template>
     <template v-slot:item.sell="{ item }">
         {{ item.sellPrice | formatNumber }}
     </template>
@@ -38,27 +46,26 @@
     <template v-slot:item.margins="{ item }">
         {{ item.margin | formatNumber }}
     </template>
-    <template v-slot:item.statusType="{ item }">
+    <template v-slot:item.statusType="props">
       <v-edit-dialog
-        :return-value.sync="item.statusType"
-        large
-        persistent
-        @save="save(item)"
-        @cancel="cancel"
-      >
-        <v-icon :color="getColor(item.statusType)" class="spc-status-dot" size="60">
+          :return-value.sync="props.item.statusType"
+          @save="save(props)"
+          large
+          persistent
+        >
+        <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
           mdi-circle-small
         </v-icon>
-          {{ item.statusType }}
-        <template v-slot:input>
-          <v-select
-            :items="orderStatusTypeList"
-            v-model="item.statusType"
-            label="סטטוס"
-            single-line
-          ></v-select>
-        </template>
-      </v-edit-dialog>
+          {{ props.item.statusType }}
+          <template v-slot:input>
+            <v-select
+              :items="orderStatusTypeList"
+              v-model="props.item.statusType"
+              label="סטטוס"
+              single-line
+            ></v-select>
+          </template>
+        </v-edit-dialog>
     </template>
     <template v-slot:top>
       <v-container fluid>
@@ -88,6 +95,7 @@ export default {
   name: 'ListOrders',
   data: () => ({
     statusesFilterValue:["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק","במשלוח"],
+    editStatusType: '',
     expanded: [],
     singleExpand: true,
     orderStatusTypeList:
@@ -100,19 +108,17 @@ export default {
       {text: "סופק", value: "סופק"}
     ],
   }),
-  // props: ['order'],
-  // props: ['client'],
-  // props: ['supplier'],
   methods: {
     save (order) {
       let payload = {
-        id: order.id,
-        statusType: order.statusType,
+        id: order.item.id,
+        statusType: order.value,
         orderUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}) + ' > ' + this.name
       }
       this.$store.dispatch('updateOrder', payload)
     },
-    cancel () {
+    duplicateItem (item) {
+      this.$emit('duplicateOrder', item)
     },
     statusesFilter(item) {
       if (!this.statusesFilterValue || !this.statusesFilterValue.length) {
@@ -124,10 +130,10 @@ export default {
       this.$router.push({ name: 'Order', params: { id : order.id }})
     },
     clickClient(client){
-      this.$router.push({ name: 'Client', params: { id : client.id }})
+      this.$router.push({ name: 'Client', params: { id : client.clientName }})
     },
     clickSupplier(supplier){
-      this.$router.push({ name: 'Supplier', params: { id : supplier.id }})
+      this.$router.push({ name: 'Supplier', params: { id : supplier.supplierName }})
     },
     getColor (statusType) {
       if (statusType === "טיוטה") return '#FF9800'
@@ -137,7 +143,7 @@ export default {
       else if (statusType === "במשלוח") return '#2196F3'
       else if (statusType === "סופק") return '#9E9E9E'
       else return 'grey darken-1'
-    },
+    }
   },
   created() {
     const user = getAuth().currentUser;
@@ -154,21 +160,46 @@ export default {
       return [
       { text: '#', value: 'number', align: 'start', width: '3%' },
       { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
-      { text: 'לקוח', value: 'clientName', width: '10%', 'sortable': false },
+      { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
       { text: '', value: 'data-table-expand', 'sortable': false },
-      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '22%', 'sortable': false,  },
-      { text: 'ספק', value: 'supplierName', width: '10%', 'sortable': false },
+      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
+      { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
       { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
       { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
       { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
       { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
       { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
+      { text: 'פעולות', value: 'actions', width: '4%', 'sortable': false  },
       { text: 'סטטוס הזמנה', value: 'statusType', width: '8%','sortable': true, filter: this.statusesFilter},
     ]
-    } ,
+    },
+    clientsMap() {
+      const clientsMap = {}
+      this.$store.state.clients.forEach(client => {
+        clientsMap[client.id] = client
+      })
+
+      return clientsMap
+    },
+    suppliersMap() {
+      const suppliersMap = {}
+      this.$store.state.suppliers.forEach(supplier => {
+        suppliersMap[supplier.id] = supplier
+      })
+
+      return suppliersMap
+    },
     orders: {
       get() {
-        return this.$store.state.orders
+        return this.$store.state.orders.map(order => {
+          const client = this.clientsMap[order.clientName] || {}
+          const supplier = this.suppliersMap[order.supplierName] || {}
+          return {
+            ...order,
+            clientLink: client.name,
+            supplierLink: supplier.name
+          }
+        })
       },
       set(value) {
         this.$store.dispatch('setOrders', value)
