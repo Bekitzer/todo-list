@@ -28,12 +28,12 @@
       </v-icon>
     </template>
     <template v-slot:item.clientLink="{ item }">
-      <v-btn @click.stop="clickClient(item)" dense plain style="color:#006d7b;height: auto;min-width: auto;padding: 0;">
+      <v-btn @click.stop="clickClient(item)" dense plain class="ngs-button">
         {{ item.clientLink }}
       </v-btn>
     </template>
     <template v-slot:item.supplierLink="{ item }">
-      <v-btn @click="clickSupplier(item)" dense plain style="color:#006d7b;height: auto;min-width: auto;padding: 0;">
+      <v-btn @click.stop="clickSupplier(item)" dense plain class="ngs-button">
         {{ item.supplierLink }}
       </v-btn>
     </template>
@@ -212,6 +212,13 @@ export default {
 }
 </script>
 <style lang="sass">
+  .ngs-button
+    opacity: 1 !important
+    letter-spacing: 0 !important
+    color:#006d7b !important
+    height: auto !important
+    min-width: auto !important
+    padding: 0 !important
   .v-list-item__content
     padding: 12px 0 !important
   th.spc-status-dot
@@ -221,8 +228,8 @@ export default {
   .theme--light.v-data-table .v-data-footer
     border-top: none !important
   .spc-status-dot
-    width: 12px
-    margin-left: 6px
+    width: 12px !important
+    margin-left: 6px !important
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
     background: transparent !important
   .orderWorkInfo

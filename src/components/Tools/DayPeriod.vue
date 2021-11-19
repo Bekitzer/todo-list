@@ -14,13 +14,13 @@ export default {
     methods: {
       getDate() {
         this.dayPeriod = parseInt(format(new Date(), 'H', {locale: he}))
-        if( this.dayPeriod <= 22 && this.dayPeriod > 18){
+        if( this.dayPeriod <= 23 && this.dayPeriod > 18){
           this.dayPeriod = 'ערב טוב'
         }else if( this.dayPeriod <= 18 && this.dayPeriod > 12){
           this.dayPeriod = 'צהריים טובים'
         }else if( this.dayPeriod <= 12 && this.dayPeriod > 6){
           this.dayPeriod = 'בוקר טוב'
-        }else if( this.dayPeriod <= 6 && this.dayPeriod > 22){
+        }else if( this.dayPeriod <= 6){
           this.dayPeriod = 'לילה טוב'
         }else{
           this.timeDay = 'משהו שבור'

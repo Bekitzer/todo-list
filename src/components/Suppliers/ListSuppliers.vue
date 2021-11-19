@@ -11,6 +11,16 @@
     :items-per-page="-1"
     hide-default-footer
   >
+  <template v-slot:item.emailLink="{ item }">
+      <div @click.stop>
+        <a :href="'mailto:' + item.email" style="text-decoration:none;">{{item.email}}</a>
+      </div>      
+    </template>
+    <template v-slot:item.phoneLink="{ item }">
+      <div @click.stop>
+        <a :href="'tel:' + item.phone" style="text-decoration:none;">{{item.phone}}</a>
+      </div>      
+    </template>
   </v-data-table>
 </template>
 
@@ -24,8 +34,8 @@ export default {
       { text: 'שם ספק', value: 'name', width: '20%'},
       { text: 'שם חברה', value: 'companyName', width: '20%', 'sortable': false },
       { text: 'איש קשר', value: 'contactName', width: '7%', 'sortable': false },
-      { text: 'טלפון', value: 'phone', width: '10%', 'sortable': false },
-      { text: 'מייל', value: 'email', width: '10%', 'sortable': false },
+      { text: 'טלפון', value: 'phoneLink', width: '10%', 'sortable': false },
+      { text: 'מייל', value: 'emailLink', width: '10%', 'sortable': false },
       { text: 'כתובת', value: 'address', width: '12%', 'sortable': false },
       { text: 'אופן אספקה', value: 'deliveryType', width: '10%', 'sortable': false },
       { text: 'ה.פעילות', value: 'orders', width: '6%' },
@@ -49,7 +59,7 @@ export default {
         })
 
         return this.$store.state.suppliers.map(supplier => {
-          supplier.orders = ordersMap[supplier.name] || 0
+          supplier.orders = ordersMap[supplier.id] || 0
           return supplier
         })
       },

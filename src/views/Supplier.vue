@@ -118,12 +118,50 @@
         </v-row>
       </v-col>
       <v-col cols="12" md="8" sm="8">
+        <v-col cols="12">
+          <h4>הזמנות - בתהליך</h4>
+        </v-col>
         <v-data-table
-          height="40vh"
+          height="20vh"
           fixed-header
-          :search="$store.state.search"
           :headers="headers"
-          :items="orders"
+          :items="processing"
+          item-key="id"
+          sort-by="number"
+          :items-per-page="-1"
+          hide-default-footer
+          sort-desc
+        >
+          <template v-slot:item.clientLink="{ item }">
+              {{ item.clientLink }}
+          </template>
+          <template v-slot:item.supplierLink="{ item }">
+              {{ item.supplierLink }}
+          </template>
+          <template v-slot:item.sell="{ item }">
+              {{ item.sellPrice | formatNumber }}
+          </template>
+          <template v-slot:item.buy="{ item }">
+              {{ item.buyPrice | formatNumber }}
+          </template>
+          <template v-slot:item.margins="{ item }">
+              {{ item.margin | formatNumber }}
+          </template>
+          <template v-slot:item.statusType="props">
+            <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
+              mdi-circle-small
+            </v-icon>
+            {{ props.item.statusType }}              
+          </template>
+        </v-data-table>
+        <v-col cols="12">
+          <h4>הזמנות - סופק</h4>
+        </v-col>
+        <v-data-table
+          height="20vh"
+          fixed-header
+          :headers="headers"
+          :items="delivered"
           item-key="id"
           sort-by="number"
           :items-per-page="-1"
@@ -227,6 +265,15 @@ export default {
       else if (statusType === "מזדמן") return 'blue'
       else if (statusType === "שת״פ") return 'orange'
     },
+    getColor (statusType) {
+      if (statusType === "טיוטה") return '#FF9800'
+      else if (statusType === "בעבודה") return '#2196F3'
+      else if (statusType === "מוכן - משרד") return '#4CAF50'
+      else if (statusType === "מוכן - ספק") return '#4CAF50'
+      else if (statusType === "במשלוח") return '#2196F3'
+      else if (statusType === "סופק") return '#9E9E9E'
+      else return 'grey darken-1'
+    }
   },
   computed: {
     supplier() {
@@ -237,7 +284,7 @@ export default {
         { text: '#', value: 'number', align: 'start', width: '3%' },
         { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
         { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
-        { text: '', value: 'data-table-expand', 'sortable': false },
+        // { text: '', value: 'data-table-expand', 'sortable': false },
         { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
         { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
         // { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
@@ -245,7 +292,7 @@ export default {
         { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
         { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
         { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
-        { text: 'סטטוס הזמנה', value: 'statusType', width: '8%','sortable': true}
+        { text: 'סטטוס הזמנה', value: 'statusType', width: '11%','sortable': true}
       ]
     },
     clientsMap() {
@@ -264,7 +311,7 @@ export default {
 
       return suppliersMap
     },
-    orders: {
+    processing: {
       get() {
         return this.$store.state.orders.map(order => {
           const client = this.clientsMap[order.clientName] || {}
@@ -276,13 +323,34 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id && order.statusType === 'סופק'
+          return order.supplierName == this.supplier.id
+          //  && order.statusType === 'סופק'
          })
       },
       set(value) {
         this.$store.dispatch('setOrders', value)
       }
-    }
+    },
+    delivered: {
+      get() {
+        return this.$store.state.orders.map(order => {
+          const client = this.clientsMap[order.clientName] || {}
+          const supplier = this.suppliersMap[order.supplierName] || {}
+          return {
+            ...order,
+            clientLink: client.name,
+            supplierLink: supplier.name
+          }
+        })
+        .filter(order => {
+          return order.supplierName == this.supplier.id
+          //  && order.statusType === 'סופק'
+         })
+      },
+      set(value) {
+        this.$store.dispatch('setOrders', value)
+      }
+    }    
   },
   components: {
       'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
