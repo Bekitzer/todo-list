@@ -28,7 +28,6 @@
             </div>
             <div>{{ client.companyName }}</div>
             <div>ח.פ. {{ client.numberId }}</div>
-            <!-- TODO : change all links to icons-->
             <div>
               <a :href="client.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> | 
               <a :href="client.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> | 

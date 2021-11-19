@@ -28,7 +28,11 @@
             </div>
             <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
             <p style="margin-bottom:0 !important;">ח.פ. {{ supplier.numberId }}</p>
-            <p style="margin-bottom:0 !important;">{{ supplier.website }} | {{ supplier.facebook }} | {{ supplier.instagram }}</p>
+            <div>
+              <a :href="supplier.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> | 
+              <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> | 
+              <a :href="supplier.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a>
+            </div>
           </v-col>
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
