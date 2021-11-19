@@ -7,13 +7,17 @@
           <v-col cols="12" md="6" sm="6">
             <div>
               <small class="margin-bottom:0 !important;">שם לקוח</small>
-              <h2>{{ clientsMap[order.clientName].name }}</h2>
+              <h2>                
+                {{ clientsMap[order.clientName].name }}
+              </h2>
             </div>
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <div>
               <small class="margin-bottom:0 !important;">שם ספק</small>
-              <h2>{{ suppliersMap[order.supplierName].name }}</h2>
+              <h2>
+                {{ suppliersMap[order.supplierName].name }}
+              </h2>
             </div>
           </v-col>
         </v-row>
@@ -165,7 +169,7 @@ export default {
       })
 
       return suppliersMap
-    },
+    }
   },
   components: {
       'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,

@@ -49,7 +49,7 @@
               <v-autocomplete
                 :items="suppliers"
                 item-text="name"
-                item-value="name"
+                item-value="id"
                 v-model="orderSupplierName"
                 label="ספק"
                 clearable
@@ -185,15 +185,11 @@ import { getAuth } from 'firebase/auth'
       computedDate () {
         return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}) : ''
       },
-      clients: {
-        get() {
+      clients() {
           return this.$store.state.clients
-        }
       },
-      suppliers: {
-        get() {
-          return this.$store.state.suppliers
-        }
+      suppliers() {
+        return this.$store.state.suppliers
       },
       orderFieldInvalid() {
         return (
@@ -248,15 +244,12 @@ import { getAuth } from 'firebase/auth'
     mounted() {
       if(this.order) {
         this.orderClientName = this.order.clientName
-        //this.orderWorkTitle = this.order.orderWorkTitle,
-        // this.orderWorkProducts = this.order.orderWork
+        this.orderWorkTitle = this.order.orderWorkTitle
+        this.orderWorkProducts = this.order.orderWork
         this.orderSupplierName = this.order.supplierName
-        // this.orderStatusType = this.order.statusType
-        // this.orderDeliveryDate = this.order.deliveryDate
-        // this.orderDeliveryAgent = this.order.deliveryAgent
-        // this.orderSellPrice = this.order.sellPrice
-        // this.orderBuyPrice = this.order.buyPrice
-        // this.orderDeliveryType = this.order.deliveryType
+        this.orderDeliveryAgent = this.order.deliveryAgent
+        this.orderSellPrice = this.order.sellPrice
+        this.orderBuyPrice = this.order.buyPrice
       }
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {

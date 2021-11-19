@@ -17,7 +17,7 @@
               <v-autocomplete
                 :items="clients"
                 item-text="name"
-                item-value="name"
+                item-value="id"
                 v-model="orderClientName"
                 label="לקוח"
                 clearable
@@ -48,7 +48,7 @@
               <v-autocomplete
                 :items="suppliers"
                 item-text="name"
-                item-value="name"
+                item-value="id"
                 v-model="orderSupplierName"
                 label="ספק"
                 clearable
@@ -198,15 +198,11 @@ import { getAuth } from 'firebase/auth'
           this.orderDeliveryDate = format(parseISO(newValue), 'EEEEE, dd/MM/yy', {locale: he})
         }
       },
-      clients: {
-        get() {
-          return this.$store.getters.clientsFiltered
-        }
+      clients() {
+        return this.$store.state.clients
       },
-      suppliers: {
-        get() {
-          return this.$store.getters.suppliersFiltered
-        }
+      suppliers() {
+          return this.$store.state.suppliers
       },
       orderFieldInvalid() {
         return
