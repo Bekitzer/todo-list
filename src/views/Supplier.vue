@@ -327,8 +327,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id
-          //  && order.statusType === 'סופק'
+          return order.supplierName == this.supplier.id && order.statusType !== 'סופק'
          })
       },
       set(value) {
@@ -347,8 +346,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id
-          //  && order.statusType === 'סופק'
+          return order.supplierName == this.supplier.id && order.statusType === 'סופק'
          })
       },
       set(value) {
