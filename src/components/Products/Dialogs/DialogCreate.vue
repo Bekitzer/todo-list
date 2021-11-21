@@ -103,7 +103,7 @@ export default {
     },
     closeDialog() {
       this.$emit('close'),
-      setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+      setTimeout( () => this.$router.go({path: this.$router.path}), 2000)
     }
   },
   mounted() {

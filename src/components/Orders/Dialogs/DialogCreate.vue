@@ -239,6 +239,7 @@ import { getAuth } from 'firebase/auth'
       },
       closeDialog() {
         this.$emit('close')
+        setTimeout( () => this.$router.go({path: this.$router.path}), 2000)
       }
     },
     mounted() {
