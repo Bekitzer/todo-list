@@ -107,7 +107,7 @@
         large
         color="red"
         class="white--text"
-        @click="dialogs.delete = true"
+        @click="dialogs.delete=true"
       >
         <v-icon>mdi-delete</v-icon>
       </v-btn>
