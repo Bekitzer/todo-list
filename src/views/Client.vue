@@ -201,47 +201,33 @@
         </v-data-table>
       </v-col>
     </v-row>
-    <v-speed-dial
-      v-model="fab"
-      bottom
-      left
-      fixed
-      :transition="transition"
-    >
-      <template v-slot:activator>
-        <v-btn
-          v-model="fab"
-          color="blue darken-2"
-          dark
-          fab
-        >
-          <v-icon v-if="fab">
-            mdi-close
-          </v-icon>
-          <v-icon v-else>
-            mdi-account-circle
-          </v-icon>
-        </v-btn>
-      </template>
       <v-btn
+        bottom
+        left
+        fixed
         fab
-        dark
-        small
-        color="green"
+        elevation="2"
+        style="margin-bottom:80px"
+        large
+        color="#03616f"
+        class="white--text"
         @click="dialogs.edit = true"
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-btn
+        bottom
+        left
+        fixed
         fab
-        dark
-        small
+        elevation="2"
+        large
         color="red"
+        class="white--text"
         @click="dialogs.delete = true"
       >
         <v-icon>mdi-delete</v-icon>
       </v-btn>
-    </v-speed-dial>
     <dialog-edit
       v-if="dialogs.edit"
       @close = 'dialogs.edit = false'

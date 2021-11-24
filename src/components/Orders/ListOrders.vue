@@ -6,13 +6,14 @@
     :headers="headers"
     :items="orders"
     item-key="id"
-    sort-by="number"
-    :expanded="expanded"
+    sort-by="number"    
     :items-per-page="-1"
     hide-default-footer
+    singleExpand: false
     sort-desc
-    show-expand
-    @click:row="clickOrder"
+    :expanded.sync="expanded"
+    @click:row="clickRow"
+    
   >
     <template v-slot:expanded-item="{ headers, item }">
       <td class="orderWorkInfo" :colspan="headers.length">
@@ -22,9 +23,16 @@
     <template v-slot:item.actions="{ item }">
       <v-icon
         small
+        class="ml-2"
         @click.stop="duplicateItem(item)"
       >
         mdi-content-duplicate
+      </v-icon>
+      <v-icon
+        small
+        @click.stop="clickOrder(item)"
+      >
+        mdi-pencil-outline
       </v-icon>
     </template>
     <template v-slot:item.clientLink="{ item }">
@@ -129,6 +137,14 @@ export default {
     clickOrder(order){
       this.$router.push({ name: 'Order', params: { id : order.id }})
     },
+    clickRow(item, event) {
+      if(event.isExpanded) {
+        const index = this.expanded.findIndex(i => i === item);
+        this.expanded.splice(index, 1)
+      } else {
+        this.expanded.push(item);
+      }
+    },
     clickClient(client){
       this.$router.push({ name: 'Client', params: { id : client.clientName }})
     },
@@ -161,16 +177,16 @@ export default {
       { text: '#', value: 'number', align: 'start', width: '3%' },
       { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
       { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
-      { text: '', value: 'data-table-expand', 'sortable': false },
-      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
+      // { text: '', value: 'data-table-expand', 'sortable': false },
+      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%', 'sortable': false,  },
       { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
       { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
-      { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
+      { text: 'אופן אספקה', value: 'deliveryType', width: '10%', 'sortable': false,  },
       { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
       { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
       { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
-      { text: 'פעולות', value: 'actions', width: '4%', 'sortable': false  },
-      { text: 'סטטוס הזמנה', value: 'statusType', width: '8%','sortable': true, filter: this.statusesFilter},
+      { text: 'פעולות', value: 'actions', width: '5%', 'sortable': false  },
+      { text: 'סטטוס הזמנה', value: 'statusType', width: '10%','sortable': true, filter: this.statusesFilter},
     ]
     },
     clientsMap() {
