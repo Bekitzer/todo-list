@@ -10,7 +10,8 @@
         {{product.name}}
       </v-card-title>
       <v-card-subtitle>
-        {{product.category}}
+        {{product.category}}<br>
+        {{format(new Date(product.productCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
       </v-card-subtitle>
       <v-card-actions>
         <v-btn @click="handleClick(product)" color="orange lighten-2" text>
@@ -34,11 +35,14 @@
 </template>
 
 <script>
-
+import { format, formatDistance, formatRelative, subDays } from 'date-fns'
+import { he } from 'date-fns/locale'
 export default {
   name: 'ListProducts',
   data: () => ({
     show: false,
+    format,
+    he
   }),
   props: ['product'],
   methods: {

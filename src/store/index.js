@@ -163,7 +163,7 @@ export default new Vuex.Store({
           let isProduct = {
             ...product,
             number: number,
-            productCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
+            productCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
             productUpdated: null
           }
           await setDoc(doc(collection(db, "products")), isProduct)
@@ -229,7 +229,7 @@ export default new Vuex.Store({
           let isOrder = {
             ...order,
             number: number,
-            orderCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
+            orderCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
             orderUpdated: null
           }
 

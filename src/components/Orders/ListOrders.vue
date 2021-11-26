@@ -45,6 +45,10 @@
         {{ item.supplierLink }}
       </v-btn>
     </template>
+    <template v-slot:item.created="{ item }">
+      <!-- {{ item.orderCreationDate.seconds }} -->
+        {{format(new Date(item.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
+    </template>
     <template v-slot:item.sell="{ item }">
         {{ item.sellPrice | formatNumber }}
     </template>
@@ -96,7 +100,7 @@
   </v-data-table>
 </template>
 <script>
-import { format, parseISO, parse } from 'date-fns'
+import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 import { getAuth } from 'firebase/auth'
 export default {
@@ -105,16 +109,17 @@ export default {
     statusesFilterValue:["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק","במשלוח"],
     editStatusType: '',
     expanded: [],
+    format,
+    he,
     singleExpand: true,
-    orderStatusTypeList:
-    [
+    orderStatusTypeList:[
       {text: "טיוטה", value: "טיוטה"},
       {text: "בעבודה", value: "בעבודה"},
       {text: "מוכן - משרד", value: "מוכן - משרד"},
       {text: "מוכן - ספק", value: "מוכן - ספק"},
       {text: "במשלוח", value: "במשלוח"},
       {text: "סופק", value: "סופק"}
-    ],
+    ]
   }),
   methods: {
     save (order) {
@@ -124,7 +129,7 @@ export default {
         orderUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}) + ' > ' + this.name
       }
       this.$store.dispatch('updateOrder', payload)
-    },
+    },    
     duplicateItem (item) {
       this.$emit('duplicateOrder', item)
     },
@@ -175,9 +180,8 @@ export default {
     headers () {
       return [
       { text: '#', value: 'number', align: 'start', width: '3%' },
-      { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
+      { text: 'תאריך הזמנה', value: 'created', width: '10%'},
       { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
-      // { text: '', value: 'data-table-expand', 'sortable': false },
       { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '17%', 'sortable': false,  },
       { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
       { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
