@@ -29,8 +29,8 @@
             <div>{{ client.companyName }}</div>
             <div>ח.פ. {{ client.numberId }}</div>
             <div>
-              <a :href="client.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> | 
-              <a :href="client.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> | 
+              <a :href="client.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> |
+              <a :href="client.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> |
               <a :href="client.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a>
             </div>
           </v-col>
@@ -76,14 +76,14 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">אופן תשלום:</p> {{ client.paymentMethod }}
+              <p class="spc-titles">אמצעי תשלום:</p> {{ client.paymentMethod }}
             </div>
           </v-col>
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12">
             <h4>הגדרות לקוח</h4>
-          </v-col>            
+          </v-col>
           <v-col cols="6">
             <div class="user-information">
               <p class="spc-titles">מקור הגעה:</p> {{ client.lead }}
@@ -159,7 +159,10 @@
             <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
               mdi-circle-small
             </v-icon>
-            {{ props.item.statusType }}              
+            {{ props.item.statusType }}
+          </template>
+          <template v-slot:item.created="{ item }">
+              {{format(new Date(item.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
           </template>
         </v-data-table>
         <v-col cols="12">
@@ -196,7 +199,10 @@
             <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
               mdi-circle-small
             </v-icon>
-            {{ props.item.statusType }}              
+            {{ props.item.statusType }}
+          </template>
+          <template v-slot:item.created="{ item }">
+              {{format(new Date(item.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
           </template>
         </v-data-table>
       </v-col>
@@ -242,11 +248,15 @@
 </template>
 
 <script>
+import { format } from 'date-fns'
+import { he } from 'date-fns/locale'
 export default {
   name: 'Client',
   data: () => ({
     pageName: '',
     fab: false,
+    format,
+    he,
     transition: 'slide-y-transition',
     dialogs: {
       edit: false,
@@ -276,13 +286,10 @@ export default {
     headers () {
       return [
         { text: '#', value: 'number', align: 'start', width: '3%' },
-        { text: 'תאריך הזמנה', value: 'orderCreationDate', width: '10%', 'sortable': false },
+        { text: 'תאריך הזמנה', value: 'created', width: '10%', 'sortable': false },
         { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
-        // { text: '', value: 'data-table-expand', 'sortable': false },
         { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
         { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
-        // { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
-        // { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
         { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
         { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
         { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
@@ -351,7 +358,7 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>  
+<style lang="sass" scoped>
   .v-expansion-panel
     border-radius: 0px 0px 20px 20px !important
   .theme--light.v-expansion-panels .v-expansion-panel

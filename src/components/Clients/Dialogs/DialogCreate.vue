@@ -146,7 +146,7 @@
               <v-select
                 v-model="clientPaymentMethod"
                 :items="clientPaymentMethodList"                
-                label="אופן התשלום"
+                label="אמצעי התשלום"
                 filled
                 dense
                 hide-details

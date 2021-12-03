@@ -1,5 +1,5 @@
 <template>
-    <v-col cols="12" md="2" sm="6">
+  <v-col cols="12" md="2" sm="6">
     <v-card>
       <v-img
         src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
