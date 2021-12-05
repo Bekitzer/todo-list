@@ -300,10 +300,10 @@ import { format } from 'date-fns'
           this.supplierStatus= ''
         }
         this.closeDialog()
+        setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       closeDialog() {
         this.$emit('close')
-        setTimeout( () => this.$router.go({path: this.$router.path}), 2000)
       }
     },
     mounted() {

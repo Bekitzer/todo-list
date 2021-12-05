@@ -112,7 +112,7 @@
                 dense
                 hide-details
               />
-            </v-col>            
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -236,10 +236,10 @@ import { getAuth } from 'firebase/auth'
           this.orderDeliveryType = ''
         }
         this.closeDialog()
+        setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       closeDialog() {
         this.$emit('close')
-        setTimeout( () => this.$router.go({path: this.$router.path}), 2000)
       }
     },
     mounted() {

@@ -145,7 +145,7 @@
             <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"                
+                :items="clientPaymentMethodList"
                 label="אמצעי התשלום"
                 filled
                 dense
@@ -316,10 +316,10 @@ import { format } from 'date-fns'
           this.clientNewsletter = ''
         }
         this.closeDialog()
+        setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       closeDialog() {
         this.$emit('close')
-        setTimeout( () => this.$router.go({path: this.$router.path}), 2000)
       }
     },
     mounted() {

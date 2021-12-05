@@ -100,10 +100,10 @@ export default {
         this.productInfo = ''
       }
       this.closeDialog()
+      setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
     },
     closeDialog() {
-      this.$emit('close'),
-      setTimeout( () => this.$router.go({path: this.$router.path}), 2000)
+      this.$emit('close')
     }
   },
   mounted() {
