@@ -49,9 +49,6 @@
             <div class="user-information">
               <p class="spc-titles">הנחיות שילוח:</p> {{ supplier.addressAdditional }}
             </div>
-            <div class="user-information">
-              <p class="spc-titles">תאריך עידכון:</p> {{ supplier.clientUpdated }}
-            </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
@@ -59,9 +56,6 @@
             </div>
             <div class="user-information">
               <p class="spc-titles">כתובת:</p> {{ supplier.address }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">תאריך יצירת לקוח:</p> {{ supplier.supplierCreationDate }}
             </div>
           </v-col>
         </v-row>
@@ -82,7 +76,7 @@
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12">
-            <h4>הגדרות לקוח</h4>
+            <h4>הגדרות ספק</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
@@ -107,7 +101,12 @@
               <v-expansion-panel-content>
                 <v-row>
                   <v-col cols="4" md="4" sm="4">
-                    <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
+                    <div class="user-information">
+                      <p class="spc-titles">תאריך יצירת לקוח:</p> {{ supplier.supplierCreationDate }}
+                    </div>
+                    <div class="user-information">
+                      <p class="spc-titles">תאריך עידכון:</p> {{ supplier.supplierUpdated }}
+                    </div>
                   </v-col>
                   <v-col cols="4" md="4" sm="4">
                     <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
@@ -208,7 +207,6 @@
         fixed
         fab
         elevation="2"
-        style="margin-bottom:80px"
         large
         color="#03616f"
         class="white--text"
@@ -216,27 +214,9 @@
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn
-        bottom
-        left
-        fixed
-        fab
-        elevation="2"
-        large
-        color="red"
-        class="white--text"
-        @click="dialogs.delete = true"
-      >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
     <dialog-edit
       v-if="dialogs.edit"
       @close = 'dialogs.edit = false'
-      :supplier = 'supplier'
-    />
-    <dialog-delete
-      v-if="dialogs.delete"
-      @close = 'dialogs.delete = false'
       :supplier = 'supplier'
     />
   </v-container>
@@ -254,8 +234,7 @@ export default {
     he,
     transition: 'slide-y-transition',
     dialogs: {
-      edit: false,
-      delete: false
+      edit: false
     },
   }),
   methods: {
@@ -352,7 +331,6 @@ export default {
   },
   components: {
       'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
-      'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
   }
 }
@@ -376,4 +354,5 @@ export default {
   .spc-titles
     margin-bottom: 0
     text-decoration: underline
+    font-size: 12px
 </style>

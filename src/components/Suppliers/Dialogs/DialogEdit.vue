@@ -188,6 +188,12 @@
             </v-col>
           </v-row>
         <v-card-actions>
+          <v-btn
+            class="black--text"
+            @click="dialogs.delete = true"
+          >
+            למחוק ספק זה?
+          </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             fab
@@ -219,6 +225,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <dialog-delete
+      v-if="dialogs.delete"
+      @close = 'dialogs.delete = false'
+      :supplier = 'supplier'
+    />
   </v-row>
 </template>
 
@@ -227,32 +238,33 @@ import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 export default {
     props: ['supplier'],
-    data() {
-      return {
-        dialog: false,
-        supplierName: '',
-        supplierCompanyName:'',
-        supplierContactName: '',
-        supplierPhone: '',
-        supplierEmail: '',
-        supplierIdNumber: '',
-        supplierWebsite: '',
-        supplierFacebook: '',
-        supplierInstagram: '',
-        supplierPaymentTerms: '',
-        supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
-        supplierPaymentMethod: '',
-        supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-        supplierAddress: '',
-        supplierAddressAdditional: '',
-        supplierWhatsapp: '',
-        supplierHours: '',
-        supplierDeliveryType: '',
-        supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
-        supplierStatus: '',
-        supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"]
-      }
-    },
+    data: () => ({
+      dialog: false,
+      dialogs: {
+        delete: false
+      },
+      supplierName: '',
+      supplierCompanyName:'',
+      supplierContactName: '',
+      supplierPhone: '',
+      supplierEmail: '',
+      supplierIdNumber: '',
+      supplierWebsite: '',
+      supplierFacebook: '',
+      supplierInstagram: '',
+      supplierPaymentTerms: '',
+      supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+      supplierPaymentMethod: '',
+      supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+      supplierAddress: '',
+      supplierAddressAdditional: '',
+      supplierWhatsapp: '',
+      supplierHours: '',
+      supplierDeliveryType: '',
+      supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
+      supplierStatus: '',
+      supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"]
+    }),
     computed: {
       supplierFieldInvalid() {
         return
@@ -316,6 +328,9 @@ export default {
             this.$emit('close')
         }
       })
+    },
+    components: {
+      'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default
     }
   }
 </script>

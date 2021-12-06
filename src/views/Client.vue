@@ -49,9 +49,6 @@
             <div class="user-information">
               <p class="spc-titles">הנחיות שילוח:</p> {{ client.addressAdditional }}
             </div>
-            <div class="user-information">
-              <p class="spc-titles">תאריך עידכון:</p> {{ client.clientUpdated }}
-            </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
@@ -59,9 +56,6 @@
             </div>
             <div class="user-information">
               <p class="spc-titles">כתובת:</p> {{ client.address }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">תאריך יצירת לקוח:</p> {{ client.clientCreationDate }}
             </div>
           </v-col>
         </v-row>
@@ -110,7 +104,12 @@
               <v-expansion-panel-content>
                 <v-row>
                   <v-col cols="4" md="4" sm="4">
-                    <p style="">אופן אספקה <br />{{ client.paymentTerms }}</p>
+                    <div class="user-information">
+                      <p class="spc-titles">תאריך יצירת לקוח:</p> {{ client.clientCreationDate }}
+                    </div>
+                    <div class="user-information">
+                      <p class="spc-titles">תאריך עידכון:</p> {{ client.clientUpdated }}
+                    </div>
                   </v-col>
                   <v-col cols="4" md="4" sm="4">
                     <p style="">אופן אספקה <br />{{ client.paymentTerms }}</p>
@@ -213,7 +212,6 @@
         fixed
         fab
         elevation="2"
-        style="margin-bottom:80px"
         large
         color="#03616f"
         class="white--text"
@@ -221,27 +219,9 @@
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn
-        bottom
-        left
-        fixed
-        fab
-        elevation="2"
-        large
-        color="red"
-        class="white--text"
-        @click="dialogs.delete = true"
-      >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
     <dialog-edit
       v-if="dialogs.edit"
       @close = 'dialogs.edit = false'
-      :client = 'client'
-    />
-    <dialog-delete
-      v-if="dialogs.delete"
-      @close = 'dialogs.delete = false'
       :client = 'client'
     />
   </v-container>
@@ -260,7 +240,6 @@ export default {
     transition: 'slide-y-transition',
     dialogs: {
       edit: false,
-      delete: false
     },
   }),
   methods: {
@@ -353,7 +332,6 @@ export default {
   },
   components: {
       'dialog-edit': require('@/components/Clients/Dialogs/DialogEdit.vue').default,
-      'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
   }
 }
@@ -377,4 +355,5 @@ export default {
   .spc-titles
     margin-bottom: 0
     text-decoration: underline
+    font-size: 12px
 </style>

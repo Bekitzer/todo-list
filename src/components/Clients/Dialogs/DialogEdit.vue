@@ -199,6 +199,12 @@
             </v-col>
           </v-row>
         <v-card-actions>
+          <v-btn
+            class="black--text"
+            @click="dialogs.delete = true"
+          >
+            למחוק לקוח זה?
+          </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             fab
@@ -229,6 +235,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <dialog-delete
+      v-if="dialogs.delete"
+      @close = 'dialogs.delete = false'
+      :client = 'client'
+    />
   </v-row>
 </template>
 
@@ -236,13 +247,12 @@
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
   export default {
-    data () {
-      return {
-        dialog: false,
-      }
-    },
     props: ['client'],
     data: () => ({
+      dialog: false,
+      dialogs: {
+        delete: false
+      },
       clientName: '',
       clientCompanyName: '',
       clientContactName: '',
@@ -334,6 +344,9 @@ import { he } from 'date-fns/locale'
             this.$emit('close')
         }
       })
+    },
+    components: {
+      'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default
     }
   }
 </script>
