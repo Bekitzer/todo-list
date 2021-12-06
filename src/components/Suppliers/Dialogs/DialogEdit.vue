@@ -242,7 +242,7 @@ export default {
         supplierPaymentTerms: '',
         supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
         supplierPaymentMethod: '',
-        supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק"],
+        supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
         supplierAddress: '',
         supplierAddressAdditional: '',
         supplierWhatsapp: '',

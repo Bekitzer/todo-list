@@ -133,7 +133,7 @@
               <h3>הגדרות תשלום</h3>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-select                                
+              <v-select
                 v-model="clientPaymentTerms"
                 :items="clientPaymentTermsList"
                 label="תנאי תשלום"
@@ -145,7 +145,7 @@
             <v-col cols="12" md="6" sm="6">
               <v-select
                 v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"                   
+                :items="clientPaymentMethodList"
                 label="אמצעי התשלום"
                 filled
                 dense
@@ -172,6 +172,16 @@
                 v-model="clientStatus"
                 :items="clientStatusList"
                 label="סטטוס לקוח"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="clientLead"
+                :items="clientLeadList"
+                label="מקור הגעה"
                 filled
                 dense
                 hide-details
@@ -245,14 +255,16 @@ import { he } from 'date-fns/locale'
       clientPaymentTerms: '',
       clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
       clientPaymentMethod: '',
-      clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק"],
+      clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
       clientAddress: '',
       clientAddressAdditional: '',
       clientWhatsapp: '',
       clientDeliveryType: '',
       clientStatus: '',
       clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
-      clientStatusList: ["קבוע","מזדמן","שת״פ"],
+      clientStatusList: ["פרטי","עסקי"],
+      clientLead: '',
+      clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן"],
       clientNewsletter: '',
       clientNewsletterList: ["כן","לא"]
     }),
@@ -285,6 +297,7 @@ import { he } from 'date-fns/locale'
             whatsapp: this.clientWhatsapp,
             deliveryType: this.clientDeliveryType,
             status: this.clientStatus,
+            lead: this.clientLead,
             newsletter: this.clientNewsletter,
             clientUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
           }
@@ -297,7 +310,7 @@ import { he } from 'date-fns/locale'
         this.$emit('close')
       }
     },
-    mounted() {      
+    mounted() {
       this.clientName = this.client.name
       this.clientCompanyName = this.client.companyName
       this.clientContactName = this.client.contactName
@@ -314,6 +327,7 @@ import { he } from 'date-fns/locale'
       this.clientWhatsapp = this.client.whatsapp
       this.clientDeliveryType = this.client.deliveryType
       this.clientStatus = this.client.status
+      this.clientLead = this.client.lead
       this.clientNewsletter = this.client.newsletter
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {

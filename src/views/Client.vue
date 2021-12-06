@@ -5,11 +5,11 @@
       <v-col cols="12" md="4" sm="4">
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12" md="3" sm="3">
-            <v-icon
+            <!-- <v-icon
               :color="getColor(client.status)"
               class="spc-status-dot pos-abs"
               size="60"
-            >mdi-circle-small</v-icon>
+            >mdi-circle-small</v-icon> -->
             <v-avatar
               style="border:1px solid black"
               class="profile"
@@ -88,16 +88,16 @@
             <div class="user-information">
               <p class="spc-titles">מקור הגעה:</p> {{ client.lead }}
             </div>
-            <div class="user-information">
-              <p class="spc-titles">שעות פעילות:</p> {{ client.workingHours }}
-            </div>
+              <div class="user-information">
+                <p class="spc-titles">אופן אספקה:</p> {{ client.deliveryType }}
+              </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
               <p class="spc-titles">דיוור:</p> {{ client.newsletter }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">אופן אספקה:</p> {{ client.deliveryType }}
+              <p class="spc-titles">סטטוס לקוח:</p> {{ client.status }}
             </div>
           </v-col>
         </v-row>
@@ -264,11 +264,11 @@ export default {
     },
   }),
   methods: {
-    getColor (statusType) {
-      if (statusType === "קבוע") return 'green'
-      else if (statusType === "מזדמן") return 'blue'
-      else if (statusType === "שת״פ") return 'orange'
-    },
+    // getColor (statusType) {
+    //   ["פרטי","עסקי"]
+    //   if (statusType === "פרטי") return 'green'
+    //   else if (statusType === "עסקי") return 'blue'
+    // },
     getColor (statusType) {
       if (statusType === "טיוטה") return '#FF9800'
       else if (statusType === "בעבודה") return '#2196F3'
