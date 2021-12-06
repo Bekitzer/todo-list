@@ -9,12 +9,12 @@
         elevation="8"
         shaped
       >
-        <v-card-title>יצירת ספק</v-card-title>
+        <v-card-title>עריכה</v-card-title>
           <v-row class="pr-10 pl-10">
             <v-col cols="12">
               <h3>פרטי ספק</h3>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierName"
                 label="שם ספק"
@@ -23,7 +23,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierCompanyName"
                 label="שם חברה"
@@ -32,7 +32,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierIdNumber"
                 label="ח.פ. / ע.מ."
@@ -41,7 +41,39 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+          </v-row>
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12">
+              <h3>פרטי התקשרות</h3>
+            </v-col>
+            <v-col cols="12" md="4" sm="12">
+              <v-text-field
+                v-model="supplierContactName"
+                label="איש קשר ראשי"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="supplierPhone"
+                label="טלפון משרד"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="supplierEmail"
+                label="מייל משרד"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
               <v-text-field
                 v-model="supplierAddress"
                 label="כתובת"
@@ -59,39 +91,7 @@
                 hide-details
               ></v-textarea>
             </v-col>
-          </v-row>
-          <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>פרטי התקשרות</h3>
-            </v-col>
-            <v-col cols="12" md="4" sm="12">
-              <v-text-field
-                v-model="supplierContactName"
-                label="איש קשר ראשי"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierPhone"
-                label="טלפון משרד"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierEmail"
-                label="מייל משרד"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierWhatsapp"
                 label="וואטסאפ"
@@ -100,7 +100,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierWebsite"
                 label="אתר אינטרנט"
@@ -109,7 +109,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierFacebook"
                 label="פייסבוק"
@@ -118,7 +118,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierInstagram"
                 label="אינסטגרם"
@@ -146,7 +146,7 @@
               <v-select
                 v-model="supplierPaymentMethod"
                 :items="supplierPaymentMethodList"
-                label="אמצעי התשלום"
+                label="אמצעי תשלום"
                 filled
                 dense
                 hide-details

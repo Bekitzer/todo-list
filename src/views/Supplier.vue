@@ -2,14 +2,14 @@
   <v-container>
     <nav-appbar :pname="'שם ספק > ' + this.supplier.name"/>
     <v-row>
-      <v-col cols="12" md="4" sm="4">
+      <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12" md="4" sm="4">
-            <v-icon
+            <!-- <v-icon
               :color="getColor(supplier.status)"
               class="spc-status-dot pos-abs"
               size="60"
-            >mdi-circle-small</v-icon>
+            >mdi-circle-small</v-icon> -->
             <v-avatar
               style="border:1px solid black"
               class="profile"
@@ -22,10 +22,7 @@
             </v-avatar>
           </v-col>
           <v-col cols="12" md="8" sm="8">
-            <div>
-              <small class="margin-bottom:0 !important;">שם חברה</small>
-              <h2>{{ supplier.name }}</h2>
-            </div>
+            <h2>{{ supplier.name }}</h2>
             <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
             <p style="margin-bottom:0 !important;">ח.פ. {{ supplier.numberId }}</p>
             <div>
@@ -41,21 +38,24 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
+              <p class="spc-titles">איש קשר ראשי:</p> {{ supplier.contactName }}
+            </div>
+            <div class="user-information">
               <p class="spc-titles">טלפון:</p> {{ supplier.phone }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">וואטסאפ:</p> {{ supplier.whatsapp }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">הנחיות שילוח:</p> {{ supplier.addressAdditional }}
+              <p class="spc-titles">אימייל:</p> {{ supplier.email }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">אימייל:</p> {{ supplier.email }}
+              <p class="spc-titles">וואטסאפ:</p> {{ supplier.whatsapp }}
             </div>
             <div class="user-information">
               <p class="spc-titles">כתובת:</p> {{ supplier.address }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">הנחיות שילוח:</p> {{ supplier.addressAdditional }}
             </div>
           </v-col>
         </v-row>
@@ -80,15 +80,18 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">שעות פעילות:</p> {{ supplier.workingHours }}
+              <p class="spc-titles">אופן אספקה:</p> {{ supplier.deliveryType }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">דיוור:</p> {{ supplier.newsletter }}
+              <p class="spc-titles">אופן אספקה:</p> {{ supplier.status }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">אופן אספקה:</p> {{ supplier.deliveryType }}
+              <p class="spc-titles">שעות פעילות:</p> {{ supplier.workingHours }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">דיוור:</p> {{ supplier.newsletter }}
             </div>
           </v-col>
         </v-row>
@@ -120,7 +123,7 @@
           </v-expansion-panels>
         </v-row>
       </v-col>
-      <v-col cols="12" md="8" sm="8">
+      <v-col cols="12" md="9" sm="9">
         <v-col cols="12">
           <h4>הזמנות - בתהליך</h4>
         </v-col>
@@ -238,12 +241,12 @@ export default {
     },
   }),
   methods: {
-    getColor (statusType) {
-      if (statusType === "פעיל") return 'green'
-      else if (statusType === "לא פעיל") return 'red'
-      else if (statusType === "מזדמן") return 'blue'
-      else if (statusType === "שת״פ") return 'orange'
-    },
+    // getColor (statusType) {
+    //   if (statusType === "פעיל") return 'green'
+    //   else if (statusType === "לא פעיל") return 'red'
+    //   else if (statusType === "מזדמן") return 'blue'
+    //   else if (statusType === "שת״פ") return 'orange'
+    // },
     getColor (statusType) {
       if (statusType === "טיוטה") return '#FF9800'
       else if (statusType === "בעבודה") return '#2196F3'
@@ -263,14 +266,10 @@ export default {
         { text: '#', value: 'number', align: 'start', width: '3%' },
         { text: 'תאריך הזמנה', value: 'created', width: '10%', 'sortable': false },
         { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
-        // { text: '', value: 'data-table-expand', 'sortable': false },
         { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
         { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
-        // { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
-        // { text: 'אופן אספקה', value: 'deliveryType', width: '7%', 'sortable': false,  },
-        { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
         { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
-        { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
+        { text: 'תאריך אספקה', value: 'deliveryDate', width: '5%', 'sortable': false  },
         { text: 'סטטוס הזמנה', value: 'statusType', width: '11%','sortable': true}
       ]
     },
@@ -353,6 +352,5 @@ export default {
     height: 60px
   .spc-titles
     margin-bottom: 0
-    text-decoration: underline
     font-size: 12px
 </style>

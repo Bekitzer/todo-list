@@ -2,9 +2,9 @@
   <v-container>
     <nav-appbar :pname="'שם לקוח > ' + this.client.name"/>
     <v-row>
-      <v-col cols="12" md="4" sm="4">
+      <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
-          <v-col cols="12" md="3" sm="3">
+          <v-col cols="12" md="4" sm="4">
             <!-- <v-icon
               :color="getColor(client.status)"
               class="spc-status-dot pos-abs"
@@ -21,11 +21,8 @@
               ></v-img>
             </v-avatar>
           </v-col>
-          <v-col cols="12" md="9" sm="9">
-            <div>
-              <small>שם חברה</small>
-              <h2>{{ client.name }}</h2>
-            </div>
+          <v-col cols="12" md="8" sm="8">
+            <h2>{{ client.name }}</h2>
             <div>{{ client.companyName }}</div>
             <div>ח.פ. {{ client.numberId }}</div>
             <div>
@@ -41,21 +38,24 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
+              <p class="spc-titles">איש קשר ראשי:</p> {{ client.contactName }}
+            </div>
+            <div class="user-information">
               <p class="spc-titles">טלפון:</p> {{ client.phone }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">וואטסאפ:</p> {{ client.whatsapp }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">הנחיות שילוח:</p> {{ client.addressAdditional }}
+              <p class="spc-titles">אימייל:</p> {{ client.email }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">אימייל:</p> {{ client.email }}
+              <p class="spc-titles">וואטסאפ:</p> {{ client.whatsapp }}
             </div>
             <div class="user-information">
               <p class="spc-titles">כתובת:</p> {{ client.address }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">הנחיות שילוח:</p> {{ client.addressAdditional }}
             </div>
           </v-col>
         </v-row>
@@ -80,19 +80,20 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">מקור הגעה:</p> {{ client.lead }}
-            </div>
-              <div class="user-information">
-                <p class="spc-titles">אופן אספקה:</p> {{ client.deliveryType }}
-              </div>
-          </v-col>
-          <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">דיוור:</p> {{ client.newsletter }}
+              <p class="spc-titles">אופן אספקה:</p> {{ client.deliveryType }}
             </div>
             <div class="user-information">
               <p class="spc-titles">סטטוס לקוח:</p> {{ client.status }}
             </div>
+          </v-col>
+          <v-col cols="6">
+            <div class="user-information">
+              <p class="spc-titles">מקור הגעה:</p> {{ client.lead }}
+            </div>
+            <div class="user-information">
+              <p class="spc-titles">דיוור:</p> {{ client.newsletter }}
+            </div>
+
           </v-col>
         </v-row>
         <v-row>
@@ -123,7 +124,7 @@
           </v-expansion-panels>
         </v-row>
       </v-col>
-      <v-col cols="12" md="8" sm="8">
+      <v-col cols="12" md="9" sm="9">
         <v-col cols="12">
           <h4>הזמנות - בתהליך</h4>
         </v-col>
@@ -270,8 +271,7 @@ export default {
         { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
         { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
         { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
-        { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
-        { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
+        { text: 'תאריך אספקה', value: 'deliveryDate', width: '5%', 'sortable': false  },
         { text: 'סטטוס הזמנה', value: 'statusType', width: '11%','sortable': true}
       ]
     },
@@ -354,6 +354,5 @@ export default {
     height: 60px
   .spc-titles
     margin-bottom: 0
-    text-decoration: underline
     font-size: 12px
 </style>

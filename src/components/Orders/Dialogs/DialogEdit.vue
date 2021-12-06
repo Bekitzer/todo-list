@@ -2,6 +2,7 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
+      persistent
       max-width="600"
     >
       <v-card
@@ -121,6 +122,12 @@
             </v-col>
           </v-row>
         <v-card-actions>
+          <v-btn
+            class="black--text"
+            @click="dialogs.delete=true"
+          >
+            למחוק הזמנה זו?
+          </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             fab
@@ -151,6 +158,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <dialog-delete
+      v-if="dialogs.delete"
+      @close = 'dialogs.delete = false'
+      :order = 'order'
+    />
   </v-row>
 </template>
 
@@ -163,6 +175,9 @@ import { getAuth } from 'firebase/auth'
     props: ['order'],
     data: () => ({
       dialog: false,
+      dialogs: {
+        delete: false
+      },
       // orderNumber: '',
       orderClientName: '',
       orderWorkTitle: '',
@@ -261,6 +276,9 @@ import { getAuth } from 'firebase/auth'
             this.$emit('close')
         }
       })
+    },
+    components: {
+        'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default
     }
   }
 </script>

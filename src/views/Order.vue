@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <nav-appbar :pname="'מספר הזמנה > ' + this.order.number"/>
+    <nav-appbar :pname="'מס.הזמנה > ' + this.order.number"/>
     <v-row>
       <v-col cols="12" md="4" sm="4">
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">          
+        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12" md="6" sm="6">
             <div>
               <small class="margin-bottom:0 !important;">שם לקוח</small>
-              <h2>                
+              <h2>
                 {{ clientsMap[order.clientName].name }}
               </h2>
             </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="user-information">
               <p class="spc-titles">רווח:</p> {{ order.margin }}
-            </div>            
+            </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
@@ -45,7 +45,7 @@
             </div>
             <div class="user-information">
               <p class="spc-titles">אחראי:</p> {{ order.deliveryAgent }}
-            </div>            
+            </div>
           </v-col>
         </v-row>
         <v-row class="pa-3 pos-rel mb-2 grey lighten-3">
@@ -56,12 +56,12 @@
             <div class="user-info">
               <p class="spc-titles">אודות ההזמנה:</p> {{ order.orderWork }}
             </div>
-          </v-col> 
+          </v-col>
           <v-col cols="6">
             <div class="user-information">
               <p class="spc-titles">תאריך אספקה:</p> {{ order.deliveryDate }}
             </div>
-          </v-col>                   
+          </v-col>
         </v-row>
         <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
           <v-col cols="12">
@@ -69,14 +69,15 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">ת.רישום:</p> {{ order.orderCreationDate }}
+
+              <p class="spc-titles">ת.רישום:</p> {{format(new Date(order.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
               <p class="spc-titles">ת.עידכון:</p> {{ order.orderUpdated }}
             </div>
-          </v-col>          
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -90,7 +91,6 @@
         fixed
         fab
         elevation="2"
-        style="margin-bottom:80px"
         large
         color="#03616f"
         class="white--text"
@@ -98,42 +98,26 @@
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn
-        bottom
-        left
-        fixed
-        fab
-        elevation="2"
-        large
-        color="red"
-        class="white--text"
-        @click="dialogs.delete=true"
-      >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
     <dialog-edit
       v-if="dialogs.edit"
       @close = 'dialogs.edit = false'
-      :order = 'order'
-    />
-    <dialog-delete
-      v-if="dialogs.delete"
-      @close = 'dialogs.delete = false'
       :order = 'order'
     />
   </v-container>
 </template>
 
 <script>
+import { format } from 'date-fns'
+import { he } from 'date-fns/locale'
 export default {
   name: 'Order',
   data: () => ({
     pageName: '',
     fab: false,
-    // transition: 'slide-y-transition',
+    format,
+    he,
     dialogs: {
-      edit: false,
-      delete: false
+      edit: false
     },
   }),
   computed: {
@@ -159,7 +143,6 @@ export default {
   },
   components: {
       'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,
-      'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
   }
 }
