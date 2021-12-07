@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div class="mr-16 ml-16">
     <nav-appbar :pname="pageName"/>
     <v-row>
       <list-products
@@ -26,45 +26,87 @@
       v-if="dialogs.create"
       @close = 'dialogs.create = false'
     />
-    <footer>
-      <a href="https://nanoprint.co.il/product/business-cards/">כרטיסי ביקור</a> |
-      <a href="https://nanoprint.co.il/product/postcards/">גלויות והזמנות</a> |
-      <a href="https://nanoprint.co.il/product/flyers/">פליירים וברושורים</a> |
-      <a href="https://nanoprint.co.il/product/pocket-folders/">פולדרים</a> |
-      <a href="https://nanoprint.co.il/product/door-hangers/">תלי דלת</a> |
-      <a href="https://nanoprint.co.il/product/magnets/">מגנטים</a> |
-      <a href="https://nanoprint.co.il/product/booklets/">חוברות וקטלוגים</a> |
-      <a href="https://nanoprint.co.il/product/posters/">פוסטרים</a> |
-      <a href="https://nanoprint.co.il/product/tickets/">כרטיסים ושוברים</a> |
-      <a href="https://nanoprint.co.il/product/envelopes/">מעטפות</a> |
-      <a href="https://nanoprint.co.il/product/letterhead/">נייר מכתבים / דף לוגו</a> |
-      <a href="https://nanoprint.co.il/product/carbonless-forms/">פנקסים / חשבוניות</a> |
-      <a href="https://nanoprint.co.il/product/stamps/">חותמות</a> |
-      <a href="https://nanoprint.co.il/product/kapa/">הדפסה על קאפה</a> |
-      <a href="https://nanoprint.co.il/product/canvas/">הדפסה על קנבס</a> |
-      <a href="https://nanoprint.co.il/product/vinyl-banner/">הדפסה על שמשונית</a> |
-      <a href="https://nanoprint.co.il/product/polygal/">הדפסה על פוליגל</a> |
-      <a href="https://nanoprint.co.il/product/perspex/">הדפסה על פרספקס</a> |
-      <a href="https://nanoprint.co.il/product/vinyl-stickers/">מדבקות ויניל פס רחב</a> |
-      <a href="https://nanoprint.co.il/product/flags/">דגלים</a> |
-      <a href="https://nanoprint.co.il/product/roll-up/">רול אפ</a> |
-      <a href="https://nanoprint.co.il/product/promoter-counter/">דלפק מכירות / פרומוטר</a> |
-      <a href="https://nanoprint.co.il/product/a-frame-sign/">שלט A / שלט חמור</a> |
-      <a href="https://nanoprint.co.il/product/snap-frame/">מסגרת קליפס / סנייפ פריים</a> |
-      <a href="https://nanoprint.co.il/product/presswall/">קיר עיתונאים / צילום</a> |
-      <a href="https://nanoprint.co.il/product/paper-stickers/">מדבקות ותוויות</a> |
-      <a href="https://nanoprint.co.il/product/sticker-rolls/">מדבקות בגלילים</a> |
-      <a href="https://nanoprint.co.il/product/vinyl-lettering/">מדבקת חיתוך אותיות</a> |
-      <a href="https://nanoprint.co.il/product/coasters/">תחתיות לכוס / קוסטרים</a> |
-      <a href="https://nanoprint.co.il/product/pin-buttons/">סיכות דש / כפתור</a> |
-      <a href="https://nanoprint.co.il/product/flag-garland/">שרשרת דגלים</a> |
-      <a href="https://nanoprint.co.il/product/notebooks/">מחברות ממותגות</a> |
-      <a href="https://nanoprint.co.il/product/plastic-cards/">כרטיסי פלסטיק</a> |
-      <a href="https://nanoprint.co.il/product/calendars/">לוחות שנה</a> |
-      <a href="https://nanoprint.co.il/product/event-tags/">תגי הפקה</a> |
-      <a href="https://nanoprint.co.il/product/memo/">דפי ממו / מזכר</a> |
-    </footer>
-  </v-container>
+    <v-row class="spc-ul">
+      <v-col cols="12" md="2" sm="2">
+        <h5 >מיתוג ושיווק</h5>
+        <ul>
+          <li><a href="https://nanoprint.co.il/product/business-cards/">כרטיסי ביקור</a></li>
+          <li><a href="https://nanoprint.co.il/product/postcards/">גלויות והזמנות</a></li>
+          <li><a href="https://nanoprint.co.il/product/flyers/">פליירים וברושורים</a></li>
+          <li><a href="https://nanoprint.co.il/product/pocket-folders/">פולדרים</a></li>
+          <li><a href="https://nanoprint.co.il/product/door-hangers/">תלי דלת</a></li>
+          <li><a href="https://nanoprint.co.il/product/magnets/">מגנטים</a></li>
+          <li><a href="https://nanoprint.co.il/product/booklets/">חוברות וקטלוגים</a></li>
+          <li><a href="https://nanoprint.co.il/product/posters/">פוסטרים</a></li>
+          <li><a href="https://nanoprint.co.il/product/notebooks/">מחברות ממותגות</a></li>
+          <li><a href="https://nanoprint.co.il/product/calendars/">לוחות שנה</a></li>
+          <li><a href="https://nanoprint.co.il/product/tickets/">כרטיסים ושוברים</a></li>
+          <li><a href="https://nanoprint.co.il/product/plastic-cards/">כרטיסי פלסטיק</a></li>
+          <li><a href="https://nanoprint.co.il/product/envelopes/">מעטפות</a></li>
+          <li><a href="https://nanoprint.co.il/product/letterhead/">נייר מכתבים / דף לוגו</a></li>
+          <li><a href="https://nanoprint.co.il/product/memo/">דפי ממו / מזכר</a></li>
+        </ul>
+      </v-col>
+      <v-col cols="12" md="2" sm="2">
+        <h5>משרדי ואירגוני</h5>
+        <ul>
+          <li><a href="https://nanoprint.co.il/product/envelopes/">מעטפות</a></li>
+          <li><a href="https://nanoprint.co.il/product/letterhead/">נייר מכתבים / דף לוגו</a></li>
+          <li><a href="https://nanoprint.co.il/product/memo/">דפי ממו / מזכר</a></li>
+          <li><a href="https://nanoprint.co.il/product/carbonless-forms/">פנקסים / חשבוניות</a></li>
+          <li><a href="https://nanoprint.co.il/product/stamps/">חותמות</a></li>
+          <li><a href="https://nanoprint.co.il/product/business-cards/">כרטיסי ביקור</a></li>
+          <li><a href="https://nanoprint.co.il/product/calendars/">לוחות שנה</a></li>
+          <li><a href="https://nanoprint.co.il/product/event-tags/">תגי הפקה</a></li>
+        </ul>
+      </v-col>
+      <v-col cols="12" md="2" sm="2">
+        <h5>שילוט ותצוגה</h5>
+        <ul>
+          <li><a href="https://nanoprint.co.il/product/kapa/">הדפסה על קאפה</a></li>
+          <li><a href="https://nanoprint.co.il/product/canvas/">הדפסה על קנבס</a></li>
+          <li><a href="https://nanoprint.co.il/product/vinyl-banner/">הדפסה על שמשונית</a></li>
+          <li><a href="https://nanoprint.co.il/product/polygal/">הדפסה על פוליגל</a></li>
+          <li><a href="https://nanoprint.co.il/product/perspex/">הדפסה על פרספקס</a></li>
+          <li><a href="https://nanoprint.co.il/product/vinyl-stickers/">מדבקות ויניל פס רחב</a></li>
+          <li><a href="https://nanoprint.co.il/product/posters/">פוסטרים</a></li>
+          <li><a href="https://nanoprint.co.il/product/flags/">דגלים</a></li>
+          <li><a href="https://nanoprint.co.il/product/flag-garland/">שרשרת דגלים</a></li>
+          <li><a href="https://nanoprint.co.il/product/roll-up/">רול אפ</a></li>
+        </ul>
+      </v-col>
+      <v-col cols="12" md="2" sm="2">
+        <h5>מתקנים ומעמדים</h5>
+        <ul>
+          <li><a href="https://nanoprint.co.il/product/roll-up/">רול אפ</a></li>
+          <li><a href="https://nanoprint.co.il/product/promoter-counter/">דלפק מכירות / פרומוטר</a></li>
+          <li><a href="https://nanoprint.co.il/product/a-frame-sign/">שלט A / שלט חמור</a></li>
+          <li><a href="https://nanoprint.co.il/product/snap-frame/">מסגרת קליפס / סנייפ פריים</a></li>
+          <li><a href="https://nanoprint.co.il/product/presswall/">קיר עיתונאים / צילום</a></li>
+        </ul>
+      </v-col>
+      <v-col cols="12" md="2" sm="2">
+        <h5>מדבקות וטפטים</h5>
+        <ul>
+          <li><a href="https://nanoprint.co.il/product/sticker-rolls/">מדבקות בגלילים</a></li>
+          <li><a href="https://nanoprint.co.il/product/vinyl-lettering/">מדבקת חיתוך אותיות</a></li>
+          <li><a href="https://nanoprint.co.il/product/vinyl-stickers/">מדבקות ויניל פס רחב</a></li>
+        </ul>
+      </v-col>
+      <v-col cols="12" md="2" sm="2">
+        <h5>מוצרי קד״מ</h5>
+        <ul>
+          <li><a href="https://nanoprint.co.il/product/pin-buttons/">סיכות דש / כפתור</a></li>
+          <li><a href="https://nanoprint.co.il/product/flag-garland/">שרשרת דגלים</a></li>
+          <li><a href="https://nanoprint.co.il/product/notebooks/">מחברות ממותגות</a></li>
+          <li><a href="https://nanoprint.co.il/product/plastic-cards/">כרטיסי פלסטיק</a></li>
+          <li><a href="https://nanoprint.co.il/product/calendars/">לוחות שנה</a></li>
+          <li><a href="https://nanoprint.co.il/product/event-tags/">תגי הפקה</a></li>
+          <li><a href="https://nanoprint.co.il/product/memo/">דפי ממו / מזכר</a></li>
+        </ul>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -95,6 +137,8 @@ export default {
 }
 </script>
 <style lang="sass">
+  .spc-ul ul
+    list-style-type: none !important
 @media (max-width: 800px)
   .v-application .pl-16
     padding-left: 20px !important
@@ -103,4 +147,3 @@ export default {
   .v-application .pt-10
     padding-top: 0px !important
 </style>
-

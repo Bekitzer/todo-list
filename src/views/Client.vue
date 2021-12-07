@@ -139,6 +139,7 @@
           :items-per-page="-1"
           hide-default-footer
           sort-desc
+          no-data-text="אין הזמנות פעילות"
         >
           <template v-slot:item.clientLink="{ item }">
               {{ item.clientLink }}
@@ -169,7 +170,7 @@
           <h4>הזמנות - סופק</h4>
         </v-col>
         <v-data-table
-          height="40vh"
+          height="35vh"
           fixed-header
           :search="$store.state.search"
           :headers="headers"
@@ -179,6 +180,7 @@
           :items-per-page="-1"
           hide-default-footer
           sort-desc
+          no-data-text="אין הזמנות שסופקו"
         >
           <template v-slot:item.clientLink="{ item }">
               {{ item.clientLink }}

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <nav-appbar :pname="'שם מוצר > ' + this.product.name"/>
     <v-row>
       <v-col cols="12" md="7" sm="7">
@@ -78,7 +78,7 @@
       @close = 'dialogs.delete = false'
       :product = 'product'
     />
-  </v-container>
+  </div>
 </template>
 
 <script>

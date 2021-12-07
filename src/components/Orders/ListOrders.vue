@@ -238,13 +238,18 @@ export default {
 }
 </script>
 <style lang="sass">
+  .v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover) .v-btn__content
+    opacity:1 !important
+  .v-btn--plain:focus .v-btn__content, .v-btn--plain:hover .v-btn__content
+    opacity:.62 !important
   .ngs-button
-    opacity: 1 !important
     letter-spacing: 0 !important
     color:#006d7b !important
     height: auto !important
     min-width: auto !important
     padding: 0 !important
+  .ngs-button:focus:hover
+    opacity: .62 !important
   .v-list-item__content
     padding: 12px 0 !important
   th.spc-status-dot
