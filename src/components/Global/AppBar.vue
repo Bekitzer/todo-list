@@ -1,16 +1,14 @@
-
 <template>
      <v-app-bar
       app
       flat
       :height="90"
-      class="mr-16 ml-16"
+      class="mr-9 ml-9"
     >
           <v-row style="font-size:14px;" class="align-center">
-            <v-col cols="12" md="2" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86">{{pname}}</h2>
             </v-col>
-            <v-spacer></v-spacer>
             <v-col cols="12" md="3" sm="6">
               <search v-if="tableListSearch"/>
             </v-col>

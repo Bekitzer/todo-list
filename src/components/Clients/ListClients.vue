@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-    height="72vh"
+    height="82vh"
     fixed-header
     :search="$store.state.search"
     :headers="headers"

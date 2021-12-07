@@ -14,7 +14,7 @@
             <v-col cols="12">
               <h3>פרטי לקוח</h3>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="clientName"
                 label="שם לקוח"
@@ -23,7 +23,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="clientCompanyName"
                 label="שם חברה"
@@ -32,7 +32,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="clientIdNumber"
                 label="ח.פ. / ע.מ."
@@ -40,24 +40,6 @@
                 dense
                 hide-details
               />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="clientAddress"
-                label="כתובת"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="12" sm="6">
-              <v-textarea
-                v-model="clientAddressAdditional"
-                label="הנחיות שילוח"
-                filled
-                dense
-                hide-details
-              ></v-textarea>
             </v-col>
           </v-row>
           <v-row class="pr-10 pl-10">
@@ -91,7 +73,25 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="clientAddress"
+                label="כתובת"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-textarea
+                v-model="clientAddressAdditional"
+                label="הנחיות שילוח"
+                filled
+                dense
+                hide-details
+              ></v-textarea>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="clientWhatsapp"
                 label="וואטסאפ"
@@ -100,7 +100,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="clientWebsite"
                 label="אתר אינטרנט"
@@ -109,7 +109,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="clientFacebook"
                 label="פייסבוק"
@@ -118,7 +118,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="clientInstagram"
                 label="אינסטגרם"

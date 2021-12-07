@@ -1,6 +1,6 @@
 <template>
   <div class="mr-16 ml-16">
-    <nav-appbar :pname="'שם ספק > ' + this.supplier.name"/>
+    <nav-appbar :pname="'פרופיל ספק > ' + this.supplier.name"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -55,7 +55,7 @@
               <p class="spc-titles">כתובת</p> {{ supplier.address }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">הנחיות שילוח</p> {{ supplier.addressAdditional }}
+              <p class="spc-titles">הנחיות שילוח</p> {{ supplier.addressAditional }}
             </div>
           </v-col>
         </v-row>
@@ -128,7 +128,7 @@
           <h4>הזמנות - בתהליך</h4>
         </v-col>
         <v-data-table
-          height="20vh"
+          height="40vh"
           fixed-header
           :headers="headers"
           :items="processing"
@@ -167,7 +167,7 @@
           <h4>הזמנות - סופק</h4>
         </v-col>
         <v-data-table
-          height="20vh"
+          height="40vh"
           fixed-header
           :headers="headers"
           :items="delivered"

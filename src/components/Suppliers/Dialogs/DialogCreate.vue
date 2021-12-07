@@ -14,7 +14,7 @@
             <v-col cols="12">
               <h3>פרטי ספק</h3>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierName"
                 label="שם ספק"
@@ -23,7 +23,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierCompanyName"
                 label="שם חברה"
@@ -32,7 +32,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierIdNumber"
                 label="ח.פ. / ע.מ."
@@ -40,24 +40,6 @@
                 dense
                 hide-details
               />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="supplierAddress"
-                label="כתובת"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="12" sm="6">
-              <v-textarea
-                v-model="supplierAddressAdditional"
-                label="הערות"
-                filled
-                dense
-                hide-details
-              ></v-textarea>
             </v-col>
           </v-row>
           <v-row class="pr-10 pl-10">
@@ -82,7 +64,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="12">
+            <v-col cols="12" md="4" sm="12">
               <v-text-field
                 v-model="supplierEmail"
                 label="מייל"
@@ -91,7 +73,25 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="supplierAddress"
+                label="כתובת"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-textarea
+                v-model="supplierAddressAdditional"
+                label="הערות"
+                filled
+                dense
+                hide-details
+              ></v-textarea>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierWhatsapp"
                 label="וואטסאפ"
@@ -100,7 +100,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierWebsite"
                 label="אתר אינטרנט"
@@ -109,7 +109,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierFacebook"
                 label="פייסבוק"
@@ -118,7 +118,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierInstagram"
                 label="אינסטגרם"
@@ -186,6 +186,16 @@
                 hide-details
               ></v-select>
             </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="supplierNewsletter"
+                :items="supplierNewsletterList"
+                label="דיוור"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -247,7 +257,9 @@ import { format } from 'date-fns'
       supplierDeliveryType: '',
       supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
       supplierStatus: '',
-      supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"]
+      supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
+      supplierNewsletter: '',
+      supplierNewsletterList: ["כן","לא"]
      }),
     computed: {
       supplierFieldInvalid() {
@@ -277,7 +289,8 @@ import { format } from 'date-fns'
             whatsapp: this.supplierWhatsapp,
             workingHours: this.supplierHours,
             deliveryType: this.supplierDeliveryType,
-            status: this.supplierStatus
+            status: this.supplierStatus,
+            newsletter: this.supplierNewsletter,
           }
 
           this.$store.dispatch('addSupplier', supplierFields)
@@ -296,8 +309,9 @@ import { format } from 'date-fns'
           this.supplierAddressAdditional = ''
           this.supplierWhatsapp = ''
           this.supplierHours = ''
-          this.supplierDeliveryType= ''
-          this.supplierStatus= ''
+          this.supplierDeliveryType = ''
+          this.supplierStatus = ''
+          this.supplierNewsletter = ''
         }
         this.closeDialog()
         setTimeout( () => this.$router.go({path: this.$router.path}), 3000)

@@ -1,6 +1,6 @@
 <template>
   <div class="mr-16 ml-16">
-    <nav-appbar :pname="'שם לקוח > ' + this.client.name"/>
+    <nav-appbar :pname="'פרופיל לקוח > ' + this.client.name"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -129,7 +129,7 @@
           <h4>הזמנות - בתהליך</h4>
         </v-col>
         <v-data-table
-          height="20vh"
+          height="40vh"
           fixed-header
           :search="$store.state.search"
           :headers="headers"
@@ -169,7 +169,7 @@
           <h4>הזמנות - סופק</h4>
         </v-col>
         <v-data-table
-          height="20vh"
+          height="40vh"
           fixed-header
           :search="$store.state.search"
           :headers="headers"
