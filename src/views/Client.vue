@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <div class="mr-16 ml-16">
     <nav-appbar :pname="'שם לקוח > ' + this.client.name"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12" md="4" sm="4">
             <!-- <v-icon
               :color="getColor(client.status)"
@@ -32,66 +32,66 @@
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>פרטי התקשרות</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">איש קשר ראשי:</p> {{ client.contactName }}
+              <p class="spc-titles">איש קשר ראשי</p> {{ client.contactName }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">טלפון:</p> {{ client.phone }}
+              <p class="spc-titles">טלפון</p> {{ client.phone }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">אימייל:</p> {{ client.email }}
+              <p class="spc-titles">מייל</p> {{ client.email }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">וואטסאפ:</p> {{ client.whatsapp }}
+              <p class="spc-titles">וואטסאפ</p> {{ client.whatsapp }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">כתובת:</p> {{ client.address }}
+              <p class="spc-titles">כתובת</p> {{ client.address }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">הנחיות שילוח:</p> {{ client.addressAdditional }}
+              <p class="spc-titles">הנחיות שילוח</p> {{ client.addressAdditional }}
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3 pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>הגדרות תשלום</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">תנאי תשלום:</p> {{ client.paymentTerms }}
+              <p class="spc-titles">תנאי תשלום</p> {{ client.paymentTerms }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">אמצעי תשלום:</p> {{ client.paymentMethod }}
+              <p class="spc-titles">אמצעי תשלום</p> {{ client.paymentMethod }}
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>הגדרות לקוח</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">אופן אספקה:</p> {{ client.deliveryType }}
+              <p class="spc-titles">אופן אספקה</p> {{ client.deliveryType }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">סטטוס לקוח:</p> {{ client.status }}
+              <p class="spc-titles">סוג לקוח</p> {{ client.status }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">מקור הגעה:</p> {{ client.lead }}
+              <p class="spc-titles">מקור הגעה</p> {{ client.lead }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">דיוור:</p> {{ client.newsletter }}
+              <p class="spc-titles">דיוור</p> {{ client.newsletter }}
             </div>
 
           </v-col>
@@ -106,10 +106,10 @@
                 <v-row>
                   <v-col cols="4" md="4" sm="4">
                     <div class="user-information">
-                      <p class="spc-titles">תאריך יצירת לקוח:</p> {{ client.clientCreationDate }}
+                      <p class="spc-titles">תאריך יצירת לקוח</p> {{ client.clientCreationDate }}
                     </div>
                     <div class="user-information">
-                      <p class="spc-titles">תאריך עידכון:</p> {{ client.clientUpdated }}
+                      <p class="spc-titles">תאריך עידכון</p> {{ client.clientUpdated }}
                     </div>
                   </v-col>
                   <v-col cols="4" md="4" sm="4">
@@ -225,7 +225,7 @@
       @close = 'dialogs.edit = false'
       :client = 'client'
     />
-  </v-container>
+  </div>
 </template>
 
 <script>

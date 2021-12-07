@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <nav-drawer-logged-in v-if="isLoggedIn" />
     <nav-drawer-logged-out v-if="!isLoggedIn" />
-    <v-main>
+    <v-main style="padding-top: 102px;">
       <router-view></router-view>
       <snackbar />
     </v-main>

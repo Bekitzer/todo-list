@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div class="mr-16 ml-16">
     <nav-appbar :pname="pageName"/>
     <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder"/>
     <no-orders v-else />
@@ -22,7 +22,7 @@
       :order="order"
       @close = 'dialogs.create = false'
     />
-  </v-container>
+  </div>
 </template>
 
 <script>

@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <div class="mr-16 ml-16">
     <nav-appbar :pname="'מס.הזמנה > ' + this.order.number"/>
     <v-row>
-      <v-col cols="12" md="4" sm="4">
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+      <v-col cols="12" md="3" sm="3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12" md="6" sm="6">
             <div>
               <small class="margin-bottom:0 !important;">שם לקוח</small>
@@ -21,68 +21,68 @@
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>פרטי הזמנה</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">מ.הזמנה:</p> {{ order.number }}
+              <p class="spc-titles">מ.הזמנה</p> {{ order.number }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">מכירה:</p> {{ order.sellPrice }}
+              <p class="spc-titles">מכירה</p> {{ order.sellPrice }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">קנייה:</p> {{ order.buyPrice }}
+              <p class="spc-titles">קנייה</p> {{ order.buyPrice }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">רווח:</p> {{ order.margin }}
+              <p class="spc-titles">רווח</p> {{ order.margin }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">סוג משלוח:</p> {{ order.deliveryType }}
+              <p class="spc-titles">סוג משלוח</p> {{ order.deliveryType }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">אחראי:</p> {{ order.deliveryAgent }}
+              <p class="spc-titles">אחראי</p> {{ order.deliveryAgent }}
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3 pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>ההזמנה</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-info">
-              <p class="spc-titles">אודות ההזמנה:</p> {{ order.orderWork }}
+              <p class="spc-titles">אודות ההזמנה</p> {{ order.orderWork }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">תאריך אספקה:</p> {{ order.deliveryDate }}
+              <p class="spc-titles">תאריך אספקה</p> {{ order.deliveryDate }}
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>הגדרות הזמנה</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
 
-              <p class="spc-titles">ת.רישום:</p> {{format(new Date(order.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
+              <p class="spc-titles">ת.רישום</p> {{format(new Date(order.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">ת.עידכון:</p> {{ order.orderUpdated }}
+              <p class="spc-titles">ת.עידכון</p> {{ order.orderUpdated }}
             </div>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12" md="5" sm="5">
+      <v-col cols="12" md="9" sm="9">
       </v-col>
     </v-row>
       <v-btn
@@ -103,7 +103,7 @@
       @close = 'dialogs.edit = false'
       :order = 'order'
     />
-  </v-container>
+  </div>
 </template>
 
 <script>

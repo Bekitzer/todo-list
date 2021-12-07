@@ -3,9 +3,9 @@
      <v-app-bar
       app
       flat
-      :height="100"
+      :height="90"
+      class="mr-16 ml-16"
     >
-        <v-container>
           <v-row style="font-size:14px;" class="align-center">
             <v-col cols="12" md="2" sm="6">
               <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86">{{pname}}</h2>
@@ -25,7 +25,6 @@
               <user-avatar />
             </v-col>
           </v-row>
-        </v-container>
     </v-app-bar>
 </template>
 

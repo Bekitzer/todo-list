@@ -14,12 +14,12 @@
     <template v-slot:item.emailLink="{ item }">
       <div @click.stop>
         <a :href="'mailto:' + item.email" style="text-decoration:none;">{{item.email}}</a>
-      </div>      
+      </div>
     </template>
     <template v-slot:item.phoneLink="{ item }">
       <div @click.stop>
         <a :href="'tel:' + item.phone" style="text-decoration:none;">{{item.phone}}</a>
-      </div>      
+      </div>
     </template>
   </v-data-table>
 </template>
@@ -31,8 +31,9 @@ export default {
   data: () => ({
     headers: [
       { text: '#', value: 'number', align: 'start', width: '5%' },
-      { text: 'שם לקוח', value: 'name', width: '20%'},
-      { text: 'שם חברה', value: 'companyName', width: '20%', 'sortable': false },
+      { text: 'שם לקוח', value: 'name', width: '10%'},
+      { text: 'שם חברה', value: 'companyName', width: '16%', 'sortable': false },
+      { text: 'ח.פ.', value: 'numberId', width: '10%', 'sortable': false },
       { text: 'איש קשר', value: 'contactName', width: '7%', 'sortable': false },
       { text: 'טלפון', value: 'phoneLink', width: '10%', 'sortable': false },
       { text: 'מייל', value: 'emailLink', width: '10%', 'sortable': false },

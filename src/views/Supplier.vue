@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <div class="mr-16 ml-16">
     <nav-appbar :pname="'שם ספק > ' + this.supplier.name"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12" md="4" sm="4">
             <!-- <v-icon
               :color="getColor(supplier.status)"
@@ -32,66 +32,66 @@
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>פרטי התקשרות</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">איש קשר ראשי:</p> {{ supplier.contactName }}
+              <p class="spc-titles">איש קשר ראשי</p> {{ supplier.contactName }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">טלפון:</p> {{ supplier.phone }}
+              <p class="spc-titles">טלפון</p> {{ supplier.phone }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">אימייל:</p> {{ supplier.email }}
+              <p class="spc-titles">מייל</p> {{ supplier.email }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">וואטסאפ:</p> {{ supplier.whatsapp }}
+              <p class="spc-titles">וואטסאפ</p> {{ supplier.whatsapp }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">כתובת:</p> {{ supplier.address }}
+              <p class="spc-titles">כתובת</p> {{ supplier.address }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">הנחיות שילוח:</p> {{ supplier.addressAdditional }}
+              <p class="spc-titles">הנחיות שילוח</p> {{ supplier.addressAdditional }}
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3 pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>הגדרות תשלום</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">תנאי תשלום:</p> {{ supplier.paymentTerms }}
+              <p class="spc-titles">תנאי תשלום</p> {{ supplier.paymentTerms }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">אמצעי תשלום:</p> {{ supplier.paymentMethod }}
+              <p class="spc-titles">אמצעי תשלום</p> {{ supplier.paymentMethod }}
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 lighten-3 pos-rel mb-2 grey lighten-3">
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>הגדרות ספק</h4>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">אופן אספקה:</p> {{ supplier.deliveryType }}
+              <p class="spc-titles">אופן אספקה</p> {{ supplier.deliveryType }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">אופן אספקה:</p> {{ supplier.status }}
+              <p class="spc-titles">סטטוס ספק</p> {{ supplier.status }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">שעות פעילות:</p> {{ supplier.workingHours }}
+              <p class="spc-titles">שעות פעילות</p> {{ supplier.workingHours }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">דיוור:</p> {{ supplier.newsletter }}
+              <p class="spc-titles">דיוור</p> {{ supplier.newsletter }}
             </div>
           </v-col>
         </v-row>
@@ -105,10 +105,10 @@
                 <v-row>
                   <v-col cols="4" md="4" sm="4">
                     <div class="user-information">
-                      <p class="spc-titles">תאריך יצירת לקוח:</p> {{ supplier.supplierCreationDate }}
+                      <p class="spc-titles">תאריך יצירת לקוח</p> {{ supplier.supplierCreationDate }}
                     </div>
                     <div class="user-information">
-                      <p class="spc-titles">תאריך עידכון:</p> {{ supplier.supplierUpdated }}
+                      <p class="spc-titles">תאריך עידכון</p> {{ supplier.supplierUpdated }}
                     </div>
                   </v-col>
                   <v-col cols="4" md="4" sm="4">
@@ -222,7 +222,7 @@
       @close = 'dialogs.edit = false'
       :supplier = 'supplier'
     />
-  </v-container>
+  </div>
 </template>
 
 <script>

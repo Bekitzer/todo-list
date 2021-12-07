@@ -171,7 +171,7 @@
               <v-select
                 v-model="clientStatus"
                 :items="clientStatusList"
-                label="סטטוס לקוח"
+                label="סוג לקוח"
                 filled
                 dense
                 hide-details

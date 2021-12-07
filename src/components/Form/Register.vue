@@ -40,7 +40,7 @@
               <v-text-field
                 v-model="userData.email"
                 :rules="[rules.required, rules.email]"
-                label="אימייל"
+                label="מייל"
                 required
               ></v-text-field>
             </v-col>
