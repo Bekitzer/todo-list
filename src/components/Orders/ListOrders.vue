@@ -6,14 +6,13 @@
     :headers="headers"
     :items="orders"
     item-key="id"
-    sort-by="number"
+    sort-by="deliveryDate"
     :items-per-page="-1"
     hide-default-footer
     singleExpand: false
     sort-desc
     :expanded.sync="expanded"
     @click:row="clickRow"
-
   >
     <template v-slot:expanded-item="{ headers, item }">
       <td class="orderWorkInfo" :colspan="headers.length">
@@ -66,6 +65,8 @@
     </template>
     <template v-slot:item.statusType="props">
       <v-edit-dialog
+          save-text="שמור"
+          cancel-text="בטל"
           :return-value.sync="props.item.statusType"
           @save="save(props)"
           large
@@ -238,6 +239,15 @@ export default {
 }
 </script>
 <style lang="sass">
+  .theme--dark.v-btn--has-bg:hover
+    background-color: #006D7B !important
+  .theme--dark.v-btn--has-bg:hover .v-icon
+    transform: scale(1.2)
+    transform: rotate(90deg)
+  .v-text-field__details
+    display: none !important
+  .v-menu__content
+    max-width: 8% !important
   .v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover) .v-btn__content
     opacity:1 !important
   .v-btn--plain:focus .v-btn__content, .v-btn--plain:hover .v-btn__content
