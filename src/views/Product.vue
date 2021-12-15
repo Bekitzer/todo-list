@@ -4,19 +4,26 @@
     <v-row>
       <v-col cols="12" md="7" sm="7">
         <v-row class="pa-10 grey lighten-3 rounded-b-xl">
-          <v-col cols="3" md="3" sm="3">
+          <v-col cols="12" md="2" sm="2">
             <h2>מספר</h2>
             <h3>{{ product.number }}</h3>
           </v-col>
-          <v-col cols="3" md="3" sm="3">
+          <v-col cols="12" md="2" sm="2">
             <h2>מוצר</h2>
             <h3>{{ product.name }}</h3>
           </v-col>
-          <v-col cols="3" md="3" sm="3">
+          <v-col cols="12" md="2" sm="2">
             <h2>קטגוריה</h2>
             <h3>{{ product.category }}</h3>
           </v-col>
-          <v-col cols="3" md="3" sm="3">
+          <v-col cols="12" md="2" sm="2">
+            <h2>למינציות</h2>
+              <div v-for="lamination in product.lamination" :key="lamination">
+                {{lamination}}
+              </div>
+          </v-col>
+
+          <v-col cols="12" md="2" sm="2">
             <h2>תאריך שינוי</h2>
             <h3>{{ product.productUpdated }}</h3>
           </v-col>

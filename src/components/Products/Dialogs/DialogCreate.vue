@@ -26,6 +26,26 @@
               />
             </v-col>
             <v-col cols="12" md="12" sm="12">
+              <v-btn @click="addNewAttr">
+                Add New Attribute
+              </v-btn>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-text-field
+                v-model="attribute.name"
+                label="שם תכונה"
+                outlined
+              />
+              <v-combobox
+                v-model="attribute.values"
+                :items="attributesValues"
+                label="תכונות"
+                multiple
+                outlined
+                chips
+              ></v-combobox>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
               <v-textarea
                 v-model="productInfo"
                 label="מידע על המוצר"
@@ -77,6 +97,13 @@ export default {
     productName: '',
     productCategory: '',
     productInfo: '',
+    attributeValues: '',
+    attribute: [
+      {
+        name: '',
+        values: ''
+      }
+    ]
   }),
   computed: {
     productFieldInvalid() {
@@ -86,18 +113,28 @@ export default {
     }
   },
   methods:{
+    addNewAttr(){
+      this.attribute.push({
+        name: '',
+        values: ''
+      })
+    },
     addProduct() {
       if(!this.productFieldInvalid){
         const productFields = {
           name: this.productName,
           category: this.productName,
-          productInfo: this.productInfo
+          productInfo: this.productInfo,
+          attributeName: this.attributes.name,
+          attributeValues: this.attributes.values,
         }
 
         this.$store.dispatch('addProduct', productFields)
         this.productName = ''
         this.productCategory = ''
         this.productInfo = ''
+        this.attributeName = ''
+        this.attributeValues = ''
       }
       this.closeDialog()
       setTimeout( () => this.$router.go({path: this.$router.path}), 3000)

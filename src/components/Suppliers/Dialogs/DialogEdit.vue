@@ -196,6 +196,19 @@
                 hide-details
               ></v-select>
             </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-autocomplete
+                :items="users"
+                item-text="username"
+                item-value="uid"
+                v-model="supplierConnected"
+                label="משתמש"
+                clearable
+                filled
+                dense
+                hide-details
+              ></v-autocomplete>
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-btn
@@ -275,14 +288,18 @@ export default {
       supplierStatus: '',
       supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
       supplierNewsletter: '',
-      supplierNewsletterList: ["כן","לא"]
+      supplierNewsletterList: ["כן","לא"],
+      supplierConnected: '',
     }),
     computed: {
       supplierFieldInvalid() {
         return
         !this.supplierName || this.supplierName === this.supplier.name
         !this.supplierStatus || this.supplierStatus === this.supplier.status
-      }
+      },
+      users() {
+        return this.$store.state.users
+      },
     },
     methods: {
       saveSupplier() {
@@ -307,6 +324,7 @@ export default {
             deliveryType: this.supplierDeliveryType,
             status: this.supplierStatus,
             newsletter: this.supplierNewsletter,
+            user: this.supplierConnected,
             supplierUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateSupplier', payload)
@@ -337,6 +355,7 @@ export default {
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
       this.supplierNewsletter = this.supplier.newsletter
+      this.supplierConnected = this.supplier.user
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')

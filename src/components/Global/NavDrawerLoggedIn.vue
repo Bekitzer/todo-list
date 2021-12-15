@@ -20,6 +20,7 @@
           ></v-img>
         </v-list-item>
         <v-list-item
+          v-if="user.isAdmin"
           :to="{ name: 'Orders' }"
         >
           <v-list-item-content>
@@ -30,6 +31,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
+          v-if="user.isAdmin"
           :to="{ name: 'Clients' }"
         >
           <v-list-item-content>
@@ -40,6 +42,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
+          v-if="user.isAdmin"
           :to="{ name: 'Suppliers' }"
         >
           <v-list-item-content>
@@ -50,6 +53,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
+          v-if="user.isAdmin"
           :to="{ name: 'Products' }"
         >
           <v-list-item-content>
@@ -60,6 +64,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
+          v-if="user.isAdmin"
         >
           <v-list-item-content>
             <v-list-item-icon>
@@ -79,6 +84,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
+          v-if="user.isAdmin"
         >
           <v-list-item-content>
             <v-list-item-icon>
@@ -121,6 +127,11 @@ export default {
     'icon-orders': require('@/components/Icons/IconOrder.vue').default,
     'icon-products': require('@/components/Icons/IconProduct.vue').default,
     'icon-services': require('@/components/Icons/IconService.vue').default,
+  },
+  computed: {
+    user() {
+      return this.$store.state.user
+    }
   }
 }
 </script>

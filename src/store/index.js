@@ -6,6 +6,7 @@ import db from '@/firebase'
 import { doc, deleteDoc, updateDoc, collection, setDoc, runTransaction, getDoc, getDocs } from "firebase/firestore"
 import authStore from './modules/authStore'
 import firebase from 'firebase/compat/app'
+import { getAuth } from "firebase/auth";
 
 Vue.use(Vuex)
 
@@ -20,18 +21,27 @@ export default new Vuex.Store({
     clients: [],
     orders: [],
     products: [],
+    users: [],
     snackbar: {
       show: false,
       text: '',
       timeout: 2000
     },
     sorting: false,
-    user: null
+    user: null,
+    auth: null
   },
   mutations: {
+    //USERS
+    setUsers(state, users) {
+      state.users = users
+    },
     //USER
     setUser(state, payload){
       state.user = payload
+    },
+    setAuth(state, payload){
+      state.auth = payload
     },
     // SEARCH
     setSearch(state, value) {
@@ -114,20 +124,25 @@ export default new Vuex.Store({
     signUserUp ({commit}, payload){
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then(({user}) => {
-        let newUser = {
+        let newAuth = {
           ...payload,
           uid: user.uid
         }
-        commit('setUser', newUser),
+        commit('setAuth', newAuth),
         firebase.auth().currentUser.updateProfile({
             displayName: payload.username
         }).then(() => {
-          db.collection('users').add({
+          const newUser = {
             firstname: payload.firstname,
             lastname: payload.lastname,
             username: payload.username,
             email: payload.email,
-            uid: newUser.uid
+            uid: newAuth.uid
+          }
+          return db.collection('users').add(newUser)
+          .then(() => commit('setUser', newUser))
+          .catch((error) => {
+            console.log('Something went wrong - addUser',error);
           })
         })
       })
@@ -135,11 +150,51 @@ export default new Vuex.Store({
     // SIGNIN
     signUserIn ({commit}, payload){
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-      .then(() => {
-        let newUser = {
+      .then(({user}) => {
+        let newAuth = {
           ...payload,
+          uid: user.uid
         }
-        commit('setUser', newUser)
+        commit('setAuth', newAuth)
+        return newAuth
+      })
+      .then((newAuth) => {
+        db.collection('users').where("uid", "==", newAuth.uid).get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            const newUser = doc.data()
+            commit('setUser', newUser)
+          });
+        })
+        .catch((error) => {
+          console.log('Something went wrong - addUser',error);
+        })
+      })
+
+    },
+    // USER
+    getUser({ commit }) {
+      const user = getAuth().currentUser
+      if(!user) return console.log('no user authenticated')
+      db.collection('users').where("uid", "==", user.uid).get().then(querySnapshot => {
+        querySnapshot.forEach((doc) => {
+          const newUser = doc.data()
+          commit('setUser', newUser)
+        });
+
+      }).catch((error) => {
+        console.log('Something went wrong - getProducts',error);
+      })
+    },
+    getUsers({ commit }) {
+      db.collection('users').get().then(querySnapshot => {
+        var users = [];
+        querySnapshot.forEach(doc => {
+          users.push({...doc.data(), id:doc.id})
+        })
+        commit('setUsers', users)
+      }).catch((error) => {
+        console.log('Something went wrong - getUsers',error);
       })
     },
     // PRODUCTS
