@@ -74,4 +74,6 @@ export default {
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
     background: transparent !important
     cursor: pointer !important
+  .ngs-button .v-btn__content
+    text-transform: capitalize !important
 </style>

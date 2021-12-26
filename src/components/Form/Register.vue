@@ -20,7 +20,6 @@
                 required
               ></v-text-field>
             </v-col>
-
             <v-col cols="12" md="12">
               <v-text-field
                 v-model="userData.lastname"
@@ -28,7 +27,6 @@
                 required
               ></v-text-field>
             </v-col>
-
             <v-col cols="12" md="12">
               <v-text-field
                 v-model="userData.username"
@@ -77,6 +75,7 @@
 </template>
 
 <script>
+import firebase from 'firebase/compat/app'
 export default {
   name: 'Register',
   data: () => ({

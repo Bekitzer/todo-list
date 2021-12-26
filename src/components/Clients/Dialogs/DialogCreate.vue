@@ -259,14 +259,13 @@ import { format } from 'date-fns'
       clientStatus: '',
       clientStatusList: ["פרטי","עסקי"],
       clientLead: '',
-      clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן"],
+      clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
       clientNewsletter: '',
       clientNewsletterList: ["כן","לא"]
     }),
     computed: {
       clientFieldInvalid() {
         return (
-          !this.clientStatus ||
           !this.clientName
         )
       }

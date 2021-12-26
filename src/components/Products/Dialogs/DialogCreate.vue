@@ -25,7 +25,7 @@
                 outlined
               />
             </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <!-- <v-col cols="12" md="12" sm="12">
               <v-btn @click="addNewAttr">
                 Add New Attribute
               </v-btn>
@@ -44,11 +44,18 @@
                 outlined
                 chips
               ></v-combobox>
-            </v-col>
+            </v-col> -->
             <v-col cols="12" md="12" sm="12">
               <v-textarea
                 v-model="productInfo"
-                label="מידע על המוצר"
+                label="מפרט"
+                outlined
+              ></v-textarea>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-textarea
+                v-model="supplierPrices"
+                label="מחירון ספקים"
                 outlined
               ></v-textarea>
             </v-col>
@@ -97,13 +104,14 @@ export default {
     productName: '',
     productCategory: '',
     productInfo: '',
-    attributeValues: '',
-    attribute: [
-      {
-        name: '',
-        values: ''
-      }
-    ]
+    supplierPrices: '',
+    // attributeValues: '',
+    // attribute: [
+    //   {
+    //     name: '',
+    //     values: ''
+    //   }
+    // ]
   }),
   computed: {
     productFieldInvalid() {
@@ -113,18 +121,19 @@ export default {
     }
   },
   methods:{
-    addNewAttr(){
-      this.attribute.push({
-        name: '',
-        values: ''
-      })
-    },
+    // addNewAttr(){
+    //   this.attribute.push({
+    //     name: '',
+    //     values: ''
+    //   })
+    // },
     addProduct() {
       if(!this.productFieldInvalid){
         const productFields = {
           name: this.productName,
           category: this.productName,
           productInfo: this.productInfo,
+          prices: this.supplierPrices,
           attributeName: this.attributes.name,
           attributeValues: this.attributes.values,
         }
@@ -133,6 +142,7 @@ export default {
         this.productName = ''
         this.productCategory = ''
         this.productInfo = ''
+        this.supplierPrices = ''
         this.attributeName = ''
         this.attributeValues = ''
       }

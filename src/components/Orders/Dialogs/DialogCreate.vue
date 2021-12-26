@@ -115,6 +115,13 @@
             </v-col>
           </v-row>
         <v-card-actions>
+          <v-btn
+            large
+            color="#ff9800"
+            @click="addDraft"
+          >
+            שמור כטיוטה
+          </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             fab
@@ -168,7 +175,7 @@ import { getAuth } from 'firebase/auth'
       orderSellPrice: '',
       orderBuyPrice: '',
       orderMargin: '',
-      orderStatusType: 'טיוטה',
+      orderStatusType: '',
       dateDialog: false,
     }),
     created() {
@@ -199,7 +206,6 @@ import { getAuth } from 'firebase/auth'
           !this.orderSupplierName ||
           !this.orderDeliveryDate ||
           !this.orderDeliveryType ||
-          !this.orderStatusType ||
           !this.orderSellPrice ||
           !this.orderBuyPrice
         )
@@ -217,7 +223,7 @@ import { getAuth } from 'firebase/auth'
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-            statusType: this.orderStatusType,
+            statusType: this.orderStatusType = 'בעבודה',
             deliveryDate: format(new Date(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}),
             deliveryType: this.orderDeliveryType,
           }
@@ -237,6 +243,36 @@ import { getAuth } from 'firebase/auth'
         }
         this.closeDialog()
         setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+      },
+      addDraft() {
+          const orderFields = {
+            clientName: this.orderClientName,
+            orderWorkTitle: this.orderWorkTitle,
+            orderWork: this.orderWorkProducts,
+            supplierName: this.orderSupplierName,
+            deliveryAgent: this.name,
+            sellPrice: this.orderSellPrice,
+            buyPrice: this.orderBuyPrice,
+            margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
+            statusType: this.orderStatusType = 'טיוטה',
+            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}),
+            deliveryType: this.orderDeliveryType,
+          }
+
+          this.$store.dispatch('addOrder', orderFields)
+          this.orderClientName = ''
+          this.orderWorkTitle = ''
+          this.orderWorkProducts = ''
+          this.orderSupplierName = ''
+          this.orderDeliveryAgent = ''
+          this.orderSellPrice = ''
+          this.orderBuyPrice = ''
+          this.orderMargin = ''
+          this.orderStatusType = ''
+          this.orderDeliveryDate = ''
+          this.orderDeliveryType = ''
+          this.closeDialog()
+          setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       closeDialog() {
         this.$emit('close')

@@ -274,7 +274,7 @@ import { he } from 'date-fns/locale'
       clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
       clientStatusList: ["פרטי","עסקי"],
       clientLead: '',
-      clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן"],
+      clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
       clientNewsletter: '',
       clientNewsletterList: ["כן","לא"]
     }),

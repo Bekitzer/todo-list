@@ -88,6 +88,7 @@
       <v-col cols="12" md="2" sm="2">
         <h5>מדבקות וטפטים</h5>
         <ul>
+          <li><a href="https://nanoprint.co.il/product/paper-stickers/">מדבקות ותוויות</a></li>
           <li><a href="https://nanoprint.co.il/product/sticker-rolls/">מדבקות בגלילים</a></li>
           <li><a href="https://nanoprint.co.il/product/vinyl-lettering/">מדבקת חיתוך אותיות</a></li>
           <li><a href="https://nanoprint.co.il/product/vinyl-stickers/">מדבקות ויניל פס רחב</a></li>

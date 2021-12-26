@@ -30,6 +30,11 @@ export default {
       this.uid = user.uid;
     }
   },
+  computed: {
+    // user() {
+    //   return this.$store.state.user
+    // }
+  },
   components: {
     'day-period' : require('@/components/Tools/DayPeriod.vue').default
   }

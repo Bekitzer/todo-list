@@ -27,7 +27,14 @@
             <v-col cols="12" md="12" sm="12">
               <v-textarea
                 v-model="productInfo"
-                label="מידע על המוצר"
+                label="מפרט"
+                outlined
+              ></v-textarea>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
+              <v-textarea
+                v-model="supplierPrices"
+                label="מחירון ספקים"
                 outlined
               ></v-textarea>
             </v-col>
@@ -77,6 +84,7 @@ import { he } from 'date-fns/locale'
       productName: '',
       productCategory: '',
       productInfo: '',
+      supplierPrices: '',
     }),
     computed: {
       productFieldInvalid() {
@@ -92,11 +100,11 @@ import { he } from 'date-fns/locale'
             name: this.productName,
             category: this.productCategory,
             productInfo: this.productInfo,
+            prices: this.supplierPrices,
             productUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
           }
           this.$store.dispatch('updateProduct', payload)
           this.closeDialog()
-          this.$router.push('/products')
         }
       },
       closeDialog() {
@@ -107,6 +115,7 @@ import { he } from 'date-fns/locale'
       this.productName = this.product.name
       this.productCategory = this.product.category
       this.productInfo = this.product.productInfo
+      this.supplierPrices = this.product.prices
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')

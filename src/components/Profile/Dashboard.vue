@@ -59,84 +59,21 @@
             </div>
           </v-col>
         </v-row>
-        <v-row class="pa-3 pos-rel mb-2 grey lighten-4">
-          <v-col cols="12">
-            <h4>הגדרות תשלום</h4>
-          </v-col>
-          <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">תנאי תשלום</p> {{ supplier.paymentTerms }}
-            </div>
-          </v-col>
-          <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">אמצעי תשלום</p> {{ supplier.paymentMethod }}
-            </div>
-          </v-col>
-        </v-row>
-        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
-          <v-col cols="12">
-            <h4>הגדרות ספק</h4>
-          </v-col>
-          <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">אופן אספקה</p> {{ supplier.deliveryType }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">סטטוס ספק</p> {{ supplier.status }}
-            </div>
-          </v-col>
-          <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">שעות פעילות</p> {{ supplier.workingHours }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">דיוור</p> {{ supplier.newsletter }}
-            </div>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-expansion-panels flat style="border:1px solid 0 1px 1px 1px">
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                אנשי קשר
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-row>
-                  <v-col cols="4" md="4" sm="4">
-                    <div class="user-information">
-                      <p class="spc-titles">תאריך יצירת לקוח</p> {{ supplier.supplierCreationDate }}
-                    </div>
-                    <div class="user-information">
-                      <p class="spc-titles">תאריך עידכון</p> {{ supplier.supplierUpdated }}
-                    </div>
-                  </v-col>
-                  <v-col cols="4" md="4" sm="4">
-                    <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
-                  </v-col>
-                  <v-col cols="4" md="4" sm="4">
-                    <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-row>
       </v-col>
       <v-col cols="12" md="9" sm="9">
         <v-col cols="12">
           <h4>הזמנות - בתהליך</h4>
         </v-col>
         <v-data-table
-          height="35vh"
+          height="40vh"
           fixed-header
           :headers="headers"
           :items="processing"
           item-key="id"
-          sort-by="number"
+          sort-by="deliveryDate"
           :items-per-page="-1"
           hide-default-footer
-          sort-desc
+          sort-asc
           no-data-text="אין הזמנות פעילות"
         >
           <template v-slot:item.clientLink="{ item }">
@@ -145,14 +82,8 @@
           <template v-slot:item.supplierLink="{ item }">
               {{ item.supplierLink }}
           </template>
-          <template v-slot:item.sell="{ item }">
-              {{ item.sellPrice | formatNumber }}
-          </template>
           <template v-slot:item.buy="{ item }">
               {{ item.buyPrice | formatNumber }}
-          </template>
-          <template v-slot:item.margins="{ item }">
-              {{ item.margin | formatNumber }}
           </template>
           <template v-slot:item.statusType="props">
             <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
@@ -173,10 +104,10 @@
           :headers="headers"
           :items="delivered"
           item-key="id"
-          sort-by="number"
+          sort-by="statusType"
           :items-per-page="-1"
           hide-default-footer
-          sort-desc
+          sort-asc
           no-data-text="אין הזמנות שסופקו"
         >
           <template v-slot:item.clientLink="{ item }">
@@ -185,14 +116,8 @@
           <template v-slot:item.supplierLink="{ item }">
               {{ item.supplierLink }}
           </template>
-          <template v-slot:item.sell="{ item }">
-              {{ item.sellPrice | formatNumber }}
-          </template>
           <template v-slot:item.buy="{ item }">
               {{ item.buyPrice | formatNumber }}
-          </template>
-          <template v-slot:item.margins="{ item }">
-              {{ item.margin | formatNumber }}
           </template>
           <template v-slot:item.statusType="props">
             <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
@@ -254,8 +179,8 @@ export default {
         { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
         { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
         { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
-        { text: 'תאריך אספקה', value: 'deliveryDate', width: '5%', 'sortable': false  },
-        { text: 'סטטוס הזמנה', value: 'statusType', width: '11%','sortable': true}
+        { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
+        { text: 'סטטוס הזמנה', value: 'statusType', width: '11%' }
       ]
     },
     clientsMap() {
@@ -286,7 +211,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id && order.statusType !== 'סופק'
+          return order.supplierName == this.supplier.id && (order.statusType !== 'סופק' && order.statusType !== 'מוכן - משרד' && order.statusType !== 'מוכן - ספק')
          })
       },
       set(value) {
@@ -305,7 +230,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id && order.statusType === 'סופק'
+          return order.supplierName == this.supplier.id && (order.statusType === 'סופק' || order.statusType === 'מוכן - משרד' || order.statusType === 'מוכן - ספק')
          })
       },
       set(value) {

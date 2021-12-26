@@ -7,16 +7,19 @@
           <v-col cols="12" md="6" sm="6">
             <div>
               <small class="margin-bottom:0 !important;">שם לקוח</small>
-              <h2>
-                {{ clientsMap[order.clientName].name }}
+              <h2 v-if="clientsMap">
+                {{ clientsMap[order.clientName] }}
+              </h2>
+              <h2 v-else>
+                empty
               </h2>
             </div>
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <div>
               <small class="margin-bottom:0 !important;">שם ספק</small>
-              <h2>
-                {{ suppliersMap[order.supplierName].name }}
+              <h2 v-if="suppliersMap">
+                {{ suppliersMap[order.supplierName] }}
               </h2>
             </div>
           </v-col>
@@ -69,7 +72,6 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-
               <p class="spc-titles">ת.רישום</p> {{format(new Date(order.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
             </div>
           </v-col>

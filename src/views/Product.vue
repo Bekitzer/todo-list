@@ -1,37 +1,29 @@
 <template>
   <div>
-    <nav-appbar :pname="'שם מוצר > ' + this.product.name"/>
+    <nav-appbar :pname="'שם מוצר > ' + this.product.number + ' - ' + this.product.name "/>
     <v-row>
       <v-col cols="12" md="7" sm="7">
         <v-row class="pa-10 grey lighten-3 rounded-b-xl">
-          <v-col cols="12" md="2" sm="2">
-            <h2>מספר</h2>
-            <h3>{{ product.number }}</h3>
-          </v-col>
-          <v-col cols="12" md="2" sm="2">
-            <h2>מוצר</h2>
-            <h3>{{ product.name }}</h3>
-          </v-col>
-          <v-col cols="12" md="2" sm="2">
-            <h2>קטגוריה</h2>
-            <h3>{{ product.category }}</h3>
-          </v-col>
-          <v-col cols="12" md="2" sm="2">
-            <h2>למינציות</h2>
-              <div v-for="lamination in product.lamination" :key="lamination">
-                {{lamination}}
-              </div>
-          </v-col>
-
-          <v-col cols="12" md="2" sm="2">
-            <h2>תאריך שינוי</h2>
-            <h3>{{ product.productUpdated }}</h3>
+          <v-col cols="12" md="12" sm="12">
+            <h2><small>מוצר</small></h2>
+            <h1>{{ product.name }}</h1>
+            <small>{{ product.category }}</small>
           </v-col>
           <v-col cols="12" md="12" sm="12">
-            <h2>מידע על המוצר</h2>
-            <h3>{{ product.productInfo }}</h3>
+            <h2>מפרט</h2>
+            <p style="white-space: pre;">{{ product.productInfo }}</p>
+          </v-col>
+          <v-col cols="12" md="12" sm="12">
+            <h2>מחירון ספקים</h2>
+            <p style="white-space: pre;">{{ product.prices }}</p>
           </v-col>
         </v-row>
+      </v-col>
+      <v-col cols="12" md="5" sm="5">
+        <v-img
+          src="/images/radik.jpg"
+          rounded
+        ></v-img>
       </v-col>
     </v-row>
     <v-speed-dial

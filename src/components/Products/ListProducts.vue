@@ -14,8 +14,8 @@
         {{format(new Date(product.productCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
       </v-card-subtitle>
       <v-card-actions>
-        <v-btn @click="handleClick(product)" color="orange lighten-2" text>
-          Explore
+        <v-btn @click="handleClick(product)" color="white" >
+          קרא עוד
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn @click="show = !show" icon>

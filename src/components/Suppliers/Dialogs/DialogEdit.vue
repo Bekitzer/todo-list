@@ -253,10 +253,31 @@
       @close = 'dialogs.delete = false'
       :supplier = 'supplier'
     />
+    <div>
+          <div>
+            <v-btn @click="click1">choose photo</v-btn>
+            <input type="file" ref="input1"
+              style="display: none"
+              @change="previewImage" accept="image/*" >
+          </div>
+          <div v-if="imageData!=null">
+            <img class="preview" height="268" width="356" :src="supplierLogo">
+          <v-text-field
+            solo
+            v-model="caption"
+            label="Caption goes here">
+          </v-text-field>
+          <v-btn color="pink" @click="create">upload</v-btn>
+          </div>
+        </div>
   </v-row>
 </template>
 
 <script>
+import  firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
+import 'firebase/compat/storage'
+import database from '@/firebase'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 export default {
@@ -266,6 +287,9 @@ export default {
       dialogs: {
         delete: false
       },
+      caption : '',
+      supplierLogo: '',
+      imageData: null,
       supplierName: '',
       supplierCompanyName:'',
       supplierContactName: '',
@@ -334,7 +358,43 @@ export default {
       },
       closeDialog() {
         this.$emit('close')
-      }
+      },
+      create () {
+        const post = {
+          photo: this.supplierLogo,
+          caption: this.caption
+        }
+        firebase.database().ref('userLogoImages').push(post)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      },
+      click1() {
+        this.$refs.input1.click()
+      },
+      previewImage(event) {
+        this.uploadValue=0;
+        this.supplierLogo=null;
+        this.imageData = event.target.files[0];
+        this.onUpload()
+      },
+      onUpload(){
+        this.supplierLogo=null;
+        const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
+        storageRef.on(`state_changed`,snapshot=>{
+        this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+          }, error=>{console.log(error.message)},
+        ()=>{this.uploadValue=100;
+            storageRef.snapshot.ref.getDownloadURL().then((url)=>{
+                this.supplierLogo =url;
+                console.log(this.supplierLogo)
+              });
+            }
+          );
+      },
     },
     mounted() {
       this.supplierName = this.supplier.name

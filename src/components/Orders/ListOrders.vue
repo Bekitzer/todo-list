@@ -173,16 +173,6 @@ export default {
       else return 'grey darken-1'
     }
   },
-  created() {
-    const user = getAuth().currentUser;
-    if (user !== null) {
-      this.name = user.displayName
-      this.email = user.email
-      this.photoURL = user.photoURL
-      this.emailVerified = user.emailVerified
-      this.uid = user.uid
-    }
-  },
   computed: {
     headers () {
       return [
@@ -239,6 +229,8 @@ export default {
 }
 </script>
 <style lang="sass">
+  tr
+    height: 70px !important
   .theme--dark.v-btn--has-bg:hover
     background-color: #006D7B !important
   .theme--dark.v-btn--has-bg:hover .v-icon
@@ -271,6 +263,7 @@ export default {
   .spc-status-dot
     width: 12px !important
     margin-left: 6px !important
+    line-height: 0.1 !important
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
     background: transparent !important
   .orderWorkInfo
