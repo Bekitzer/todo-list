@@ -20,26 +20,47 @@
       </td>
     </template>
     <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="ml-2"
-        @click.stop="a"
-      >
-        mdi-file-image
-      </v-icon>
-      <v-icon
-        small
-        class="ml-2"
-        @click.stop="duplicateItem(item)"
-      >
-        mdi-content-duplicate
-      </v-icon>
-      <v-icon
-        small
-        @click.stop="clickOrder(item)"
-      >
-        mdi-pencil-outline
-      </v-icon>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+          small
+          class="ml-2"
+          @click.stop="a"
+          v-bind="attrs"
+          v-on="on"
+        >
+          mdi-file-image
+        </v-icon>
+        </template>
+        <span>הצג תמונה</span>
+      </v-tooltip>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+        <v-icon
+          small
+          class="ml-2"
+          @click.stop="duplicateItem(item)"
+          v-bind="attrs"
+          v-on="on"
+        >
+          mdi-content-duplicate
+        </v-icon>
+        </template>
+        <span>שכפל הזמנה</span>
+      </v-tooltip>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+        <v-icon
+          small
+          @click.stop="clickOrder(item)"
+          v-bind="attrs"
+          v-on="on"
+        >
+          mdi-pencil-outline
+        </v-icon>
+        </template>
+        <span>ערוך הזמנה</span>
+      </v-tooltip>
     </template>
     <template v-slot:item.clientLink="{ item }">
       <v-btn @click.stop="clickClient(item)" dense plain class="ngs-button">
@@ -86,10 +107,11 @@
           </template>
         </v-edit-dialog>
     </template>
-    <template v-slot:top>
+    <template v-slot:footer>
       <v-container fluid>
         <v-row>
-          <v-col cols="12" md="4" sm="6">
+          <v-spacer></v-spacer>
+          <v-col cols="12" md="3" sm="6">
               <v-select
                 :items="orderStatusTypeList"
                 v-model="statusesFilterValue"
@@ -100,7 +122,6 @@
               >
               </v-select>
           </v-col>
-          <v-spacer></v-spacer>
         </v-row>
       </v-container>
     </template>
@@ -230,7 +251,7 @@ export default {
 </script>
 <style lang="sass">
   tr
-    height: 70px !important
+    height: 60px !important
   .theme--dark.v-btn--has-bg:hover
     background-color: #006D7B !important
   .theme--dark.v-btn--has-bg:hover .v-icon

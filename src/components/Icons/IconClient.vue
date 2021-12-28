@@ -1,7 +1,7 @@
 <template>
   <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 400 400" style="enable-background:new 0 0 400 400;" xml:space="preserve">
-	<ellipse style="fill:#9C9B9B;" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -59.7426 190.2904)" class="st0" cx="199.83" cy="167.26" rx="54.97" ry="54.97"/>
+	<ellipse style="fill:#9C9B9B;" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -59.7426 190.2504)" class="st0" cx="199.83" cy="167.26" rx="54.97" ry="54.97"/>
 	<ellipse style="fill:#9C9B9B;" transform="matrix(0.7071 -0.7071 0.7071 0.7071 25.959 237.7756)" class="st0" cx="300" cy="87.55" rx="54.97" ry="54.97"/>
   <ellipse style="fill:#9C9B9B;" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -32.6197 96.3542)" class="st0" cx="100" cy="87.55" rx="54.97" ry="54.97"/>
   <path style="fill:#9C9B9B;" d="M242.16,217.07c-11.42,9.72-26.19,15.6-42.33,15.6c-16.08,0-30.81-5.84-42.21-15.5

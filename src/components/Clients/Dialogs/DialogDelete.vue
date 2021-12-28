@@ -3,7 +3,7 @@
     <v-dialog
       :value="true"
       persistent
-      max-width="290"
+      max-width="250"
     >
       <v-card>
         <v-card-title>מחיקת לקוח</v-card-title>
