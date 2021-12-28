@@ -159,8 +159,6 @@ export default {
     background: #f1f1f1 !important
   .v-list--nav .v-list-item, .v-list--nav .v-list-item:before
     border-radius: 0px !important
-  .v-navigation-drawer__content .v-list-item--link:hover:before
-    opacity: 0.4 !important
   .v-list--nav .v-list-item:not(:last-child):not(:only-child)
     margin-bottom: 0px !important
   .v-navigation-drawer__content .v-list-item__icon

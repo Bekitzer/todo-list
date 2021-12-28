@@ -285,8 +285,6 @@ export default {
     width: 12px !important
     margin-left: 6px !important
     line-height: 0.1 !important
-  .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
-    background: transparent !important
   .orderWorkInfo
     padding: 20px !important
     white-space: pre-line !important
