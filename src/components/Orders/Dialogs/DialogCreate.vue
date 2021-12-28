@@ -62,7 +62,6 @@
               <v-menu
                 v-model="dateDialog"
                 :close-on-content-click="false"
-                max-width="250"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
