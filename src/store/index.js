@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
 import db from '@/firebase'
-import { doc, deleteDoc, updateDoc, collection, setDoc, runTransaction, getDoc, getDocs } from "firebase/firestore"
+import { doc, deleteDoc, updateDoc, collection, setDoc } from "firebase/firestore"
 import authStore from './modules/authStore'
 import firebase from 'firebase/compat/app'
 import { getAuth } from "firebase/auth";

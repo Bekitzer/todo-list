@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-appbar :pname="'שם מוצר > ' + this.product.number + ' - ' + this.product.name "/>
+    <nav-appbar :pname="'מוצרים - ' + this.product.name "/>
     <v-row>
       <v-col cols="12" md="7" sm="7">
         <v-row class="pa-10 grey lighten-3 rounded-b-xl">

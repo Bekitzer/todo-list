@@ -1,6 +1,6 @@
 <template>
   <div class="mr-16 ml-16">
-    <nav-appbar :pname="'פרופיל ספק > ' + this.supplier.name"/>
+    <nav-appbar :pname="' ספקים - ' + this.supplier.name"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -123,9 +123,10 @@
           </v-expansion-panels>
         </v-row>
       </v-col>
-      <v-col cols="12" md="9" sm="9">
+      <v-spacer></v-spacer>
+      <v-col cols="12" md="9" sm="9" class="pr-10">
         <v-col cols="12">
-          <h4>הזמנות - בתהליך</h4>
+          <h4>הזמנות</h4>
         </v-col>
         <v-data-table
           height="35vh"
@@ -138,46 +139,6 @@
           hide-default-footer
           sort-desc
           no-data-text="אין הזמנות פעילות"
-        >
-          <template v-slot:item.clientLink="{ item }">
-              {{ item.clientLink }}
-          </template>
-          <template v-slot:item.supplierLink="{ item }">
-              {{ item.supplierLink }}
-          </template>
-          <template v-slot:item.sell="{ item }">
-              {{ item.sellPrice | formatNumber }}
-          </template>
-          <template v-slot:item.buy="{ item }">
-              {{ item.buyPrice | formatNumber }}
-          </template>
-          <template v-slot:item.margins="{ item }">
-              {{ item.margin | formatNumber }}
-          </template>
-          <template v-slot:item.statusType="props">
-            <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
-              mdi-circle-small
-            </v-icon>
-            {{ props.item.statusType }}
-          </template>
-          <template v-slot:item.created="{ item }">
-              {{format(new Date(item.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
-          </template>
-        </v-data-table>
-        <v-col cols="12">
-          <h4>הזמנות - סופק</h4>
-        </v-col>
-        <v-data-table
-          height="40vh"
-          fixed-header
-          :headers="headers"
-          :items="delivered"
-          item-key="id"
-          sort-by="number"
-          :items-per-page="-1"
-          hide-default-footer
-          sort-desc
-          no-data-text="אין הזמנות שסופקו"
         >
           <template v-slot:item.clientLink="{ item }">
               {{ item.clientLink }}

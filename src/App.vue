@@ -70,4 +70,7 @@ export default {
     text-transform: capitalize !important
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
     background: #f5f5f5 !important
+    cursor: pointer
+  .spc-titles
+    color: #797979
 </style>

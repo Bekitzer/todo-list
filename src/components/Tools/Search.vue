@@ -3,10 +3,8 @@
       :value="$store.state.search"
       @input="$store.commit('setSearch', $event)"
       prepend-inner-icon="mdi-magnify"
-      append-icon="mdi-filter-variant"
       placeholder="חפש..."
       clearable
-      filled
       hide-details
     ></v-text-field>
 </template>

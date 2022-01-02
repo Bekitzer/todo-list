@@ -1,6 +1,6 @@
 <template>
   <div class="mr-16 ml-16">
-    <nav-appbar :pname="'מס.הזמנה > ' + this.order.number"/>
+    <nav-appbar :pname="'הזמנות - ' + this.order.number"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -111,6 +111,8 @@
 <script>
 import { format } from 'date-fns'
 import { he } from 'date-fns/locale'
+import firebase from 'firebase/compat/app'
+import { getAuth } from "firebase/auth";
 export default {
   name: 'Order',
   data: () => ({
@@ -129,7 +131,8 @@ export default {
     clientsMap() {
       const clientsMap = {}
       this.$store.state.clients.forEach(client => {
-        clientsMap[client.id] = client
+        clientsMap[client.id] = client.name
+        client = client.name
       })
 
       return clientsMap
@@ -137,7 +140,7 @@ export default {
     suppliersMap() {
       const suppliersMap = {}
       this.$store.state.suppliers.forEach(supplier => {
-        suppliersMap[supplier.id] = supplier
+        suppliersMap[supplier.id] = supplier.name
       })
 
       return suppliersMap

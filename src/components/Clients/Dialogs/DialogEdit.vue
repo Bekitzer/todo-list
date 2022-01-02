@@ -134,6 +134,16 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select
+                v-model="clientPaymentType"
+                :items="clientPaymentTypeList"
+                label="סוג תשלום"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
                 v-model="clientPaymentTerms"
                 :items="clientPaymentTermsList"
                 label="תנאי תשלום"
@@ -266,6 +276,8 @@ import { he } from 'date-fns/locale'
       clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
       clientPaymentMethod: '',
       clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+      clientPaymentType: '',
+      clientPaymentTypeList: ["מיידי","הסדר חברה"],
       clientAddress: '',
       clientAddressAdditional: '',
       clientWhatsapp: '',
@@ -302,6 +314,7 @@ import { he } from 'date-fns/locale'
             instagram: this.clientInstagram,
             paymentTerms: this.clientPaymentTerms,
             paymentMethod: this.clientPaymentMethod,
+            paymentType: this.clientPaymentType,
             address: this.clientAddress,
             addressAdditional: this.clientAddressAdditional,
             whatsapp: this.clientWhatsapp,
@@ -332,6 +345,7 @@ import { he } from 'date-fns/locale'
       this.clientInstagram = this.client.instagram
       this.clientPaymentTerms = this.client.paymentTerms
       this.clientPaymentMethod = this.client.paymentMethod
+      this.clientPaymentType = this.client.paymentType
       this.clientAddress = this.client.address
       this.clientAddressAdditional = this.client.addressAdditional
       this.clientWhatsapp = this.client.whatsapp
