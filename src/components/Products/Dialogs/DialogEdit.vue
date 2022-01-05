@@ -18,11 +18,14 @@
               />
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-text-field
+              <v-select
                 v-model="productCategory"
+                :items="productCategoryList"
                 label="שם קטגוריה"
                 outlined
-              />
+                chips
+                multiple
+              ></v-select>
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-textarea
@@ -83,6 +86,7 @@ import { he } from 'date-fns/locale'
       dialog: false,
       productName: '',
       productCategory: '',
+      productCategoryList: ['מיתוג ושיווק','משרדי ואירגוני','שילוט ותצוגה','מתקנים ומעמדים','מדבקות וטפטים','מוצרי קד״מ'],
       productInfo: '',
       supplierPrices: '',
     }),

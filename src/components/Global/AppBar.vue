@@ -21,15 +21,12 @@
               <search v-if="tableListSearch"/>
             </v-col>
             <v-spacer></v-spacer>
-            <v-col cols="2" md="1" sm="3" class="d-none d-sm-flex">
+            <v-col cols="12" md="1" sm="3" class="d-none d-sm-flex">
               <live-date />
             </v-col>
-            <v-col cols="5" md="1" sm="2">
-              <user-name />
-            </v-col>
-            <v-col cols="2" md="1" sm="1">
-              <user-avatar />
-            </v-col>
+            <div>
+              <profile />
+            </div>
           </v-row>
     </v-app-bar>
 </template>
@@ -44,8 +41,7 @@ export default {
   }),
   props: ['pname'],
   components: {
-    'user-avatar': require('@/components/Profile/Avatar.vue').default,
-    'user-name'  : require('@/components/Profile/Name.vue').default,
+    'profile'  : require('@/components/Profile/Profile.vue').default,
     'live-date'  : require('@/components/Tools/LiveDate.vue').default,
     'search'     : require('@/components/Tools/Search.vue').default
   },

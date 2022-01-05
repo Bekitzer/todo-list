@@ -19,32 +19,15 @@
               />
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-text-field
+              <v-select
                 v-model="productCategory"
+                :items="productCategoryList"
                 label="שם קטגוריה"
                 outlined
-              />
-            </v-col>
-            <!-- <v-col cols="12" md="12" sm="12">
-              <v-btn @click="addNewAttr">
-                Add New Attribute
-              </v-btn>
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-text-field
-                v-model="attribute.name"
-                label="שם תכונה"
-                outlined
-              />
-              <v-combobox
-                v-model="attribute.values"
-                :items="attributesValues"
-                label="תכונות"
-                multiple
-                outlined
                 chips
-              ></v-combobox>
-            </v-col> -->
+                multiple
+              ></v-select>
+            </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-textarea
                 v-model="productInfo"
@@ -103,15 +86,9 @@ export default {
     productNumber: '',
     productName: '',
     productCategory: '',
+    productCategoryList: ['מיתוג ושיווק','משרדי ואירגוני','שילוט ותצוגה','מתקנים ומעמדים','מדבקות וטפטים','מוצרי קד״מ'],
     productInfo: '',
     supplierPrices: '',
-    // attributeValues: '',
-    // attribute: [
-    //   {
-    //     name: '',
-    //     values: ''
-    //   }
-    // ]
   }),
   computed: {
     productFieldInvalid() {
@@ -121,21 +98,13 @@ export default {
     }
   },
   methods:{
-    // addNewAttr(){
-    //   this.attribute.push({
-    //     name: '',
-    //     values: ''
-    //   })
-    // },
     addProduct() {
       if(!this.productFieldInvalid){
         const productFields = {
           name: this.productName,
-          category: this.productName,
+          category: this.productCategory,
           productInfo: this.productInfo,
-          prices: this.supplierPrices,
-          attributeName: this.attributes.name,
-          attributeValues: this.attributes.values,
+          prices: this.supplierPrices
         }
 
         this.$store.dispatch('addProduct', productFields)

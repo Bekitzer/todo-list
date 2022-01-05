@@ -3,6 +3,16 @@
     <span><day-period /> </span>
     <strong v-if="isLoggedIn"> {{name}}</strong>
     <strong v-if="!isLoggedIn"> אורח</strong>
+    <v-avatar
+      class="profile"
+      size="36px"
+      style="margin-right:10px"
+    >
+      <v-img
+        src="/images/radik.jpg"
+        rounded
+      ></v-img>
+    </v-avatar>
   </div>
 </template>
 
@@ -11,7 +21,7 @@ import firebase from 'firebase/compat/app'
 import { getAuth } from 'firebase/auth'
 
 export default {
-  name: 'Name',
+  name: 'Profile',
   data: () => ({
     isLoggedIn: false,
     currentUser: false
