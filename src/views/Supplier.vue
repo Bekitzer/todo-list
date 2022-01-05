@@ -226,7 +226,7 @@ export default {
     },
     headers () {
       return [
-        { text: '#', value: 'number', align: 'start', width: '3%' },
+        { text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '3%' },
         { text: 'תאריך הזמנה', value: 'created', width: '10%', 'sortable': false },
         { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
         { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },

@@ -22,7 +22,7 @@
     <template v-slot:item.actions="{ item }">
       <v-tooltip
         top
-        content-class="info tooltip-top"
+        content-class="normal tooltip-top"
       >
         <template v-slot:activator="{ on, attrs }">
           <v-icon
@@ -39,7 +39,7 @@
       </v-tooltip>
       <v-tooltip
         top
-        content-class="info tooltip-top"
+        content-class="normal tooltip-top"
       >
         <template v-slot:activator="{ on, attrs }">
         <v-icon
@@ -56,7 +56,7 @@
       </v-tooltip>
       <v-tooltip
         top
-        content-class="info tooltip-top"
+        content-class="normal tooltip-top"
       >
         <template v-slot:activator="{ on, attrs }">
         <v-icon
@@ -322,6 +322,8 @@ export default {
     border-top: solid 8px #3f3f3f
   .tooltip-top.primary::before
     border-top: solid 8px #246fb3
+  .tooltip-top.normal::before
+    border-top: solid 8px #616161e6
   .tooltip-top.info::before
     border-top: solid 8px #2196f3
   .tooltip-bottom::before
@@ -343,6 +345,8 @@ export default {
     border-bottom: solid 8px #3f3f3f
   .tooltip-bottom.primary::before
     border-bottom: solid 8px #246fb3
+  .tooltip-bottom.normal::before
+    border-bottom: solid 8px #616161e6
   .tooltip-bottom.info::before
     border-bottom: solid 8px #2196f3
   .tooltip-right::before
@@ -364,6 +368,8 @@ export default {
     border-right: solid 8px #3f3f3f !important
   .tooltip-right.primary::before
     border-right: solid 8px #246fb3 !important
+  .tooltip-right.normal::before
+    border-right: solid 8px #616161e6 !important
   .tooltip-right.info::before
     border-right: solid 8px #2196f3 !important
   .tooltip-left::before
@@ -385,6 +391,8 @@ export default {
     border-left: solid 8px #3f3f3f !important
   .tooltip-left.primary::before
     border-left: solid 8px #246fb3 !important
+  .tooltip-left.normal::before
+    border-left: solid 8px #616161e6 !important
   .tooltip-left.info::before
     border-left: solid 8px #2196f3 !important
   @media only screen and (max-width:800px)
