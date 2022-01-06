@@ -62,7 +62,7 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">תאריך אספקה</p> {{ order.deliveryDate }}
+              <p class="spc-titles">תאריך אספקה</p> {{ order.deliveryDate | formatDate }}
             </div>
           </v-col>
         </v-row>
@@ -72,12 +72,12 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">ת.רישום</p> {{format(new Date(order.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
+              <p class="spc-titles">ת.רישום</p> {{ order.orderCreationDate | formatDate }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">ת.עידכון</p> {{ order.orderUpdated }}
+              <p class="spc-titles">ת.עידכון</p> {{ order.orderUpdated | formatDate }}
             </div>
           </v-col>
         </v-row>
@@ -109,8 +109,6 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
-import { he } from 'date-fns/locale'
 import firebase from 'firebase/compat/app'
 import { getAuth } from "firebase/auth";
 export default {
@@ -118,8 +116,6 @@ export default {
   data: () => ({
     pageName: '',
     fab: false,
-    format,
-    he,
     dialogs: {
       edit: false
     },

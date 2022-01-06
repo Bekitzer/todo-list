@@ -142,7 +142,7 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="6" sm="6" v-if="clientPaymentType !== 'מיידי'">
               <v-select
                 v-model="clientPaymentTerms"
                 :items="clientPaymentTermsList"

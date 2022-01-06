@@ -132,6 +132,7 @@
       <v-col cols="12" md="9" sm="9" class="pr-10">
         <v-col cols="12">
           <h4>הזמנות</h4>
+          <v-switch v-model="viewSuppliedOnly" inset label="בתהליך/סופק"></v-switch>
         </v-col>
         <v-data-table
           height="40vh"
@@ -205,6 +206,7 @@ export default {
     format,
     he,
     transition: 'slide-y-transition',
+    viewSuppliedOnly: false,
     dialogs: {
       edit: false,
     },
@@ -269,8 +271,8 @@ export default {
           }
         })
         .filter(order => {
-          return order.clientName == this.client.id && order.statusType !== 'סופק'
-         })
+          return order.clientName == this.client.id && (this.viewSuppliedOnly ? order.statusType === 'סופק' : order.statusType !== 'סופק')
+        })
       },
       set(value) {
         this.$store.dispatch('setOrders', value)

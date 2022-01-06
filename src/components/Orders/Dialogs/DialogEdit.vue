@@ -168,6 +168,7 @@
 <script>
 import { format, parseISO, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
+import  firebase from 'firebase/compat/app'
 import { getAuth } from 'firebase/auth'
   export default {
     name: 'DialogEdit',
@@ -206,10 +207,11 @@ import { getAuth } from 'firebase/auth'
     computed: {
       computedDate: {
         get() {
-          return this.orderDeliveryDate && parse(this.orderDeliveryDate, 'EEEEE, dd/MM/yy', new Date(), {locale: he}).toISOString().substr(0, 10)
+          return this.orderDeliveryDate && this.$options.filters.formatDateReverse(this.orderDeliveryDate).toISOString().substr(0, 10)
         },
         set(newValue) {
-          this.orderDeliveryDate = format(parseISO(newValue), 'EEEEE, dd/MM/yy', {locale: he})
+          const seconds = parseISO(newValue).getTime()/1000
+          this.orderDeliveryDate = this.$options.filters.formatDate({seconds})
         }
       },
       clients() {
@@ -242,13 +244,13 @@ import { getAuth } from 'firebase/auth'
             orderWork: this.orderWorkProducts,
             supplierName: this.orderSupplierName,
             statusType: this.orderStatusType,
-            deliveryDate: this.orderDeliveryDate,
+            deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
             deliveryAgent: this.orderDeliveryAgent,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             deliveryType: this.orderDeliveryType,
-            orderUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}) + ' > ' + this.name
+            orderUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           }
           this.$store.dispatch('updateOrder', payload)
           this.closeDialog()
@@ -265,7 +267,7 @@ import { getAuth } from 'firebase/auth'
       this.orderWorkProducts = this.order.orderWork
       this.orderSupplierName = this.order.supplierName
       this.orderStatusType = this.order.statusType
-      this.orderDeliveryDate = this.order.deliveryDate
+      this.orderDeliveryDate = this.$options.filters.formatDate(this.order.deliveryDate)
       this.orderDeliveryAgent = this.order.deliveryAgent
       this.orderSellPrice = this.order.sellPrice
       this.orderBuyPrice = this.order.buyPrice

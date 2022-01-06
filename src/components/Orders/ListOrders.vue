@@ -16,7 +16,7 @@
   >
     <template v-slot:expanded-item="{ headers, item }">
       <td class="orderWorkInfo" :colspan="headers.length">
-        {{ item.orderWork }}{{$store.state.search}}
+        {{ item.orderWork }}
       </td>
     </template>
     <template v-slot:item.actions="{ item }">
@@ -93,6 +93,9 @@
     <template v-slot:item.margins="{ item }">
         {{ item.margin | formatNumber }}
     </template>
+    <template v-slot:item.delivery="{ item }">
+        {{ item.deliveryDate | formatDate }}
+    </template>
     <template v-slot:item.statusType="props">
       <v-edit-dialog
           save-text="שמור"
@@ -137,7 +140,7 @@
   </v-data-table>
 </template>
 <script>
-import { format } from 'date-fns'
+import { format, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
 import { getAuth } from 'firebase/auth'
 export default {
@@ -163,7 +166,7 @@ export default {
       let payload = {
         id: order.item.id,
         statusType: order.value,
-        orderUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}) + ' > ' + this.name
+        orderUpdated: firebase.firestore.FieldValue.serverTimestamp(),
       }
       this.$store.dispatch('updateOrder', payload)
     },
@@ -206,18 +209,18 @@ export default {
   computed: {
     headers () {
       return [
-      { text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '6%' },
-      { text: 'תאריך הזמנה', value: 'created', width: '7%'},
-      { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
-      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '16%', 'sortable': false,  },
-      { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
-      { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
-      { text: 'אופן אספקה', value: 'deliveryType', width: '10%', 'sortable': false,  },
-      { text: 'מכירה', value: 'sell', width: '5%', 'sortable': false  },
-      { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
-      { text: 'רווח', value: 'margins', width: '5%', 'sortable': false  },
-      { text: 'פעולות', value: 'actions', width: '6%', 'sortable': false  },
-      { text: 'סטטוס הזמנה', value: 'statusType', width: '10%','sortable': true, filter: this.statusesFilter},
+      { text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '90px' },
+      { text: 'תאריך הזמנה', value: 'created'},
+      { text: 'לקוח', value: 'clientLink','sortable': false },
+      { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', 'sortable': false,  },
+      { text: 'ספק', value: 'supplierLink', 'sortable': false },
+      { text: 'תאריך אספקה', value: 'delivery', width: '110px' },
+      { text: 'אופן אספקה', value: 'deliveryType', 'sortable': false,  },
+      { text: 'מכירה', value: 'sell', width: '50px', 'sortable': false  },
+      { text: 'קניה', value: 'buy', width: '50px', 'sortable': false  },
+      { text: 'רווח', value: 'margins', width: '50px', 'sortable': false  },
+      { text: 'פעולות', value: 'actions', width: '80px', 'sortable': false  },
+      { text: 'סטטוס הזמנה', value: 'statusType', width: '110px','sortable': true, filter: this.statusesFilter},
     ]
     },
     clientsMap() {
@@ -246,6 +249,12 @@ export default {
             clientLink: client.name,
             supplierLink: supplier.name
           }
+        }).filter(order => {
+
+
+          //console.log(order.deliveryDate, parse(order.deliveryDate, 'EEEEE, dd/MM/yy', new Date(), {locale: he}))
+          // TODO: get time between today and X days
+          return true
         })
       },
       set(value) {
@@ -259,7 +268,7 @@ export default {
 }
 </script>
 <style lang="sass">
-  tr
+  .v-data-table__wrapper tr
     height: 60px !important
   .theme--dark.v-btn--has-bg:hover
     background-color: #006D7B !important

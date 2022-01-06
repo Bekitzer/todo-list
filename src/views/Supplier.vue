@@ -127,8 +127,9 @@
       <v-col cols="12" md="9" sm="9" class="pr-10">
         <v-col cols="12">
           <h4>הזמנות</h4>
+          <v-switch v-model="viewSuppliedOnly" inset label="בתהליך/סופק"></v-switch>
         </v-col>
-        <v-data-table
+         <v-data-table
           height="35vh"
           fixed-header
           :headers="headers"
@@ -199,6 +200,7 @@ export default {
     format,
     he,
     transition: 'slide-y-transition',
+    viewSuppliedOnly: false,
     dialogs: {
       edit: false
     },
@@ -264,7 +266,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id && order.statusType !== 'סופק'
+          return order.supplierName == this.supplier.id && (this.viewSuppliedOnly ? order.statusType === 'סופק' : order.statusType !== 'סופק')
          })
       },
       set(value) {

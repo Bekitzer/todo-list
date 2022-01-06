@@ -158,6 +158,7 @@
 import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
 import { getAuth } from 'firebase/auth'
+import firebase from 'firebase/compat/app'
   export default {
     name: 'DialogCreate',
     props: ['order'],
@@ -189,7 +190,9 @@ import { getAuth } from 'firebase/auth'
     },
     computed: {
       computedDate () {
-        return this.orderDeliveryDate ? format(parseISO(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}) : ''
+        console.log(this.orderDeliveryDate )
+        return this.orderDeliveryDate && parseISO(this.orderDeliveryDate).toISOString().substr(0, 10)
+        // return this.orderDeliveryDate ? this.$options.filters.formatDateReverse(this.orderDeliveryDate).toISOString().substr(0, 10) : ''
       },
       clients() {
           return this.$store.state.clients
@@ -223,7 +226,7 @@ import { getAuth } from 'firebase/auth'
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             statusType: this.orderStatusType = 'בעבודה',
-            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}),
+            deliveryDate: parseISO(this.orderDeliveryDate),
             deliveryType: this.orderDeliveryType,
           }
 
@@ -254,7 +257,7 @@ import { getAuth } from 'firebase/auth'
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             statusType: this.orderStatusType = 'טיוטה',
-            deliveryDate: format(new Date(this.orderDeliveryDate), 'EEEEE, dd/MM/yy', {locale: he}),
+            deliveryDate: parseISO(this.orderDeliveryDate),
             deliveryType: this.orderDeliveryType,
           }
 

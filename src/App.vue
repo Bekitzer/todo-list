@@ -73,4 +73,6 @@ export default {
     cursor: pointer
   .spc-titles
     color: #797979
+  th.text-start,td.text-start
+    padding: 0 10px 0 0 !important
 </style>
