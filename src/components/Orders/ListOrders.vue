@@ -82,7 +82,7 @@
       </v-btn>
     </template>
     <template v-slot:item.created="{ item }">
-        {{format(new Date(item.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
+      {{ item.orderCreationDate | formatDate }}
     </template>
     <template v-slot:item.sell="{ item }">
         {{ item.sellPrice | formatNumber }}
@@ -123,8 +123,8 @@
       <v-container fluid>
         <v-row>
           <v-spacer></v-spacer>
-          <v-col cols="12" md="4" sm="6">
-              <v-select
+          <v-col cols="12" md="1" sm="1">
+              <!-- <v-select
                 :items="orderStatusTypeList"
                 v-model="statusesFilterValue"
                 label="סנן לפי סטטוס..."
@@ -132,7 +132,8 @@
                 multiple
                 small-chips
               >
-              </v-select>
+              </v-select> -->
+              <v-switch v-model="viewSuppliedOnly" inset label="בתהליך/סופק"></v-switch>
           </v-col>
         </v-row>
       </v-container>
@@ -146,11 +147,12 @@ import { getAuth } from 'firebase/auth'
 export default {
   name: 'ListOrders',
   data: () => ({
-    statusesFilterValue:["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק","במשלוח"],
+    // statusesFilterValue:["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק","במשלוח"],
     editStatusType: '',
     expanded: [],
     format,
     he,
+    viewSuppliedOnly: false,
     singleExpand: true,
     orderStatusTypeList:[
       {text: "טיוטה", value: "טיוטה"},
@@ -173,12 +175,12 @@ export default {
     duplicateItem (item) {
       this.$emit('duplicateOrder', item)
     },
-    statusesFilter(item) {
-      if (!this.statusesFilterValue || !this.statusesFilterValue.length) {
-        return true;
-      }
-      return this.statusesFilterValue.includes(item)
-    },
+    // statusesFilter(item) {
+    //   if (!this.statusesFilterValue || !this.statusesFilterValue.length) {
+    //     return true;
+    //   }
+    //   return this.statusesFilterValue.includes(item)
+    // },
     clickOrder(order){
       this.$router.push({ name: 'Order', params: { id : order.id }})
     },
@@ -250,7 +252,7 @@ export default {
             supplierLink: supplier.name
           }
         }).filter(order => {
-
+          return this.viewSuppliedOnly ? order.statusType === 'סופק' : order.statusType !== 'סופק'
 
           //console.log(order.deliveryDate, parse(order.deliveryDate, 'EEEEE, dd/MM/yy', new Date(), {locale: he}))
           // TODO: get time between today and X days

@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { format } from 'date-fns'
-import { he } from 'date-fns/locale'
 import db from '@/firebase'
 import { doc, deleteDoc, updateDoc, collection, setDoc } from "firebase/firestore"
 import authStore from './modules/authStore'
@@ -353,7 +351,7 @@ export default new Vuex.Store({
           let isClient = {
             ...client,
             number: number,
-            clientCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
+            clientCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
             clientUpdated: null
           }
           await setDoc(doc(collection(db, "clients")), isClient)
@@ -419,7 +417,7 @@ export default new Vuex.Store({
           let isSupplier = {
             ...suppliers,
             number: number,
-            supplierCreationDate: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he}),
+            supplierCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
             supplierUpdated: null
           }
           await setDoc(doc(collection(db, "suppliers")), isSupplier)

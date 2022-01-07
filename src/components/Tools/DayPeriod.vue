@@ -5,7 +5,6 @@
 <script>
 import { format } from 'date-fns'
 import { setTimeout } from 'timers'
-import { he } from 'date-fns/locale'
 
 export default {
     data: () => ({
@@ -13,7 +12,7 @@ export default {
     }),
     methods: {
       getDate() {
-        this.dayPeriod = parseInt(format(new Date(), 'H', {locale: he}))
+        this.dayPeriod = parseInt(format(new Date(), 'H'))
         if( this.dayPeriod <= 23 && this.dayPeriod > 18){
           this.dayPeriod = 'ערב טוב'
         }else if( this.dayPeriod <= 18 && this.dayPeriod > 12){

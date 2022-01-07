@@ -254,113 +254,111 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
-import { he } from 'date-fns/locale'
-  export default {
-    props: ['client'],
-    data: () => ({
-      dialog: false,
-      dialogs: {
-        delete: false
-      },
-      clientName: '',
-      clientCompanyName: '',
-      clientContactName: '',
-      clientPhone: '',
-      clientEmail: '',
-      clientIdNumber: '',
-      clientWebsite: '',
-      clientFacebook: '',
-      clientInstagram: '',
-      clientPaymentTerms: '',
-      clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
-      clientPaymentMethod: '',
-      clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-      clientPaymentType: '',
-      clientPaymentTypeList: ["מיידי","הסדר חברה"],
-      clientAddress: '',
-      clientAddressAdditional: '',
-      clientWhatsapp: '',
-      clientDeliveryType: '',
-      clientStatus: '',
-      clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
-      clientStatusList: ["פרטי","עסקי"],
-      clientLead: '',
-      clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
-      clientNewsletter: '',
-      clientNewsletterList: ["כן","לא"]
-    }),
-    computed: {
-      clientFieldInvalid() {
-        return
-        !this.clientName || this.clientName === this.client.name
-        !this.clientStatus || this.clientStatus === this.client.status
+export default {
+  props: ['client'],
+  data: () => ({
+    dialog: false,
+    dialogs: {
+      delete: false
+    },
+    clientName: '',
+    clientCompanyName: '',
+    clientContactName: '',
+    clientPhone: '',
+    clientEmail: '',
+    clientIdNumber: '',
+    clientWebsite: '',
+    clientFacebook: '',
+    clientInstagram: '',
+    clientPaymentTerms: '',
+    clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+    clientPaymentMethod: '',
+    clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+    clientPaymentType: '',
+    clientPaymentTypeList: ["מיידי","הסדר חברה"],
+    clientAddress: '',
+    clientAddressAdditional: '',
+    clientWhatsapp: '',
+    clientDeliveryType: '',
+    clientStatus: '',
+    clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
+    clientStatusList: ["פרטי","עסקי"],
+    clientLead: '',
+    clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
+    clientNewsletter: '',
+    clientNewsletterList: ["כן","לא"]
+  }),
+  computed: {
+    clientFieldInvalid() {
+      return
+      !this.clientName || this.clientName === this.client.name
+      !this.clientStatus || this.clientStatus === this.client.status
 
-      }
-    },
-    methods: {
-      saveClient() {
-        if(!this.clientFieldInvalid){
-          let payload = {
-            id: this.client.id,
-            contactName: this.clientContactName,
-            phone: this.clientPhone,
-            email: this.clientEmail,
-            name: this.clientName,
-            companyName: this.clientCompanyName,
-            numberId: this.clientIdNumber,
-            website: this.clientWebsite,
-            facebook: this.clientFacebook,
-            instagram: this.clientInstagram,
-            paymentTerms: this.clientPaymentTerms,
-            paymentMethod: this.clientPaymentMethod,
-            paymentType: this.clientPaymentType,
-            address: this.clientAddress,
-            addressAdditional: this.clientAddressAdditional,
-            whatsapp: this.clientWhatsapp,
-            deliveryType: this.clientDeliveryType,
-            status: this.clientStatus,
-            lead: this.clientLead,
-            newsletter: this.clientNewsletter,
-            clientUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
-          }
-          this.$store.dispatch('updateClient', payload)
-          this.closeDialog()
-          this.$router.push('/clients')
-        }
-      },
-      closeDialog() {
-        this.$emit('close')
-      }
-    },
-    mounted() {
-      this.clientName = this.client.name
-      this.clientCompanyName = this.client.companyName
-      this.clientContactName = this.client.contactName
-      this.clientPhone = this.client.phone
-      this.clientEmail = this.client.email
-      this.clientIdNumber = this.client.numberId
-      this.clientWebsite = this.client.website
-      this.clientFacebook = this.client.facebook
-      this.clientInstagram = this.client.instagram
-      this.clientPaymentTerms = this.client.paymentTerms
-      this.clientPaymentMethod = this.client.paymentMethod
-      this.clientPaymentType = this.client.paymentType
-      this.clientAddress = this.client.address
-      this.clientAddressAdditional = this.client.addressAdditional
-      this.clientWhatsapp = this.client.whatsapp
-      this.clientDeliveryType = this.client.deliveryType
-      this.clientStatus = this.client.status
-      this.clientLead = this.client.lead
-      this.clientNewsletter = this.client.newsletter
-      document.addEventListener("keydown", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
-    },
-    components: {
-      'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default
     }
+  },
+  methods: {
+    saveClient() {
+      if(!this.clientFieldInvalid){
+        let payload = {
+          id: this.client.id,
+          contactName: this.clientContactName,
+          phone: this.clientPhone,
+          email: this.clientEmail,
+          name: this.clientName,
+          companyName: this.clientCompanyName,
+          numberId: this.clientIdNumber,
+          website: this.clientWebsite,
+          facebook: this.clientFacebook,
+          instagram: this.clientInstagram,
+          paymentTerms: this.clientPaymentTerms,
+          paymentMethod: this.clientPaymentMethod,
+          paymentType: this.clientPaymentType,
+          address: this.clientAddress,
+          addressAdditional: this.clientAddressAdditional,
+          whatsapp: this.clientWhatsapp,
+          deliveryType: this.clientDeliveryType,
+          status: this.clientStatus,
+          lead: this.clientLead,
+          newsletter: this.clientNewsletter,
+          clientUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+        }
+        this.$store.dispatch('updateClient', payload)
+        this.closeDialog()
+        this.$router.push('/clients')
+      }
+    },
+    closeDialog() {
+      this.$emit('close')
+    }
+  },
+  mounted() {
+    this.clientName = this.client.name
+    this.clientCompanyName = this.client.companyName
+    this.clientContactName = this.client.contactName
+    this.clientPhone = this.client.phone
+    this.clientEmail = this.client.email
+    this.clientIdNumber = this.client.numberId
+    this.clientWebsite = this.client.website
+    this.clientFacebook = this.client.facebook
+    this.clientInstagram = this.client.instagram
+    this.clientPaymentTerms = this.client.paymentTerms
+    this.clientPaymentMethod = this.client.paymentMethod
+    this.clientPaymentType = this.client.paymentType
+    this.clientAddress = this.client.address
+    this.clientAddressAdditional = this.client.addressAdditional
+    this.clientWhatsapp = this.client.whatsapp
+    this.clientDeliveryType = this.client.deliveryType
+    this.clientStatus = this.client.status
+    this.clientLead = this.client.lead
+    this.clientNewsletter = this.client.newsletter
+    document.addEventListener("keydown", (e) => {
+      if (e.keyCode == 27) {
+          this.$emit('close')
+      }
+    })
+  },
+  components: {
+    'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default
   }
+}
 </script>

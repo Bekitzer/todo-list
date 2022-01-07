@@ -232,100 +232,99 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
-  export default {
-    name: 'DialogCreate',
-    data: () => ({
-      dialog: false,
-      supplierName: '',
-      supplierCompanyName: '',
-      supplierContactName: '',
-      supplierPhone: '',
-      supplierEmail: '',
-      supplierIdNumber: '',
-      supplierWebsite: '',
-      supplierFacebook: '',
-      supplierInstagram: '',
-      supplierPaymentTerms: '',
-      supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
-      supplierPaymentMethod: '',
-      supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-      supplierAddress: '',
-      supplierAddressAdditional: '',
-      supplierWhatsapp: '',
-      supplierHours: '',
-      supplierDeliveryType: '',
-      supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
-      supplierStatus: '',
-      supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
-      supplierNewsletter: '',
-      supplierNewsletterList: ["כן","לא"]
-     }),
-    computed: {
-      supplierFieldInvalid() {
-        return (
-          !this.supplierName ||
-          !this.supplierStatus
-        )
-      }
-    },
-    methods: {
-      addSupplier() {
-        if(!this.supplierFieldInvalid){
-          const supplierFields = {
-            name: this.supplierName,
-            companyName: this.supplierCompanyName,
-            contactName: this.supplierContactName,
-            phone: this.supplierPhone,
-            email: this.supplierEmail,
-            numberId: this.supplierIdNumber,
-            website: this.supplierWebsite,
-            facebook: this.supplierFacebook,
-            instagram: this.supplierInstagram,
-            paymentTerms: this.supplierPaymentTerms,
-            paymentMethod: this.supplierPaymentMethod,
-            address: this.supplierAddress,
-            addressAditional: this.supplierAddressAdditional,
-            whatsapp: this.supplierWhatsapp,
-            workingHours: this.supplierHours,
-            deliveryType: this.supplierDeliveryType,
-            status: this.supplierStatus,
-            newsletter: this.supplierNewsletter,
-          }
-
-          this.$store.dispatch('addSupplier', supplierFields)
-          this.supplierName = ''
-          this.supplierCompanyName = ''
-          this.supplierContactName = ''
-          this.supplierPhone = ''
-          this.supplierEmail = ''
-          this.supplierIdNumber = ''
-          this.supplierWebsite = ''
-          this.supplierFacebook = ''
-          this.supplierInstagram = ''
-          this.supplierPaymentTerms = ''
-          this.supplierPaymentMethod = ''
-          this.supplierAddress = ''
-          this.supplierAddressAdditional = ''
-          this.supplierWhatsapp = ''
-          this.supplierHours = ''
-          this.supplierDeliveryType = ''
-          this.supplierStatus = ''
-          this.supplierNewsletter = ''
-        }
-        this.closeDialog()
-        setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
-      },
-      closeDialog() {
-        this.$emit('close')
-      }
-    },
-    mounted() {
-      document.addEventListener("keydown", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
+export default {
+  name: 'DialogCreate',
+  data: () => ({
+    dialog: false,
+    supplierName: '',
+    supplierCompanyName: '',
+    supplierContactName: '',
+    supplierPhone: '',
+    supplierEmail: '',
+    supplierIdNumber: '',
+    supplierWebsite: '',
+    supplierFacebook: '',
+    supplierInstagram: '',
+    supplierPaymentTerms: '',
+    supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+    supplierPaymentMethod: '',
+    supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+    supplierAddress: '',
+    supplierAddressAdditional: '',
+    supplierWhatsapp: '',
+    supplierHours: '',
+    supplierDeliveryType: '',
+    supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
+    supplierStatus: '',
+    supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
+    supplierNewsletter: '',
+    supplierNewsletterList: ["כן","לא"]
+    }),
+  computed: {
+    supplierFieldInvalid() {
+      return (
+        !this.supplierName ||
+        !this.supplierStatus
+      )
     }
+  },
+  methods: {
+    addSupplier() {
+      if(!this.supplierFieldInvalid){
+        const supplierFields = {
+          name: this.supplierName,
+          companyName: this.supplierCompanyName,
+          contactName: this.supplierContactName,
+          phone: this.supplierPhone,
+          email: this.supplierEmail,
+          numberId: this.supplierIdNumber,
+          website: this.supplierWebsite,
+          facebook: this.supplierFacebook,
+          instagram: this.supplierInstagram,
+          paymentTerms: this.supplierPaymentTerms,
+          paymentMethod: this.supplierPaymentMethod,
+          address: this.supplierAddress,
+          addressAditional: this.supplierAddressAdditional,
+          whatsapp: this.supplierWhatsapp,
+          workingHours: this.supplierHours,
+          deliveryType: this.supplierDeliveryType,
+          status: this.supplierStatus,
+          newsletter: this.supplierNewsletter,
+        }
+
+        this.$store.dispatch('addSupplier', supplierFields)
+        this.supplierName = ''
+        this.supplierCompanyName = ''
+        this.supplierContactName = ''
+        this.supplierPhone = ''
+        this.supplierEmail = ''
+        this.supplierIdNumber = ''
+        this.supplierWebsite = ''
+        this.supplierFacebook = ''
+        this.supplierInstagram = ''
+        this.supplierPaymentTerms = ''
+        this.supplierPaymentMethod = ''
+        this.supplierAddress = ''
+        this.supplierAddressAdditional = ''
+        this.supplierWhatsapp = ''
+        this.supplierHours = ''
+        this.supplierDeliveryType = ''
+        this.supplierStatus = ''
+        this.supplierNewsletter = ''
+      }
+      this.closeDialog()
+      setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+    },
+    closeDialog() {
+      this.$emit('close')
+    }
+  },
+  mounted() {
+    document.addEventListener("keydown", (e) => {
+      if (e.keyCode == 27) {
+          this.$emit('close')
+      }
+    })
   }
+}
 </script>

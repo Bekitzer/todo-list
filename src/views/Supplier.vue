@@ -135,7 +135,7 @@
           :headers="headers"
           :items="processing"
           item-key="id"
-          sort-by="number"
+          sort-by="deliveryDate"
           :items-per-page="-1"
           hide-default-footer
           sort-desc
@@ -163,7 +163,10 @@
             {{ props.item.statusType }}
           </template>
           <template v-slot:item.created="{ item }">
-              {{format(new Date(item.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
+            {{ item.orderCreationDate | formatDate }}
+          </template>
+          <template v-slot:item.delivery="{ item }">
+            {{ item.deliveryDate | formatDate }}
           </template>
         </v-data-table>
       </v-col>
@@ -190,15 +193,11 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
-import { he } from 'date-fns/locale'
 export default {
   name: 'Supplier',
   data: () => ({
     pageName: '',
     fab: false,
-    format,
-    he,
     transition: 'slide-y-transition',
     viewSuppliedOnly: false,
     dialogs: {
@@ -234,7 +233,7 @@ export default {
         { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
         { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
         { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
-        { text: 'תאריך אספקה', value: 'deliveryDate', width: '5%', 'sortable': false  },
+        { text: 'תאריך אספקה', value: 'delivery', width: '5%', 'sortable': false  },
         { text: 'סטטוס הזמנה', value: 'statusType', width: '11%','sortable': true}
       ]
     },
@@ -267,25 +266,6 @@ export default {
         })
         .filter(order => {
           return order.supplierName == this.supplier.id && (this.viewSuppliedOnly ? order.statusType === 'סופק' : order.statusType !== 'סופק')
-         })
-      },
-      set(value) {
-        this.$store.dispatch('setOrders', value)
-      }
-    },
-    delivered: {
-      get() {
-        return this.$store.state.orders.map(order => {
-          const client = this.clientsMap[order.clientName] || {}
-          const supplier = this.suppliersMap[order.supplierName] || {}
-          return {
-            ...order,
-            clientLink: client.name,
-            supplierLink: supplier.name
-          }
-        })
-        .filter(order => {
-          return order.supplierName == this.supplier.id && order.statusType === 'סופק'
          })
       },
       set(value) {

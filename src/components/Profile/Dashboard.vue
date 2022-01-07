@@ -1,6 +1,6 @@
 <template>
   <div class="mr-16 ml-16">
-    <nav-appbar :pname="'פרופיל ספק > ' + this.supplier.name"/>
+    <nav-appbar :pname="this.supplier.name"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -60,12 +60,13 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" md="9" sm="9">
+      <v-col cols="12" md="9" sm="9" class="pr-10">
         <v-col cols="12">
-          <h4>הזמנות - בתהליך</h4>
+          <h4>הזמנות</h4>
+          <v-switch v-model="viewSuppliedOnly" inset label="בתהליך/סופק"></v-switch>
         </v-col>
         <v-data-table
-          height="40vh"
+          height="75vh"
           fixed-header
           :headers="headers"
           :items="processing"
@@ -73,7 +74,7 @@
           sort-by="deliveryDate"
           :items-per-page="-1"
           hide-default-footer
-          sort-asc
+          sort-desc
           no-data-text="אין הזמנות פעילות"
         >
           <template v-slot:item.clientLink="{ item }">
@@ -92,41 +93,10 @@
             {{ props.item.statusType }}
           </template>
           <template v-slot:item.created="{ item }">
-              {{format(new Date(item.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
+            {{ item.orderCreationDate | formatDate }}
           </template>
-        </v-data-table>
-        <v-col cols="12">
-          <h4>הזמנות - סופק</h4>
-        </v-col>
-        <v-data-table
-          height="40vh"
-          fixed-header
-          :headers="headers"
-          :items="delivered"
-          item-key="id"
-          sort-by="statusType"
-          :items-per-page="-1"
-          hide-default-footer
-          sort-asc
-          no-data-text="אין הזמנות שסופקו"
-        >
-          <template v-slot:item.clientLink="{ item }">
-              {{ item.clientLink }}
-          </template>
-          <template v-slot:item.supplierLink="{ item }">
-              {{ item.supplierLink }}
-          </template>
-          <template v-slot:item.buy="{ item }">
-              {{ item.buyPrice | formatNumber }}
-          </template>
-          <template v-slot:item.statusType="props">
-            <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
-              mdi-circle-small
-            </v-icon>
-            {{ props.item.statusType }}
-          </template>
-          <template v-slot:item.created="{ item }">
-              {{format(new Date(item.orderCreationDate.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})}}
+          <template v-slot:item.delivery="{ item }">
+            {{ item.deliveryDate | formatDate }}
           </template>
         </v-data-table>
       </v-col>
@@ -138,15 +108,11 @@
 import firebase from 'firebase/compat/app'
 import { getAuth } from "firebase/auth";
 import db from '@/firebase'
-import { format } from 'date-fns'
-import { he } from 'date-fns/locale'
-
 export default {
   name: "Dashboard",
   data: () => ({
     pageName: 'לוח בקרה',
-    format,
-    he
+    viewSuppliedOnly: false
   }),
   methods: {
     getColor (statusType) {
@@ -173,14 +139,13 @@ export default {
     },
     headers () {
       return [
-        { text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '3%' },
-        { text: 'תאריך הזמנה', value: 'created', width: '10%', 'sortable': false },
-        { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
-        { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
-        { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
-        { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
-        { text: 'תאריך אספקה', value: 'deliveryDate', width: '10%' },
-        { text: 'סטטוס הזמנה', value: 'statusType', width: '11%' }
+        { text: 'מס׳ הזמנה', value: 'number', align: 'start' },
+        { text: 'תאריך הזמנה', value: 'created', 'sortable': false },
+        { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', 'sortable': false,  },
+        { text: 'ספק', value: 'supplierLink', 'sortable': false },
+        { text: 'מכירה', value: 'buy', 'sortable': false  },
+        { text: 'תאריך אספקה', value: 'delivery' },
+        { text: 'סטטוס הזמנה', value: 'statusType' }
       ]
     },
     clientsMap() {
@@ -211,26 +176,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id && (order.statusType !== 'סופק' && order.statusType !== 'מוכן - משרד' && order.statusType !== 'מוכן - ספק')
-         })
-      },
-      set(value) {
-        this.$store.dispatch('setOrders', value)
-      }
-    },
-    delivered: {
-      get() {
-        return this.$store.state.orders.map(order => {
-          const client = this.clientsMap[order.clientName] || {}
-          const supplier = this.suppliersMap[order.supplierName] || {}
-          return {
-            ...order,
-            clientLink: client.name,
-            supplierLink: supplier.name
-          }
-        })
-        .filter(order => {
-          return order.supplierName == this.supplier.id && (order.statusType === 'סופק' || order.statusType === 'מוכן - משרד' || order.statusType === 'מוכן - ספק')
+          return order.supplierName == this.supplier.id && (this.viewSuppliedOnly ? order.statusType === 'סופק' : order.statusType !== 'סופק')
          })
       },
       set(value) {

@@ -278,8 +278,6 @@ import  firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import 'firebase/compat/storage'
 import database from '@/firebase'
-import { format } from 'date-fns'
-import { he } from 'date-fns/locale'
 export default {
     props: ['supplier'],
     data: () => ({
@@ -349,7 +347,7 @@ export default {
             status: this.supplierStatus,
             newsletter: this.supplierNewsletter,
             user: this.supplierConnected,
-            supplierUpdated: format(new Date(Date.now()), 'EEEEE dd/MM/yy HH:mm', {locale: he})
+            supplierUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           }
           this.$store.dispatch('updateSupplier', payload)
           this.closeDialog()

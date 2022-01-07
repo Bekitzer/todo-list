@@ -39,7 +39,7 @@ export default {
       { text: 'מייל', value: 'emailLink', 'sortable': false },
       { text: 'כתובת', value: 'address', 'sortable': false },
       { text: 'אופן אספקה', value: 'deliveryType', width: '80px', 'sortable': false },
-      { text: 'ה.פעילות', value: 'orders', width: '70px' },
+      { text: 'ה.פעילות', value: 'orders', width: '80px' },
     ],
   }),
   methods: {

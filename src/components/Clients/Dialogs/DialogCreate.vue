@@ -246,106 +246,105 @@
 </template>
 
 <script>
-import { format } from 'date-fns'
-  export default {
-    name: 'DialogCreate',
-    data: () => ({
-      dialog: false,
-      clientName: '',
-      clientCompanyName: '',
-      clientContactName: '',
-      clientPhone: '',
-      clientEmail: '',
-      clientIdNumber: '',
-      clientWebsite: '',
-      clientFacebook: '',
-      clientInstagram: '',
-      clientPaymentTerms: '',
-      clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
-      clientPaymentMethod: '',
-      clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-      clientPaymentType: '',
-      clientPaymentTypeList: ["מיידי","הסדר חברה"],
-      clientAddress: '',
-      clientAddressAdditional: '',
-      clientWhatsapp: '',
-      clientDeliveryType: '',
-      clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
-      clientStatus: '',
-      clientStatusList: ["פרטי","עסקי"],
-      clientLead: '',
-      clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
-      clientNewsletter: '',
-      clientNewsletterList: ["כן","לא"]
-    }),
-    computed: {
-      clientFieldInvalid() {
-        return (
-          !this.clientName
-        )
-      }
-    },
-    methods:{
-      addClient() {
-        if(!this.clientFieldInvalid){
-          const clientFields = {
-            name: this.clientName,
-            companyName: this.clientCompanyName,
-            contactName: this.clientContactName,
-            phone: this.clientPhone,
-            email: this.clientEmail,
-            numberId: this.clientIdNumber,
-            website: this.clientWebsite,
-            facebook: this.clientFacebook,
-            instagram: this.clientInstagram,
-            paymentTerms: this.clientPaymentTerms,
-            paymentMethod: this.clientPaymentMethod,
-            paymentType: this.clientPaymentType,
-            address: this.clientAddress,
-            addressAditional: this.clientAddressAdditional,
-            whatsapp: this.clientWhatsapp,
-            deliveryType: this.clientDeliveryType,
-            status: this.clientStatus,
-            lead: this.clientLead,
-            newsletter: this.clientNewsletter
-          }
-
-          this.$store.dispatch('addClient', clientFields)
-          this.clientName = ''
-          this.clientCompanyName = ''
-          this.clientContactName = ''
-          this.clientPhone = ''
-          this.clientEmail = ''
-          this.clientIdNumber = ''
-          this.clientWebsite = ''
-          this.clientFacebook = ''
-          this.clientInstagram = ''
-          this.clientPaymentTerms = ''
-          this.clientPaymentMethod = ''
-          this.clientAddress = ''
-          this.clientAddressAdditional = ''
-          this.clientWhatsapp = ''
-          this.clientDeliveryType = ''
-          this.clientPaymentType = ''
-          this.clientStatus = ''
-          this.clientLead = ''
-          this.clientNewsletter = ''
-        }
-        this.closeDialog()
-        setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
-      },
-      closeDialog() {
-        this.$emit('close')
-      }
-    },
-    mounted() {
-      document.addEventListener("keydown", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
+export default {
+  name: 'DialogCreate',
+  data: () => ({
+    dialog: false,
+    clientName: '',
+    clientCompanyName: '',
+    clientContactName: '',
+    clientPhone: '',
+    clientEmail: '',
+    clientIdNumber: '',
+    clientWebsite: '',
+    clientFacebook: '',
+    clientInstagram: '',
+    clientPaymentTerms: '',
+    clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+    clientPaymentMethod: '',
+    clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+    clientPaymentType: '',
+    clientPaymentTypeList: ["מיידי","הסדר חברה"],
+    clientAddress: '',
+    clientAddressAdditional: '',
+    clientWhatsapp: '',
+    clientDeliveryType: '',
+    clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
+    clientStatus: '',
+    clientStatusList: ["פרטי","עסקי"],
+    clientLead: '',
+    clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
+    clientNewsletter: '',
+    clientNewsletterList: ["כן","לא"]
+  }),
+  computed: {
+    clientFieldInvalid() {
+      return (
+        !this.clientName
+      )
     }
+  },
+  methods:{
+    addClient() {
+      if(!this.clientFieldInvalid){
+        const clientFields = {
+          name: this.clientName,
+          companyName: this.clientCompanyName,
+          contactName: this.clientContactName,
+          phone: this.clientPhone,
+          email: this.clientEmail,
+          numberId: this.clientIdNumber,
+          website: this.clientWebsite,
+          facebook: this.clientFacebook,
+          instagram: this.clientInstagram,
+          paymentTerms: this.clientPaymentTerms,
+          paymentMethod: this.clientPaymentMethod,
+          paymentType: this.clientPaymentType,
+          address: this.clientAddress,
+          addressAditional: this.clientAddressAdditional,
+          whatsapp: this.clientWhatsapp,
+          deliveryType: this.clientDeliveryType,
+          status: this.clientStatus,
+          lead: this.clientLead,
+          newsletter: this.clientNewsletter
+        }
+
+        this.$store.dispatch('addClient', clientFields)
+        this.clientName = ''
+        this.clientCompanyName = ''
+        this.clientContactName = ''
+        this.clientPhone = ''
+        this.clientEmail = ''
+        this.clientIdNumber = ''
+        this.clientWebsite = ''
+        this.clientFacebook = ''
+        this.clientInstagram = ''
+        this.clientPaymentTerms = ''
+        this.clientPaymentMethod = ''
+        this.clientAddress = ''
+        this.clientAddressAdditional = ''
+        this.clientWhatsapp = ''
+        this.clientDeliveryType = ''
+        this.clientPaymentType = ''
+        this.clientStatus = ''
+        this.clientLead = ''
+        this.clientNewsletter = ''
+      }
+      this.closeDialog()
+      setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+    },
+    closeDialog() {
+      this.$emit('close')
+    }
+  },
+  mounted() {
+    document.addEventListener("keydown", (e) => {
+      if (e.keyCode == 27) {
+          this.$emit('close')
+      }
+    })
   }
+}
 </script>
 <style lang="sass">
   .v-application .primary--text
