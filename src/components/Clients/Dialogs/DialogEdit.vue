@@ -254,6 +254,7 @@
 </template>
 
 <script>
+import firebase from 'firebase/compat/app'
 export default {
   props: ['client'],
   data: () => ({

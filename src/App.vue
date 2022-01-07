@@ -74,5 +74,5 @@ export default {
   .spc-titles
     color: #797979
   th.text-start,td.text-start
-    padding: 0 10px 0 0 !important
+    padding: 0 5px !important
 </style>

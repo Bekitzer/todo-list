@@ -122,17 +122,15 @@
     <template v-slot:top>
       <v-container fluid>
         <v-row>
-          <v-spacer></v-spacer>
-          <v-col cols="12" md="11" sm="11">
+          <v-col cols="12" md="2" sm="11">
             <v-select
               :items="orderDateList"
-              filled
-              label="Filled style"
-              dense
+              label="סנן לפי תאריך"
             ></v-select>
           </v-col>
+          <v-spacer></v-spacer>
           <v-col cols="12" md="1" sm="1">
-            <v-switch v-model="viewSuppliedOnly" inset label="בתהליך/סופק"></v-switch>
+            <v-switch v-model="viewSuppliedOnly" inset label="סופק/בתהליך"></v-switch>
           </v-col>
         </v-row>
       </v-container>
@@ -146,7 +144,7 @@ export default {
   data: () => ({
     editStatusType: '',
     expanded: [],
-    viewSuppliedOnly: false,
+    viewSuppliedOnly: true,
     singleExpand: true,
     orderDateList:[
       {text: "היום", value: "טיוטה"},
@@ -248,7 +246,7 @@ export default {
             supplierLink: supplier.name
           }
         }).filter(order => {
-          return this.viewSuppliedOnly ? order.statusType === 'סופק' : order.statusType !== 'סופק'
+          return this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק'
         })
       },
       set(value) {

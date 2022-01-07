@@ -127,7 +127,7 @@
       <v-col cols="12" md="9" sm="9" class="pr-10">
         <v-col cols="12">
           <h4>הזמנות</h4>
-          <v-switch v-model="viewSuppliedOnly" inset label="בתהליך/סופק"></v-switch>
+          <v-switch v-model="viewSuppliedOnly" inset label="סופק/בתהליך"></v-switch>
         </v-col>
          <v-data-table
           height="35vh"
@@ -193,13 +193,14 @@
 </template>
 
 <script>
+import firebase from 'firebase/compat/app'
 export default {
   name: 'Supplier',
   data: () => ({
     pageName: '',
     fab: false,
     transition: 'slide-y-transition',
-    viewSuppliedOnly: false,
+    viewSuppliedOnly: true,
     dialogs: {
       edit: false
     },
@@ -265,7 +266,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id && (this.viewSuppliedOnly ? order.statusType === 'סופק' : order.statusType !== 'סופק')
+          return order.supplierName == this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
          })
       },
       set(value) {
