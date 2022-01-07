@@ -119,21 +119,20 @@
           </template>
         </v-edit-dialog>
     </template>
-    <template v-slot:footer>
+    <template v-slot:top>
       <v-container fluid>
         <v-row>
           <v-spacer></v-spacer>
+          <v-col cols="12" md="11" sm="11">
+            <v-select
+              :items="orderDateList"
+              filled
+              label="Filled style"
+              dense
+            ></v-select>
+          </v-col>
           <v-col cols="12" md="1" sm="1">
-              <!-- <v-select
-                :items="orderStatusTypeList"
-                v-model="statusesFilterValue"
-                label="סנן לפי סטטוס..."
-                clearable
-                multiple
-                small-chips
-              >
-              </v-select> -->
-              <v-switch v-model="viewSuppliedOnly" inset label="בתהליך/סופק"></v-switch>
+            <v-switch v-model="viewSuppliedOnly" inset label="בתהליך/סופק"></v-switch>
           </v-col>
         </v-row>
       </v-container>
@@ -141,19 +140,22 @@
   </v-data-table>
 </template>
 <script>
-import { format, parse } from 'date-fns'
-import { he } from 'date-fns/locale'
 import { getAuth } from 'firebase/auth'
 export default {
   name: 'ListOrders',
   data: () => ({
-    // statusesFilterValue:["טיוטה","בעבודה","מוכן - משרד","מוכן - ספק","במשלוח"],
     editStatusType: '',
     expanded: [],
-    format,
-    he,
     viewSuppliedOnly: false,
     singleExpand: true,
+    orderDateList:[
+      {text: "היום", value: "טיוטה"},
+      {text: "3 ימים", value: "בעבודה"},
+      {text: "שבוע", value: "מוכן - משרד"},
+      {text: "חודש", value: "מוכן - ספק"},
+      {text: "3 חודשים", value: "במשלוח"},
+      {text: "הכל", value: "סופק"}
+    ],
     orderStatusTypeList:[
       {text: "טיוטה", value: "טיוטה"},
       {text: "בעבודה", value: "בעבודה"},
@@ -175,12 +177,6 @@ export default {
     duplicateItem (item) {
       this.$emit('duplicateOrder', item)
     },
-    // statusesFilter(item) {
-    //   if (!this.statusesFilterValue || !this.statusesFilterValue.length) {
-    //     return true;
-    //   }
-    //   return this.statusesFilterValue.includes(item)
-    // },
     clickOrder(order){
       this.$router.push({ name: 'Order', params: { id : order.id }})
     },
@@ -253,10 +249,6 @@ export default {
           }
         }).filter(order => {
           return this.viewSuppliedOnly ? order.statusType === 'סופק' : order.statusType !== 'סופק'
-
-          //console.log(order.deliveryDate, parse(order.deliveryDate, 'EEEEE, dd/MM/yy', new Date(), {locale: he}))
-          // TODO: get time between today and X days
-          return true
         })
       },
       set(value) {
