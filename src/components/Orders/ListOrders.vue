@@ -122,15 +122,16 @@
     <template v-slot:top>
       <v-container fluid>
         <v-row>
-          <v-col cols="12" md="2" sm="11">
+          <v-col cols="12" md="1" sm="2">
             <v-select
               :items="orderDateList"
-              label="סנן לפי תאריך"
+              solo-inverted
+              label="סינון תאריך"
             ></v-select>
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="12" md="1" sm="1">
-            <v-switch v-model="viewSuppliedOnly" inset label="סופק/בתהליך"></v-switch>
+            <v-switch v-model="viewSuppliedOnly" inset label="סופקו/פעילות"></v-switch>
           </v-col>
         </v-row>
       </v-container>
@@ -209,13 +210,13 @@ export default {
       { text: 'תאריך הזמנה', value: 'created'},
       { text: 'לקוח', value: 'clientLink','sortable': false },
       { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', 'sortable': false,  },
-      { text: 'ספק', value: 'supplierLink', 'sortable': false },
+      { text: 'מכירה', value: 'sell', width: '60px', 'sortable': false  },
+      { text: 'קניה', value: 'buy', width: '60px', 'sortable': false  },
+      { text: 'רווח', value: 'margins', width: '60px', 'sortable': false  },
       { text: 'תאריך אספקה', value: 'delivery', width: '110px' },
+      { text: 'ספק', value: 'supplierLink', 'sortable': false },
       { text: 'אופן אספקה', value: 'deliveryType', 'sortable': false,  },
-      { text: 'מכירה', value: 'sell', width: '50px', 'sortable': false  },
-      { text: 'קניה', value: 'buy', width: '50px', 'sortable': false  },
-      { text: 'רווח', value: 'margins', width: '50px', 'sortable': false  },
-      { text: 'פעולות', value: 'actions', width: '80px', 'sortable': false  },
+      { text: 'פעולות', value: 'actions', width: '100px', 'sortable': false  },
       { text: 'סטטוס הזמנה', value: 'statusType', width: '110px','sortable': true, filter: this.statusesFilter},
     ]
     },
@@ -396,6 +397,8 @@ export default {
     border-left: solid 8px #616161e6 !important
   .tooltip-left.info::before
     border-left: solid 8px #2196f3 !important
+  .v-list-item__title
+    align-self: flex-start
   @media only screen and (max-width:800px)
     .v-data-table__wrapper
       height: 200px !important

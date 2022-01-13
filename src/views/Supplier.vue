@@ -127,7 +127,7 @@
       <v-col cols="12" md="9" sm="9" class="pr-10">
         <v-col cols="12">
           <h4>הזמנות</h4>
-          <v-switch v-model="viewSuppliedOnly" inset label="סופק/בתהליך"></v-switch>
+          <v-switch v-model="viewSuppliedOnly" inset label="סופקו/פעילות"></v-switch>
         </v-col>
          <v-data-table
           height="35vh"
