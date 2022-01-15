@@ -1,16 +1,27 @@
 <template>
-  <div class="mr-16 ml-16">
+  <div>
     <nav-appbar :pname="pageName">
       <template v-slot:add-btn>
-        <v-btn
-          fab
-          small
-          dark
-          class="v-btn--example mr-4"
-          @click="dialogs.create = true"
+        <v-tooltip
+          bottom
+          content-class="normal tooltip-bottom"
         >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
+          <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            fab
+            small
+            elevation="0"
+            outlined
+            v-bind="attrs"
+            v-on="on"
+            class="spc-btn mr-4"
+            @click="dialogs.create = true"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          </template>
+          <span>לקוח חדש</span>
+        </v-tooltip>
       </template>
     </nav-appbar>
     <list-clients v-if="$store.state.clients.length" />
@@ -40,3 +51,12 @@
     }
   }
 </script>
+<style lang="sass" scoped>
+  .spc-btn
+    color: #03616f
+    transform: rotate(0deg)
+  .spc-btn:hover
+    background: #03616f
+    color: white
+    transform: rotate(90deg)
+</style>

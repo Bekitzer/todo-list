@@ -1,5 +1,5 @@
 <template>
-  <div class="mr-16 ml-16">
+  <div>
     <nav-appbar :pname="this.supplier.name"/>
     <v-row v-if="!user.isAdmin">
       <v-col cols="12" md="3" sm="3">
@@ -19,7 +19,7 @@
           <v-col cols="12" md="8" sm="8">
             <h2>{{ supplier.name }}</h2>
             <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
-            <p style="margin-bottom:0 !important;">ח.פ. {{ supplier.numberId }}</p>
+            <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ supplier.numberId }}</p>
             <div>
               <a :href="supplier.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> |
               <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> |

@@ -120,32 +120,30 @@
         </v-edit-dialog>
     </template>
     <template v-slot:top>
-      <v-container fluid>
-        <v-row>
-          <v-col cols="12" md="2" sm="2">
-            <v-select
-              :items="orderDateList"
-              filled
-              rounded
-              v-model="orderDateFilter"
-              label="סנן לפי תאריך הזמנה"
-            ></v-select>
-          </v-col>
-          <v-col cols="12" md="2" sm="2">
-            <v-select
-              :items="orderDeliveryDateList"
-              filled
-              rounded
-              v-model="deliveryDateFilter"
-              label="סנן לפי תאריך אספקה"
-            ></v-select>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="12" md="1" sm="1">
-            <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
-          </v-col>
-        </v-row>
-      </v-container>
+      <v-row>
+        <v-col cols="12" md="2" sm="2">
+          <v-select
+            :items="orderDateList"
+            filled
+            rounded
+            v-model="orderDateFilter"
+            label="סנן לפי תאריך הזמנה"
+          ></v-select>
+        </v-col>
+        <v-col cols="12" md="2" sm="2">
+          <v-select
+            :items="orderDeliveryDateList"
+            filled
+            rounded
+            v-model="deliveryDateFilter"
+            label="סנן לפי תאריך אספקה"
+          ></v-select>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="12" md="1" sm="1">
+          <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
+        </v-col>
+      </v-row>
     </template>
   </v-data-table>
 </template>
@@ -393,98 +391,6 @@ export default {
     background: #fbfbfb !important
   .v-data-table > .v-data-table__wrapper > table > thead > tr > th
     font-size: 0.875rem !important
-  .tooltip-top::before
-    border-right: solid 8px transparent
-    border-left: solid 8px transparent
-    transform: translateX(-50%)
-    position: absolute
-    z-index: -21
-    content: ''
-    top: 100%
-    left: 50%
-    height: 0
-    width: 0
-  .tooltip-top.error::before
-    border-top: solid 8px #ff6060
-  .tooltip-top.success::before
-    border-top: solid 8px #1B5E20
-  .tooltip-top.secondary::before
-    border-top: solid 8px #3f3f3f
-  .tooltip-top.primary::before
-    border-top: solid 8px #246fb3
-  .tooltip-top.normal::before
-    border-top: solid 8px #616161e6
-  .tooltip-top.info::before
-    border-top: solid 8px #2196f3
-  .tooltip-bottom::before
-    border-right: solid 8px transparent
-    border-left: solid 8px transparent
-    transform: translateX(-50%)
-    position: absolute
-    z-index: -21
-    content: ''
-    bottom: 100%
-    left: 50%
-    height: 0
-    width: 0
-  .tooltip-bottom.error::before
-    border-bottom: solid 8px #ff6060
-  .tooltip-bottom.success::before
-    border-bottom: solid 8px #1B5E20
-  .tooltip-bottom.secondary::before
-    border-bottom: solid 8px #3f3f3f
-  .tooltip-bottom.primary::before
-    border-bottom: solid 8px #246fb3
-  .tooltip-bottom.normal::before
-    border-bottom: solid 8px #616161e6
-  .tooltip-bottom.info::before
-    border-bottom: solid 8px #2196f3
-  .tooltip-right::before
-    content: " "
-    position: absolute
-    top: 50%
-    right: 100%
-    margin-top: -8px
-    border-width: 8px
-    border-style: solid
-    border-top: solid 8px transparent
-    border-bottom: solid 8px transparent
-    border-left: solid 8px transparent
-  .tooltip-right.error::before
-    border-right: solid 8px #ff6060 !important
-  .tooltip-right.success::before
-    border-right: solid 8px #1B5E20 !important
-  .tooltip-right.secondary::before
-    border-right: solid 8px #3f3f3f !important
-  .tooltip-right.primary::before
-    border-right: solid 8px #246fb3 !important
-  .tooltip-right.normal::before
-    border-right: solid 8px #616161e6 !important
-  .tooltip-right.info::before
-    border-right: solid 8px #2196f3 !important
-  .tooltip-left::before
-    content: " "
-    position: absolute
-    top: 50%
-    left: 100%
-    margin-top: -8px
-    border-width: 8px
-    border-style: solid
-    border-top: solid 8px transparent
-    border-bottom: solid 8px transparent
-    border-right: solid 8px transparent
-  .tooltip-left.error::before
-    border-left: solid 8px #ff6060 !important
-  .tooltip-left.success::before
-    border-left: solid 8px #1B5E20 !important
-  .tooltip-left.secondary::before
-    border-left: solid 8px #3f3f3f !important
-  .tooltip-left.primary::before
-    border-left: solid 8px #246fb3 !important
-  .tooltip-left.normal::before
-    border-left: solid 8px #616161e6 !important
-  .tooltip-left.info::before
-    border-left: solid 8px #2196f3 !important
   .v-list-item__title
     align-self: flex-start
   @media only screen and (max-width:800px)

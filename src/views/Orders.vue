@@ -1,17 +1,28 @@
 <template>
-  <div class="mr-16 ml-16">
+  <div>
     <nav-appbar :pname="pageName">
       <template v-slot:add-btn>
-      <v-btn
-        fab
-        dark
-        small
-        class="v-btn--example mr-4"
-        @click="dialogs.create = true"
-      >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </template>
+        <v-tooltip
+          bottom
+          content-class="normal tooltip-bottom"
+        >
+          <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            fab
+            small
+            elevation="0"
+            outlined
+            v-bind="attrs"
+            v-on="on"
+            class="spc-btn mr-4"
+            @click="dialogs.create = true"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          </template>
+          <span>הזמנה חדשה</span>
+        </v-tooltip>
+      </template>
     </nav-appbar>
     <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder"/>
     <no-orders v-else />
@@ -58,12 +69,18 @@
   }
 </script>
 <style lang="sass">
-@media (max-width: 800px)
-  .v-application .pl-16
-    padding-left: 20px !important
-  .v-application .pr-16
-    padding-right: 20px !important
-  .v-application .pt-10
-    padding-top: 0px !important
+  .spc-btn
+    color: #03616f
+    transform: rotate(0deg)
+  .spc-btn:hover
+    background: #03616f
+    color: white
+    transform: rotate(90deg)
+  @media (max-width: 800px)
+    .v-application .pl-16
+      padding-left: 20px !important
+    .v-application .pr-16
+      padding-right: 20px !important
+    .v-application .pt-10
+      padding-top: 0px !important
 </style>
-

@@ -68,6 +68,16 @@
         >
           <v-list-item-content>
             <v-list-item-icon>
+              <icon-services width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">שירותים</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-if="user.isAdmin"
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
               <icon-book-keeping width="26"/>
             </v-list-item-icon>
             <v-list-item-subtitle style="z-index: 1;font-size:12px">הנה״ח</v-list-item-subtitle>
@@ -83,16 +93,7 @@
             <v-list-item-subtitle style="z-index: 1;font-size:12px">לוח בקרה</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-if="user.isAdmin"
-        >
-          <v-list-item-content>
-            <v-list-item-icon>
-              <icon-services width="26"/>
-            </v-list-item-icon>
-            <v-list-item-subtitle style="z-index: 1;font-size:12px">שירותים</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+
         <v-list-item @click="dialogs.exit = true">
         <v-list-item-content>
           <v-list-item-icon>

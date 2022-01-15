@@ -33,7 +33,7 @@ export default {
       { text: 'מס׳ ספק', value: 'number', align: 'start', width: '80px' },
       { text: 'שם ספק', value: 'name'},
       { text: 'שם חברה', value: 'companyName', 'sortable': false },
-      { text: 'ח.פ.', value: 'numberId', width: '80px', 'sortable': false },
+      { text: 'ח.פ. / ע.מ.', value: 'numberId', width: '80px', 'sortable': false },
       { text: 'איש קשר', value: 'contactName', width: '100px', 'sortable': false },
       { text: 'טלפון', value: 'phoneLink', width: '100px', 'sortable': false },
       { text: 'מייל', value: 'emailLink', 'sortable': false },

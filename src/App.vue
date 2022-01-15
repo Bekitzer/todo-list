@@ -1,11 +1,11 @@
 <template>
   <v-app id="inspire">
-    <nav-drawer-logged-in v-if="isLoggedIn" />
-    <nav-drawer-logged-out v-if="!isLoggedIn" />
-    <v-main style="padding-top: 102px;">
-      <router-view></router-view>
-      <snackbar />
-    </v-main>
+      <nav-drawer-logged-in v-if="isLoggedIn" />
+      <nav-drawer-logged-out v-if="!isLoggedIn" />
+      <v-main>
+        <router-view style="padding: 4px 4%;"></router-view>
+        <snackbar />
+      </v-main>
   </v-app>
 </template>
 
@@ -48,8 +48,6 @@ export default {
     font-style: normal
   .v-application
     font-family: 'Ploni-Regular' !important
-
-
   .v-list-item__content
     justify-content: center
     padding: 20px 0 !important
@@ -76,4 +74,97 @@ export default {
     color: #797979
   th.text-start,td.text-start
     padding: 0 5px !important
+  .tooltip-top::before
+    border-right: solid 8px transparent
+    border-left: solid 8px transparent
+    transform: translateX(-50%)
+    position: absolute
+    z-index: -21
+    content: ''
+    top: 100%
+    left: 50%
+    height: 0
+    width: 0
+  .tooltip-top.error::before
+    border-top: solid 8px #ff6060
+  .tooltip-top.success::before
+    border-top: solid 8px #1B5E20
+  .tooltip-top.secondary::before
+    border-top: solid 8px #3f3f3f
+  .tooltip-top.primary::before
+    border-top: solid 8px #246fb3
+  .tooltip-top.normal::before
+    border-top: solid 8px #616161e6
+  .tooltip-top.info::before
+    border-top: solid 8px #2196f3
+  .tooltip-bottom::before
+    border-right: solid 8px transparent
+    border-left: solid 8px transparent
+    transform: translateX(-50%)
+    position: absolute
+    z-index: -21
+    content: ''
+    bottom: 100%
+    left: 50%
+    height: 0
+    width: 0
+  .tooltip-bottom.error::before
+    border-bottom: solid 8px #ff6060
+  .tooltip-bottom.success::before
+    border-bottom: solid 8px #1B5E20
+  .tooltip-bottom.secondary::before
+    border-bottom: solid 8px #3f3f3f
+  .tooltip-bottom.primary::before
+    border-bottom: solid 8px #246fb3
+  .tooltip-bottom.normal::before
+    border-bottom: solid 8px #616161e6
+  .tooltip-bottom.info::before
+    border-bottom: solid 8px #2196f3
+  .tooltip-right::before
+    content: " "
+    position: absolute
+    top: 50%
+    right: 100%
+    margin-top: -8px
+    border-width: 8px
+    border-style: solid
+    border-top: solid 8px transparent
+    border-bottom: solid 8px transparent
+    border-left: solid 8px transparent
+  .tooltip-right.error::before
+    border-right: solid 8px #ff6060 !important
+  .tooltip-right.success::before
+    border-right: solid 8px #1B5E20 !important
+  .tooltip-right.secondary::before
+    border-right: solid 8px #3f3f3f !important
+  .tooltip-right.primary::before
+    border-right: solid 8px #246fb3 !important
+  .tooltip-right.normal::before
+    border-right: solid 8px #616161e6 !important
+  .tooltip-right.info::before
+    border-right: solid 8px #2196f3 !important
+  .tooltip-left::before
+    content: " "
+    position: absolute
+    top: 50%
+    left: 100%
+    margin-top: -8px
+    border-width: 8px
+    border-style: solid
+    border-top: solid 8px transparent
+    border-bottom: solid 8px transparent
+    border-right: solid 8px transparent
+  .tooltip-left.error::before
+    border-left: solid 8px #ff6060 !important
+  .tooltip-left.success::before
+    border-left: solid 8px #1B5E20 !important
+  .tooltip-left.secondary::before
+    border-left: solid 8px #3f3f3f !important
+  .tooltip-left.primary::before
+    border-left: solid 8px #246fb3 !important
+  .tooltip-left.normal::before
+    border-left: solid 8px #616161e6 !important
+  .tooltip-left.info::before
+    border-left: solid 8px #2196f3 !important
+
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="mr-16 ml-16">
+  <div>
     <nav-appbar :pname="'הזמנות - ' + this.order.number"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">

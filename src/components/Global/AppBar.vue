@@ -1,13 +1,10 @@
 <template>
   <v-app-bar
-    app
     flat
     :height="90"
-    class="mr-9 ml-9"
   >
-    <v-row style="font-size:14px;" class="align-center">
+    <v-row style="font-size:14px;" class="no-gutters align-center">
       <v-col cols="12" md="4" sm="6">
-
         <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86"><router-link style="text-decoration:none;" v-if="$route.meta.back" :to="{name: $route.meta.back}">
           <v-icon
             large
@@ -23,7 +20,7 @@
         <search v-if="tableListSearch"/>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col cols="12" md="1" sm="3" class="d-none d-sm-flex">
+      <v-col cols="12" md="1" sm="3">
         <live-date />
       </v-col>
       <div>
@@ -63,5 +60,7 @@ export default {
 </script>
 
 <style lang="sass">
+  .v-toolbar__content
+    padding: 0 !important
 </style>
 

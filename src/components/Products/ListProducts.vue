@@ -37,9 +37,7 @@
 export default {
   name: 'ListProducts',
   data: () => ({
-    show: false,
-    format,
-    he
+    show: false
   }),
   props: ['product'],
   methods: {

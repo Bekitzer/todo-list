@@ -1,5 +1,5 @@
 <template>
-  <div class="mr-16 ml-16">
+  <div>
     <nav-appbar :pname="' ספקים - ' + this.supplier.name"/>
     <v-row>
       <v-col cols="12" md="3" sm="3">
@@ -24,7 +24,7 @@
           <v-col cols="12" md="8" sm="8">
             <h2>{{ supplier.name }}</h2>
             <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
-            <p style="margin-bottom:0 !important;">ח.פ. {{ supplier.numberId }}</p>
+            <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ supplier.numberId }}</p>
             <div>
               <a :href="supplier.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> |
               <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> |
@@ -144,9 +144,6 @@
           <template v-slot:item.clientLink="{ item }">
               {{ item.clientLink }}
           </template>
-          <template v-slot:item.supplierLink="{ item }">
-              {{ item.supplierLink }}
-          </template>
           <template v-slot:item.sell="{ item }">
               {{ item.sellPrice | formatNumber }}
           </template>
@@ -167,6 +164,41 @@
           </template>
           <template v-slot:item.delivery="{ item }">
             {{ item.deliveryDate | formatDate }}
+          </template>
+          <template v-slot:item.actions="{ item }">
+            <v-tooltip
+              top
+              content-class="normal tooltip-top"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                small
+                class="ml-2"
+                @click.stop="a"
+                v-bind="attrs"
+                v-on="on"
+              >
+                mdi-file-image
+              </v-icon>
+              </template>
+              <span>הצג תמונה</span>
+            </v-tooltip>
+            <v-tooltip
+              top
+              content-class="normal tooltip-top"
+            >
+              <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                small
+                @click.stop="clickOrder(item)"
+                v-bind="attrs"
+                v-on="on"
+              >
+                mdi-pencil-outline
+              </v-icon>
+              </template>
+              <span>ערוך הזמנה</span>
+            </v-tooltip>
           </template>
         </v-data-table>
       </v-col>
@@ -206,12 +238,9 @@ export default {
     },
   }),
   methods: {
-    // getColor (statusType) {
-    //   if (statusType === "פעיל") return 'green'
-    //   else if (statusType === "לא פעיל") return 'red'
-    //   else if (statusType === "מזדמן") return 'blue'
-    //   else if (statusType === "שת״פ") return 'orange'
-    // },
+    clickOrder(order){
+      this.$router.push({ name: 'Order', params: { id : order.id }})
+    },
     getColor (statusType) {
       if (statusType === "טיוטה") return '#FF9800'
       else if (statusType === "בעבודה") return '#2196F3'
@@ -228,14 +257,14 @@ export default {
     },
     headers () {
       return [
-        { text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '3%' },
-        { text: 'תאריך הזמנה', value: 'created', width: '10%', 'sortable': false },
-        { text: 'לקוח', value: 'clientLink', width: '10%', 'sortable': false },
-        { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', width: '18%', 'sortable': false,  },
-        { text: 'ספק', value: 'supplierLink', width: '10%', 'sortable': false },
-        { text: 'קניה', value: 'buy', width: '5%', 'sortable': false  },
-        { text: 'תאריך אספקה', value: 'delivery', width: '5%', 'sortable': false  },
-        { text: 'סטטוס הזמנה', value: 'statusType', width: '11%','sortable': true}
+        { text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '110px' },
+        { text: 'תאריך הזמנה', value: 'created', width: '110px', 'sortable': false },
+        { text: 'לקוח', value: 'clientLink', 'sortable': false },
+        { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', 'sortable': false,  },
+        { text: 'קניה', value: 'buy',  width: '60px', 'sortable': false  },
+        { text: 'תאריך אספקה', value: 'delivery', width: '110px', 'sortable': false  },
+        { text: 'פעולות', value: 'actions', width: '100px', 'sortable': false  },
+        { text: 'סטטוס הזמנה', value: 'statusType', width: '110px','sortable': true}
       ]
     },
     clientsMap() {
