@@ -142,7 +142,7 @@
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="12" md="1" sm="1">
-            <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch> {{orderDateFilter}}dd
+            <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
           </v-col>
         </v-row>
       </v-container>
