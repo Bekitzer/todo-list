@@ -1,22 +1,21 @@
 <template>
   <div class="mr-16 ml-16">
-    <nav-appbar :pname="pageName"/>
-    <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder"/>
-    <no-orders v-else />
-    <v-fab-transition>
+    <nav-appbar :pname="pageName">
+      <template v-slot:add-btn>
       <v-btn
         fab
-        large
-        fixed
         dark
-        bottom
-        left
-        class="v-btn--example"
+        small
+        class="v-btn--example mr-4"
         @click="dialogs.create = true"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
-    </v-fab-transition>
+    </template>
+    </nav-appbar>
+    <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder"/>
+    <no-orders v-else />
+
     <dialog-create
       v-if="dialogs.create"
       :order="order"

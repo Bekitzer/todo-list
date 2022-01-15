@@ -58,7 +58,8 @@ const routes = [
     component: () => import('../views/Product.vue'),
     props:true,
     meta: {
-       requiresAuth: true
+       requiresAuth: true,
+       back: "Products"
     }
   },
   {
@@ -75,7 +76,8 @@ const routes = [
     component: () => import('../views/Order.vue'),
     props:true,
     meta: {
-       requiresAuth: true
+       requiresAuth: true,
+       back: "Orders"
     }
   },
   {
@@ -92,7 +94,8 @@ const routes = [
     component: () => import('../views/Client.vue'),
     props:true,
     meta: {
-       requiresAuth: true
+       requiresAuth: true,
+       back: "Clients"
     }
   },
   {
@@ -109,7 +112,8 @@ const routes = [
     component: () => import('../views/Supplier.vue'),
     props:true,
     meta: {
-       requiresAuth: true
+       requiresAuth: true,
+       back: "Suppliers"
     }
   }
 ]

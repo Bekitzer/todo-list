@@ -7,7 +7,8 @@
   >
     <v-row style="font-size:14px;" class="align-center">
       <v-col cols="12" md="4" sm="6">
-        <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86"><a @click="$router.go(-1)">
+
+        <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86"><router-link style="text-decoration:none;" v-if="$route.meta.back" :to="{name: $route.meta.back}">
           <v-icon
             large
             class="ml-2"
@@ -15,7 +16,8 @@
           >
             mdi-chevron-right
           </v-icon>
-        </a> {{pname}} </h2>
+        </router-link> {{pname}} <slot name="add-btn"></slot></h2>
+
       </v-col>
       <v-col cols="12" md="2" sm="6">
         <search v-if="tableListSearch"/>

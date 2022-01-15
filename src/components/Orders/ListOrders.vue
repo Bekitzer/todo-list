@@ -127,12 +127,22 @@
               :items="orderDateList"
               filled
               rounded
-              label="סינון תאריכים"
+              v-model="orderDateFilter"
+              label="סנן לפי תאריך הזמנה"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="2" sm="2">
+            <v-select
+              :items="orderDeliveryDateList"
+              filled
+              rounded
+              v-model="deliveryDateFilter"
+              label="סנן לפי תאריך אספקה"
             ></v-select>
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="12" md="1" sm="1">
-            <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
+            <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch> {{orderDateFilter}}dd
           </v-col>
         </v-row>
       </v-container>
@@ -141,6 +151,19 @@
 </template>
 <script>
 import { getAuth } from 'firebase/auth'
+import endOfMinute,{ startOfDay,endOfDay,startOfMonth,endOfMonth,startOfWeek,endOfWeek,subDays,subMonths,addDays,addMonths } from 'date-fns'
+import startOfDecade from 'date-fns';
+
+const filterDateEnum = {
+  THIS_DAY: "THIS_DAY",
+  NEXT_3_DAYS: "NEXT_3_DAYS",
+  LAST_3_DAYS: "LAST_3_DAYS",
+  THIS_WEEK: "THIS_WEEK",
+  THIS_MONTH: "THIS_MONTH",
+  NEXT_3_MONTH: "NEXT_3_MONTH",
+  LAST_3_MONTH: "LAST_3_MONTH"
+}
+
 export default {
   name: 'ListOrders',
   data: () => ({
@@ -148,13 +171,23 @@ export default {
     expanded: [],
     viewSuppliedOnly: true,
     singleExpand: true,
+    orderDateFilter: "",
+    deliveryDateFilter: "",
+    orderDeliveryDateList:[
+      {text: "היום", value: filterDateEnum.THIS_DAY},
+      {text: "3 ימים הבאים", value: filterDateEnum.NEXT_3_DAYS},
+      {text: "השבוע", value: filterDateEnum.THIS_WEEK},
+      {text: "החודש", value: filterDateEnum.THIS_MONTH},
+      {text: "3 חודשים הבאים", value: filterDateEnum.NEXT_3_MONTHS},
+      {text: "הכל", value: ""}
+    ],
     orderDateList:[
-      {text: "היום", value: "טיוטה"},
-      {text: "3 ימים", value: "בעבודה"},
-      {text: "שבוע אחרון", value: "מוכן - משרד"},
-      {text: "החודש", value: "מוכן - ספק"},
-      {text: "3 חודשים", value: "במשלוח"},
-      {text: "הכל", value: "סופק"}
+      {text: "היום", value: filterDateEnum.THIS_DAY},
+      {text: "3 ימים אחרונים", value: filterDateEnum.LAST_3_DAYS},
+      {text: "השבוע", value: filterDateEnum.THIS_WEEK},
+      {text: "החודש", value: filterDateEnum.THIS_MONTH},
+      {text: "3 חודשים אחרונים", value: filterDateEnum.LAST_3_MONTHS},
+      {text: "הכל", value: ""}
     ],
     orderStatusTypeList:[
       {text: "טיוטה", value: "טיוטה"},
@@ -202,6 +235,58 @@ export default {
       else if (statusType === "במשלוח") return '#2196F3'
       else if (statusType === "סופק") return '#9E9E9E'
       else return 'grey darken-1'
+    },
+    isDateInRange(date, range) {
+      console.log(date, range)
+      if(!date || !range) return true
+      const {start, end} = range
+      return date >= start && date <= end
+    },
+    dateEnumToRange(dateEnum) {
+      const d = new Date()
+      const {LAST_3_DAYS, NEXT_3_DAYS, THIS_DAY, THIS_WEEK, THIS_MONTH, LAST_3_MONTHS, NEXT_3_MONTHS} = filterDateEnum
+      let start, end;
+
+      switch (dateEnum) {
+        case THIS_DAY:
+          start = startOfDay(d)
+          end = endOfDay(d)
+          break;
+        case LAST_3_DAYS:
+          start = subDays(startOfDay(d), 3)
+          end = endOfDay(d)
+          break;
+        case NEXT_3_DAYS:
+          start = startOfDay(d)
+          end = addDays(endOfDay(d), 3)
+          break;
+        case THIS_WEEK:
+          start = startOfWeek(d, {weekStartsOn: 0})
+          end = endOfWeek(d, {weekStartsOn: 0})
+          break;
+        case THIS_MONTH:
+          start = startOfMonth(d)
+          end = endOfMonth(d)
+          break;
+        case LAST_3_MONTHS:
+          start = subMonths(startOfMonth(d), 3)
+          end  = endOfMonth(d)
+          break;
+        case NEXT_3_MONTHS:
+          start = startOfMonth(d)
+          end = addMonths(endOfMonth(d), 3)
+          break;
+        default:
+          return null
+      }
+
+      return {start, end}
+    },
+    deliveryDate(date) {
+      return date ? new Date(date.seconds * 1000) : null
+    },
+    orderDate(date) {
+      return date ? new Date(date.seconds * 1000) : null
     }
   },
   computed: {
@@ -248,7 +333,10 @@ export default {
             supplierLink: supplier.name
           }
         }).filter(order => {
-          return this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק'
+          const isValidOrderDate = this.isDateInRange(this.orderDate(order.orderCreationDate), this.dateEnumToRange(this.orderDateFilter))
+          const isValidDeliveryDate = this.isDateInRange(this.deliveryDate(order.deliveryDate), this.dateEnumToRange(this.deliveryDateFilter))
+
+          return (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק') && isValidOrderDate && isValidDeliveryDate
         })
       },
       set(value) {
@@ -400,8 +488,6 @@ export default {
     border-left: solid 8px #2196f3 !important
   .v-list-item__title
     align-self: flex-start
-  .v-input--selection-controls__input
-    transform: rotate(180deg)
   @media only screen and (max-width:800px)
     .v-data-table__wrapper
       height: 200px !important

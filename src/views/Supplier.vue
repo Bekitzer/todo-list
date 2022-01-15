@@ -16,7 +16,7 @@
               size="100px"
             >
               <v-img
-                src="/images/marcus.jpg"
+                :src="supplier.avatar"
                 rounded
               ></v-img>
             </v-avatar>

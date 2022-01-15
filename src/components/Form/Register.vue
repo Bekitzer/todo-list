@@ -43,6 +43,9 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="12">
+              <!-- <file-upload @change="url => this.userData.avatar = url"/> -->
+            </v-col>
+            <v-col cols="12" md="12">
               <v-text-field
                 v-model="userData.password"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -80,6 +83,7 @@ export default {
   name: 'Register',
   data: () => ({
     showPass: false,
+
     rules: {
       required: value => !!value || 'Required.',
       email: value => {
@@ -92,6 +96,7 @@ export default {
         lastname: '',
         username: '',
         email: '',
+        avatar: '',
         password: ''
     },
     successMessage: '',
@@ -126,6 +131,7 @@ export default {
           lastname: this.userData.lastname,
           username: this.userData.username,
           email: this.userData.email,
+          avatar: this.userData.avatar,
           password: this.userData.password
         }
 
@@ -134,10 +140,14 @@ export default {
         this.userData.lastname = '',
         this.userData.username = '',
         this.userData.email = '',
+        this.userData.avatar = '',
         this.userData.password = ''
       }
     }
-  }
+  },
+  components: {
+      'file-upload': require('@/components/Global/FileStore.vue').default
+    }
 }
 </script>
 

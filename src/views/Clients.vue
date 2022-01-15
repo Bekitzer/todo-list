@@ -1,22 +1,20 @@
 <template>
   <div class="mr-16 ml-16">
-    <nav-appbar :pname="pageName"/>
+    <nav-appbar :pname="pageName">
+      <template v-slot:add-btn>
+        <v-btn
+          fab
+          small
+          dark
+          class="v-btn--example mr-4"
+          @click="dialogs.create = true"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+    </nav-appbar>
     <list-clients v-if="$store.state.clients.length" />
     <no-clients v-else />
-    <v-fab-transition>
-      <v-btn
-        fab
-        large
-        fixed
-        dark
-        bottom
-        left
-        class="v-btn--example"
-        @click="dialogs.create = true"
-      >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </v-fab-transition>
     <dialog-create
       v-if="dialogs.create"
       @close = 'dialogs.create = false'

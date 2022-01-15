@@ -54,7 +54,8 @@ export default {
     justify-content: center
     padding: 20px 0 !important
     flex-direction: column !important
-
+  .v-input--selection-controls__input
+    transform: rotate(180deg)
   .spc-logo
     background: #006D7B !important
   .v-list.v-sheet.theme--light.v-list--nav

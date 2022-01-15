@@ -14,7 +14,7 @@
             <v-col cols="12">
               <h3>פרטי ספק</h3>
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierName"
                 label="שם ספק"
@@ -23,7 +23,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierCompanyName"
                 label="שם חברה"
@@ -32,7 +32,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="supplierIdNumber"
                 label="ח.פ. / ע.מ."
@@ -40,6 +40,9 @@
                 dense
                 hide-details
               />
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <file-upload @change="url => this.supplierAvatar = url"/>
             </v-col>
           </v-row>
           <v-row class="pr-10 pl-10">
@@ -253,23 +256,6 @@
       @close = 'dialogs.delete = false'
       :supplier = 'supplier'
     />
-    <div>
-          <div>
-            <v-btn @click="click1">choose photo</v-btn>
-            <input type="file" ref="input1"
-              style="display: none"
-              @change="previewImage" accept="image/*" >
-          </div>
-          <div v-if="imageData!=null">
-            <img class="preview" height="268" width="356" :src="supplierLogo">
-          <v-text-field
-            solo
-            v-model="caption"
-            label="Caption goes here">
-          </v-text-field>
-          <v-btn color="pink" @click="create">upload</v-btn>
-          </div>
-        </div>
   </v-row>
 </template>
 
@@ -285,10 +271,8 @@ export default {
       dialogs: {
         delete: false
       },
-      caption : '',
-      supplierLogo: '',
-      imageData: null,
       supplierName: '',
+      supplierAvatar: '',
       supplierCompanyName:'',
       supplierContactName: '',
       supplierPhone: '',
@@ -329,6 +313,7 @@ export default {
           let payload = {
             id: this.supplier.id,
             name: this.supplierName,
+            avatar: this.supplierAvatar,
             companyName: this.supplierCompanyName,
             contactName: this.supplierContactName,
             phone: this.supplierPhone,
@@ -356,46 +341,11 @@ export default {
       },
       closeDialog() {
         this.$emit('close')
-      },
-      create () {
-        const post = {
-          photo: this.supplierLogo,
-          caption: this.caption
-        }
-        firebase.database().ref('userLogoImages').push(post)
-        .then((response) => {
-          console.log(response)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      },
-      click1() {
-        this.$refs.input1.click()
-      },
-      previewImage(event) {
-        this.uploadValue=0;
-        this.supplierLogo=null;
-        this.imageData = event.target.files[0];
-        this.onUpload()
-      },
-      onUpload(){
-        this.supplierLogo=null;
-        const storageRef = firebase.storage().ref(`${this.imageData.name}`).put(this.imageData);
-        storageRef.on(`state_changed`,snapshot=>{
-        this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-          }, error=>{console.log(error.message)},
-        ()=>{this.uploadValue=100;
-            storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-                this.supplierLogo =url;
-                console.log(this.supplierLogo)
-              });
-            }
-          );
-      },
+      }
     },
     mounted() {
       this.supplierName = this.supplier.name
+      this.supplierAvatar = this.supplier.avatar,
       this.supplierCompanyName = this.supplier.companyName
       this.supplierContactName = this.supplier.contactName
       this.supplierPhone = this.supplier.phone
@@ -421,7 +371,8 @@ export default {
       })
     },
     components: {
-      'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default
+      'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default,
+      'file-upload': require('@/components/Global/FileStore.vue').default
     }
   }
 </script>
