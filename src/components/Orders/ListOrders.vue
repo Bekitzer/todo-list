@@ -175,10 +175,10 @@ export default {
     deliveryDateFilter: "",
     orderDeliveryDateList:[
       {text: "היום", value: filterDateEnum.THIS_DAY},
-      {text: "3 ימים הבאים", value: filterDateEnum.NEXT_3_DAYS},
+      {text: "3 ימים הקרובים", value: filterDateEnum.NEXT_3_DAYS},
       {text: "השבוע", value: filterDateEnum.THIS_WEEK},
       {text: "החודש", value: filterDateEnum.THIS_MONTH},
-      {text: "3 חודשים הבאים", value: filterDateEnum.NEXT_3_MONTHS},
+      {text: "3 חודשים הקרובים", value: filterDateEnum.NEXT_3_MONTHS},
       {text: "הכל", value: ""}
     ],
     orderDateList:[
