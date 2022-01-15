@@ -190,7 +190,6 @@ import firebase from 'firebase/compat/app'
     },
     computed: {
       computedDate () {
-        console.log(this.orderDeliveryDate )
         return this.orderDeliveryDate && parseISO(this.orderDeliveryDate).toISOString().substr(0, 10)
         // return this.orderDeliveryDate ? this.$options.filters.formatDateReverse(this.orderDeliveryDate).toISOString().substr(0, 10) : ''
       },

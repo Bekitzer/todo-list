@@ -237,7 +237,6 @@ export default {
       else return 'grey darken-1'
     },
     isDateInRange(date, range) {
-      console.log(date, range)
       if(!date || !range) return true
       const {start, end} = range
       return date >= start && date <= end
