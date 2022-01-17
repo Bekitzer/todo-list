@@ -149,6 +149,8 @@
   </v-data-table>
 </template>
 <script>
+import  firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
 import { getAuth } from 'firebase/auth'
 import endOfMinute,{ startOfDay,endOfDay,startOfMonth,endOfMonth,startOfWeek,endOfWeek,subDays,subMonths,addDays,addMonths } from 'date-fns'
 import startOfDecade from 'date-fns';
