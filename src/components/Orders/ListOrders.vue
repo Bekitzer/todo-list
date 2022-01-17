@@ -144,6 +144,7 @@
           <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
         </v-col>
       </v-row>
+      <!-- <filter-action /> -->
     </template>
   </v-data-table>
 </template>
@@ -155,9 +156,11 @@ import startOfDecade from 'date-fns';
 const filterDateEnum = {
   THIS_DAY: "THIS_DAY",
   NEXT_3_DAYS: "NEXT_3_DAYS",
+  NEXT_DAY: "NEXT_DAY",
   LAST_3_DAYS: "LAST_3_DAYS",
   THIS_WEEK: "THIS_WEEK",
   THIS_MONTH: "THIS_MONTH",
+  LAST_MONTH: "LAST_MONTH",
   NEXT_3_MONTH: "NEXT_3_MONTH",
   LAST_3_MONTH: "LAST_3_MONTH"
 }
@@ -173,6 +176,7 @@ export default {
     deliveryDateFilter: "",
     orderDeliveryDateList:[
       {text: "היום", value: filterDateEnum.THIS_DAY},
+      {text: "מחר", value: filterDateEnum.NEXT_DAY},
       {text: "3 ימים הקרובים", value: filterDateEnum.NEXT_3_DAYS},
       {text: "השבוע הקרוב", value: filterDateEnum.THIS_WEEK},
       {text: "החודש הקרוב", value: filterDateEnum.THIS_MONTH},
@@ -184,6 +188,7 @@ export default {
       {text: "3 ימים אחרונים", value: filterDateEnum.LAST_3_DAYS},
       {text: "השבוע", value: filterDateEnum.THIS_WEEK},
       {text: "החודש", value: filterDateEnum.THIS_MONTH},
+      {text: "חודש שעבר", value: filterDateEnum.LAST_MONTH},
       {text: "3 חודשים אחרונים", value: filterDateEnum.LAST_3_MONTHS},
       {text: "הכל", value: ""}
     ],
@@ -241,13 +246,17 @@ export default {
     },
     dateEnumToRange(dateEnum) {
       const d = new Date()
-      const {LAST_3_DAYS, NEXT_3_DAYS, THIS_DAY, THIS_WEEK, THIS_MONTH, LAST_3_MONTHS, NEXT_3_MONTHS} = filterDateEnum
+      const {LAST_3_DAYS, NEXT_3_DAYS, THIS_DAY, NEXT_DAY, THIS_WEEK, THIS_MONTH, LAST_MONTH, LAST_3_MONTHS, NEXT_3_MONTHS} = filterDateEnum
       let start, end;
 
       switch (dateEnum) {
         case THIS_DAY:
           start = startOfDay(d)
           end = endOfDay(d)
+          break;
+        case NEXT_DAY:
+          start = addDays(startOfDay(d),1)
+          end = addDays(endOfDay(d), 1)
           break;
         case LAST_3_DAYS:
           start = subDays(startOfDay(d), 3)
@@ -264,6 +273,10 @@ export default {
         case THIS_MONTH:
           start = startOfMonth(d)
           end = endOfMonth(d)
+          break;
+        case LAST_MONTH:
+          start = subMonths(startOfMonth(d), 1)
+          end  = subMonths(endOfMonth(d), 1)
           break;
         case LAST_3_MONTHS:
           start = subMonths(startOfMonth(d), 3)
@@ -342,7 +355,7 @@ export default {
     }
   },
   components: {
-    'icon-edit': require('@/components/Icons/IconEdit.vue').default
+    'filter-action': require('@/components/Tools/FilterAction.vue').default
   }
 }
 </script>

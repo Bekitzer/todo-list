@@ -53,10 +53,13 @@
 </script>
 <style lang="sass" scoped>
   .spc-btn
-    color: #03616f
+    color: #03616f !important
     transform: rotate(0deg)
+    position: absolute
+    right: 70px
+    top: -3px
   .spc-btn:hover
     background: #03616f
-    color: white
+    color: white !important
     transform: rotate(90deg)
 </style>

@@ -80,6 +80,7 @@
                   @change="dateDialog = false"
                   :first-day-of-week="0"
                   locale="he-il"
+                  width="248"
                 ></v-date-picker>
               </v-menu>
             </v-col>

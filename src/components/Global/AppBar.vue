@@ -5,7 +5,7 @@
   >
     <v-row style="font-size:14px;" class="no-gutters align-center">
       <v-col cols="12" md="4" sm="6">
-        <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86"><router-link style="text-decoration:none;" v-if="$route.meta.back" :to="{name: $route.meta.back}">
+        <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86;position:relative;"><router-link style="text-decoration:none;" v-if="$route.meta.back" :to="{name: $route.meta.back}">
           <v-icon
             large
             class="ml-2"
