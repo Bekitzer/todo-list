@@ -6,7 +6,8 @@
     :headers="headers"
     :items="suppliers"
     item-key="id"
-    sort-by="number"
+    sort-by="orders"
+    sort-desc
     @click:row="handleClick"
     :items-per-page="-1"
     hide-default-footer

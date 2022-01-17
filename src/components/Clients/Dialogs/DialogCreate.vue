@@ -347,7 +347,4 @@ export default {
 }
 </script>
 <style lang="sass">
-  .v-application .primary--text
-    color: #036e86 !important
-    caret-color: #036e86 !important
 </style>

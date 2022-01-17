@@ -11,10 +11,10 @@
             fab
             small
             elevation="0"
-            outlined
+            filled
             v-bind="attrs"
             v-on="on"
-            class="spc-btn mr-4"
+            class="spc-btn"
             @click="dialogs.create = true"
           >
             <v-icon>mdi-plus</v-icon>
@@ -66,11 +66,11 @@
   .spc-btn
     color: #03616f !important
     position: absolute
-    right: 70px
+    right: 90px
     top: -3px
     transform: rotate(0deg)
   .spc-btn:hover
-    background: #03616f
+    background: #03616f !important
     color: white !important
     transform: rotate(90deg)
 </style>

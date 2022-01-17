@@ -166,5 +166,10 @@ export default {
     border-left: solid 8px #616161e6 !important
   .tooltip-left.info::before
     border-left: solid 8px #2196f3 !important
+  .v-input--switch__thumb.theme--light.primary--text,
+  .v-input--switch__track.theme--light.primary--text,
+  .v-input--selection-controls__ripple.primary--text
+    color: #03616f !important
+    caret-color: #03616f !important
 
 </style>
