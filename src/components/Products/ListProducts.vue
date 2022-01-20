@@ -50,15 +50,10 @@ export default {
 <style lang="sass">
   .v-list-item__content
     padding: 12px 0 !important
-  th.spc-status-dot
-    border-bottom: none !important
   .v-application .elevation-1, .theme--light.v-data-table.v-data-table--fixed-header thead th
     box-shadow: none !important
   .theme--light.v-data-table .v-data-footer
     border-top: none !important
-  .spc-status-dot
-    width: 12px
-    margin-left: 6px
   .orderWorkInfo
     padding: 20px !important
     white-space: pre-line !important

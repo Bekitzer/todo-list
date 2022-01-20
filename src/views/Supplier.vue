@@ -4,15 +4,10 @@
     <v-row>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
-          <v-col cols="12" md="4" sm="4">
-            <!-- <v-icon
-              :color="getColor(supplier.status)"
-              class="spc-status-dot pos-abs"
-              size="60"
-            >mdi-circle-small</v-icon> -->
+          <v-col cols="12" md="5" sm="5">
             <v-avatar
               class="profile"
-              size="100px"
+              size="150px"
             >
               <v-img
                 :src="supplier.avatar"
@@ -20,15 +15,13 @@
               ></v-img>
             </v-avatar>
           </v-col>
-          <v-col cols="12" md="8" sm="8">
+          <v-col cols="12" md="7" sm="7">
             <h2>{{ supplier.name }}</h2>
             <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
             <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ supplier.numberId }}</p>
             <p style="margin-bottom:0 !important;">{{ supplier.address }}</p>
             <div>
-
-              <a :href="supplier.website" style="text-decoration:none;color:black;">{{supplier.website}}</a>
-
+              <a :href="'http://' + supplier.website" style="text-decoration:none;color:black;">{{supplier.website}}</a>
               <!-- <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a>
               <a :href="supplier.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a> -->
             </div>
@@ -132,7 +125,7 @@
           <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
         </v-col>
          <v-data-table
-          height="35vh"
+          height="68vh"
           fixed-header
           :headers="headers"
           :items="processing"
@@ -176,7 +169,6 @@
                 <v-icon
                 small
                 class="ml-2"
-                @click.stop="a"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -184,6 +176,23 @@
               </v-icon>
               </template>
               <span>הצג תמונה</span>
+            </v-tooltip>
+            <v-tooltip
+              top
+              content-class="normal tooltip-top"
+            >
+              <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                small
+                class="ml-2"
+                @click.stop="duplicateOrder(item)"
+                v-bind="attrs"
+                v-on="on"
+              >
+                mdi-content-duplicate
+              </v-icon>
+              </template>
+              <span>שכפל הזמנה</span>
             </v-tooltip>
             <v-tooltip
               top
@@ -223,6 +232,11 @@
       @close = 'dialogs.edit = false'
       :supplier = 'supplier'
     />
+    <dialog-create
+      v-if="dialogs.create"
+      :order="order"
+      @close = 'dialogs.create = false'
+    />
   </div>
 </template>
 
@@ -231,15 +245,29 @@ import firebase from 'firebase/compat/app'
 export default {
   name: 'Supplier',
   data: () => ({
+    order: null,
     pageName: '',
     fab: false,
     transition: 'slide-y-transition',
     viewSuppliedOnly: true,
     dialogs: {
-      edit: false
+      edit: false,
+      create: false
     },
   }),
+  watch: {
+    'dialogs.create': function (val) {
+      if(!val) {
+        this.order = null
+      }
+    }
+  },
   methods: {
+    duplicateOrder(item) {
+      debugger
+      this.order = JSON.parse(JSON.stringify(item))
+      this.dialogs.create = true
+    },
     clickOrder(order){
       this.$router.push({ name: 'Order', params: { id : order.id }})
     },
@@ -307,6 +335,7 @@ export default {
   },
   components: {
       'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
+      'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default
   }
 }

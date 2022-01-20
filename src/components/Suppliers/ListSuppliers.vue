@@ -76,15 +76,10 @@ export default {
 }
 </script>
 <style lang="sass">
-  th.spc-status-dot
-    border-bottom: none !important
   .v-application .elevation-1, .theme--light.v-data-table.v-data-table--fixed-header thead th
     box-shadow: none !important
   .theme--light.v-data-table .v-data-footer
     border-top: none !important
-  .spc-status-dot
-    width: 12px
-    margin-left: 6px
   .v-data-table > .v-data-table__wrapper > table > thead > tr > th
     font-size: 0.875rem !important
 </style>

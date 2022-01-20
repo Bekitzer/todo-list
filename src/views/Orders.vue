@@ -3,8 +3,8 @@
     <nav-appbar :pname="pageName">
       <template v-slot:add-btn>
         <v-tooltip
-          bottom
-          content-class="normal tooltip-bottom"
+          left
+          content-class="normal tooltip-left"
         >
           <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -26,7 +26,6 @@
     </nav-appbar>
     <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder"/>
     <no-orders v-else />
-
     <dialog-create
       v-if="dialogs.create"
       :order="order"
@@ -64,7 +63,7 @@
       'list-orders': require('@/components/Orders/ListOrders.vue').default,
       'no-orders': require('@/components/Orders/NoOrders.vue').default,
       'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
-      'nav-appbar'          : require('@/components/Global/AppBar.vue').default
+      'nav-appbar': require('@/components/Global/AppBar.vue').default
     }
   }
 </script>

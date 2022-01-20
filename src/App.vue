@@ -1,11 +1,12 @@
 <template>
   <v-app id="inspire">
-      <nav-drawer-logged-in v-if="isLoggedIn" />
-      <nav-drawer-logged-out v-if="!isLoggedIn" />
-      <v-main>
-        <router-view style="padding: 4px 4%;"></router-view>
-        <snackbar />
-      </v-main>
+    <nav-drawer-logged-in v-if="isLoggedIn" />
+    <nav-drawer-logged-out v-if="!isLoggedIn" />
+    <v-main>
+      <router-view style="padding: 4px 4%;"></router-view>
+      <snackbar />
+    </v-main>
+    <nav-footer style="padding: 4px 4%;" />
   </v-app>
 </template>
 
@@ -28,7 +29,7 @@ export default {
   components: {
     'nav-drawer-logged-in' : require('@/components/Global/NavDrawerLoggedIn.vue').default,
     'nav-drawer-logged-out' : require('@/components/Global/NavDrawerLoggedOut.vue').default,
-    'nav-appbar' : require('@/components/Global/AppBar.vue').default,
+    'nav-footer' : require('@/components/Global/FooterBar.vue').default,
     'snackbar' : require('@/components/Global/Snackbar.vue').default
   },
   created() {
@@ -171,5 +172,12 @@ export default {
   .v-input--selection-controls__ripple.primary--text
     color: #03616f !important
     caret-color: #03616f !important
-
+  .v-data-table__wrapper tr
+    height: 60px !important
+  .spc-status-dot
+    width: 12px
+    margin-left: 6px
+    line-height: 0.1 !important
+  th.spc-status-dot
+    border-bottom: none !important
 </style>

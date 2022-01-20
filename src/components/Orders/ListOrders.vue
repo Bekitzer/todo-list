@@ -124,6 +124,7 @@
         <v-col cols="12" md="2" sm="2">
           <v-select
             :items="orderDateList"
+            clearable
             filled
             rounded
             v-model="orderDateFilter"
@@ -133,6 +134,7 @@
         <v-col cols="12" md="2" sm="2">
           <v-select
             :items="orderDeliveryDateList"
+            clearable
             filled
             rounded
             v-model="deliveryDateFilter"
@@ -183,7 +185,6 @@ export default {
       {text: "השבוע הקרוב", value: filterDateEnum.THIS_WEEK},
       {text: "החודש הקרוב", value: filterDateEnum.THIS_MONTH},
       {text: "3 חודשים הקרובים", value: filterDateEnum.NEXT_3_MONTHS},
-      {text: "הכל", value: ""}
     ],
     orderDateList:[
       {text: "היום", value: filterDateEnum.THIS_DAY},
@@ -192,7 +193,6 @@ export default {
       {text: "החודש", value: filterDateEnum.THIS_MONTH},
       {text: "חודש שעבר", value: filterDateEnum.LAST_MONTH},
       {text: "3 חודשים אחרונים", value: filterDateEnum.LAST_3_MONTHS},
-      {text: "הכל", value: ""}
     ],
     orderStatusTypeList:[
       {text: "טיוטה", value: "טיוטה"},
@@ -362,8 +362,6 @@ export default {
 }
 </script>
 <style lang="sass">
-  .v-data-table__wrapper tr
-    height: 60px !important
   .theme--dark.v-btn--has-bg:hover
     background-color: #006D7B !important
   .theme--dark.v-btn--has-bg:hover .v-icon
@@ -387,16 +385,10 @@ export default {
     opacity: .62 !important
   .v-list-item__content
     padding: 12px 0 !important
-  th.spc-status-dot
-    border-bottom: none !important
   .v-application .elevation-1, .theme--light.v-data-table.v-data-table--fixed-header thead th
     box-shadow: none !important
   .theme--light.v-data-table .v-data-footer
     border-top: none !important
-  .spc-status-dot
-    width: 12px !important
-    margin-left: 6px !important
-    line-height: 0.1 !important
   .orderWorkInfo
     padding: 20px !important
     white-space: pre-line !important

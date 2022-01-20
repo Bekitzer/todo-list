@@ -3,8 +3,8 @@
     <nav-appbar :pname="pageName">
       <template v-slot:add-btn>
         <v-tooltip
-          bottom
-          content-class="normal tooltip-bottom"
+          left
+          content-class="normal tooltip-left"
         >
           <template v-slot:activator="{ on, attrs }">
           <v-btn
