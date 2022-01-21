@@ -201,16 +201,47 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-autocomplete
+                v-model="connectedUsersIds"
                 :items="users"
-                item-text="username"
-                item-value="uid"
-                v-model="supplierConnected"
-                label="משתמש"
-                clearable
                 filled
-                dense
-                hide-details
-              ></v-autocomplete>
+                chips
+                color="blue-grey lighten-2"
+                label="משתמש"
+                item-text="username"
+                item-value="id"
+                multiple
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click="data.select"
+                    @click:close="remove(data.item)"
+                  >
+                    <v-avatar left>
+                      <v-img :src="data.item.avatar" lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"></v-img>
+                    </v-avatar>
+                    {{ data.item.username }}
+                  </v-chip>
+                </template>
+                <template v-slot:item="data">
+                  <template v-if="typeof data.item !== 'object'">
+                    <v-list-item-content v-text="data.item"></v-list-item-content>
+                  </template>
+                  <template v-else>
+                    <v-list-item-avatar>
+                      <v-img
+                      :src="data.item.avatar"
+                      lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
+                      <v-list-item-subtitle v-html="data.item.username"></v-list-item-subtitle>
+                    </v-list-item-content>
+                  </template>
+                </template>
+              </v-autocomplete>
             </v-col>
           </v-row>
         <v-card-actions>
@@ -267,6 +298,8 @@ import database from '@/firebase'
 export default {
     props: ['supplier'],
     data: () => ({
+      autoUpdate: true,
+      isUpdating: false,
       dialog: false,
       dialogs: {
         delete: false
@@ -295,7 +328,8 @@ export default {
       supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
       supplierNewsletter: '',
       supplierNewsletterList: ["כן","לא"],
-      supplierConnected: '',
+      connectedUsersIds: [],
+      removeUsersIds: []
     }),
     computed: {
       supplierFieldInvalid() {
@@ -308,6 +342,13 @@ export default {
       },
     },
     methods: {
+      remove (item) {
+        const index = this.connectedUsersIds.indexOf(item.id)
+        if (index >= 0) {
+          this.removeUsersIds.push(this.connectedUsersIds[index])
+          this.connectedUsersIds.splice(index, 1)
+        }
+      },
       saveSupplier() {
         if(!this.supplierFieldInvalid){
           let payload = {
@@ -331,7 +372,8 @@ export default {
             deliveryType: this.supplierDeliveryType,
             status: this.supplierStatus,
             newsletter: this.supplierNewsletter,
-            user: this.supplierConnected,
+            usersIds: this.connectedUsersIds,
+            removeUsersIds: this.removeUsersIds,
             supplierUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           }
           this.$store.dispatch('updateSupplier', payload)
@@ -363,7 +405,8 @@ export default {
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
       this.supplierNewsletter = this.supplier.newsletter
-      this.supplierConnected = this.supplier.user
+      this.connectedUsersIds = this.users.filter(user => user.supplierRef === this.supplier.id).map(user => user.id)
+
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')

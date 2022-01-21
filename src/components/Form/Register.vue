@@ -43,7 +43,22 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="12">
-              <!-- <file-upload @change="url => this.userData.avatar = url"/> -->
+              <v-text-field
+                v-model="userData.phone"
+                label="טלפון"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="12">
+              <v-select
+                v-model="userData.position"
+                :items="userData.positionList"
+                label="תפקיד"
+                required
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="12">
+              <file-upload @change="url => this.userData.avatar = url"/>
             </v-col>
             <v-col cols="12" md="12">
               <v-text-field
@@ -96,6 +111,9 @@ export default {
         lastname: '',
         username: '',
         email: '',
+        phone: '',
+        position: '',
+        positionList: ['בעלים','מנהל דפוס','עובד זוטר','מזכיר/ה'],
         avatar: '',
         password: ''
     },
@@ -112,6 +130,8 @@ export default {
         !this.userData.lastname ||
         !this.userData.username ||
         !this.userData.email ||
+        !this.userData.phone ||
+        !this.userData.position ||
         !this.userData.password
       )
     }
@@ -131,16 +151,20 @@ export default {
           lastname: this.userData.lastname,
           username: this.userData.username,
           email: this.userData.email,
+          phone: this.userData.phone,
+          position: this.userData.position,
           avatar: this.userData.avatar,
           password: this.userData.password
         }
 
         this.$store.dispatch('signUserUp', userFields)
-        this.userData.firstname = '',
-        this.userData.lastname = '',
-        this.userData.username = '',
-        this.userData.email = '',
-        this.userData.avatar = '',
+        this.userData.firstname = ''
+        this.userData.lastname = ''
+        this.userData.username = ''
+        this.userData.email = ''
+        this.userData.phone = ''
+        this.userData.position = ''
+        this.userData.avatar = ''
         this.userData.password = ''
       }
     }

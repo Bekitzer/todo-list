@@ -46,13 +46,30 @@
             <div class="user-information">
               <p class="spc-titles">וואטסאפ</p> {{ supplier.whatsapp }}
             </div>
-            <!-- <div class="user-information">
-              <p class="spc-titles">כתובת</p> {{ supplier.address }}
-            </div> -->
             <div class="user-information">
               <p class="spc-titles">הנחיות שילוח</p> {{ supplier.addressAditional }}
             </div>
           </v-col>
+        </v-row>
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
+          <v-col cols="12">
+            <h4>אנשי קשר</h4>
+          </v-col>
+          <v-expansion-panels>
+            <v-expansion-panel v-for="user in users" :key="user.id">
+              <v-expansion-panel-header>
+                {{user.firstname}} {{user.lastname}} - {{user.position}}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-row>
+                  <v-col cols="12">
+                    מייל: {{user.email}}<br>
+                    טלפון: {{user.phone}}<br>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-row>
         <v-row class="pa-3 pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
@@ -89,33 +106,6 @@
               <p class="spc-titles">דיוור</p> {{ supplier.newsletter }}
             </div>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-expansion-panels flat style="border:1px solid 0 1px 1px 1px">
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                אנשי קשר
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-row>
-                  <v-col cols="4" md="4" sm="4">
-                    <div class="user-information">
-                      <p class="spc-titles">תאריך יצירת לקוח</p> {{ supplier.supplierCreationDate }}
-                    </div>
-                    <div class="user-information">
-                      <p class="spc-titles">תאריך עידכון</p> {{ supplier.supplierUpdated }}
-                    </div>
-                  </v-col>
-                  <v-col cols="4" md="4" sm="4">
-                    <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
-                  </v-col>
-                  <v-col cols="4" md="4" sm="4">
-                    <p style="">אופן אספקה <br />{{ supplier.paymentTerms }}</p>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
         </v-row>
       </v-col>
       <v-spacer></v-spacer>
@@ -282,6 +272,9 @@ export default {
     }
   },
   computed: {
+    users() {
+      return this.$store.state.users.filter(user => user.supplierRef === this.supplier.id)
+    },
     supplier() {
       return this.$store.state.suppliers.find(supplier => supplier.id === this.$route.params.id) || {name: ''}
     },
@@ -341,12 +334,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-  .v-expansion-panel
-    border-radius: 0px 0px 20px 20px !important
-  .theme--light.v-expansion-panels .v-expansion-panel
-    border-width: 0px 1px 1px 1px !important
-    border-style: solid !important
-    border-color: #dbdbdb !important
   .pos-abs
     position: absolute !important
     bottom: 0

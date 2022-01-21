@@ -17,6 +17,8 @@
 </template>
 <script>
 import  firebase from 'firebase/compat/app'
+import { v4 as uuidv4 } from 'uuid';
+
 import 'firebase/compat/firestore'
 import 'firebase/compat/storage'
 import database from '@/firebase'
@@ -42,7 +44,7 @@ export default {
         this.handleUpload()
       },
       handleUpload() {
-        const storageRef = firebase.storage().ref(`${this.folder}/${this.fileData.name}`).put(this.fileData);
+        const storageRef = firebase.storage().ref(`${this.folder}/${uuidv4()}_${this.fileData.name}`).put(this.fileData);
 
         storageRef.on(
           firebase.storage.TaskEvent.STATE_CHANGED, {

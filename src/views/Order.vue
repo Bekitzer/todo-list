@@ -149,12 +149,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-  .v-expansion-panel
-    border-radius: 0px 0px 20px 20px !important
-  .theme--light.v-expansion-panels .v-expansion-panel
-    border-width: 0px 1px 1px 1px !important
-    border-style: solid !important
-    border-color: #dbdbdb !important
   .pos-abs
     position: absolute !important
     bottom: 0

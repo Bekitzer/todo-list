@@ -38,6 +38,10 @@ export default new Vuex.Store({
     setUser(state, payload){
       state.user = payload
     },
+    updateUser(state, payload){
+      const user = state.users.find(user => user.id === payload.id)
+      Object.assign(user, payload)
+    },
     setAuth(state, payload){
       state.auth = payload
     },
@@ -53,7 +57,7 @@ export default new Vuex.Store({
       state.products = state.products.filter(product => product.id !== id)
     },
     updateProduct(state, payload){
-      let product = state.products.filter(product => product.id === payload.id)[0]
+      const product = state.products.find(product => product.id === payload.id)
       Object.assign(product, payload)
     },
     setProducts(state, products) {
@@ -130,13 +134,8 @@ export default new Vuex.Store({
         firebase.auth().currentUser.updateProfile({
             displayName: payload.username
         }).then(() => {
-          const newUser = {
-            firstname: payload.firstname,
-            lastname: payload.lastname,
-            username: payload.username,
-            email: payload.email,
-            uid: newAuth.uid
-          }
+          const {password, ...newUser} = payload
+          newUser.uid = newAuth.uid
           return db.collection('users').add(newUser)
           .then(() => commit('setUser', newUser))
           .catch((error) => {
@@ -437,12 +436,24 @@ export default new Vuex.Store({
       })
     },
     updateSupplier({commit}, payload) {
-      updateDoc(doc(db, "suppliers", payload.id), payload).then(() => {
-        commit('updateSupplier', payload)
-        commit('showSnackbar', 'ספק עודכן!')
-      }).catch((error) => {
-        console.log('Something went wrong - updateSupplier',error);
-      })
+      const {removeUsersIds, usersIds, ...supplier} = payload
+      // TODO: batch those requests to a transaction
+      updateDoc(doc(db, "suppliers", supplier.id), supplier)
+        .then(() => Promise.all(removeUsersIds.map(userId => {
+          return updateDoc(doc(db, "users", userId), {supplierRef: null})
+        })))
+        .then(() => Promise.all(usersIds.map(userId => {
+          return updateDoc(doc(db, "users", userId), {supplierRef: supplier.id})
+        })))
+        .then(() => {
+          commit('updateSupplier', supplier)
+          removeUsersIds.map(id => commit('updateUser', {id, supplierRef: null}))
+          usersIds.map(id => commit('updateUser', {id, supplierRef: supplier.id}))
+          commit('showSnackbar', 'ספק עודכן!')
+        })
+        .catch((error) => {
+          console.log('Something went wrong - updateSupplier & updateUser',error);
+        })
     },
     getSuppliers({ commit }) {
       db.collection('suppliers').get().then(querySnapshot => {

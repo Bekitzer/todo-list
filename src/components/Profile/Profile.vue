@@ -1,18 +1,57 @@
 <template>
-  <div>
-    <span><day-period /> </span>
-    <strong v-if="isLoggedIn"> {{name}}</strong>
-    <strong v-if="!isLoggedIn"> אורח</strong>
-    <v-avatar
-      class="profile"
-      size="36px"
-      style="margin-right:10px"
+  <div class="text-center">
+    <v-menu
+      v-for="user in users" :key="user.id"
+      v-model="menu"
+      :close-on-content-click="false"
+      :nudge-width="200"
+      offset-x
     >
-      <v-img
-        src="/images/radik.jpg"
-        rounded
-      ></v-img>
-    </v-avatar>
+      <template v-slot:activator="{ on, attrs }">
+        <span><day-period /> </span>
+        <v-avatar
+          class="profile"
+          size="36px"
+        >
+          <v-img
+            :src=user.avatar
+            rounded
+          ></v-img>
+        </v-avatar>
+        <v-btn
+          plain
+          v-bind="attrs"
+          v-on="on"
+        >
+          <strong>{{user.username}}</strong>
+          <v-icon>mdi-menu-down</v-icon>
+        </v-btn>
+      </template>
+      <v-card>
+        <v-list>
+          <v-list-item>
+            <v-list-item-avatar>
+              <img
+                :src=user.avatar
+                :alt=(user.username)
+              >
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{user.firstname}} {{user.lastname}}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>טלפון: {{user.phone}}</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>תפקיד: {{user.position}}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-menu>
   </div>
 </template>
 
@@ -23,27 +62,28 @@ import { getAuth } from 'firebase/auth'
 export default {
   name: 'Profile',
   data: () => ({
-    isLoggedIn: false,
-    currentUser: false
+    user:'',
+    fav: true,
+    menu: false,
+    message: false,
+    hints: true,
   }),
   created() {
     this.$vuetify.rtl = true
-    if(firebase.auth().currentUser){
-      this.isLoggedIn = true
-    }
-    const user = getAuth().currentUser;
-    if (user !== null) {
-      this.name = user.displayName;
-      this.email = user.email;
-      this.photoURL = user.photoURL;
-      this.emailVerified = user.emailVerified;
-      this.uid = user.uid;
+    const currentUserAuth = firebase.auth().currentUser
+
+    if (currentUserAuth !== null) {
+      this.name = currentUserAuth.displayName;
+      this.email = currentUserAuth.email;
+      this.photoURL = currentUserAuth.photoURL;
+      this.emailVerified = currentUserAuth.emailVerified;
+      this.uid = currentUserAuth.uid;
     }
   },
   computed: {
-    // user() {
-    //   return this.$store.state.user
-    // }
+    users() {
+      return this.$store.state.users.filter(user => user.uid === this.uid)
+    },
   },
   components: {
     'day-period' : require('@/components/Tools/DayPeriod.vue').default
