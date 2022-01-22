@@ -1,11 +1,13 @@
 <template>
-  <div class="text-center">
+  <div>
     <v-menu
       v-for="user in users" :key="user.id"
       v-model="menu"
       :close-on-content-click="false"
-      :nudge-width="200"
-      offset-x
+      open-on-hover
+      :nudge-width="250"
+      offset-y
+      transition="slide-y-transition"
     >
       <template v-slot:activator="{ on, attrs }">
         <span><day-period /> </span>
@@ -28,27 +30,43 @@
         </v-btn>
       </template>
       <v-card>
-        <v-list>
-          <v-list-item>
-            <v-list-item-avatar>
-              <img
-                :src=user.avatar
-                :alt=(user.username)
+          <v-row class="align-center pa-4">
+            <v-col cols="12" md="3" sm="3">
+              <v-avatar
+                width="70"
+                height="70"
               >
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>{{user.firstname}} {{user.lastname}}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+                <img
+                  :src=user.avatar
+                  :alt=(user.username)
+                >
+              </v-avatar>
+            </v-col>
+            <v-col cols="12" md="7" sm="7">
+              <h4>{{user.firstname}} {{user.lastname}} הידוע כ{{user.username}}</h4>
+            </v-col>
+            <v-col cols="12" md="2" sm="2">
+              <v-tooltip
+                top
+                content-class="normal tooltip-top"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                  @click.stop="a"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  mdi-cog-outline
+                </v-icon>
+                </template>
+                <span>עדכון פרופיל</span>
+              </v-tooltip>
+            </v-col>
+          </v-row>
         <v-divider></v-divider>
-        <v-list>
-          <v-list-item>
-            <v-list-item-title>טלפון: {{user.phone}}</v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>תפקיד: {{user.position}}</v-list-item-title>
-          </v-list-item>
+        <v-list class="pa-4">
+          <p class="ma-0">טלפון: {{user.phone}}</p>
+          <p class="ma-0">תפקיד: {{user.position}}</p>
         </v-list>
       </v-card>
     </v-menu>
@@ -63,10 +81,7 @@ export default {
   name: 'Profile',
   data: () => ({
     user:'',
-    fav: true,
     menu: false,
-    message: false,
-    hints: true,
   }),
   created() {
     this.$vuetify.rtl = true

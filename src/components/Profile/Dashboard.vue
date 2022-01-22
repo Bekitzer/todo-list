@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav-appbar :pname="this.supplier.name"/>
-    <v-row v-if="!user.isAdmin">
+    <v-row v-if="user.isAdmin">
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12" md="4" sm="4">
@@ -179,7 +179,7 @@ export default {
       }
     },
     user() {
-      return this.$store.state.user
+      return this.$store.state.users
     }
   }
 }
