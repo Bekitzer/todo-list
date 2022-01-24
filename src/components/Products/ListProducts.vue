@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12" md="2" sm="6">
+  <v-col cols="12" md="2" sm="6" class="pl-2">
     <v-card>
       <v-img
         src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
@@ -47,24 +47,3 @@ export default {
   }
 }
 </script>
-<style lang="sass">
-  .v-list-item__content
-    padding: 12px 0 !important
-  .v-application .elevation-1, .theme--light.v-data-table.v-data-table--fixed-header thead th
-    box-shadow: none !important
-  .theme--light.v-data-table .v-data-footer
-    border-top: none !important
-  .orderWorkInfo
-    padding: 20px !important
-    white-space: pre-line !important
-    border-radius: 20px !important
-  .v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content
-    box-shadow: none !important
-    background: #fbfbfb !important
-  @media only screen and (max-width:800px)
-    .v-data-table__wrapper
-      height: 200px !important
-  @media only screen and (max-width:600px)
-    .v-data-table__wrapper
-      height: 420px !important
-</style>

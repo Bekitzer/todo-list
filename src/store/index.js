@@ -136,10 +136,11 @@ export default new Vuex.Store({
         }).then(() => {
           const {password, ...newUser} = payload
           newUser.uid = newAuth.uid
+          newUser.isAdmin = false
           return db.collection('users').add(newUser)
           .then(() => commit('setUser', newUser))
           .catch((error) => {
-            console.log('Something went wrong - addUser',error);
+            console.log('Something went wrong - signUserUp',error);
           })
         })
       })
@@ -164,7 +165,7 @@ export default new Vuex.Store({
           });
         })
         .catch((error) => {
-          console.log('Something went wrong - addUser',error);
+          console.log('Something went wrong - signUserIn',error);
         })
       })
 
@@ -180,7 +181,7 @@ export default new Vuex.Store({
         });
 
       }).catch((error) => {
-        console.log('Something went wrong - getProducts',error);
+        console.log('Something went wrong - getUser',error);
       })
     },
     getUsers({ commit }) {

@@ -140,7 +140,6 @@ export default {
 <style lang="sass">
   .v-image.v-responsive.spc-img.theme--light .v-image__image, .v-image__placeholder
     background-size: 30px!important
-
   .v-navigation-drawer__content .v-list-item
     padding: 0 !important
   .v-sheet.v-card:not(.v-sheet--outlined)

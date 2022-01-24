@@ -1,7 +1,5 @@
 <template>
-  <div class="about pa-5">
-    <nav-appbar :pname="pageName"/>
-  </div>
+  <nav-appbar :pname="pageName"/>
 </template>
 
 <script>

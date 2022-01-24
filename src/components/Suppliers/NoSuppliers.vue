@@ -1,6 +1,6 @@
 <template>
     <div
-      class="no-suppliers"
+      class="no-data"
     >
       <v-icon
         size="100"
@@ -11,12 +11,3 @@
       <h2>אין ספקים</h2>
     </div>
 </template>
-
-<style lang="sass">
-  .no-suppliers
-    position: absolute
-    left: 50%
-    top: 50%
-    transform: translate(-50%, -50%)
-    opacity: 0.7
-</style>

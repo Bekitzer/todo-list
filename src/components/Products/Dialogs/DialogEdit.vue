@@ -43,6 +43,12 @@
             </v-col>
           </v-row>
         <v-card-actions>
+          <v-btn
+            class="black--text"
+            @click="dialogs.delete=true"
+          >
+            למחוק הזמנה זו?
+          </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             fab
@@ -73,6 +79,11 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <dialog-delete
+      v-if="dialogs.delete"
+      @close = 'dialogs.delete = false'
+      :product = 'product'
+    />
   </v-row>
 </template>
 
@@ -84,6 +95,9 @@ import { he } from 'date-fns/locale'
     props: ['product'],
     data: () => ({
       dialog: false,
+      dialogs: {
+        delete: false
+      },
       productName: '',
       productCategory: '',
       productCategoryList: ['מיתוג ושיווק','משרדי ואירגוני','שילוט ותצוגה','מתקנים ומעמדים','מדבקות וטפטים','מוצרי קד״מ'],
@@ -125,6 +139,9 @@ import { he } from 'date-fns/locale'
             this.$emit('close')
         }
       })
+    },
+    components: {
+        'dialog-delete': require('@/components/Products/Dialogs/DialogDelete.vue').default
     }
   }
 </script>

@@ -75,9 +75,3 @@ export default {
   }
 }
 </script>
-<style lang="sass">
-  .v-application .elevation-1, .theme--light.v-data-table.v-data-table--fixed-header thead th
-    box-shadow: none !important
-  .theme--light.v-data-table .v-data-footer
-    border-top: none !important
-</style>

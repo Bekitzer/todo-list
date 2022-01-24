@@ -1,7 +1,30 @@
 <template>
   <div>
-    <nav-appbar :pname="'הזמנות - ' + this.order.number"/>
-    <v-row>
+    <nav-appbar :pname="'הזמנות - ' + this.order.number">
+      <template v-slot:add-btn>
+        <v-tooltip
+          left
+          content-class="normal tooltip-left"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              small
+              elevation="0"
+              filled
+              v-bind="attrs"
+              v-on="on"
+              class="spc-create"
+              @click="dialogs.edit = true"
+            >
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+          </template>
+          <span>עריכת הזמנה</span>
+        </v-tooltip>
+      </template>
+    </nav-appbar>
+    <v-row no-gutters>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12" md="6" sm="6">
@@ -87,19 +110,6 @@
       <v-col cols="12" md="9" sm="9">
       </v-col>
     </v-row>
-      <v-btn
-        bottom
-        left
-        fixed
-        fab
-        elevation="2"
-        large
-        color="#03616f"
-        class="white--text"
-        @click="dialogs.edit = true"
-      >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
     <dialog-edit
       v-if="dialogs.edit"
       @close = 'dialogs.edit = false'
@@ -148,19 +158,3 @@ export default {
   }
 }
 </script>
-<style lang="sass" scoped>
-  .pos-abs
-    position: absolute !important
-    bottom: 0
-    display: block
-    right: 0
-  .pos-rel
-    position: relative !important
-  .user-information
-    height: 60px
-  .spc-titles
-    margin-bottom: 0
-    text-decoration: underline
-  .user-info
-      white-space: pre-line
-</style>

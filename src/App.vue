@@ -50,11 +50,11 @@ export default {
   .v-application
     font-family: 'Ploni-Regular' !important
   .v-list-item__content
-    justify-content: center
+    justify-content: center !important
     padding: 20px 0 !important
     flex-direction: column !important
   .v-input--selection-controls__input
-    transform: rotate(180deg)
+    transform: rotate(180deg) !important
   .spc-logo
     background: #006D7B !important
   .v-list.v-sheet.theme--light.v-list--nav
@@ -64,15 +64,16 @@ export default {
   .theme--light.v-data-table > .v-data-table__ wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:not(.v-data-table__mobile-row)
     border-bottom: 1px solid #f1efef !important
   .v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > thead > tr > th
-    border-bottom: none !important
+    border-bottom: 0px solid black !important
+    box-shadow: inset 0 0px 0 rgb(0 0 0 / 12%) !important
     cursor: pointer !important
   .ngs-button .v-btn__content
     text-transform: capitalize !important
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
     background: #f5f5f5 !important
-    cursor: pointer
+    cursor: pointer !important
   .spc-titles
-    color: #797979
+    color: #797979 !important
   th.text-start,td.text-start
     padding: 0 5px !important
   .tooltip-top::before
@@ -175,9 +176,44 @@ export default {
   .v-data-table__wrapper tr
     height: 60px !important
   .spc-status-dot
-    width: 12px
-    margin-left: 6px
+    width: 12px !important
+    margin-left: 6px !important
     line-height: 0.1 !important
   th.spc-status-dot
     border-bottom: none !important
+  .spc-btn
+    color: #03616f !important
+    transform: rotate(0deg) !important
+    position: absolute !important
+    right: 90px !important
+    top: -3px !important
+  .spc-btn:hover
+    background: #03616f !important
+    color: white !important
+    transform: rotate(90deg) !important
+  .spc-create
+    color: #03616f !important
+    position: absolute !important
+    right: 300px !important
+    top: -3px !important
+  .spc-create:hover
+    background: #03616f !important
+    color: white !important
+  .user-information
+    height: 60px !important
+  .spc-titles
+    margin-bottom: 0 !important
+    text-decoration: underline !important
+  .user-info
+    white-space: pre-line !important
+  .v-data-table > .v-data-table__wrapper > table > thead > tr > th
+    font-size: 0.875rem !important
+  .no-data
+    position: absolute !important
+    left: 50% !important
+    top: 50% !important
+    transform: translate(-50%, -50%) !important
+    opacity: 0.7 !important
+  .row
+    margin: 0px !important
 </style>

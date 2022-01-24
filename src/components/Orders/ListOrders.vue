@@ -120,8 +120,8 @@
         </v-edit-dialog>
     </template>
     <template v-slot:top>
-      <v-row>
-        <v-col cols="12" md="2" sm="2">
+      <v-row no-gutters>
+        <v-col cols="12" md="2" sm="2" class="pl-2">
           <v-select
             :items="orderDateList"
             clearable
@@ -369,8 +369,6 @@ export default {
     transform: rotate(90deg)
   .v-text-field__details
     display: none !important
-  .v-menu__content
-    max-width: 8% !important
   .v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover) .v-btn__content
     opacity:1 !important
   .v-btn--plain:focus .v-btn__content, .v-btn--plain:hover .v-btn__content
@@ -400,10 +398,4 @@ export default {
     font-size: 0.875rem !important
   .v-list-item__title
     align-self: flex-start
-  @media only screen and (max-width:800px)
-    .v-data-table__wrapper
-      height: 200px !important
-  @media only screen and (max-width:600px)
-    .v-data-table__wrapper
-      height: 420px !important
 </style>

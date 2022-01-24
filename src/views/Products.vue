@@ -24,7 +24,7 @@
         </v-tooltip>
       </template>
     </nav-appbar>
-    <v-row>
+    <v-row no-gutters>
       <list-products
         v-for="product in products"
         :key="product.id"
@@ -146,24 +146,3 @@ export default {
   }
 }
 </script>
-<style lang="sass">
-  .spc-ul ul
-    list-style-type: none !important
-  .spc-btn
-    color: #03616f !important
-    transform: rotate(0deg)
-    position: absolute
-    right: 90px
-    top: -3px
-  .spc-btn:hover
-    background: #03616f !important
-    color: white !important
-    transform: rotate(90deg)
-@media (max-width: 800px)
-  .v-application .pl-16
-    padding-left: 20px !important
-  .v-application .pr-16
-    padding-right: 20px !important
-  .v-application .pt-10
-    padding-top: 0px !important
-</style>

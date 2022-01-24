@@ -47,32 +47,9 @@
       'list-suppliers': require('@/components/Suppliers/ListSuppliers.vue').default,
       'no-suppliers': require('@/components/Suppliers/NoSuppliers.vue').default,
       'dialog-create': require('@/components/Suppliers/Dialogs/DialogCreate.vue').default,
-      'nav-appbar'          : require('@/components/Global/AppBar.vue').default
-    },
-    computed: {
-    padding () {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return 150
-        case 'sm': return 86
-        case 'md': return 86
-        case 'lg': return 86
-        case 'xl': return 86
-      }
-    },
-  },
+      'nav-appbar': require('@/components/Global/AppBar.vue').default
+    }
   }
 </script>
-<style lang="sass" scoped>
-  .spc-btn
-    color: #03616f !important
-    position: absolute
-    right: 90px
-    top: -3px
-    transform: rotate(0deg)
-  .spc-btn:hover
-    background: #03616f !important
-    color: white !important
-    transform: rotate(90deg)
-</style>
 
 

@@ -184,18 +184,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass" scoped>
-  .pos-abs
-    position: absolute !important
-    bottom: 0
-    display: block
-    right: 0
-  .pos-rel
-    position: relative !important
-  .user-information
-    height: 60px
-  .spc-titles
-    margin-bottom: 0
-    font-size: 12px
-</style>

@@ -51,15 +51,3 @@
     }
   }
 </script>
-<style lang="sass" scoped>
-  .spc-btn
-    color: #03616f !important
-    transform: rotate(0deg)
-    position: absolute
-    right: 90px
-    top: -3px
-  .spc-btn:hover
-    background: #03616f !important
-    color: white !important
-    transform: rotate(90deg)
-</style>
