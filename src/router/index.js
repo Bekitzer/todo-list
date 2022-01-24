@@ -45,6 +45,22 @@ const routes = [
     }
   },
   {
+    path: '/terms',
+    name: 'Terms',
+    component: () => import('../views/Terms.vue'),
+    meta: {
+       requiresAuth: true
+    }
+  },
+  {
+    path: '/privacy',
+    name: 'Privacy',
+    component: () => import('../views/Privacy.vue'),
+    meta: {
+       requiresAuth: true
+    }
+  },
+  {
     path: '/products',
     name: 'Products',
     component: () => import('../views/Products.vue'),
