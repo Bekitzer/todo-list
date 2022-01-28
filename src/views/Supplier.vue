@@ -57,7 +57,7 @@
             <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ supplier.numberId }}</p>
             <p style="margin-bottom:0 !important;">{{ supplier.address }}</p>
             <div>
-              <a :href="'http://' + supplier.website" style="text-decoration:none;color:black;">{{supplier.website}}</a>
+              <a :href="'http://' + supplier.website" style="text-decoration:none;color:#03616f;" target="_blank">{{supplier.website}}</a>
               <!-- <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a>
               <a :href="supplier.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a> -->
             </div>

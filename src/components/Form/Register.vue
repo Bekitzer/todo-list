@@ -58,9 +58,6 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="12">
-              <file-upload @change="url => this.userData.avatar = url"/>
-            </v-col>
-            <v-col cols="12" md="12">
               <v-text-field
                 v-model="userData.password"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -113,8 +110,7 @@ export default {
         email: '',
         phone: '',
         position: '',
-        positionList: ['בעלים','מנהל דפוס','עובד זוטר','מזכיר/ה'],
-        avatar: '',
+        positionList: ['בעלים','הנהלת חשבונות','מזכירות','עובד יצור'],
         password: ''
     },
     successMessage: '',
@@ -153,7 +149,6 @@ export default {
           email: this.userData.email,
           phone: this.userData.phone,
           position: this.userData.position,
-          avatar: this.userData.avatar,
           password: this.userData.password
         }
 
@@ -164,13 +159,9 @@ export default {
         this.userData.email = ''
         this.userData.phone = ''
         this.userData.position = ''
-        this.userData.avatar = ''
         this.userData.password = ''
       }
     }
-  },
-  components: {
-    'file-upload': require('@/components/Global/FileStore.vue').default
   }
 }
 </script>

@@ -179,6 +179,12 @@ import firebase from 'firebase/compat/app'
       orderStatusType: '',
       dateDialog: false,
     }),
+    created() {
+      const user = getAuth().currentUser;
+      if (user !== null) {
+        this.name = user.displayName
+      }
+    },
     computed: {
       computedDate () {
         return this.orderDeliveryDate && parseISO(this.orderDeliveryDate).toISOString().substr(0, 10)
@@ -233,7 +239,7 @@ import firebase from 'firebase/compat/app'
           this.orderDeliveryType = ''
         }
         this.closeDialog()
-        setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+        // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       addDraft() {
           const orderFields = {
@@ -263,7 +269,7 @@ import firebase from 'firebase/compat/app'
           this.orderDeliveryDate = ''
           this.orderDeliveryType = ''
           this.closeDialog()
-          setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+          // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       closeDialog() {
         this.$emit('close')

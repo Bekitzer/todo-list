@@ -72,8 +72,6 @@ export default {
   .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
     background: #f5f5f5 !important
     cursor: pointer !important
-  .spc-titles
-    color: #797979 !important
   th.text-start,td.text-start
     padding: 0 5px !important
   .tooltip-top::before
@@ -203,7 +201,8 @@ export default {
     height: 60px !important
   .spc-titles
     margin-bottom: 0 !important
-    text-decoration: underline !important
+    color: #797979 !important
+    font-size:14px !important
   .user-info
     white-space: pre-line !important
   .v-data-table > .v-data-table__wrapper > table > thead > tr > th

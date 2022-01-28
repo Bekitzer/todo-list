@@ -88,10 +88,6 @@ export default {
     const currentUserAuth = firebase.auth().currentUser
 
     if (currentUserAuth !== null) {
-      this.name = currentUserAuth.displayName;
-      this.email = currentUserAuth.email;
-      this.photoURL = currentUserAuth.photoURL;
-      this.emailVerified = currentUserAuth.emailVerified;
       this.uid = currentUserAuth.uid;
     }
   },

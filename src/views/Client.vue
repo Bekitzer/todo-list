@@ -57,7 +57,7 @@
             <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ client.numberId }}</p>
             <p style="margin-bottom:0 !important;">{{ client.address }}</p>
             <div>
-              <a :href="'http://' + client.website" style="text-decoration:none;color:black;">{{client.website}}</a>
+              <a :href="'http://' + client.website" style="text-decoration:none;color:#03616f;" target="_blank">{{client.website}}</a>
               <!-- <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a>
               <a :href="supplier.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a> -->
             </div>
