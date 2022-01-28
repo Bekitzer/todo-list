@@ -29,6 +29,80 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="12" sm="12">
+              <v-combobox
+                v-model="productAttributes"
+                :filter="filter"
+                :hide-no-data="!search"
+                :items="items"
+                :search-input.sync="search"
+                hide-selected
+                label="חפש או צור חדש"
+                multiple
+                small-chips
+                solo
+              >
+                <template v-slot:no-data>
+                  <v-list-item>
+                    <span class="subheading">חדש</span>
+                    <v-chip
+                      label
+                      small
+                    >
+                      {{ search }}
+                    </v-chip>
+                  </v-list-item>
+                </template>
+                <template v-slot:selection="{ attrs, item, parent, selected }">
+                  <v-chip
+                    v-if="item === Object(item)"
+                    v-bind="attrs"
+                    :input-value="selected"
+                    label
+                    small
+                  >
+                    <span class="pr-2">
+                      {{ item.text }}
+                    </span>
+                    <v-icon
+                      small
+                      @click="parent.selectItem(item)"
+                    >
+                      $delete
+                    </v-icon>
+                  </v-chip>
+                </template>
+                <template v-slot:item="{ index, item }">
+                  <v-text-field
+                    v-if="editing === item"
+                    v-model="editing.text"
+                    autofocus
+                    flat
+                    background-color="transparent"
+                    hide-details
+                    solo
+                    @keyup.enter="edit(index, item)"
+                  ></v-text-field>
+                  <v-chip
+                    v-else
+                    dark
+                    label
+                    small
+                  >
+                    {{ item.text }}
+                  </v-chip>
+                  <v-spacer></v-spacer>
+                  <v-list-item-action @click.stop>
+                    <v-btn
+                      icon
+                      @click.stop.prevent="edit(index, item)"
+                    >
+                      <v-icon>{{ editing !== item ? 'mdi-pencil' : 'mdi-check' }}</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </template>
+              </v-combobox>
+            </v-col>
+            <v-col cols="12" md="12" sm="12">
               <v-textarea
                 v-model="productInfo"
                 label="מפרט"
@@ -89,6 +163,19 @@ export default {
     productCategoryList: ['מיתוג ושיווק','משרדי ואירגוני','שילוט ותצוגה','מתקנים ומעמדים','מדבקות וטפטים','מוצרי קד״מ'],
     productInfo: '',
     supplierPrices: '',
+    activator: null,
+    attach: null,
+    editing: null,
+    editingIndex: -1,
+    items: [
+      { header: 'בחר או צור חדש' },
+    ],
+    nonce: 1,
+    menu: false,
+    productAttributes: [],
+    x: 0,
+    search: null,
+    y: 0,
   }),
   computed: {
     productFieldInvalid() {
@@ -97,12 +184,53 @@ export default {
       )
     }
   },
+  watch: {
+    productAttributes (val, prev) {
+      if (val.length === prev.length) return
+
+      this.productAttributes = val.map(v => {
+        if (typeof v === 'string') {
+          v = {
+            text: v,
+          }
+
+          this.items.push(v)
+
+          this.nonce++
+        }
+
+        return v
+      })
+    },
+  },
   methods:{
+    edit (index, item) {
+      if (!this.editing) {
+        this.editing = item
+        this.editingIndex = index
+      } else {
+        this.editing = null
+        this.editingIndex = -1
+      }
+    },
+    filter (item, queryText, itemText) {
+      if (item.header) return false
+
+      const hasValue = val => val != null ? val : ''
+
+      const text = hasValue(itemText)
+      const query = hasValue(queryText)
+
+      return text.toString()
+        .toLowerCase()
+        .indexOf(query.toString().toLowerCase()) > -1
+    },
     addProduct() {
       if(!this.productFieldInvalid){
         const productFields = {
           name: this.productName,
           category: this.productCategory,
+          attributes: this.productAttributes,
           productInfo: this.productInfo,
           prices: this.supplierPrices
         }
@@ -110,6 +238,7 @@ export default {
         this.$store.dispatch('addProduct', productFields)
         this.productName = ''
         this.productCategory = ''
+        this.productAttributes = ''
         this.productInfo = ''
         this.supplierPrices = ''
         this.attributeName = ''

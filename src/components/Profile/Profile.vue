@@ -25,7 +25,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <strong style="letter-spacing:0 !important;">{{user.username}}</strong>
+          <strong style="letter-spacing:0 !important;">{{user.firstname}}</strong>
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
@@ -43,7 +43,7 @@
               </v-avatar>
             </v-col>
             <v-col cols="12" md="7" sm="7">
-              <h4>{{user.firstname}} {{user.lastname}} הידוע כ{{user.username}}</h4>
+              <h4>{{user.firstname}} {{user.lastname}}</h4>
             </v-col>
             <v-col cols="12" md="2" sm="2">
               <v-tooltip
@@ -67,6 +67,7 @@
         <v-list class="pa-4">
           <p class="ma-0">טלפון: {{user.phone}}</p>
           <p class="ma-0">תפקיד: {{user.position}}</p>
+          <p class="ma-0">שם העסק: {{user.username}}</p>
         </v-list>
       </v-card>
     </v-menu>
@@ -84,9 +85,7 @@ export default {
     menu: false,
   }),
   created() {
-    this.$vuetify.rtl = true
-    const currentUserAuth = firebase.auth().currentUser
-
+    const currentUserAuth = getAuth().currentUser
     if (currentUserAuth !== null) {
       this.uid = currentUserAuth.uid;
     }

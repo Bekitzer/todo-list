@@ -31,6 +31,7 @@
             <h2><small>מוצר</small></h2>
             <h1>{{ product.name }}</h1>
             <small>{{ product.category }}</small>
+            <small>{{ product.attributes }}</small>
           </v-col>
           <v-col cols="12" md="12" sm="12">
             <h2>מפרט</h2>

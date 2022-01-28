@@ -198,15 +198,15 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-autocomplete
-                v-model="connectedUsersIds"
-                :items="users"
-                filled
-                chips
-                color="blue-grey lighten-2"
-                label="משתמש"
-                item-text="username"
-                item-value="id"
-                multiple
+              v-model="connectedUsersIds"
+              :items="users"
+              filled
+              chips
+              color="blue-grey lighten-2"
+              label="משתמש"
+              item-text="username"
+              item-value="id"
+              multiple
               >
                 <template v-slot:selection="data">
                   <v-chip
@@ -217,20 +217,20 @@
                     @click:close="remove(data.item)"
                   >
                     <v-avatar left>
-                      <v-img :src="data.item.avatar" lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"></v-img>
+                      <v-img :src="data.item.avatar" lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
                     </v-avatar>
                     {{ data.item.username }}
                   </v-chip>
                 </template>
                 <template v-slot:item="data">
-                  <template v-if="typeof data.item !== 'object'">
+                  <template v-if="(typeof data.item !== 'object')">
                     <v-list-item-content v-text="data.item"></v-list-item-content>
                   </template>
                   <template v-else>
                     <v-list-item-avatar>
                       <v-img
                       :src="data.item.avatar"
-                      lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"></v-img>
+                      lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
                     </v-list-item-avatar>
                     <v-list-item-content>
                       <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
@@ -292,7 +292,7 @@ import  firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import 'firebase/compat/storage'
 import database from '@/firebase'
-export default {
+  export default {
     props: ['supplier'],
     data: () => ({
       autoUpdate: true,

@@ -120,17 +120,13 @@ export default {
       else return 'grey darken-1'
     }
   },
-  created() {
-    this.$vuetify.rtl = true
-    const user = getAuth().currentUser
-  },
   components: {
     'nav-appbar' : require('@/components/Global/AppBar.vue').default
   },
   computed: {
     supplier() {
       if(!this.$store.state.user) return {name: ''}
-      return this.$store.state.suppliers.find(supplier => supplier.user === this.$store.state.user.uid) || {name: ''}
+      return this.$store.state.suppliers.find(supplier => supplier.id === this.$store.state.user.supplierRef) || {name: ''}
     },
     headers () {
       return [
@@ -179,7 +175,7 @@ export default {
       }
     },
     user() {
-      return this.$store.state.users
+      return this.$store.state.user || {name: ''}
     }
   }
 }
