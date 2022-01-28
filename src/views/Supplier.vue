@@ -32,10 +32,23 @@
               class="profile"
               size="150px"
             >
-              <v-img
-                :src="supplier.avatar"
-                rounded
-              ></v-img>
+              <v-tooltip
+                top
+                content-class="normal tooltip-top"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-img
+
+                    :src="supplier.avatar"
+                    @click="openFile(supplier)"
+                    lazy-src="/images/gravatar.jpg"
+                    v-bind="attrs"
+                    v-on="on"
+                    rounded
+                  ></v-img>
+                </template>
+                <span>הצג תמונה</span>
+              </v-tooltip>
             </v-avatar>
           </v-col>
           <v-col cols="12" md="7" sm="7">
@@ -182,6 +195,7 @@
                 <v-icon
                 small
                 class="ml-2"
+                @click.stop="openFileOrder(item)"
                 v-bind="attrs"
                 v-on="on"
               >
@@ -237,6 +251,16 @@
       :order="order"
       @close = 'dialogs.create = false'
     />
+    <dialog-image
+      v-if="dialogs.image"
+      :supplier = 'supplier'
+      @close = 'dialogs.image = false'
+    />
+    <dialog-order
+      v-if="dialogs.order"
+      :order = 'order'
+      @close = 'dialogs.order = false'
+    />
   </div>
 </template>
 
@@ -252,7 +276,9 @@ export default {
     viewSuppliedOnly: true,
     dialogs: {
       edit: false,
-      create: false
+      create: false,
+      image: false,
+      order: false
     },
   }),
   watch: {
@@ -263,8 +289,14 @@ export default {
     }
   },
   methods: {
+    openFileOrder (item) {
+      this.order = JSON.parse(JSON.stringify(item))
+      this.dialogs.order = true
+    },
+    openFile (supplier) {
+      this.dialogs.image = true
+    },
     duplicateOrder(item) {
-      debugger
       this.order = JSON.parse(JSON.stringify(item))
       this.dialogs.create = true
     },
@@ -339,7 +371,9 @@ export default {
   components: {
       'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
       'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
-      'nav-appbar' : require('@/components/Global/AppBar.vue').default
+      'nav-appbar' : require('@/components/Global/AppBar.vue').default,
+      'dialog-image': require('@/components/Suppliers/Dialogs/DialogImage.vue').default,
+      'dialog-order': require('@/components/Orders/Dialogs/DialogImage.vue').default
   }
 }
 </script>

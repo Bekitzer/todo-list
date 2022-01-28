@@ -30,7 +30,7 @@
             <v-col cols="12" md="12">
               <v-text-field
                 v-model="userData.username"
-                label="כינוי"
+                label="שם העסק"
                 required
               ></v-text-field>
             </v-col>
@@ -170,8 +170,8 @@ export default {
     }
   },
   components: {
-      'file-upload': require('@/components/Global/FileStore.vue').default
-    }
+    'file-upload': require('@/components/Global/FileStore.vue').default
+  }
 }
 </script>
 

@@ -30,6 +30,7 @@
       v-if="dialogs.create"
       @close = 'dialogs.create = false'
     />
+
   </div>
 </template>
 

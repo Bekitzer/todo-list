@@ -25,7 +25,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <strong>{{user.username}}</strong>
+          <strong style="letter-spacing:0 !important;">{{user.username}}</strong>
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>

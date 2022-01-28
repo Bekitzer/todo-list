@@ -105,9 +105,10 @@
           </v-col>
         </v-row>
       </v-col>
-    </v-row>
-    <v-row>
       <v-col cols="12" md="9" sm="9">
+        <v-img
+          :src="order.file"
+        ></v-img>
       </v-col>
     </v-row>
     <dialog-edit

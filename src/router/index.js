@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import goTo from 'vuetify/es5/services/goto'
 import firebase from 'firebase/compat/app'
+import store from "@/store";
 
 Vue.use(VueRouter)
 
@@ -141,6 +142,7 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
   document.title = `${ to.name } - ${ process.env.VUE_APP_TITLE }`
+  store.commit('setSearch', '')
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   if (requiresAuth && !currentUser) next('login')

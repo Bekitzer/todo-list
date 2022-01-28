@@ -1,103 +1,104 @@
 <template>
-  <v-data-table
-    height="75vh"
-    fixed-header
-    :search="$store.state.search"
-    :headers="headers"
-    :items="orders"
-    item-key="id"
-    sort-by="deliveryDate"
-    :items-per-page="-1"
-    hide-default-footer
-    singleExpand: false
-    sort-desc
-    :expanded.sync="expanded"
-    @click:row="clickRow"
-  >
-    <template v-slot:expanded-item="{ headers, item }">
-      <td class="orderWorkInfo" :colspan="headers.length">
-        {{ item.orderWork }}
-      </td>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-tooltip
-        top
-        content-class="normal tooltip-top"
-      >
-        <template v-slot:activator="{ on, attrs }">
+  <div>
+    <v-data-table
+      height="75vh"
+      fixed-header
+      :search="$store.state.search"
+      :headers="headers"
+      :items="orders"
+      item-key="id"
+      sort-by="deliveryDate"
+      :items-per-page="-1"
+      hide-default-footer
+      singleExpand: false
+      sort-desc
+      :expanded.sync="expanded"
+      @click:row="clickRow"
+    >
+      <template v-slot:expanded-item="{ headers, item }">
+        <td class="orderWorkInfo" :colspan="headers.length">
+          {{ item.orderWork }}
+        </td>
+      </template>
+      <template v-slot:item.actions="{ item }">
+        <v-tooltip
+          top
+          content-class="normal tooltip-top"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+            small
+            class="ml-2"
+            @click.stop="openFile(item)"
+            v-bind="attrs"
+            v-on="on"
+          >
+            mdi-file-image
+          </v-icon>
+          </template>
+          <span>הצג תמונה</span>
+        </v-tooltip>
+        <v-tooltip
+          top
+          content-class="normal tooltip-top"
+        >
+          <template v-slot:activator="{ on, attrs }">
           <v-icon
-          small
-          class="ml-2"
-          @click.stop="a"
-          v-bind="attrs"
-          v-on="on"
+            small
+            class="ml-2"
+            @click.stop="duplicateItem(item)"
+            v-bind="attrs"
+            v-on="on"
+          >
+            mdi-content-duplicate
+          </v-icon>
+          </template>
+          <span>שכפל הזמנה</span>
+        </v-tooltip>
+        <v-tooltip
+          top
+          content-class="normal tooltip-top"
         >
-          mdi-file-image
-        </v-icon>
-        </template>
-        <span>הצג תמונה</span>
-      </v-tooltip>
-      <v-tooltip
-        top
-        content-class="normal tooltip-top"
-      >
-        <template v-slot:activator="{ on, attrs }">
-        <v-icon
-          small
-          class="ml-2"
-          @click.stop="duplicateItem(item)"
-          v-bind="attrs"
-          v-on="on"
-        >
-          mdi-content-duplicate
-        </v-icon>
-        </template>
-        <span>שכפל הזמנה</span>
-      </v-tooltip>
-      <v-tooltip
-        top
-        content-class="normal tooltip-top"
-      >
-        <template v-slot:activator="{ on, attrs }">
-        <v-icon
-          small
-          @click.stop="clickOrder(item)"
-          v-bind="attrs"
-          v-on="on"
-        >
-          mdi-pencil-outline
-        </v-icon>
-        </template>
-        <span>ערוך הזמנה</span>
-      </v-tooltip>
-    </template>
-    <template v-slot:item.clientLink="{ item }">
-      <v-btn @click.stop="clickClient(item)" dense plain class="ngs-button">
-        {{ item.clientLink }}
-      </v-btn>
-    </template>
-    <template v-slot:item.supplierLink="{ item }">
-      <v-btn @click.stop="clickSupplier(item)" dense plain class="ngs-button">
-        {{ item.supplierLink }}
-      </v-btn>
-    </template>
-    <template v-slot:item.created="{ item }">
-      {{ item.orderCreationDate | formatDate }}
-    </template>
-    <template v-slot:item.sell="{ item }">
-        {{ item.sellPrice | formatNumber }}
-    </template>
-    <template v-slot:item.buy="{ item }">
-        {{ item.buyPrice | formatNumber }}
-    </template>
-    <template v-slot:item.margins="{ item }">
-        {{ item.margin | formatNumber }}
-    </template>
-    <template v-slot:item.delivery="{ item }">
-        {{ item.deliveryDate | formatDate }}
-    </template>
-    <template v-slot:item.statusType="props">
-      <v-edit-dialog
+          <template v-slot:activator="{ on, attrs }">
+          <v-icon
+            small
+            @click.stop="clickOrder(item)"
+            v-bind="attrs"
+            v-on="on"
+          >
+            mdi-pencil-outline
+          </v-icon>
+          </template>
+          <span>ערוך הזמנה</span>
+        </v-tooltip>
+      </template>
+      <template v-slot:item.clientLink="{ item }">
+        <v-btn @click.stop="clickClient(item)" dense plain class="ngs-button">
+          {{ item.clientLink }}
+        </v-btn>
+      </template>
+      <template v-slot:item.supplierLink="{ item }">
+        <v-btn @click.stop="clickSupplier(item)" dense plain class="ngs-button">
+          {{ item.supplierLink }}
+        </v-btn>
+      </template>
+      <template v-slot:item.created="{ item }">
+        {{ item.orderCreationDate | formatDate }}
+      </template>
+      <template v-slot:item.sell="{ item }">
+          {{ item.sellPrice | formatNumber }}
+      </template>
+      <template v-slot:item.buy="{ item }">
+          {{ item.buyPrice | formatNumber }}
+      </template>
+      <template v-slot:item.margins="{ item }">
+          {{ item.margin | formatNumber }}
+      </template>
+      <template v-slot:item.delivery="{ item }">
+          {{ item.deliveryDate | formatDate }}
+      </template>
+      <template v-slot:item.statusType="props">
+        <v-edit-dialog
           save-text="שמור"
           cancel-text="בטל"
           :return-value.sync="props.item.statusType"
@@ -118,37 +119,37 @@
             ></v-select>
           </template>
         </v-edit-dialog>
-    </template>
-    <template v-slot:top>
-      <v-row no-gutters>
-        <v-col cols="12" md="2" sm="2" class="pl-2">
-          <v-select
-            :items="orderDateList"
-            clearable
-            filled
-            rounded
-            v-model="orderDateFilter"
-            label="סנן לפי תאריך הזמנה"
-          ></v-select>
-        </v-col>
-        <v-col cols="12" md="2" sm="2">
-          <v-select
-            :items="orderDeliveryDateList"
-            clearable
-            filled
-            rounded
-            v-model="deliveryDateFilter"
-            label="סנן לפי תאריך אספקה"
-          ></v-select>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="12" md="1" sm="1">
-          <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
-        </v-col>
-      </v-row>
-      <!-- <filter-action /> -->
-    </template>
-  </v-data-table>
+      </template>
+      <template v-slot:top>
+        <v-row no-gutters>
+          <v-col cols="12" md="2" sm="2" class="pl-2">
+            <v-select
+              :items="orderDateList"
+              clearable
+              filled
+              rounded
+              v-model="orderDateFilter"
+              label="סנן לפי תאריך הזמנה"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="2" sm="2">
+            <v-select
+              :items="orderDeliveryDateList"
+              clearable
+              filled
+              rounded
+              v-model="deliveryDateFilter"
+              label="סנן לפי תאריך אספקה"
+            ></v-select>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="12" md="1" sm="1">
+            <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
+          </v-col>
+        </v-row>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 <script>
 import  firebase from 'firebase/compat/app'
@@ -171,6 +172,7 @@ const filterDateEnum = {
 
 export default {
   name: 'ListOrders',
+  props: ['order'],
   data: () => ({
     editStatusType: '',
     expanded: [],
@@ -214,6 +216,9 @@ export default {
     },
     duplicateItem (item) {
       this.$emit('duplicateOrder', item)
+    },
+    openFile (item) {
+      this.$emit('openOrderFile', item)
     },
     clickOrder(order){
       this.$router.push({ name: 'Order', params: { id : order.id }})
@@ -355,9 +360,6 @@ export default {
         this.$store.dispatch('setOrders', value)
       }
     }
-  },
-  components: {
-    'filter-action': require('@/components/Tools/FilterAction.vue').default
   }
 }
 </script>

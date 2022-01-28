@@ -170,12 +170,10 @@
 import { format, parseISO, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
 import  firebase from 'firebase/compat/app'
-import { getAuth } from 'firebase/auth'
   export default {
     name: 'DialogEdit',
     props: ['order'],
     data: () => ({
-      dialog: false,
       dialogs: {
         delete: false
       },
@@ -184,6 +182,7 @@ import { getAuth } from 'firebase/auth'
       orderWorkTitle: '',
       orderWorkProducts: '',
       orderSupplierName: '',
+      orderFile: '',
       orderDeliveryType: '',
       orderDeliveryTypeList: [ "משלוח > נאנו","משלוח > גט","משלוח > תפוז","עצמי > הרצליה","עצמי > משרד"],
       orderDeliveryDate: '',
@@ -195,16 +194,6 @@ import { getAuth } from 'firebase/auth'
       orderStatusTypeList: ["בעבודה","מוכן - משרד","מוכן - ספק","במשלוח","סופק"],
       dateDialog: false,
     }),
-    created() {
-      const user = getAuth().currentUser;
-      if (user !== null) {
-        this.name = user.displayName;
-        this.email = user.email;
-        this.photoURL = user.photoURL;
-        this.emailVerified = user.emailVerified;
-        this.uid = user.uid;
-      }
-    },
     computed: {
       computedDate: {
         get() {
@@ -264,7 +253,7 @@ import { getAuth } from 'firebase/auth'
     },
     mounted() {
       this.orderClientName = this.order.clientName
-      this.orderWorkTitle = this.order.orderWorkTitle,
+      this.orderWorkTitle = this.order.orderWorkTitle
       this.orderWorkProducts = this.order.orderWork
       this.orderSupplierName = this.order.supplierName
       this.orderStatusType = this.order.statusType

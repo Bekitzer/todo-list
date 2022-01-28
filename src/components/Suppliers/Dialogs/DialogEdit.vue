@@ -14,7 +14,7 @@
             <v-col cols="12">
               <h3>פרטי ספק</h3>
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierName"
                 label="שם ספק"
@@ -23,7 +23,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierCompanyName"
                 label="שם חברה"
@@ -32,7 +32,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="supplierIdNumber"
                 label="ח.פ. / ע.מ."
@@ -40,9 +40,6 @@
                 dense
                 hide-details
               />
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <file-upload @change="url => this.supplierAvatar = url"/>
             </v-col>
           </v-row>
           <v-row class="pr-10 pl-10">
@@ -414,8 +411,7 @@ export default {
       })
     },
     components: {
-      'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default,
-      'file-upload': require('@/components/Global/FileStore.vue').default
+      'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default
     }
   }
 </script>

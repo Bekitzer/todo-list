@@ -24,12 +24,17 @@
         </v-tooltip>
       </template>
     </nav-appbar>
-    <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder"/>
+    <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder" @openOrderFile="onOpenOrderFile"/>
     <no-orders v-else />
     <dialog-create
       v-if="dialogs.create"
       :order="order"
       @close = 'dialogs.create = false'
+    />
+    <dialog-image
+      v-if="dialogs.image"
+      :order="order"
+      @close = 'dialogs.image = false'
     />
   </div>
 </template>
@@ -43,7 +48,8 @@
       search: '',
       pageName: 'הזמנות',
       dialogs: {
-        create: false
+        create: false,
+        image: false
       },
     }),
     watch: {
@@ -57,13 +63,18 @@
       onDuplicateOrder(item) {
         this.order = JSON.parse(JSON.stringify(item))
         this.dialogs.create = true
+      },
+      onOpenOrderFile(item) {
+        this.order = JSON.parse(JSON.stringify(item))
+        this.dialogs.image = true
       }
     },
     components: {
       'list-orders': require('@/components/Orders/ListOrders.vue').default,
       'no-orders': require('@/components/Orders/NoOrders.vue').default,
       'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
-      'nav-appbar': require('@/components/Global/AppBar.vue').default
+      'nav-appbar': require('@/components/Global/AppBar.vue').default,
+      'dialog-image': require('@/components/Orders/Dialogs/DialogImage.vue').default
     }
   }
 </script>

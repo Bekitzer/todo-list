@@ -45,7 +45,7 @@
                 hide-details
               ></v-textarea>
             </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <v-col cols="12" md="6" sm="6">
               <v-autocomplete
                 :items="suppliers"
                 item-text="name"
@@ -179,20 +179,9 @@ import firebase from 'firebase/compat/app'
       orderStatusType: '',
       dateDialog: false,
     }),
-    created() {
-      const user = getAuth().currentUser;
-      if (user !== null) {
-        this.name = user.displayName;
-        this.email = user.email;
-        this.photoURL = user.photoURL;
-        this.emailVerified = user.emailVerified;
-        this.uid = user.uid;
-      }
-    },
     computed: {
       computedDate () {
         return this.orderDeliveryDate && parseISO(this.orderDeliveryDate).toISOString().substr(0, 10)
-        // return this.orderDeliveryDate ? this.$options.filters.formatDateReverse(this.orderDeliveryDate).toISOString().substr(0, 10) : ''
       },
       clients() {
           return this.$store.state.clients

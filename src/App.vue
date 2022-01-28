@@ -216,4 +216,7 @@ export default {
     opacity: 0.7 !important
   .row
     margin: 0px !important
+  .spc-file
+    width:100% !important
+    border-radius:100px
 </style>
