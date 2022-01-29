@@ -3,8 +3,8 @@
     <nav-appbar :pname="' ספקים - ' + this.supplier.name">
       <template v-slot:add-btn>
         <v-tooltip
-          left
-          content-class="normal tooltip-left"
+          bottom
+          content-class="normal tooltip-bottom"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
@@ -21,6 +21,28 @@
             </v-btn>
           </template>
           <span>עריכת ספק</span>
+        </v-tooltip>
+      </template>
+      <template v-slot:create-btn>
+        <v-tooltip
+          bottom
+          content-class="normal tooltip-bottom"
+        >
+          <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            fab
+            small
+            elevation="0"
+            filled
+            v-bind="attrs"
+            v-on="on"
+            class="spc-btn"
+            @click="dialogs.create = true"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          </template>
+          <span>ספק חדש</span>
         </v-tooltip>
       </template>
     </nav-appbar>

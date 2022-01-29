@@ -182,18 +182,12 @@ export default {
   .spc-btn
     color: #03616f !important
     transform: rotate(0deg) !important
-    position: absolute !important
-    right: 90px !important
-    top: -3px !important
   .spc-btn:hover
     background: #03616f !important
     color: white !important
     transform: rotate(90deg) !important
   .spc-create
     color: #03616f !important
-    position: absolute !important
-    right: 300px !important
-    top: -3px !important
   .spc-create:hover
     background: #03616f !important
     color: white !important
