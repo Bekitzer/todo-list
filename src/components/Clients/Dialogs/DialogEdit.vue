@@ -74,13 +74,18 @@
               />
             </v-col>
             <v-col cols="12" md="12" sm="6">
-              <v-text-field
+            <vuetify-google-autocomplete
+                ref="address"
+                id="map"
+                filled
+                v-on:placechanged="getAddressData"
+                country="il"
                 v-model="clientAddress"
                 label="כתובת"
-                filled
                 dense
                 hide-details
-              />
+              >
+              </vuetify-google-autocomplete>
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-textarea
@@ -255,9 +260,11 @@
 
 <script>
 import firebase from 'firebase/compat/app'
+import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 export default {
   props: ['client'],
   data: () => ({
+    address: '',
     dialog: false,
     dialogs: {
       delete: false
@@ -298,6 +305,9 @@ export default {
     }
   },
   methods: {
+    getAddressData: function (addressData, placeResultData, id) {
+      this.address = addressData;
+    },
     saveClient() {
       if(!this.clientFieldInvalid){
         let payload = {

@@ -12,9 +12,12 @@ const routes = [
     redirect: '/login'
   },
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home.vue'),
+    meta: {
+      requiresAuth: true
+   }
   },
   {
     path: '/dashboard',
@@ -36,14 +39,6 @@ const routes = [
     meta: {
       requiresGuest: true
    }
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue'),
-    meta: {
-       requiresAuth: true
-    }
   },
   {
     path: '/terms',

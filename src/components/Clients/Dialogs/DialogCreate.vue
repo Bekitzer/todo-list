@@ -74,13 +74,19 @@
               />
             </v-col>
             <v-col cols="12" md="12" sm="6">
-              <v-text-field
+              <vuetify-google-autocomplete
+                ref="address"
+                id="map"
+                filled
+                v-if="getAddressData"
+                v-on:placechanged="getAddressData"
+                country="il"
                 v-model="clientAddress"
                 label="כתובת"
-                filled
                 dense
                 hide-details
-              />
+              >
+              </vuetify-google-autocomplete>
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-textarea
@@ -246,9 +252,11 @@
 </template>
 
 <script>
+import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 export default {
   name: 'DialogCreate',
   data: () => ({
+    address: '',
     dialog: false,
     clientName: '',
     clientCompanyName: '',
@@ -285,6 +293,9 @@ export default {
     }
   },
   methods:{
+    getAddressData: function (addressData, placeResultData, id) {
+      this.address = addressData;
+    },
     addClient() {
       if(!this.clientFieldInvalid){
         const clientFields = {

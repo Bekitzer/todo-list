@@ -9,14 +9,22 @@ import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 import { format, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
+import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 
 
 Vue.config.productionTip = false
 Vue.use(
   VueMeta, {
     refreshOnceOnNavigation: true
-  }
+  },
 )
+Vue.use(VuetifyGoogleAutocomplete, {
+  apiKey: 'AIzaSyBPTgcGTdaYE3FEEL-j61IEB_76BI84_90', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
+  version: 'quarterly', // Optional
+  language: 'he', // Optional
+  installComponents: true, // Optional (default: true) - false, if you want to locally install components
+  vueGoogleMapsCompatibility: false, // Optional (default: false) - true, requires vue2-google-maps to be configured see https://github.com/xkjyeah/vue-google-maps
+})
 
 
 

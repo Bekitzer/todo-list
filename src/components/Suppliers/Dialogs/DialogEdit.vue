@@ -74,13 +74,18 @@
               />
             </v-col>
             <v-col cols="12" md="12" sm="12">
-              <v-text-field
+              <vuetify-google-autocomplete
+                ref="address"
+                id="map"
+                filled
+                v-on:placechanged="getAddressData"
+                country="il"
                 v-model="supplierAddress"
                 label="כתובת"
-                filled
                 dense
                 hide-details
-              />
+              >
+              </vuetify-google-autocomplete>
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-textarea
@@ -292,9 +297,11 @@ import  firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
 import 'firebase/compat/storage'
 import database from '@/firebase'
+import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
   export default {
     props: ['supplier'],
     data: () => ({
+      address: '',
       autoUpdate: true,
       isUpdating: false,
       dialog: false,
@@ -339,6 +346,9 @@ import database from '@/firebase'
       },
     },
     methods: {
+      getAddressData: function (addressData, placeResultData, id) {
+        this.address = addressData;
+      },
       remove (item) {
         const index = this.connectedUsersIds.indexOf(item.id)
         if (index >= 0) {
@@ -351,7 +361,6 @@ import database from '@/firebase'
           let payload = {
             id: this.supplier.id,
             name: this.supplierName,
-            avatar: this.supplierAvatar,
             companyName: this.supplierCompanyName,
             contactName: this.supplierContactName,
             phone: this.supplierPhone,
@@ -384,7 +393,6 @@ import database from '@/firebase'
     },
     mounted() {
       this.supplierName = this.supplier.name
-      this.supplierAvatar = this.supplier.avatar,
       this.supplierCompanyName = this.supplier.companyName
       this.supplierContactName = this.supplier.contactName
       this.supplierPhone = this.supplier.phone
