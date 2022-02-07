@@ -121,7 +121,10 @@
         </v-edit-dialog>
       </template>
       <template v-slot:top>
-        <v-row no-gutters>
+        <v-row
+          no-gutters
+          style="margin: 20px 0 !important;"
+        >
           <v-col cols="12" md="2" sm="2" class="pl-2">
             <v-select
               :items="orderDateList"

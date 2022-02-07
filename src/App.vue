@@ -62,7 +62,7 @@ export default {
   .theme--light.v-app-bar.v-toolbar.v-sheet
     background-color: #ffffff !important
   .theme--light.v-data-table > .v-data-table__ wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:not(.v-data-table__mobile-row)
-    border-bottom: 1px solid #f1efef !important
+
   .v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > thead > tr > th
     border-bottom: 0px solid black !important
     box-shadow: inset 0 0px 0 rgb(0 0 0 / 12%) !important
@@ -171,8 +171,11 @@ export default {
   .v-input--selection-controls__ripple.primary--text
     color: #03616f !important
     caret-color: #03616f !important
-  .v-data-table__wrapper tr
-    height: 60px !important
+  .v-data-table__wrapper tbody tr
+    height: 56px !important
+    position: relative !important
+    border-bottom: 1px solid #f1efef !important
+
   .spc-status-dot
     width: 12px !important
     margin-left: 6px !important
@@ -212,4 +215,30 @@ export default {
   .spc-file
     width:100% !important
     border-radius:100px
+
 </style>
+.v-data-table__wrapper
+    overflow-x: visible !important
+    overflow-y: visible !important
+.v-data-table__wrapper tbody tr:hover:before
+    content: "" !important
+    border-right-width: 10px !important
+    border-right-style: solid !important
+    border-right-color: #f5f5f5 !important
+    border-top-right-radius: 10px !important
+    border-bottom-right-radius: 10px !important
+    top: 0 !important
+    bottom: 0 !important
+    position: absolute !important
+    right: -10px !important
+  .v-data-table__wrapper tbody tr:hover:after
+    content: "" !important
+    border-left-width: 10px !important
+    border-left-style: solid !important
+    border-left-color: #f5f5f5 !important
+    border-top-left-radius: 10px !important
+    border-bottom-left-radius: 10px !important
+    top: 0 !important
+    bottom: 0 !important
+    position: absolute !important
+    left: -10px !important

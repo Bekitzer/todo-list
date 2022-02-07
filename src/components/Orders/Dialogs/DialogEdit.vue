@@ -45,20 +45,7 @@
                 hide-details
               ></v-textarea>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-autocomplete
-                :items="suppliers"
-                item-text="name"
-                item-value="id"
-                v-model="orderSupplierName"
-                label="ספק"
-                clearable
-                filled
-                dense
-                hide-details
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="12" sm="12">
               <v-menu
                 v-model="dateDialog"
                 :close-on-content-click="false"
@@ -80,9 +67,22 @@
                   @change="dateDialog = false"
                   :first-day-of-week="0"
                   locale="he-il"
-                  width="248"
+                  width="496"
                 ></v-date-picker>
               </v-menu>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-autocomplete
+                :items="suppliers"
+                item-text="name"
+                item-value="id"
+                v-model="orderSupplierName"
+                label="ספק"
+                clearable
+                filled
+                dense
+                hide-details
+              ></v-autocomplete>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-select

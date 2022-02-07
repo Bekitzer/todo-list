@@ -42,7 +42,7 @@
             <v-icon>mdi-plus</v-icon>
           </v-btn>
           </template>
-          <span>לקוח חדש</span>
+          <span>הזמנה חדשה</span>
         </v-tooltip>
       </template>
     </nav-appbar>
