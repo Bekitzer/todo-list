@@ -2,6 +2,7 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
+      max-width="500"
     >
       <v-card>
         <v-card-title>מחיקת הזמנה</v-card-title>

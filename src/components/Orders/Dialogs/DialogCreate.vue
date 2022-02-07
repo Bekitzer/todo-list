@@ -18,8 +18,8 @@
               <v-autocomplete
                 :items="clients"
                 item-text="name"
-                item-value="id"
-                v-model="orderClientName"
+                return-object
+                v-model="orderClient"
                 label="לקוח"
                 clearable
                 filled
@@ -49,8 +49,8 @@
               <v-autocomplete
                 :items="suppliers"
                 item-text="name"
-                item-value="id"
-                v-model="orderSupplierName"
+                return-object
+                v-model="orderSupplier"
                 label="ספק"
                 clearable
                 filled
@@ -160,15 +160,16 @@ import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
 import { getAuth } from 'firebase/auth'
 import firebase from 'firebase/compat/app'
+import emailjs from '@emailjs/browser';
   export default {
     name: 'DialogCreate',
     props: ['order'],
     data: () => ({
       dialog: false,
-      orderClientName: '',
+      orderClient: {},
       orderWorkTitle: '',
       orderWorkProducts: '',
-      orderSupplierName: '',
+      orderSupplier: {},
       orderDeliveryType: '',
       orderDeliveryTypeList: [ "משלוח > נאנו","משלוח > גט","משלוח > תפוז","עצמי > הרצליה","עצמי > משרד"],
       orderDeliveryDate: '',
@@ -197,10 +198,10 @@ import firebase from 'firebase/compat/app'
       },
       orderFieldInvalid() {
         return (
-          !this.orderClientName ||
+          !this.orderClient.id ||
           !this.orderWorkTitle ||
           !this.orderWorkProducts ||
-          !this.orderSupplierName ||
+          !this.orderSupplier.id ||
           !this.orderDeliveryDate ||
           !this.orderDeliveryType ||
           !this.orderSellPrice ||
@@ -212,10 +213,10 @@ import firebase from 'firebase/compat/app'
       addOrder() {
         if(!this.orderFieldInvalid){
           const orderFields = {
-            clientName: this.orderClientName,
+            clientName: this.orderClient.id,
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
-            supplierName: this.orderSupplierName,
+            supplierName: this.orderSupplier.id,
             deliveryAgent: this.name,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
@@ -226,10 +227,21 @@ import firebase from 'firebase/compat/app'
           }
 
           this.$store.dispatch('addOrder', orderFields)
-          this.orderClientName = ''
+          const mailFields = {
+            clientName: this.orderClient.name,
+            clientEmail: this.orderClient.email,
+            orderWorkTitle: this.orderWorkTitle,
+            orderWork: this.orderWorkProducts,
+            supplierName: this.orderSupplier.name,
+            supplierEmail: this.orderSupplier.email,
+            statusType: this.orderStatusType = 'בעבודה',
+            deliveryDate: parseISO(this.orderDeliveryDate),
+            deliveryType: this.orderDeliveryType,
+          }
+          this.orderClient = {}
           this.orderWorkTitle = ''
           this.orderWorkProducts = ''
-          this.orderSupplierName = ''
+          this.orderSupplier = {}
           this.orderDeliveryAgent = ''
           this.orderSellPrice = ''
           this.orderBuyPrice = ''
@@ -237,16 +249,23 @@ import firebase from 'firebase/compat/app'
           this.orderStatusType = ''
           this.orderDeliveryDate = ''
           this.orderDeliveryType = ''
+
+          emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
+            .then((result) => {
+              console.log('SUCCESS!', result.text)
+            },(error) => {
+              console.log('FAILED...', error.text)
+            })
         }
         this.closeDialog()
         // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       addDraft() {
           const orderFields = {
-            clientName: this.orderClientName,
+            clientName: this.orderClient.id,
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
-            supplierName: this.orderSupplierName,
+            supplierName: this.orderSupplier.id,
             deliveryAgent: this.name,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
@@ -257,10 +276,10 @@ import firebase from 'firebase/compat/app'
           }
 
           this.$store.dispatch('addOrder', orderFields)
-          this.orderClientName = ''
+          this.orderClient = {}
           this.orderWorkTitle = ''
           this.orderWorkProducts = ''
-          this.orderSupplierName = ''
+          this.orderSupplier = {}
           this.orderDeliveryAgent = ''
           this.orderSellPrice = ''
           this.orderBuyPrice = ''
@@ -277,9 +296,10 @@ import firebase from 'firebase/compat/app'
     },
     mounted() {
       if(this.order) {
-        this.orderClientName = this.order.clientName
+        this.orderClient = this.clients.find(client => client.name === this.order.clientName)
         this.orderWorkTitle = this.order.orderWorkTitle
         this.orderWorkProducts = this.order.orderWork
+        this.orderSupplier = this.suppliers.find(supplier => supplier.name === this.order.supplierName)
         this.orderSupplierName = this.order.supplierName
         this.orderDeliveryAgent = this.order.deliveryAgent
         this.orderSellPrice = this.order.sellPrice

@@ -3,7 +3,7 @@
     <v-dialog
       :value="true"
       persistent
-      max-width="600"
+      max-width="500"
     >
       <v-card
         elevation="8"

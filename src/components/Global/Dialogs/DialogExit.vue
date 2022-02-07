@@ -3,6 +3,7 @@
     <v-dialog
       :value="true"
       persistent
+      max-width="500"
     >
       <v-card>
         <v-card-title>יציאה מהמערכת</v-card-title>
