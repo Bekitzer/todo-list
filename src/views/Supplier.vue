@@ -50,28 +50,27 @@
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12" md="5" sm="5">
-            <v-avatar
-              class="profile"
-              size="150px"
-            >
-              <v-tooltip
-                top
-                content-class="normal tooltip-top"
+            <v-hover v-slot="{ hover }">
+              <v-avatar
+                class="profile"
+                size="150px"
               >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-img
-
-                    :src="supplier.avatar"
-                    @click="openFile(supplier)"
-                    lazy-src="/images/gravatar.jpg"
-                    v-bind="attrs"
-                    v-on="on"
-                    rounded
-                  ></v-img>
-                </template>
-                <span>הצג תמונה</span>
-              </v-tooltip>
-            </v-avatar>
+                <v-fade-transition>
+                    <v-overlay
+                      v-if="hover"
+                      absolute
+                      color="#000"
+                    >
+                      <v-btn @click="openFile(supplier)">הוספה/שינוי תמונה</v-btn>
+                    </v-overlay>
+                  </v-fade-transition>
+                <v-img
+                  :src="supplier.avatar"
+                  lazy-src="/images/gravatar.jpg"
+                  rounded
+                ></v-img>
+              </v-avatar>
+            </v-hover>
           </v-col>
           <v-col cols="12" md="7" sm="7">
             <h2>{{ supplier.name }}</h2>
@@ -291,6 +290,7 @@ import firebase from 'firebase/compat/app'
 export default {
   name: 'Supplier',
   data: () => ({
+    overlay: false,
     order: null,
     pageName: '',
     fab: false,

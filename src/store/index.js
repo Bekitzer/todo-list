@@ -2,16 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '@/firebase'
 import { doc, deleteDoc, updateDoc, collection, setDoc } from "firebase/firestore"
-import authStore from './modules/authStore'
 import firebase from 'firebase/compat/app'
 import { getAuth } from "firebase/auth";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    authStore,
-  },
   state: {
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
@@ -31,6 +27,16 @@ export default new Vuex.Store({
   },
   mutations: {
     //USERS
+    addUser(state, newUser){
+      state.users.push(newUser)
+    },
+    deleteUser(state, id){
+      state.users = state.users.filter(user => user.id !== id)
+    },
+    updateUser(state, payload){
+      let user = state.users.filter(user => user.id === payload.id)[0]
+      Object.assign(user, payload)
+    },
     setUsers(state, users) {
       state.users = users
     },
@@ -170,6 +176,72 @@ export default new Vuex.Store({
       })
 
     },
+    // USERS
+    addUser({ commit }, user) {
+      const incrementDocRef = db.collection('--stats--').doc('users');
+
+      db.runTransaction((transaction) => {
+        // This code may get re-run multiple times if there are conflicts.
+        return transaction
+        .get(incrementDocRef)
+        .then((incrementDoc) => {
+          if (!incrementDoc.exists) {
+              throw "Document does not exist!";
+          }
+
+          var incremented = incrementDoc.data().increment + 1;
+          transaction.update(incrementDocRef, { increment: incremented });
+          return incremented;
+        })
+        .then(async (number) => {
+          let isUser = {
+            ...user,
+            number: number,
+            userCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
+            userUpdated: null
+          }
+          await setDoc(doc(collection(db, "users")), isUser)
+          commit('addUser', isUser)
+          commit('showSnackbar', 'משתמש חדש נוסף!')
+        }).catch((error) => {
+          console.log('Something went wrong - addUser',error);
+        })
+      })
+    },
+    deleteUser({ commit }, id) {
+      deleteDoc(doc(db, "users", id)).then(() => {
+        commit('deleteUser', id)
+        commit('showSnackbar', 'משתמש נמחק!')
+      }).catch((error) => {
+        console.log('Something went wrong - deleteUser',error);
+      })
+    },
+    updateUser({commit}, payload) {
+      updateDoc(doc(db, "users", payload.id), payload).then(() => {
+        commit('updateUser', payload)
+        commit('showSnackbar', 'משתמש עודכן!')
+      }).catch((error) => {
+        console.log('Something went wrong - updateUser',error);
+      })
+    },
+    getUsers({ commit }) {
+      db.collection('users').get().then(querySnapshot => {
+        var users = [];
+        querySnapshot.forEach(doc => {
+          users.push({...doc.data(), id:doc.id})
+        })
+        commit('setUsers', users)
+      }).catch((error) => {
+        console.log('Something went wrong - getUsers',error);
+      })
+    },
+    setUsers({ commit }, users) {
+      setDoc(doc(collection(db, "users")), users).then(() => {
+        commit('setUsers', users)
+      }).catch((error) => {
+        console.log('Something went wrong - setUsers',error);
+      })
+    },
     // USER
     getUser({ commit }) {
       const user = getAuth().currentUser
@@ -182,17 +254,6 @@ export default new Vuex.Store({
 
       }).catch((error) => {
         console.log('Something went wrong - getUser',error);
-      })
-    },
-    getUsers({ commit }) {
-      db.collection('users').get().then(querySnapshot => {
-        var users = [];
-        querySnapshot.forEach(doc => {
-          users.push({...doc.data(), id:doc.id})
-        })
-        commit('setUsers', users)
-      }).catch((error) => {
-        console.log('Something went wrong - getUsers',error);
       })
     },
     // PRODUCTS
@@ -371,12 +432,24 @@ export default new Vuex.Store({
       })
     },
     updateClient({commit}, payload) {
-      updateDoc(doc(db, "clients", payload.id), payload).then(() => {
-        commit('updateClient', payload)
-        commit('showSnackbar', 'לקוח עודכן!')
-      }).catch((error) => {
-        console.log('Something went wrong - updateClient',error);
-      })
+      const {removeUsersIds, usersIds, ...client} = payload
+      // TODO: batch those requests to a transaction
+      updateDoc(doc(db, "clients", client.id), client)
+        .then(() => Promise.all(removeUsersIds.map(userId => {
+          return updateDoc(doc(db, "users", userId), {clientRef: null})
+        })))
+        .then(() => Promise.all(usersIds.map(userId => {
+          return updateDoc(doc(db, "users", userId), {clientRef: client.id})
+        })))
+        .then(() => {
+          commit('updateClient', client)
+          removeUsersIds.map(id => commit('updateUser', {id, clientRef: null}))
+          usersIds.map(id => commit('updateUser', {id, clientRef: client.id}))
+          commit('showSnackbar', 'לקוח עודכן!')
+        })
+        .catch((error) => {
+          console.log('Something went wrong - updateClient & updateUser',error);
+        })
     },
     getClients({ commit }) {
       db.collection('clients').get().then(querySnapshot => {

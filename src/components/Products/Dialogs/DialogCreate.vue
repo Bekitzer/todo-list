@@ -30,13 +30,13 @@
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-combobox
-                v-model="productAttributes"
+                v-model="productTags"
                 :filter="filter"
                 :hide-no-data="!search"
                 :items="items"
                 :search-input.sync="search"
                 hide-selected
-                label="חפש או צור חדש"
+                label="חפש או צור תגית חדש"
                 multiple
                 small-chips
                 solo
@@ -172,7 +172,7 @@ export default {
     ],
     nonce: 1,
     menu: false,
-    productAttributes: [],
+    productTags: [],
     x: 0,
     search: null,
     y: 0,
@@ -185,10 +185,10 @@ export default {
     }
   },
   watch: {
-    productAttributes (val, prev) {
+    productTags (val, prev) {
       if (val.length === prev.length) return
 
-      this.productAttributes = val.map(v => {
+      this.productTags = val.map(v => {
         if (typeof v === 'string') {
           v = {
             text: v,
@@ -230,7 +230,7 @@ export default {
         const productFields = {
           name: this.productName,
           category: this.productCategory,
-          attributes: this.productAttributes,
+          Tags: this.productTags,
           productInfo: this.productInfo,
           prices: this.supplierPrices
         }
@@ -238,7 +238,7 @@ export default {
         this.$store.dispatch('addProduct', productFields)
         this.productName = ''
         this.productCategory = ''
-        this.productAttributes = ''
+        this.productTags = ''
         this.productInfo = ''
         this.supplierPrices = ''
         this.attributeName = ''

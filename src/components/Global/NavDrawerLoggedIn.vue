@@ -84,6 +84,17 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
+          v-if="user.isAdmin"
+          :to="{ name: 'Users' }"
+        >
+          <v-list-item-content>
+            <v-list-item-icon>
+              <icon-clients width="26"/>
+            </v-list-item-icon>
+            <v-list-item-subtitle style="z-index: 1;font-size:12px">משתמשים</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
           :to="{ name: 'Dashboard' }"
         >
           <v-list-item-content>

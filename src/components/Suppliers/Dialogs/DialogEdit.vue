@@ -203,15 +203,15 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-autocomplete
-              v-model="connectedUsersIds"
-              :items="users"
-              filled
-              chips
-              color="blue-grey lighten-2"
-              label="משתמש"
-              item-text="username"
-              item-value="id"
-              multiple
+                v-model="connectedUsersIds"
+                :items="users"
+                filled
+                chips
+                color="blue-grey lighten-2"
+                label="משתמש"
+                item-text="username"
+                item-value="id"
+                multiple
               >
                 <template v-slot:selection="data">
                   <v-chip

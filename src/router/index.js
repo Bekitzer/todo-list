@@ -127,6 +127,24 @@ const routes = [
        requiresAuth: true,
        back: "Suppliers"
     }
+  },
+  {
+    path: '/users',
+    name: 'Users',
+    component: () => import('../views/Users.vue'),
+    meta: {
+       requiresAuth: true
+    }
+  },
+  {
+    path: '/users/:id',
+    name: 'User',
+    component: () => import('../views/User.vue'),
+    props:true,
+    meta: {
+       requiresAuth: true,
+       back: "Users"
+    }
   }
 ]
 

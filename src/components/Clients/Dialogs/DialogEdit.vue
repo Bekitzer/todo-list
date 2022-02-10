@@ -212,6 +212,50 @@
                 hide-details
               ></v-select>
             </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-autocomplete
+                v-model="connectedUsersIds"
+                :items="users"
+                filled
+                chips
+                color="blue-grey lighten-2"
+                label="משתמש"
+                item-text="username"
+                item-value="id"
+                multiple
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click="data.select"
+                    @click:close="remove(data.item)"
+                  >
+                    <v-avatar left>
+                      <v-img :src="data.item.avatar" lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                    </v-avatar>
+                    {{ data.item.username }}
+                  </v-chip>
+                </template>
+                <template v-slot:item="data">
+                  <template v-if="(typeof data.item !== 'object')">
+                    <v-list-item-content v-text="data.item"></v-list-item-content>
+                  </template>
+                  <template v-else>
+                    <v-list-item-avatar>
+                      <v-img
+                      :src="data.item.avatar"
+                      lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
+                      <v-list-item-subtitle v-html="data.item.username"></v-list-item-subtitle>
+                    </v-list-item-content>
+                  </template>
+                </template>
+              </v-autocomplete>
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-btn
@@ -294,7 +338,9 @@ export default {
     clientLead: '',
     clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
     clientNewsletter: '',
-    clientNewsletterList: ["כן","לא"]
+    clientNewsletterList: ["כן","לא"],
+    connectedUsersIds: [],
+    removeUsersIds: []
   }),
   computed: {
     clientFieldInvalid() {
@@ -302,11 +348,21 @@ export default {
       !this.clientName || this.clientName === this.client.name
       !this.clientStatus || this.clientStatus === this.client.status
 
-    }
+    },
+    users() {
+      return this.$store.state.users
+    },
   },
   methods: {
     getAddressData: function (addressData, placeResultData, id) {
       this.address = addressData;
+    },
+    remove (item) {
+      const index = this.connectedUsersIds.indexOf(item.id)
+      if (index >= 0) {
+        this.removeUsersIds.push(this.connectedUsersIds[index])
+        this.connectedUsersIds.splice(index, 1)
+      }
     },
     saveClient() {
       if(!this.clientFieldInvalid){
@@ -331,6 +387,8 @@ export default {
           status: this.clientStatus,
           lead: this.clientLead,
           newsletter: this.clientNewsletter,
+          usersIds: this.connectedUsersIds,
+          removeUsersIds: this.removeUsersIds,
           clientUpdated: firebase.firestore.FieldValue.serverTimestamp(),
         }
         this.$store.dispatch('updateClient', payload)
@@ -362,6 +420,7 @@ export default {
     this.clientStatus = this.client.status
     this.clientLead = this.client.lead
     this.clientNewsletter = this.client.newsletter
+    this.connectedUsersIds = this.users.filter(user => user.clientRef === this.client.id).map(user => user.id)
     document.addEventListener("keydown", (e) => {
       if (e.keyCode == 27) {
           this.$emit('close')
