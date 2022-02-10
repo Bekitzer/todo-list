@@ -7,12 +7,13 @@
         </v-col>
         <v-col cols="5">
           <v-combobox
+            :disabled="!fields[i].name"
             v-model="fields[i].values"
             @change="handleChange(i)"
             :filter="filter"
-            :hide-no-data="!search"
+            :hide-no-data="!fields[i].search"
             :items="fields[i].items"
-            :search-input.sync="search"
+            :search-input.sync="fields[i].search"
             hide-selected
             label="חפש או צור תגית חדש"
             multiple
@@ -21,7 +22,7 @@
               <v-list-item>
                 <span class="subheading">חדש</span>
                 <v-chip label small>
-                  {{ search }}
+                  {{ fields[i].search }}
                 </v-chip>
               </v-list-item>
             </template>
@@ -80,33 +81,35 @@
         </v-icon>
       </v-btn>
     </v-card-text>
-
-    <v-card-actions>
-      <v-btn color="success" @click="saveChanges" block>
-        Save changes
-      </v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script>
+const defaultField = {
+  name: '',
+  values: [],
+  items: [],
+  search: null
+}
+
 export default {
   name: 'RepeaterField',
-  data: () => ({
-    fields: [],
-    editing: null,
-    editingIndex: -1,
-    search: null,
-  }),
-  created() {
-    this.addField()
+  props: {
+    value: {
+      default: () => ([defaultField])
+    }
   },
+  data: () => ({
+    editing: null,
+    editingIndex: -1
+  }),
   methods: {
     addField() {
-      this.fields.push({name: '', values: [], items: []});
+      this.fields.push(defaultField);
     },
     removeField(index) {
       this.fields.splice(index, 1);
+      this.fields = [...this.fields]
     },
     saveChanges() {
       console.log('TODO: save those values to DB', this.fields)
@@ -117,6 +120,8 @@ export default {
           // values: ['black', 'white']
           // product_id: xyz
       // }
+              // this.$store.dispatch('addAtribute', attributeFields)
+
 
       // variations: {
         // attribute_id: ABC
@@ -138,6 +143,7 @@ export default {
       } else {
         this.editing = null
         this.editingIndex = -1
+        this.fields = [...this.fields]
       }
     },
     filter (item, queryText, itemText) {
@@ -164,7 +170,21 @@ export default {
 
         return v
       });
+
+      this.fields = [...this.fields]
     }
   },
+  computed: {
+    fields: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        console.log(1)
+        this.$emit('change', val.filter(({name}) => name))
+        this.$emit('input', val)
+      }
+    }
+  }
 }
 </script>

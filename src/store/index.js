@@ -69,6 +69,10 @@ export default new Vuex.Store({
     setProducts(state, products) {
       state.products = products
     },
+    // Attribute
+    setAttributes(state, attributes) {
+      state.attributes = attributes
+    },
     // ORDERS
     addOrder(state, newOrder){
       state.orders.push(newOrder)
@@ -286,6 +290,15 @@ export default new Vuex.Store({
         }).catch((error) => {
           console.log('Something went wrong - addProduct',error);
         })
+      })
+    },
+    // Attributes
+    updateAttributes({commit}, payload) {
+      updateDoc(doc(db, "products", payload.id), {attributes: payload.attributes}).then(() => {
+        commit('setAttributes', payload.attributes)
+        commit('showSnackbar', 'מאפיינים עודכנו!')
+      }).catch((error) => {
+        console.log('Something went wrong - updateAttributes',error);
       })
     },
     deleteProduct({ commit }, id) {

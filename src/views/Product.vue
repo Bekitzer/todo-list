@@ -40,7 +40,7 @@
         </v-tabs>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <repeater-field/>
+            <repeater-field @change="handleAttributeChange" v-model="product.attributes"/>
           </v-tab-item>
           <v-tab-item>
             <v-card >
@@ -135,6 +135,9 @@ export default {
     },
   },
   methods:{
+    handleAttributeChange(attributes) {
+      this.$store.dispatch('updateAttributes', {id: this.product.id, attributes})
+    },
     edit (index, item) {
       if (!this.editing) {
         this.editing = item
@@ -156,31 +159,6 @@ export default {
         .toLowerCase()
         .indexOf(query.toString().toLowerCase()) > -1
     },
-    // addProduct() {
-    //   if(!this.productFieldInvalid){
-    //     const productFields = {
-    //       name: this.productName,
-    //       category: this.productCategory,
-    //       Tags: this.productTags,
-    //       productInfo: this.productInfo,
-    //       prices: this.supplierPrices
-    //     }
-
-    //     this.$store.dispatch('addProduct', productFields)
-    //     this.productName = ''
-    //     this.productCategory = ''
-    //     this.productTags = ''
-    //     this.productInfo = ''
-    //     this.supplierPrices = ''
-    //     this.attributeName = ''
-    //     this.attributeValues = ''
-    //   }
-    //   this.closeDialog()
-    //   setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
-    // },
-    // closeDialog() {
-    //   this.$emit('close')
-    // }
   },
   components: {
       'dialog-edit': require('@/components/Products/Dialogs/DialogEdit.vue').default,

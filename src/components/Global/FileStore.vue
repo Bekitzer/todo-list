@@ -31,14 +31,14 @@ export default {
       }
     },
     computed: {
-        fileUrl: {
-          get() {
-            return this.value
-          },
-          set(val) {
-            this.$emit('input', val)
-          }
+      fileUrl: {
+        get() {
+          return this.value
+        },
+        set(val) {
+          this.$emit('input', val)
         }
+      }
     }
   }
 </script>
