@@ -309,7 +309,6 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
         delete: false
       },
       supplierName: '',
-      supplierAvatar: '',
       supplierCompanyName:'',
       supplierContactName: '',
       supplierPhone: '',

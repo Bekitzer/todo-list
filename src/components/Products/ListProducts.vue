@@ -1,34 +1,23 @@
 <template>
   <v-col cols="12" md="2" sm="6" class="pl-2">
-    <v-card>
+    <v-card
+      @click="handleClick(product)"
+    >
       <v-img
-        src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-        height="100px"
+        :src="product.file"
+        height="174"
+        lazy-src="/images/gravatar.jpg"
       ></v-img>
 
       <v-card-title>
         {{product.name}}
       </v-card-title>
-      <v-card-subtitle>
-        {{product.category}}<br>
+      <v-card-subtitle
+        v-for="category in product.category"
+        :key="category"
+      >
+        {{category}}
       </v-card-subtitle>
-      <v-card-actions>
-        <v-btn @click="handleClick(product)" color="white" >
-          קרא עוד
-        </v-btn>
-        <v-spacer></v-spacer>
-        <v-btn @click="show = !show" icon>
-          <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-        </v-btn>
-      </v-card-actions>
-      <v-expand-transition>
-        <div v-show="show">
-          <v-divider></v-divider>
-          <v-card-text style="white-space:pre-line;">
-            {{product.productInfo}}
-          </v-card-text>
-        </div>
-      </v-expand-transition>
     </v-card>
   </v-col>
 </template>

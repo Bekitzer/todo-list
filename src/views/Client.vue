@@ -331,7 +331,7 @@ export default {
       this.order = JSON.parse(JSON.stringify(item))
       this.dialogs.order = true
     },
-    openFile (supplier) {
+    openFile (client) {
       this.dialogs.image = true
     },
     duplicateOrder(item) {

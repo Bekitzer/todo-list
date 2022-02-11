@@ -29,7 +29,7 @@
             </v-col>
             <v-col cols="12" md="12" sm="12">
               <v-combobox
-                v-model="productAttributes"
+                v-model="productTags"
                 :filter="filter"
                 :hide-no-data="!search"
                 :items="items"
@@ -121,7 +121,7 @@
             class="black--text"
             @click="dialogs.delete=true"
           >
-            למחוק הזמנה זו?
+            למחוק מוצר זה?
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn
@@ -182,11 +182,11 @@ export default {
     editing: null,
     editingIndex: -1,
     items: [
-      { header: 'בחר או שנה' },
+      { header: 'בחר או שנה תגית' },
     ],
     nonce: 1,
     menu: false,
-    productAttributes: [],
+    productTags: [],
     x: 0,
     search: null,
     y: 0,
@@ -198,20 +198,16 @@ export default {
     }
   },
   watch: {
-    productAttributes (val, prev) {
+    productTags (val, prev) {
       if (val.length === prev.length) return
 
-      this.productAttributes = val.map(v => {
+      this.productTags = val.map(v => {
         if (typeof v === 'string') {
           v = {
             text: v,
           }
-
           this.items.push(v)
-
-          this.nonce++
         }
-
         return v
       })
     },
@@ -244,7 +240,7 @@ export default {
           id: this.product.id,
           name: this.productName,
           category: this.productCategory,
-          attributes: this.productAttributes,
+          tags: this.productTags,
           productInfo: this.productInfo,
           prices: this.supplierPrices,
           productUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
@@ -260,7 +256,7 @@ export default {
   mounted() {
     this.productName = this.product.name
     this.productCategory = this.product.category
-    this.productAttributes = this.product.attributes
+    this.productTags = this.product.tags
     this.productInfo = this.product.productInfo
     this.supplierPrices = this.product.prices
     document.addEventListener("keydown", (e) => {

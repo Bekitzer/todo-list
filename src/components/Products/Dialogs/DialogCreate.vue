@@ -168,7 +168,7 @@ export default {
     editing: null,
     editingIndex: -1,
     items: [
-      { header: 'בחר או צור חדש' },
+      { header: 'בחר או צור תגית חדשה' },
     ],
     nonce: 1,
     menu: false,
@@ -230,7 +230,7 @@ export default {
         const productFields = {
           name: this.productName,
           category: this.productCategory,
-          Tags: this.productTags,
+          tags: this.productTags,
           productInfo: this.productInfo,
           prices: this.supplierPrices
         }

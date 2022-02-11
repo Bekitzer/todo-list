@@ -70,16 +70,30 @@
         </v-tabs-items>
       </v-col>
       <v-col cols="12" md="5" sm="5">
-        <v-img
-          src="/images/radik.jpg"
-          rounded
-        ></v-img>
+        <v-hover v-slot="{ hover }">
+          <div>
+            <v-fade-transition>
+                <v-overlay v-if="hover" color="#000" absolute>
+                  <v-btn @click="openFile(product)">הוספה/שינוי תמונה</v-btn>
+                </v-overlay>
+              </v-fade-transition>
+            <v-img
+              :src="product.file"
+              lazy-src="/images/gravatar.jpg"
+            ></v-img>
+          </div>
+        </v-hover>
       </v-col>
     </v-row>
     <dialog-edit
       v-if="dialogs.edit"
       @close = 'dialogs.edit = false'
       :product = 'product'
+    />
+    <dialog-image
+      v-if="dialogs.image"
+      :product = 'product'
+      @close = 'dialogs.image = false'
     />
   </div>
 </template>
@@ -88,12 +102,14 @@
 export default {
   name: 'Product',
   data: () => ({
+    overlay: false,
     pageName: '',
     fab: false,
     transition: 'slide-y-transition',
     dialogs: {
       edit: false,
-      delete: false
+      delete: false,
+      image: false
     },
     tab: null,
     activator: null,
@@ -119,22 +135,20 @@ export default {
   watch: {
     attributeValues (val, prev) {
       if (val.length === prev.length) return
-
       this.attributeValues = val.map(v => {
         if (typeof v === 'string') {
-          v = {
-            text: v,
-          }
+          v = {text: v,}
           this.items.push(v)
-
           this.nonce++
         }
-
         return v
       })
     },
   },
   methods:{
+    openFile (product) {
+      this.dialogs.image = true
+    },
     handleAttributeChange(attributes) {
       this.$store.dispatch('updateAttributes', {id: this.product.id, attributes})
     },
@@ -164,6 +178,7 @@ export default {
       'dialog-edit': require('@/components/Products/Dialogs/DialogEdit.vue').default,
       'dialog-delete': require('@/components/Products/Dialogs/DialogDelete.vue').default,
       'nav-appbar' : require('@/components/Global/AppBar.vue').default,
+      'dialog-image': require('@/components/Products/Dialogs/DialogImage.vue').default,
       'repeater-field' : require('@/components/Products/Attributes/RepeaterField.vue').default
   }
 }

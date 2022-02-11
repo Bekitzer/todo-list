@@ -245,7 +245,6 @@ export default {
     address: '',
     dialog: false,
     supplierName: '',
-    supplierAvatar: '',
     supplierCompanyName: '',
     supplierContactName: '',
     supplierPhone: '',
