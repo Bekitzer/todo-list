@@ -144,9 +144,9 @@
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="12" md="2" sm="2" class="ml-2 rounded-pill">
-              <span>מכירה: {{ sumField('sellPrice') }} | </span>
-              <span>קניה: {{ sumField('buyPrice') }} | </span>
-              <span>רווח: {{ sumField('margin') }}</span>
+              <span>מכירה: {{ sumField('sellPrice')  | formatNumber }} | </span>
+              <span>קניה: {{ sumField('buyPrice')  | formatNumber }} | </span>
+              <span>רווח: {{ sumField('margin')  | formatNumber }}</span>
           </v-col>
           <v-col cols="12" md="1" sm="1">
             <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
@@ -311,7 +311,11 @@ export default {
       return date ? new Date(date.seconds * 1000) : null
     },
     sumField(key) {
-      if(this.orders.filter(order => order.id)) return this.orders.reduce((a, b) => a + (b[key]), 0)
+      if(!this.$store.state.search){
+        return this.orders.reduce((a, b) =>
+          a + (b[key]), 0
+        )
+      }
     }
   },
   computed: {

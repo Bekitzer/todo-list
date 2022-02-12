@@ -15,7 +15,7 @@ export default {
   name: 'Search',
   methods: {
     clearMe() {
-      this.$store.state.search = '';
+      this.$store.state.search = ''
     }
   }
 }
