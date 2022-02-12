@@ -97,7 +97,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="orderSellPrice"
+                type="number"
+                v-model.number="orderSellPrice"
                 label="מחיר מכירה"
                 filled
                 dense
@@ -106,7 +107,8 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="orderBuyPrice"
+                type="number"
+                v-model.number="orderBuyPrice"
                 label="מחיר קנייה"
                 filled
                 dense

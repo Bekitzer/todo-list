@@ -182,6 +182,7 @@ export default {
     border-bottom: none !important
   .spc-btn
     color: #03616f !important
+    margin-right:10px !important
     transform: rotate(0deg) !important
   .spc-btn:hover
     background: #03616f !important
@@ -189,6 +190,7 @@ export default {
     transform: rotate(90deg) !important
   .spc-create
     color: #03616f !important
+    margin-right:10px !important
   .spc-create:hover
     background: #03616f !important
     color: white !important
@@ -213,5 +215,8 @@ export default {
   .spc-file
     width:100% !important
     border-radius:100px
-
+  .theme--light.v-data-table .v-data-table-header th.sortable .v-data-table-header__icon
+    display:contents
+  .v-icon.notranslate.v-data-table-header__icon.mdi-arrow-up::before
+    content: "\F0143"
 </style>

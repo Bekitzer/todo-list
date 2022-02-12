@@ -121,10 +121,7 @@
         </v-edit-dialog>
       </template>
       <template v-slot:top>
-        <v-row
-          no-gutters
-          style="margin: 20px 0 !important;"
-        >
+        <v-row no-gutters class="mt-6 mb-6 text-center align-center">
           <v-col cols="12" md="2" sm="2" class="pl-2">
             <v-select
               :items="orderDateList"
@@ -146,6 +143,11 @@
             ></v-select>
           </v-col>
           <v-spacer></v-spacer>
+          <v-col cols="12" md="2" sm="2" class="ml-2 rounded-pill">
+              <span>מכירה: {{ sumField('sellPrice') }} | </span>
+              <span>קניה: {{ sumField('buyPrice') }} | </span>
+              <span>רווח: {{ sumField('margin') }}</span>
+          </v-col>
           <v-col cols="12" md="1" sm="1">
             <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
           </v-col>
@@ -307,6 +309,9 @@ export default {
     },
     orderDate(date) {
       return date ? new Date(date.seconds * 1000) : null
+    },
+    sumField(key) {
+      if(this.orders.filter(order => order.id)) return this.orders.reduce((a, b) => a + (b[key]), 0)
     }
   },
   computed: {
@@ -323,7 +328,7 @@ export default {
       { text: 'קניה', value: 'buy', width: '60px', 'sortable': false  },
       { text: 'רווח', value: 'margins', width: '60px', 'sortable': false  },
       { text: 'פעולות', value: 'actions', width: '100px', 'sortable': false  },
-      { text: 'סטטוס הזמנה', value: 'statusType', width: '110px','sortable': true, filter: this.statusesFilter},
+      { text: 'סטטוס הזמנה', value: 'statusType', width: '110px','sortable': true},
     ]
     },
     clientsMap() {
