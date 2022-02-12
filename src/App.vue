@@ -216,7 +216,7 @@ export default {
     width:100% !important
     border-radius:100px
   .theme--light.v-data-table .v-data-table-header th.sortable .v-data-table-header__icon
-    display:contents
+    display: contents
   .v-icon.notranslate.v-data-table-header__icon.mdi-arrow-up::before
     content: "\F0143"
 </style>
