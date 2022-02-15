@@ -300,14 +300,13 @@ import emailjs from '@emailjs/browser';
     },
     mounted() {
       if(this.order) {
-        this.orderClient = this.clients.find(client => client.name === this.order.clientName)
-        this.orderWorkTitle = this.order.orderWorkTitle
-        this.orderWorkProducts = this.order.orderWork
-        this.orderSupplier = this.suppliers.find(supplier => supplier.name === this.order.supplierName)
-        this.orderSupplierName = this.order.supplierName
-        this.orderDeliveryAgent = this.order.deliveryAgent
-        this.orderSellPrice = this.order.sellPrice
-        this.orderBuyPrice = this.order.buyPrice
+        this.orderClient = this.clients.find(client => client.id === this.order.clientName)
+        // this.orderWorkTitle = this.order.orderWorkTitle
+        // this.orderWorkProducts = this.order.orderWork
+        this.orderSupplier = this.suppliers.find(supplier => supplier.id === this.order.supplierName)
+        // this.orderDeliveryAgent = this.order.deliveryAgent
+        // this.orderSellPrice = this.order.sellPrice
+        // this.orderBuyPrice = this.order.buyPrice
       }
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {

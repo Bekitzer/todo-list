@@ -11,7 +11,10 @@
     :items-per-page="-1"
     hide-default-footer
   >
-  <template v-slot:item.emailLink="{ item }">
+      <template v-slot:item.connected="{ item }">
+        {{ item.clientLink }}{{ item.supplierLink }}
+      </template>
+    <template v-slot:item.emailLink="{ item }">
       <div @click.stop>
         <a :href="'mailto:' + item.email" style="text-decoration:none;">{{item.email}}</a>
       </div>
@@ -36,6 +39,7 @@ export default {
       { text: 'שם פרטי', value: 'lastname', 'sortable': false },
       { text: 'טלפון', value: 'phoneLink', width: '100px', 'sortable': false },
       { text: 'מייל', value: 'emailLink', 'sortable': false },
+      { text: 'מחובר/לא מחובר', value: 'connected', 'sortable': false },
     ],
   }),
   methods: {
@@ -44,8 +48,37 @@ export default {
     }
   },
   computed: {
-    users() {
-      return this.$store.state.users
+    clientsMap() {
+      const clientsMap = {}
+      this.$store.state.clients.forEach(client => {
+        clientsMap[client.id] = client
+      })
+
+      return clientsMap
+    },
+    suppliersMap() {
+      const suppliersMap = {}
+      this.$store.state.suppliers.forEach(supplier => {
+        suppliersMap[supplier.id] = supplier
+      })
+
+      return suppliersMap
+    },
+    users: {
+      get() {
+        return this.$store.state.users.map(user => {
+          const client = this.clientsMap[user.clientRef] || {}
+          const supplier = this.suppliersMap[user.supplierRef] || {}
+          return {
+            ...user,
+            clientLink: client.name,
+            supplierLink: supplier.name
+          }
+        })
+      },
+      set(value) {
+        this.$store.dispatch('setUsers', value)
+      }
     }
   },
   components: {
