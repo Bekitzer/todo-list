@@ -11,9 +11,14 @@
     :items-per-page="-1"
     hide-default-footer
   >
-      <template v-slot:item.connected="{ item }">
+    <template v-slot:item.connected="{ item }">
+      <span v-if="item.clientLink || item.supplierLink">
         {{ item.clientLink }}{{ item.supplierLink }}
-      </template>
+      </span>
+      <span v-else >
+        <v-icon>mdi-close</v-icon>
+      </span>
+    </template>
     <template v-slot:item.emailLink="{ item }">
       <div @click.stop>
         <a :href="'mailto:' + item.email" style="text-decoration:none;">{{item.email}}</a>
@@ -39,7 +44,8 @@ export default {
       { text: 'שם פרטי', value: 'lastname', 'sortable': false },
       { text: 'טלפון', value: 'phoneLink', width: '100px', 'sortable': false },
       { text: 'מייל', value: 'emailLink', 'sortable': false },
-      { text: 'מחובר/לא מחובר', value: 'connected', 'sortable': false },
+      { text: 'תפקיד', value: 'position', 'sortable': false },
+      { text: 'מחובר?', value: 'connected', 'sortable': false },
     ],
   }),
   methods: {
