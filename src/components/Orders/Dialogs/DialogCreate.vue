@@ -262,7 +262,7 @@ import emailjs from '@emailjs/browser';
             })
         }
         this.closeDialog()
-        // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+        setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       addDraft() {
           const orderFields = {
@@ -292,7 +292,7 @@ import emailjs from '@emailjs/browser';
           this.orderDeliveryDate = ''
           this.orderDeliveryType = ''
           this.closeDialog()
-          // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+          setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       closeDialog() {
         this.$emit('close')
@@ -301,12 +301,12 @@ import emailjs from '@emailjs/browser';
     mounted() {
       if(this.order) {
         this.orderClient = this.clients.find(client => client.id === this.order.clientName)
-        // this.orderWorkTitle = this.order.orderWorkTitle
-        // this.orderWorkProducts = this.order.orderWork
+        this.orderWorkTitle = this.order.orderWorkTitle
+        this.orderWorkProducts = this.order.orderWork
         this.orderSupplier = this.suppliers.find(supplier => supplier.id === this.order.supplierName)
-        // this.orderDeliveryAgent = this.order.deliveryAgent
-        // this.orderSellPrice = this.order.sellPrice
-        // this.orderBuyPrice = this.order.buyPrice
+        this.orderDeliveryAgent = this.order.deliveryAgent
+        this.orderSellPrice = this.order.sellPrice
+        this.orderBuyPrice = this.order.buyPrice
       }
       document.addEventListener("keydown", (e) => {
         if (e.keyCode == 27) {

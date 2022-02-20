@@ -67,4 +67,4 @@ const override = comps.VTextField.extend({
     this.badInput = target.validity && target.validity.badInput
   }
 })
-Vue.component(NewVTextField, override)
+Vue.component('NewVTextField', override)

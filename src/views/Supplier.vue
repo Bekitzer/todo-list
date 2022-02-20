@@ -23,6 +23,28 @@
           <span>עריכת ספק</span>
         </v-tooltip>
       </template>
+      <template v-slot:create-btn>
+        <v-tooltip
+          bottom
+          content-class="normal tooltip-bottom"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              small
+              elevation="0"
+              filled
+              v-bind="attrs"
+              v-on="on"
+              class="spc-create"
+              @click="dialogs.create = true"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </template>
+          <span>הזמנה חדשה</span>
+        </v-tooltip>
+      </template>
     </nav-appbar>
     <v-row no-gutters>
       <v-col cols="12" md="3" sm="3">
@@ -242,8 +264,8 @@
     </v-row>
     <dialog-edit
       v-if="dialogs.edit"
-      @close = 'dialogs.edit = false'
       :supplier = 'supplier'
+      @close = 'dialogs.edit = false'
     />
     <dialog-create
       v-if="dialogs.create"
