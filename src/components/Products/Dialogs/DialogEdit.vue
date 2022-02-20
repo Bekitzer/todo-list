@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
-      max-width="600"
+      max-width="700"
     >
       <v-card
         elevation="8"

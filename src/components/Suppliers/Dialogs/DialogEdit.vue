@@ -3,18 +3,18 @@
     <v-dialog
       :value="true"
       persistent
-      max-width="600"
+      max-width="700"
     >
       <v-card
         elevation="8"
         shaped
       >
-        <v-card-title>עריכה</v-card-title>
           <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>פרטי ספק</h3>
+            <h3 style="padding-bottom:0">עריכה ספק</h3>
+            <v-col cols="12" style="padding-bottom:0">
+              <h4>פרטי ספק</h4>
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 v-model="supplierName"
                 label="שם ספק"
@@ -23,7 +23,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 v-model="supplierCompanyName"
                 label="שם חברה"
@@ -32,7 +32,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 v-model="supplierIdNumber"
                 label="ח.פ. / ע.מ."
@@ -41,39 +41,7 @@
                 hide-details
               />
             </v-col>
-          </v-row>
-          <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>פרטי התקשרות</h3>
-            </v-col>
-            <v-col cols="12" md="4" sm="12">
-              <v-text-field
-                v-model="supplierContactName"
-                label="איש קשר ראשי"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="supplierPhone"
-                label="טלפון משרד"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="supplierEmail"
-                label="מייל משרד"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
+            <v-col cols="12" md="6">
               <vuetify-google-autocomplete
                 ref="address"
                 id="map"
@@ -87,25 +55,58 @@
               >
               </vuetify-google-autocomplete>
             </v-col>
-            <v-col cols="12" md="12" sm="6">
+            <v-col cols="12">
               <v-textarea
                 v-model="supplierAddressAdditional"
-                label="הנחיות שילוח"
+                label="הוראות הגעה"
                 filled
                 dense
                 hide-details
+                rows="1"
               ></v-textarea>
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+          </v-row>
+          <v-row class="pr-10 pl-10">
+            <v-col cols="12" style="padding-bottom:0">
+              <h4>פרטי התקשרות</h4>
+            </v-col>
+            <!-- <v-col cols="12" md="4" sm="12">
               <v-text-field
-                v-model="supplierWhatsapp"
-                label="וואטסאפ"
+                v-model="supplierContactName"
+                label="איש קשר ראשי"
+                filled
+                dense
+                hide-details
+              />
+            </v-col> -->
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="supplierPhone"
+                label="טלפון משרד"
                 filled
                 dense
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="supplierEmail"
+                label="מייל משרד"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6">
+              <v-text-field
+                v-model="supplierWhatsapp"
+                label="וואטסאפ משרד"
+                filled
+                dense
+                hide-details
+              />
+            </v-col>
+            <v-col cols="12" md="6">
               <v-text-field
                 v-model="supplierWebsite"
                 label="אתר אינטרנט"
@@ -114,7 +115,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 v-model="supplierFacebook"
                 label="פייסבוק"
@@ -123,7 +124,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 v-model="supplierInstagram"
                 label="אינסטגרם"
@@ -134,10 +135,10 @@
             </v-col>
           </v-row>
           <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>הגדרות תשלום</h3>
+            <v-col cols="12" style="padding-bottom:0">
+              <h4>הגדרות תשלום</h4>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="6">
               <v-select
                 v-model="supplierPaymentTerms"
                 :items="supplierPaymentTermsList"
@@ -147,7 +148,7 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="6">
               <v-select
                 v-model="supplierPaymentMethod"
                 :items="supplierPaymentMethodList"
@@ -159,10 +160,10 @@
             </v-col>
           </v-row>
           <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>הגדרות ספק</h3>
+            <v-col cols="12" style="padding-bottom:0">
+              <h4>הגדרות ספק</h4>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="6">
               <v-select
                 v-model="supplierDeliveryType"
                 :items="supplierDeliveryTypeList"
@@ -172,7 +173,7 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="6">
               <v-text-field
                 v-model="supplierHours"
                 label="שעות פעילות"
@@ -181,7 +182,7 @@
                 hide-details
               />
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="6">
               <v-select
                 v-model="supplierStatus"
                 :items="supplierStatusList"
@@ -191,7 +192,7 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="6">
               <v-select
                 v-model="supplierNewsletter"
                 :items="supplierNewsletterList"
@@ -201,7 +202,7 @@
                 hide-details
               ></v-select>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="6">
               <v-autocomplete
                 v-model="connectedUsersIds"
                 :items="users"
@@ -245,43 +246,55 @@
                 </template>
               </v-autocomplete>
             </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="supplierScope"
+                :items="supplierScopeList"
+                label="תחום"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
+            <v-col cols="12">
+              <v-card-actions
+                style="padding:0"
+              >
+                <v-btn
+                  fab
+                  icon
+                  outlined
+                  color="red"
+                  class="black--text"
+                  @click="dialogs.delete = true"
+                >
+                  <v-icon>
+                    mdi-close
+                  </v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn
+                  outlined
+                  large
+                  color="red"
+                  @click="closeDialog"
+                  @keyup:esc="closeDialog"
+                >
+                  ביטול
+                </v-btn>
+                <v-btn
+                  outlined
+                  large
+                  color="green"
+                  @click="saveSupplier"
+                  :disabled="supplierFieldInvalid"
+                  @keyup.enter="saveSupplier"
+                >
+                  שמור
+                </v-btn>
+              </v-card-actions>
+            </v-col>
           </v-row>
-        <v-card-actions>
-          <v-btn
-            class="black--text"
-            @click="dialogs.delete = true"
-          >
-            למחוק ספק זה?
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="red"
-            @click="closeDialog"
-            @keyup:esc="closeDialog"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
-          </v-btn>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="green"
-            @click="saveSupplier"
-            :disabled="supplierFieldInvalid"
-            @keyup.enter="saveSupplier"
-          >
-            <v-icon>
-              mdi-check
-            </v-icon>
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
     <dialog-delete
@@ -331,6 +344,8 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
       supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
       supplierNewsletter: '',
       supplierNewsletterList: ["כן","לא"],
+      supplierScope: '',
+      supplierScopeList: ["2","1"],
       connectedUsersIds: [],
       removeUsersIds: []
     }),
@@ -377,6 +392,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
             deliveryType: this.supplierDeliveryType,
             status: this.supplierStatus,
             newsletter: this.supplierNewsletter,
+            scope: this.supplierScope,
             usersIds: this.connectedUsersIds,
             removeUsersIds: this.removeUsersIds,
             supplierUpdated: firebase.firestore.FieldValue.serverTimestamp(),
@@ -409,6 +425,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
       this.supplierNewsletter = this.supplier.newsletter
+      this.this.supplierScope = this.supplier.scope
       this.connectedUsersIds = this.users.filter(user => user.supplierRef === this.supplier.id).map(user => user.id)
 
       document.addEventListener("keydown", (e) => {

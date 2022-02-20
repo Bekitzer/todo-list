@@ -50,7 +50,7 @@
               <p class="spc-titles">כתובת</p> {{ supplier.address }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">הנחיות שילוח</p> {{ supplier.addressAditional }}
+              <p class="spc-titles">הוראות הגעה</p> {{ supplier.addressAditional }}
             </div>
           </v-col>
         </v-row>

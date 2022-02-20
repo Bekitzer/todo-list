@@ -3,7 +3,7 @@
     <v-dialog
       :value="true"
       persistent
-      max-width="600"
+      max-width="700"
     >
       <v-card
         elevation="8"
@@ -44,9 +44,9 @@
           </v-row>
           <v-row class="pr-10 pl-10">
             <v-col cols="12">
-              <h3>פרטי התקשרות</h3>
+              <h3>פרטי התקשרות ספק</h3>
             </v-col>
-            <v-col cols="12" md="4" sm="12">
+            <!-- <v-col cols="12" md="4" sm="12">
               <v-text-field
                 v-model="supplierContactName"
                 label="איש קשר ראשי"
@@ -54,8 +54,8 @@
                 dense
                 hide-details
               />
-            </v-col>
-            <v-col cols="12" md="4" sm="12">
+            </v-col> -->
+            <v-col cols="12" md="4" sm="4">
               <v-text-field
                 v-model="supplierPhone"
                 label="טלפון"
@@ -202,6 +202,16 @@
                 hide-details
               ></v-select>
             </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-select
+                v-model="supplierScope"
+                :items="supplierScopeList"
+                label="תחום"
+                filled
+                dense
+                hide-details
+              ></v-select>
+            </v-col>
           </v-row>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -266,7 +276,9 @@ export default {
     supplierStatus: '',
     supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
     supplierNewsletter: '',
-    supplierNewsletterList: ["כן","לא"]
+    supplierNewsletterList: ["כן","לא"],
+    supplierScope: '',
+    supplierScopeList: ["2","1"],
     }),
   computed: {
     supplierFieldInvalid() {
@@ -301,6 +313,7 @@ export default {
           deliveryType: this.supplierDeliveryType,
           status: this.supplierStatus,
           newsletter: this.supplierNewsletter,
+          scope: this.supplierScope,
         }
 
         this.$store.dispatch('addSupplier', supplierFields)
@@ -322,6 +335,7 @@ export default {
         this.supplierDeliveryType = ''
         this.supplierStatus = ''
         this.supplierNewsletter = ''
+        this.supplierScope = ''
       }
       this.closeDialog()
       setTimeout( () => this.$router.go({path: this.$router.path}), 3000)

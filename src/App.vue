@@ -194,8 +194,6 @@ export default {
   .spc-create:hover
     background: #03616f !important
     color: white !important
-  .user-information
-    height: 60px !important
   .spc-titles
     margin-bottom: 0 !important
     color: #797979 !important

@@ -53,7 +53,7 @@
             <v-hover v-slot="{ hover }">
               <v-avatar
                 class="profile"
-                size="150px"
+                size="108px"
               >
                 <v-fade-transition>
                   <v-overlay
@@ -107,7 +107,7 @@
               <p class="spc-titles">כתובת</p> {{ client.address }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">הנחיות שילוח</p> {{ client.addressAdditional }}
+              <p class="spc-titles">הוראות הגעה</p> {{ client.addressAdditional }}
             </div>
           </v-col>
         </v-row>

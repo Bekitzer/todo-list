@@ -31,7 +31,7 @@
             <v-hover v-slot="{ hover }">
               <v-avatar
                 class="profile"
-                size="150px"
+                size="108px"
               >
                 <v-fade-transition>
                   <v-overlay

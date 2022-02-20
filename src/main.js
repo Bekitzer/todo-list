@@ -9,21 +9,27 @@ import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 import { format, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
+import * as VueGoogleMaps from 'vue2-google-maps';
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
-import * as comps from "vuetify/es5/components"
 
 Vue.config.productionTip = false
-Vue.use(
-  VueMeta, {
+Vue.use(VueMeta, {
     refreshOnceOnNavigation: true
   },
 )
+Vue.use(VueGoogleMaps, {
+  load: {
+      key: 'AIzaSyBPTgcGTdaYE3FEEL-j61IEB_76BI84_90',
+      // This is required to use the Autocomplete plugin
+      libraries: 'places', // 'places,drawing,visualization'
+  },
+})
 Vue.use(VuetifyGoogleAutocomplete, {
-  apiKey: 'AIzaSyBPTgcGTdaYE3FEEL-j61IEB_76BI84_90', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
+  // apiKey: 'AIzaSyBPTgcGTdaYE3FEEL-j61IEB_76BI84_90', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
   version: 'quarterly', // Optional
   language: 'he', // Optional
   installComponents: true, // Optional (default: true) - false, if you want to locally install components
-  vueGoogleMapsCompatibility: false, // Optional (default: false) - true, requires vue2-google-maps to be configured see https://github.com/xkjyeah/vue-google-maps
+  vueGoogleMapsCompatibility: true, // Optional (default: false) - true, requires vue2-google-maps to be configured see https://github.com/xkjyeah/vue-google-maps
 })
 
 
@@ -56,15 +62,3 @@ firebase.auth().onAuthStateChanged(user => {
     }).$mount('#app')
   }
 })
-
-const override = comps.VTextField.extend({
-  onInput(e) {
-    const target = e.target
-    if (this.type !== "number") this.internalValue = target.value
-    else {
-      this.internalValue = target.valueAsNumber
-    }
-    this.badInput = target.validity && target.validity.badInput
-  }
-})
-Vue.component('NewVTextField', override)

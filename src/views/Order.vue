@@ -105,7 +105,8 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" md="9" sm="9">
+      <v-spacer></v-spacer>
+      <v-col cols="12" md="4" sm="4">
         <v-img
           :src="order.file"
         ></v-img>

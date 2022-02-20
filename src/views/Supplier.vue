@@ -47,13 +47,13 @@
       </template>
     </nav-appbar>
     <v-row no-gutters>
-      <v-col cols="12" md="3" sm="3">
+      <v-col cols="12" md="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
-          <v-col cols="12" md="5" sm="5">
+          <v-col cols="6">
             <v-hover v-slot="{ hover }">
               <v-avatar
                 class="profile"
-                size="150px"
+                size="108px"
               >
                 <v-fade-transition>
                     <v-overlay
@@ -72,11 +72,10 @@
               </v-avatar>
             </v-hover>
           </v-col>
-          <v-col cols="12" md="7" sm="7">
+          <v-col cols="6">
             <h2>{{ supplier.name }}</h2>
             <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
             <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ supplier.numberId }}</p>
-            <p style="margin-bottom:0 !important;">{{ supplier.address }}</p>
             <div>
               <a :href="'http://' + supplier.website" style="text-decoration:none;color:#03616f;" target="_blank">{{supplier.website}}</a>
               <!-- <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a>
@@ -86,26 +85,22 @@
         </v-row>
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
-            <h4>פרטי התקשרות</h4>
+            <h4>פרטי התקשרות ספק</h4>
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">איש קשר ראשי</p> {{ supplier.contactName }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">טלפון</p> {{ supplier.phone }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">מייל</p> {{ supplier.email }}
-            </div>
+              <p class="spc-titles">טלפון משרד</p> {{ supplier.phone }}
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">וואטסאפ</p> {{ supplier.whatsapp }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">הנחיות שילוח</p> {{ supplier.addressAditional }}
-            </div>
+              <p class="spc-titles">מייל משרד</p> {{ supplier.email }}
+          </v-col>
+          <v-col cols="6">
+              <p class="spc-titles">וואטסאפ משרד</p> {{ supplier.whatsapp }}
+          </v-col>
+          <v-col cols="6">
+            <p class="spc-titles">כתובת</p> {{ supplier.address }}
+          </v-col>
+          <v-col cols="12">
+            <p class="spc-titles">הוראות הגעה</p> {{ supplier.addressAditional }}
           </v-col>
         </v-row>
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -133,14 +128,10 @@
             <h4>הגדרות תשלום</h4>
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">תנאי תשלום</p> {{ supplier.paymentTerms }}
-            </div>
+            <p class="spc-titles">תנאי תשלום</p> {{ supplier.paymentTerms }}
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">אמצעי תשלום</p> {{ supplier.paymentMethod }}
-            </div>
+            <p class="spc-titles">אמצעי תשלום</p> {{ supplier.paymentMethod }}
           </v-col>
         </v-row>
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -148,25 +139,24 @@
             <h4>הגדרות ספק</h4>
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">אופן אספקה</p> {{ supplier.deliveryType }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">סטטוס ספק</p> {{ supplier.status }}
-            </div>
+            <p class="spc-titles">אופן אספקה</p> {{ supplier.deliveryType }}
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">שעות פעילות</p> {{ supplier.workingHours }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">דיוור</p> {{ supplier.newsletter }}
-            </div>
+            <p class="spc-titles">סטטוס ספק</p> {{ supplier.status }}
+          </v-col>
+          <v-col cols="6">
+            <p class="spc-titles">שעות פעילות</p> {{ supplier.workingHours }}
+          </v-col>
+          <v-col cols="6">
+            <p class="spc-titles">דיוור</p> {{ supplier.newsletter }}
+          </v-col>
+          <v-col cols="12">
+            <p class="spc-titles">תחום</p> {{ supplier.scope }}
           </v-col>
         </v-row>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col cols="12" md="9" sm="9" class="pr-10">
+      <v-col cols="12" md="9" class="pr-10">
         <v-col cols="12">
           <h4>הזמנות</h4>
           <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>

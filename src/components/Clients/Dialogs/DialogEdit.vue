@@ -3,7 +3,7 @@
     <v-dialog
       :value="true"
       persistent
-      max-width="600"
+      max-width="700"
     >
       <v-card
         elevation="8"
@@ -90,7 +90,7 @@
             <v-col cols="12" md="12" sm="6">
               <v-textarea
                 v-model="clientAddressAdditional"
-                label="הנחיות שילוח"
+                label="הוראות הגעה"
                 filled
                 dense
                 hide-details
