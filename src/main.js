@@ -10,7 +10,7 @@ import 'firebase/compat/firestore'
 import { format, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
-
+import * as comps from "vuetify/es5/components"
 
 Vue.config.productionTip = false
 Vue.use(
@@ -55,4 +55,16 @@ firebase.auth().onAuthStateChanged(user => {
       render: h => h(App),
     }).$mount('#app')
   }
-});
+})
+
+const override = comps.VTextField.extend({
+  onInput(e) {
+    const target = e.target
+    if (this.type !== "number") this.internalValue = target.value
+    else {
+      this.internalValue = target.valueAsNumber
+    }
+    this.badInput = target.validity && target.validity.badInput
+  }
+})
+Vue.component(NewVTextField, override)
