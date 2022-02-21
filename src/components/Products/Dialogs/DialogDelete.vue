@@ -2,6 +2,7 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
+      @click:outside='closeDialog'
       max-width="500"
     >
       <v-card>
@@ -59,7 +60,7 @@
       }
     },
     mounted() {
-      document.addEventListener("keydown", (e) => {
+      document.addEventListener("keyup", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')
         }

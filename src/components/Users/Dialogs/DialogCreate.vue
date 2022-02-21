@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
-      persistent
+      @click:outside='closeDialog'
       max-width="700"
     >
       <v-card
@@ -160,7 +160,7 @@ export default {
     }
   },
   mounted() {
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keyup", (e) => {
       if (e.keyCode == 27) {
           this.$emit('close')
       }

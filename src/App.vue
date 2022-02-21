@@ -173,7 +173,8 @@ export default {
     height: 56px !important
     position: relative !important
     border-bottom: 1px solid #f1efef !important
-
+  .col
+    padding: 6px !important
   .spc-status-dot
     width: 12px !important
     margin-left: 6px !important

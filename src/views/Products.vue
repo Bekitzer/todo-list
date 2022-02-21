@@ -137,7 +137,7 @@ export default {
   computed: {
     products: {
       get() {
-        return this.$store.getters.productsFiltered
+        return this.$store.state.products
       },
       set(value) {
         this.$store.dispatch('setProducts', value)

@@ -85,7 +85,7 @@
         </v-row>
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
-            <h4>פרטי התקשרות ספק</h4>
+            <h4>פרטי התקשרות</h4>
           </v-col>
           <v-col cols="6">
               <p class="spc-titles">טלפון משרד</p> {{ supplier.phone }}

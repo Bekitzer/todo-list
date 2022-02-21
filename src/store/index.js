@@ -564,34 +564,6 @@ export default new Vuex.Store({
   getters: {
     user (state) {
       return state.user
-    },
-    // productsFiltered(state) {
-    //   if (!state.search) {
-    //     return state.products
-    //   }
-    //   return state.products.filter(product => product.name.toLowerCase().includes(state.search.toLowerCase()))
-
-    // },
-    // ordersFiltered(state) {
-    //   if (!state.search) {
-    //     return state.orders
-    //   }
-    //   return state.orders.filter(order => order.clientName.toLowerCase().includes(state.search.toLowerCase()))
-
-    // },
-    // clientsFiltered(state) {
-    //   if (!state.search) {
-    //     return state.clients
-    //   }
-    //   return state.clients.filter(client => client.name.toLowerCase().includes(state.search.toLowerCase()))
-
-    // },
-    // suppliersFiltered(state) {
-    //   if (!state.search) {
-    //     return state.suppliers
-    //   }
-    //   return state.suppliers.filter(supplier => supplier.name.toLowerCase().includes(state.search.toLowerCase()))
-
-    // }
+    }
   }
 })

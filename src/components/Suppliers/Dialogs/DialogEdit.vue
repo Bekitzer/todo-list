@@ -2,16 +2,16 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
-      persistent
+      @click:outside='closeDialog'
       max-width="700"
     >
       <v-card
         elevation="8"
         shaped
       >
-          <v-row class="pr-10 pl-10">
-            <h3 style="padding-bottom:0">עריכה ספק</h3>
+          <v-row class="pt-5 pl-5 pr-5">
             <v-col cols="12" style="padding-bottom:0">
+              <h3 style="padding-bottom:0">עריכה ספק</h3>
               <h4>פרטי ספק</h4>
             </v-col>
             <v-col cols="12" md="6">
@@ -66,7 +66,7 @@
               ></v-textarea>
             </v-col>
           </v-row>
-          <v-row class="pr-10 pl-10">
+          <v-row class="pt-5 pl-5 pr-5">
             <v-col cols="12" style="padding-bottom:0">
               <h4>פרטי התקשרות</h4>
             </v-col>
@@ -134,7 +134,7 @@
               />
             </v-col>
           </v-row>
-          <v-row class="pr-10 pl-10">
+          <v-row class="pt-5 pl-5 pr-5">
             <v-col cols="12" style="padding-bottom:0">
               <h4>הגדרות תשלום</h4>
             </v-col>
@@ -159,7 +159,7 @@
               ></v-select>
             </v-col>
           </v-row>
-          <v-row class="pr-10 pl-10">
+          <v-row class="pt-5 pl-5 pr-5">
             <v-col cols="12" style="padding-bottom:0">
               <h4>הגדרות ספק</h4>
             </v-col>
@@ -208,6 +208,7 @@
                 :items="users"
                 filled
                 chips
+                dense
                 color="blue-grey lighten-2"
                 label="משתמש"
                 item-text="username"
@@ -261,15 +262,13 @@
                 style="padding:0"
               >
                 <v-btn
-                  fab
                   icon
-                  outlined
                   color="red"
                   class="black--text"
                   @click="dialogs.delete = true"
                 >
                   <v-icon>
-                    mdi-close
+                    mdi-trash-can-outline
                   </v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
@@ -288,7 +287,6 @@
                   color="green"
                   @click="saveSupplier"
                   :disabled="supplierFieldInvalid"
-                  @keyup.enter="saveSupplier"
                 >
                   שמור
                 </v-btn>
@@ -425,10 +423,9 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
       this.supplierNewsletter = this.supplier.newsletter
-      this.this.supplierScope = this.supplier.scope
+      this.supplierScope = this.supplier.scope
       this.connectedUsersIds = this.users.filter(user => user.supplierRef === this.supplier.id).map(user => user.id)
-
-      document.addEventListener("keydown", (e) => {
+      document.addEventListener("keyup", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')
         }

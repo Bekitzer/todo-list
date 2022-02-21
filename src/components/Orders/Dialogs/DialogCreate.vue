@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
-      persistent
+      @click:outside='closeDialog'
       max-width="700"
     >
       <v-card
@@ -308,7 +308,7 @@ import emailjs from '@emailjs/browser';
         this.orderSellPrice = this.order.sellPrice
         this.orderBuyPrice = this.order.buyPrice
       }
-      document.addEventListener("keydown", (e) => {
+      document.addEventListener("keyup", (e) => {
         if (e.keyCode == 27) {
             this.$emit('close')
         }

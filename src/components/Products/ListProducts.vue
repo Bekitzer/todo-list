@@ -2,11 +2,10 @@
   <v-col cols="12" md="2" sm="6" class="pl-2">
     <v-card
       @click="handleClick(product)"
+      color="#f1f1f1"
     >
       <v-img
         :src="product.file"
-        height="174"
-        lazy-src="/images/gravatar.jpg"
       ></v-img>
 
       <v-card-title>

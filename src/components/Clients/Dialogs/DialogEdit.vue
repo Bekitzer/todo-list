@@ -2,296 +2,298 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
-      persistent
+      @click:outside='closeDialog'
       max-width="700"
     >
       <v-card
         elevation="8"
         shaped
       >
-        <v-card-title class="pr-10 pl-10">עריכה</v-card-title>
-          <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>פרטי לקוח</h3>
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="clientName"
-                label="שם לקוח"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="clientCompanyName"
-                label="שם חברה"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="clientIdNumber"
-                label="ח.פ. / ע.מ."
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-          </v-row>
-          <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>פרטי התקשרות</h3>
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="clientContactName"
-                label="איש קשר ראשי"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="clientPhone"
-                label="טלפון"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="clientEmail"
-                label="מייל"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="12" sm="6">
-            <vuetify-google-autocomplete
-                ref="address"
-                id="map"
-                filled
-                v-on:placechanged="getAddressData"
-                country="il"
-                v-model="clientAddress"
-                label="כתובת"
-                dense
-                hide-details
-              >
-              </vuetify-google-autocomplete>
-            </v-col>
-            <v-col cols="12" md="12" sm="6">
-              <v-textarea
-                v-model="clientAddressAdditional"
-                label="הוראות הגעה"
-                filled
-                dense
-                hide-details
-              ></v-textarea>
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
-                v-model="clientWhatsapp"
-                label="וואטסאפ"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
-                v-model="clientWebsite"
-                label="אתר אינטרנט"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
-                v-model="clientFacebook"
-                label="פייסבוק"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
-                v-model="clientInstagram"
-                label="אינסטגרם"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-          </v-row>
-          <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>הגדרות תשלום</h3>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="clientPaymentType"
-                :items="clientPaymentTypeList"
-                label="סוג תשלום"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6" v-if="clientPaymentType !== 'מיידי'">
-              <v-select
-                v-model="clientPaymentTerms"
-                :items="clientPaymentTermsList"
-                label="תנאי תשלום"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"
-                label="אמצעי תשלום"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
-          </v-row>
-          <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>הגדרות לקוח</h3>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="clientDeliveryType"
-                :items="clientDeliveryTypeList"
-                label="אופן אספקה"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="clientStatus"
-                :items="clientStatusList"
-                label="סוג לקוח"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="clientLead"
-                :items="clientLeadList"
-                label="מקור הגעה"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="clientNewsletter"
-                :items="clientNewsletterList"
-                label="דיוור"
-                filled
-                dense
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-autocomplete
-                v-model="connectedUsersIds"
-                :items="users"
-                filled
-                chips
-                color="blue-grey lighten-2"
-                label="משתמש"
-                item-text="username"
-                item-value="id"
-                multiple
-              >
-                <template v-slot:selection="data">
-                  <v-chip
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    close
-                    @click="data.select"
-                    @click:close="remove(data.item)"
-                  >
-                    <v-avatar left>
-                      <v-img :src="data.item.avatar" lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
-                    </v-avatar>
-                    {{ data.item.username }}
-                  </v-chip>
+        <v-row class="pt-5 pl-5 pr-5">
+          <v-col cols="12" style="padding-bottom:0">
+            <h3 style="padding-bottom:0">עריכה לקוח</h3>
+            <h4>פרטי לקוח</h4>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientName"
+              label="שם לקוח"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientCompanyName"
+              label="שם חברה"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientIdNumber"
+              label="ח.פ. / ע.מ."
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+          <vuetify-google-autocomplete
+              ref="address"
+              id="map"
+              filled
+              v-on:placechanged="getAddressData"
+              country="il"
+              v-model="clientAddress"
+              label="כתובת"
+              dense
+              hide-details
+            >
+            </vuetify-google-autocomplete>
+          </v-col>
+          <v-col cols="12" md="12">
+            <v-textarea
+              v-model="clientAddressAdditional"
+              label="הוראות הגעה"
+              filled
+              rows="1"
+              dense
+              hide-details
+            ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row class="pt-5 pl-5 pr-5">
+          <v-col cols="12" style="padding-bottom:0">
+            <h4>פרטי התקשרות</h4>
+          </v-col>
+          <!-- <v-col cols="12" md="4">
+            <v-text-field
+              v-model="clientContactName"
+              label="איש קשר ראשי"
+              filled
+              dense
+              hide-details
+            />
+          </v-col> -->
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientPhone"
+              label="טלפון"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientEmail"
+              label="מייל"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientWhatsapp"
+              label="וואטסאפ"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientWebsite"
+              label="אתר אינטרנט"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientFacebook"
+              label="פייסבוק"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
+              v-model="clientInstagram"
+              label="אינסטגרם"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+        </v-row>
+        <v-row class="pt-5 pl-5 pr-5">
+          <v-col cols="12" style="padding-bottom:0">
+            <h4>הגדרות תשלום</h4>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="clientPaymentType"
+              :items="clientPaymentTypeList"
+              label="סוג תשלום"
+              filled
+              dense
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6" v-if="clientPaymentType !== 'מיידי'">
+            <v-select
+              v-model="clientPaymentTerms"
+              :items="clientPaymentTermsList"
+              label="תנאי תשלום"
+              filled
+              dense
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="clientPaymentMethod"
+              :items="clientPaymentMethodList"
+              label="אמצעי תשלום"
+              filled
+              dense
+              hide-details
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-row class="pt-5 pl-5 pr-5">
+          <v-col cols="12" style="padding-bottom:0">
+            <h4>הגדרות לקוח</h4>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="clientDeliveryType"
+              :items="clientDeliveryTypeList"
+              label="אופן אספקה"
+              filled
+              dense
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="clientStatus"
+              :items="clientStatusList"
+              label="סוג לקוח"
+              filled
+              dense
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="clientLead"
+              :items="clientLeadList"
+              label="מקור הגעה"
+              filled
+              dense
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
+              v-model="clientNewsletter"
+              :items="clientNewsletterList"
+              label="דיוור"
+              filled
+              dense
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-autocomplete
+              v-model="connectedUsersIds"
+              :items="users"
+              filled
+              chips
+              color="blue-grey lighten-2"
+              label="משתמש"
+              item-text="username"
+              item-value="id"
+              multiple
+            >
+              <template v-slot:selection="data">
+                <v-chip
+                  v-bind="data.attrs"
+                  :input-value="data.selected"
+                  close
+                  @click="data.select"
+                  @click:close="remove(data.item)"
+                >
+                  <v-avatar left>
+                    <v-img :src="data.item.avatar" lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                  </v-avatar>
+                  {{ data.item.username }}
+                </v-chip>
+              </template>
+              <template v-slot:item="data">
+                <template v-if="(typeof data.item !== 'object')">
+                  <v-list-item-content v-text="data.item"></v-list-item-content>
                 </template>
-                <template v-slot:item="data">
-                  <template v-if="(typeof data.item !== 'object')">
-                    <v-list-item-content v-text="data.item"></v-list-item-content>
-                  </template>
-                  <template v-else>
-                    <v-list-item-avatar>
-                      <v-img
-                      :src="data.item.avatar"
-                      lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
-                      <v-list-item-subtitle v-html="data.item.username"></v-list-item-subtitle>
-                    </v-list-item-content>
-                  </template>
+                <template v-else>
+                  <v-list-item-avatar>
+                    <v-img
+                    :src="data.item.avatar"
+                    lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
+                    <v-list-item-subtitle v-html="data.item.username"></v-list-item-subtitle>
+                  </v-list-item-content>
                 </template>
-              </v-autocomplete>
-            </v-col>
-          </v-row>
-        <v-card-actions>
-          <v-btn
-            class="black--text"
-            @click="dialogs.delete = true"
-          >
-            למחוק לקוח זה?
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="red"
-            @click="closeDialog"
-            @keyup.esc="closeDialog"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
-          </v-btn>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="green"
-            @click="saveClient"
-            :disabled="clientFieldInvalid"
-          >
-            <v-icon>
-              mdi-check
-            </v-icon>
-          </v-btn>
-        </v-card-actions>
+              </template>
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="12">
+            <v-card-actions
+              style="padding:0"
+            >
+              <v-btn
+                icon
+                color="red"
+                class="black--text"
+                @click="dialogs.delete = true"
+              >
+                <v-icon>
+                  mdi-trash-can-outline
+                </v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                outlined
+                large
+                color="red"
+                @click="closeDialog"
+                @keyup:esc="closeDialog"
+              >
+                ביטול
+              </v-btn>
+              <v-btn
+                outlined
+                large
+                color="green"
+                @click="saveClient"
+                :disabled="clientFieldInvalid"
+              >
+                שמור
+              </v-btn>
+            </v-card-actions>
+          </v-col>
+        </v-row>
       </v-card>
     </v-dialog>
     <dialog-delete
@@ -421,7 +423,7 @@ export default {
     this.clientLead = this.client.lead
     this.clientNewsletter = this.client.newsletter
     this.connectedUsersIds = this.users.filter(user => user.clientRef === this.client.id).map(user => user.id)
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keyup", (e) => {
       if (e.keyCode == 27) {
           this.$emit('close')
       }

@@ -5,7 +5,7 @@
         prepend-inner-icon="mdi-magnify"
         placeholder="חפש..."
         clearable
-        @keydown.esc.prevent="clearMe"
+        @keyup.esc.prevent="clearMe"
         hide-details
     ></v-text-field>
 </template>

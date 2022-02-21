@@ -2,6 +2,7 @@
   <v-row justify="center">
     <v-dialog
       :value="true"
+      @click:outside='closeDialog'
       max-width="700"
     >
       <v-card
@@ -259,7 +260,7 @@ export default {
     this.productTags = this.product.tags
     this.productInfo = this.product.productInfo
     this.supplierPrices = this.product.prices
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keyup", (e) => {
       if (e.keyCode == 27) {
           this.$emit('close')
       }

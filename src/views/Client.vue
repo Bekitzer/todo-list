@@ -20,7 +20,7 @@
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </template>
-          <span>עריכת ספק</span>
+          <span>עריכת לקוח</span>
         </v-tooltip>
       </template>
       <template v-slot:create-btn>
@@ -49,7 +49,7 @@
     <v-row no-gutters>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
-          <v-col cols="12" md="5" sm="5">
+          <v-col cols="6">
             <v-hover v-slot="{ hover }">
               <v-avatar
                 class="profile"
@@ -72,11 +72,10 @@
               </v-avatar>
             </v-hover>
           </v-col>
-          <v-col cols="12" md="7" sm="7">
+          <v-col cols="6">
             <h2>{{ client.name }}</h2>
             <p style="margin-bottom:0 !important;">{{ client.companyName }}</p>
             <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ client.numberId }}</p>
-            <p style="margin-bottom:0 !important;">{{ client.address }}</p>
             <div>
               <a :href="'http://' + client.website" style="text-decoration:none;color:#03616f;" target="_blank">{{client.website}}</a>
               <!-- <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a>
@@ -89,46 +88,53 @@
             <h4>פרטי התקשרות</h4>
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">איש קשר ראשי</p> {{ client.contactName }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">טלפון</p> {{ client.phone }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">מייל</p> {{ client.email }}
-            </div>
+            <p class="spc-titles">טלפון משרד</p> {{ client.phone }}
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">וואטסאפ</p> {{ client.whatsapp }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">כתובת</p> {{ client.address }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">הוראות הגעה</p> {{ client.addressAdditional }}
-            </div>
+            <p class="spc-titles">מייל משרד</p> {{ client.email }}
           </v-col>
+          <v-col cols="6">
+            <p class="spc-titles">וואטסאפ משרד</p> {{ client.whatsapp }}
+          </v-col>
+          <v-col cols="6">
+            <p class="spc-titles">כתובת</p> {{ client.address }}
+          </v-col>
+          <v-col cols="12">
+            <p class="spc-titles">הוראות הגעה</p> {{ client.addressAdditional }}
+          </v-col>
+        </v-row>
+        <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
+          <v-col cols="12">
+            <h4>אנשי קשר</h4>
+          </v-col>
+          <v-expansion-panels>
+            <v-expansion-panel v-for="user in users" :key="user.id">
+              <v-expansion-panel-header>
+                {{user.firstname}} {{user.lastname}} - {{user.position}}
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-row>
+                  <v-col cols="12">
+                    מייל: {{user.email}}<br>
+                    טלפון: {{user.phone}}<br>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-row>
         <v-row class="pa-3 pos-rel mb-2 grey lighten-4">
           <v-col cols="12">
             <h4>הגדרות תשלום</h4>
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">סוג תשלום</p> {{ client.paymentType }}
-            </div>
+            <p class="spc-titles">סוג תשלום</p> {{ client.paymentType }}
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">תנאי תשלום</p> {{ client.paymentTerms }}
-            </div>
+            <p class="spc-titles">תנאי תשלום</p> {{ client.paymentTerms }}
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">אמצעי תשלום</p> {{ client.paymentMethod }}
-            </div>
+            <p class="spc-titles">אמצעי תשלום</p> {{ client.paymentMethod }}
           </v-col>
         </v-row>
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -136,49 +142,17 @@
             <h4>הגדרות לקוח</h4>
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">אופן אספקה</p> {{ client.deliveryType }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">סוג לקוח</p> {{ client.status }}
-            </div>
+            <p class="spc-titles">אופן אספקה</p> {{ client.deliveryType }}
           </v-col>
           <v-col cols="6">
-            <div class="user-information">
-              <p class="spc-titles">מקור הגעה</p> {{ client.lead }}
-            </div>
-            <div class="user-information">
-              <p class="spc-titles">דיוור</p> {{ client.newsletter }}
-            </div>
-
+            <p class="spc-titles">סוג לקוח</p> {{ client.status }}
           </v-col>
-        </v-row>
-        <v-row>
-          <v-expansion-panels flat style="border:1px solid 0 1px 1px 1px">
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                אנשי קשר
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-row>
-                  <v-col cols="4" md="4" sm="4">
-                    <div class="user-information">
-                      <p class="spc-titles">תאריך יצירת לקוח</p> {{ client.clientCreationDate }}
-                    </div>
-                    <div class="user-information">
-                      <p class="spc-titles">תאריך עידכון</p> {{ client.clientUpdated }}
-                    </div>
-                  </v-col>
-                  <v-col cols="4" md="4" sm="4">
-                    <p style="">אופן אספקה <br />{{ client.paymentTerms }}</p>
-                  </v-col>
-                  <v-col cols="4" md="4" sm="4">
-                    <p style="">אופן אספקה <br />{{ client.paymentTerms }}</p>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+          <v-col cols="6">
+            <p class="spc-titles">מקור הגעה</p> {{ client.lead }}
+          </v-col>
+          <v-col cols="6">
+            <p class="spc-titles">דיוור</p> {{ client.newsletter }}
+          </v-col>
         </v-row>
       </v-col>
       <v-col cols="12" md="9" sm="9" class="pr-10">
@@ -280,8 +254,8 @@
     </v-row>
     <dialog-edit
       v-if="dialogs.edit"
-      @close = 'dialogs.edit = false'
       :client = 'client'
+      @close = 'dialogs.edit = false'
     />
     <dialog-create
       v-if="dialogs.create"
@@ -306,9 +280,9 @@ import firebase from 'firebase/compat/app'
 export default {
   name: 'Client',
   data: () => ({
-    pageName: '',
     overlay: false,
     order: null,
+    pageName: '',
     fab: false,
     transition: 'slide-y-transition',
     viewSuppliedOnly: true,
@@ -352,6 +326,9 @@ export default {
     }
   },
   computed: {
+    users() {
+      return this.$store.state.users.filter(user => user.clientRef === this.client.id)
+    },
     client() {
       return this.$store.state.clients.find(client => client.id === this.$route.params.id) || {name: ''}
     },
