@@ -239,7 +239,7 @@
                 @click="addClient"
                 :disabled="clientFieldInvalid"
               >
-                שמור
+                צור
               </v-btn>
             </v-card-actions>
           </v-col>

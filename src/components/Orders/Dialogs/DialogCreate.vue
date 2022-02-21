@@ -9,10 +9,11 @@
         elevation="8"
         shaped
       >
-        <v-card-title>יצירת הזמנה</v-card-title>
-          <v-row class="pr-10 pl-10">
+
+          <v-row class="pt-5 pr-5 pl-5">
             <v-col cols="12">
-              <h3>פרטי ההזמנה</h3>
+              <h3>יצירת הזמנה</h3>
+              <h4>פרטי ההזמנה</h4>
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-autocomplete
@@ -116,40 +117,35 @@
               />
             </v-col>
             <v-col cols="12">
-              <v-card-actions style="padding:0 !important">
+              <v-card-actions
+                style="padding:0"
+              >
                 <v-btn
+                  outlined
                   large
-                  color="#ff9800"
+                  color="black"
                   @click="addDraft"
                 >
-                  שמור כטיוטה
+                  צור כטיוטה
                 </v-btn>
-              <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
                 <v-btn
-                  fab
-                  icon
                   outlined
                   large
                   color="red"
                   @click="closeDialog"
                   @keyup:esc="closeDialog"
                 >
-                  <v-icon>
-                    mdi-close
-                  </v-icon>
+                  ביטול
                 </v-btn>
                 <v-btn
-                  fab
-                  icon
                   outlined
                   large
                   color="green"
                   @click="addOrder"
                   :disabled="orderFieldInvalid"
                 >
-                  <v-icon>
-                    mdi-check
-                  </v-icon>
+                  צור
                 </v-btn>
               </v-card-actions>
             </v-col>

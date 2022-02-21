@@ -9,155 +9,155 @@
         elevation="8"
         shaped
       >
-        <v-card-title>שינוי הזמנה</v-card-title>
-          <v-row class="pr-10 pl-10">
-            <v-col cols="12">
-              <h3>פרטי ההזמנה</h3>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-autocomplete
-                :items="clients"
-                item-text="name"
-                item-value="id"
-                v-model="orderClientName"
-                label="לקוח"
-                clearable
-                filled
-                dense
-                hide-details
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="orderWorkTitle"
-                label="שם עבודה"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-textarea
-                v-model="orderWorkProducts"
-                label="מפרט"
-                filled
-                dense
-                hide-details
-              ></v-textarea>
-            </v-col>
-            <v-col cols="12" md="12" sm="12">
-              <v-menu
-                v-model="dateDialog"
-                :close-on-content-click="false"
+        <v-row class="pt-5 pr-5 pl-5">
+          <v-col cols="12">
+            <h3>שינוי הזמנה</h3>
+            <h4>פרטי ההזמנה</h4>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-autocomplete
+              :items="clients"
+              item-text="name"
+              item-value="id"
+              v-model="orderClientName"
+              label="לקוח"
+              clearable
+              filled
+              dense
+              hide-details
+            ></v-autocomplete>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-text-field
+              v-model="orderWorkTitle"
+              label="שם עבודה"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="12" sm="12">
+            <v-textarea
+              v-model="orderWorkProducts"
+              label="מפרט"
+              filled
+              dense
+              hide-details
+            ></v-textarea>
+          </v-col>
+          <v-col cols="12" md="12" sm="12">
+            <v-menu
+              v-model="dateDialog"
+              :close-on-content-click="false"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  :value="orderDeliveryDate"
+                  clearable
+                  filled
+                  label="בחר תאריך אספקה"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  @click:clear="orderDeliveryDate = null"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="computedDate"
+                @change="dateDialog = false"
+                :first-day-of-week="0"
+                locale="he-il"
+                width="496"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-autocomplete
+              :items="suppliers"
+              item-text="name"
+              item-value="id"
+              v-model="orderSupplierName"
+              label="ספק"
+              clearable
+              filled
+              dense
+              hide-details
+            ></v-autocomplete>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-select
+              v-model="orderStatusType"
+              :items="orderStatusTypeList"
+              label="סטטוס הזמנה"
+              filled
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-select
+              v-model="orderDeliveryType"
+              :items="orderDeliveryTypeList"
+              label="אופן אספקה"
+              filled
+              hide-details
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-text-field
+              type="number"
+              v-model.number="orderSellPrice"
+              label="מחיר מכירה"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-text-field
+              type="number"
+              v-model.number="orderBuyPrice"
+              label="מחיר קנייה"
+              filled
+              dense
+              hide-details
+            />
+          </v-col>
+          <v-col cols="12">
+            <v-card-actions
+              style="padding:0"
+            >
+              <v-btn
+                icon
+                color="red"
+                class="black--text"
+                @click="dialogs.delete = true"
               >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    :value="orderDeliveryDate"
-                    clearable
-                    filled
-                    label="בחר תאריך אספקה"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    @click:clear="orderDeliveryDate = null"
-                  ></v-text-field>
-                </template>
-                <v-date-picker
-                  v-model="computedDate"
-                  @change="dateDialog = false"
-                  :first-day-of-week="0"
-                  locale="he-il"
-                  width="496"
-                ></v-date-picker>
-              </v-menu>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-autocomplete
-                :items="suppliers"
-                item-text="name"
-                item-value="id"
-                v-model="orderSupplierName"
-                label="ספק"
-                clearable
-                filled
-                dense
-                hide-details
-              ></v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="orderStatusType"
-                :items="orderStatusTypeList"
-                label="סטטוס הזמנה"
-                filled
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
-                v-model="orderDeliveryType"
-                :items="orderDeliveryTypeList"
-                label="אופן אספקה"
-                filled
-                hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                type="number"
-                v-model.number="orderSellPrice"
-                label="מחיר מכירה"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                type="number"
-                v-model.number="orderBuyPrice"
-                label="מחיר קנייה"
-                filled
-                dense
-                hide-details
-              />
-            </v-col>
-          </v-row>
-        <v-card-actions>
-          <v-btn
-            class="black--text"
-            @click="dialogs.delete=true"
-          >
-            למחוק הזמנה זו?
-          </v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="red"
-            @keyup:esc="closeDialog"
-            @click="closeDialog"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
-          </v-btn>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="green"
-            @click="saveOrder"
-            :disabled="orderFieldInvalid"
-          >
-            <v-icon>
-              mdi-check
-            </v-icon>
-          </v-btn>
-        </v-card-actions>
+                <v-icon>
+                  mdi-trash-can-outline
+                </v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                outlined
+                large
+                color="red"
+                @click="closeDialog"
+                @keyup:esc="closeDialog"
+              >
+                ביטול
+              </v-btn>
+              <v-btn
+                outlined
+                large
+                color="green"
+                @click="saveOrder"
+                :disabled="orderFieldInvalid"
+              >
+                שמור
+              </v-btn>
+            </v-card-actions>
+          </v-col>
+        </v-row>
       </v-card>
     </v-dialog>
     <dialog-delete

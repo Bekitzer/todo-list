@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav-appbar :pname="pageName">
-      <!-- <template v-slot:add-btn>
+      <template v-slot:add-btn>
         <v-tooltip
           bottom
           content-class="normal tooltip-left"
@@ -22,7 +22,7 @@
           </template>
           <span>משתמש חדש</span>
         </v-tooltip>
-      </template> -->
+      </template>
     </nav-appbar>
     <list-users v-if="$store.state.users.length" />
     <no-users v-else />

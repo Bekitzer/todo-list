@@ -226,7 +226,7 @@
                 @click="addSupplier"
                 :disabled="supplierFieldInvalid"
               >
-                שמור
+                צור
               </v-btn>
             </v-card-actions>
           </v-col>
