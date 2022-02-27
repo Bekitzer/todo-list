@@ -33,10 +33,6 @@ export default new Vuex.Store({
     deleteUser(state, id){
       state.users = state.users.filter(user => user.id !== id)
     },
-    updateUser(state, payload){
-      let user = state.users.filter(user => user.id === payload.id)[0]
-      Object.assign(user, payload)
-    },
     setUsers(state, users) {
       state.users = users
     },
@@ -140,14 +136,12 @@ export default new Vuex.Store({
           ...payload,
           uid: user.uid
         }
-        commit('setAuth', newAuth),
+        commit('setAuth', newAuth)
         firebase.auth().currentUser.updateProfile({
             displayName: payload.username
         }).then(() => {
           const {password, ...newUser} = payload
-          newUser.uid = newAuth.uid
-          newUser.isAdmin = false
-          return db.collection('users').add(newUser)
+          return db.collection('users').doc(newAuth.uid).set(newUser)
           .then(() => commit('setUser', newUser))
           .catch((error) => {
             console.log('Something went wrong - signUserUp',error);
@@ -250,12 +244,9 @@ export default new Vuex.Store({
     getUser({ commit }) {
       const user = getAuth().currentUser
       if(!user) return console.log('no user authenticated')
-      db.collection('users').where("uid", "==", user.uid).get().then(querySnapshot => {
-        querySnapshot.forEach((doc) => {
+      db.collection('users').doc(user.uid).get().then(doc => {
           const newUser = doc.data()
           commit('setUser', newUser)
-        });
-
       }).catch((error) => {
         console.log('Something went wrong - getUser',error);
       })
@@ -544,7 +535,7 @@ export default new Vuex.Store({
     },
     getSuppliers({ commit }) {
       db.collection('suppliers').get().then(querySnapshot => {
-        var suppliers = [];
+        const suppliers = [];
         querySnapshot.forEach(doc => {
           suppliers.push({...doc.data(), id:doc.id})
         })
@@ -553,6 +544,17 @@ export default new Vuex.Store({
         console.log('Something went wrong - getSuppliers',error);
       })
     },
+    // getSupplier({ commit }) {
+    //   db.collection('suppliers').doc('08cKDxubZ6vJSC7KLeWJ').get().then(doc => {
+    //     const suppliers = [];
+    //     // querySnapshot.forEach(doc => {
+    //       suppliers.push({...doc.data(), id:doc.id})
+    //     // })
+    //     commit('setSuppliers', suppliers)
+    //   }).catch((error) => {
+    //     console.log('Something went wrong - getSuppliers',error);
+    //   })
+    // },
     setSuppliers({ commit }, suppliers) {
       setDoc(doc(collection(db, "suppliers")), suppliers).then(() => {
         commit('setSuppliers', suppliers)
