@@ -11,6 +11,7 @@ export default new Vuex.Store({
   state: {
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
+    supplier: null,
     suppliers: [],
     clients: [],
     orders: [],
@@ -96,6 +97,10 @@ export default new Vuex.Store({
     },
     setClients(state, clients) {
       state.clients = clients
+    },
+    // SUPPLIER
+    setSupplier(state, supplier) {
+      state.supplier = supplier
     },
     // SUPPLIERS
     addSupplier(state, newSupplier){
@@ -244,7 +249,7 @@ export default new Vuex.Store({
     getUser({ commit }) {
       const user = getAuth().currentUser
       if(!user) return console.log('no user authenticated')
-      db.collection('users').doc(user.uid).get().then(doc => {
+      return db.collection('users').doc(user.uid).get().then(doc => {
           const newUser = doc.data()
           commit('setUser', newUser)
       }).catch((error) => {
@@ -544,17 +549,15 @@ export default new Vuex.Store({
         console.log('Something went wrong - getSuppliers',error);
       })
     },
-    // getSupplier({ commit }) {
-    //   db.collection('suppliers').doc('08cKDxubZ6vJSC7KLeWJ').get().then(doc => {
-    //     const suppliers = [];
-    //     // querySnapshot.forEach(doc => {
-    //       suppliers.push({...doc.data(), id:doc.id})
-    //     // })
-    //     commit('setSuppliers', suppliers)
-    //   }).catch((error) => {
-    //     console.log('Something went wrong - getSuppliers',error);
-    //   })
-    // },
+    getSupplier({ commit, state }) {
+      if(state.user.supplierRef) {
+        state.user.supplierRef.get().then(doc => {
+          commit('setSupplier', {...doc.data(), id:doc.id})
+        }).catch((error) => {
+          console.log('Something went wrong - getSuppliers',error);
+        })
+      }
+    },
     setSuppliers({ commit }, suppliers) {
       setDoc(doc(collection(db, "suppliers")), suppliers).then(() => {
         commit('setSuppliers', suppliers)

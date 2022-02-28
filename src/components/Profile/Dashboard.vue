@@ -125,8 +125,7 @@ export default {
   },
   computed: {
     supplier() {
-      if(!this.$store.state.user) return {name: ''}
-      return this.$store.state.suppliers.find(supplier => supplier.id === this.$store.state.user.supplierRef) || {name: ''}
+      return this.$store.state.supplier || {name: ''}
     },
     headers () {
       return [
