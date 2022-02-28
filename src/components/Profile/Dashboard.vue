@@ -158,7 +158,7 @@ export default {
       get() {
         return this.$store.state.orders.map(order => {
           const client = this.clientsMap[order.clientName] || {}
-          const supplier = this.suppliersMap[order.supplierName] || {}
+          const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
           return {
             ...order,
             clientLink: client.name,
@@ -166,7 +166,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.supplierName == this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
+          return order.orderSupplierRef.id === this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
          })
       },
       set(value) {

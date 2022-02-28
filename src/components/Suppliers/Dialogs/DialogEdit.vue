@@ -411,25 +411,20 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
       this.supplierPhone = this.supplier.phone
       this.supplierEmail = this.supplier.email
       this.supplierIdNumber = this.supplier.numberId
-      this.supplierWebsite = this.supplier.website,
-      this.supplierFacebook = this.supplier.facebook,
-      this.supplierInstagram = this.supplier.instagram,
+      this.supplierWebsite = this.supplier.website
+      this.supplierFacebook = this.supplier.facebook
+      this.supplierInstagram = this.supplier.instagram
       this.supplierPaymentTerms = this.supplier.paymentTerms
       this.supplierPaymentMethod = this.supplier.paymentMethod
       this.supplierAddress = this.supplier.address
-      this.supplierAddressAdditional = this.supplier.addressAditional,
+      this.supplierAddressAdditional = this.supplier.addressAditional
       this.supplierWhatsapp = this.supplier.whatsapp
       this.supplierHours = this.supplier.workingHours
       this.supplierDeliveryType = this.supplier.deliveryType
       this.supplierStatus = this.supplier.status
       this.supplierNewsletter = this.supplier.newsletter
       this.supplierScope = this.supplier.scope
-      this.connectedUsersIds = this.users.filter(user => user.supplierRef === this.supplier.id).map(user => user.id)
-      document.addEventListener("keyup", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
+      this.connectedUsersIds = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id).map(user => user.id)
     },
     components: {
       'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default

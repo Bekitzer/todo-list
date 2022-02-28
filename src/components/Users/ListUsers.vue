@@ -74,7 +74,7 @@ export default {
       get() {
         return this.$store.state.users.map(user => {
           const client = this.clientsMap[user.clientRef] || {}
-          const supplier = this.suppliersMap[user.supplierRef] || {}
+          const supplier = this.suppliersMap[user.userSupplierRef?.id] || {}
           return {
             ...user,
             clientLink: client.name,

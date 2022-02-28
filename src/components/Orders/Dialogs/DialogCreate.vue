@@ -156,6 +156,7 @@
 </template>
 
 <script>
+import db from '@/firebase'
 import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
 import { getAuth } from 'firebase/auth'
@@ -216,7 +217,7 @@ import emailjs from '@emailjs/browser';
             clientName: this.orderClient.id,
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
-            supplierName: this.orderSupplier.id,
+            orderSupplierRef: db.doc(`suppliers/${this.orderSupplier.id}`),
             deliveryAgent: this.name,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
@@ -265,7 +266,7 @@ import emailjs from '@emailjs/browser';
             clientName: this.orderClient.id,
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
-            supplierName: this.orderSupplier.id,
+            orderSupplierRef: db.doc(`suppliers/${this.orderSupplier.id}`),
             deliveryAgent: this.name,
             sellPrice: this.orderSellPrice,
             buyPrice: this.orderBuyPrice,
@@ -299,13 +300,13 @@ import emailjs from '@emailjs/browser';
         this.orderClient = this.clients.find(client => client.id === this.order.clientName)
         this.orderWorkTitle = this.order.orderWorkTitle
         this.orderWorkProducts = this.order.orderWork
-        this.orderSupplier = this.suppliers.find(supplier => supplier.id === this.order.supplierName)
+        this.orderSupplier = this.suppliers.find(supplier => supplier.id === this.order.orderSupplierRef.id)
         this.orderDeliveryAgent = this.order.deliveryAgent
         this.orderSellPrice = this.order.sellPrice
         this.orderBuyPrice = this.order.buyPrice
       }
       document.addEventListener("keyup", (e) => {
-        if (e.keyCode == 27) {
+        if (e.keyCode === 27) {
             this.$emit('close')
         }
       })

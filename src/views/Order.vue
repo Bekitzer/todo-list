@@ -42,7 +42,7 @@
             <div>
               <small class="margin-bottom:0 !important;">שם ספק</small>
               <h2 v-if="suppliersMap">
-                {{ suppliersMap[order.supplierName] }}
+                {{ suppliersMap[order.orderSupplierRef.id] }}
               </h2>
             </div>
           </v-col>
@@ -134,7 +134,7 @@ export default {
   }),
   computed: {
     order() {
-      return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: ''}
+      return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: '', orderSupplierRef: {}}
     },
     clientsMap() {
       const clientsMap = {}

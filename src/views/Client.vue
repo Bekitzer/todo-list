@@ -355,7 +355,7 @@ export default {
     suppliersMap() {
       const suppliersMap = {}
       this.$store.state.suppliers.forEach(supplier => {
-        suppliersMap[supplier.id] = supplier
+        suppliersMap[`suppliers/${supplier.id}`] = supplier
       })
 
       return suppliersMap
@@ -364,7 +364,7 @@ export default {
       get() {
         return this.$store.state.orders.map(order => {
           const client = this.clientsMap[order.clientName] || {}
-          const supplier = this.suppliersMap[order.supplierName] || {}
+          const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
           return {
             ...order,
             clientLink: client.name,
@@ -372,7 +372,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.clientName == this.client.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
+          return order.clientName === this.client.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
         })
       },
       set(value) {

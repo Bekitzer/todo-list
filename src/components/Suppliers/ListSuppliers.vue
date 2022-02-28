@@ -55,8 +55,8 @@ export default {
 
         this.$store.state.orders.forEach(order => {
           if( order.statusType !== 'סופק'){
-            ordersMap[order.supplierName] = ordersMap[order.supplierName] || 0
-            ordersMap[order.supplierName]++
+            ordersMap[order.orderSupplierRef.id] = ordersMap[order.orderSupplierRef.id] || 0
+            ordersMap[order.orderSupplierRef.id]++
           }
         })
 
