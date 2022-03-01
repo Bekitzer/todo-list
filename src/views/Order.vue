@@ -134,7 +134,7 @@ export default {
   }),
   computed: {
     order() {
-      return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: '', orderSupplierRef: {}}
+      return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: '', orderSupplierRef: {}, orderClientRef: {}}
     },
     clientsMap() {
       const clientsMap = {}

@@ -19,7 +19,7 @@
                 :items="clients"
                 item-text="name"
                 item-value="id"
-                v-model="orderClientName"
+                v-model="orderClientId"
                 label="לקוח"
                 clearable
                 filled
@@ -181,8 +181,7 @@ export default {
     dialogs: {
       delete: false
     },
-    // orderNumber: '',
-    orderClientName: '',
+    orderClientId: '',
     orderWorkTitle: '',
     orderWorkProducts: '',
     orderSupplierId: '',
@@ -212,11 +211,10 @@ export default {
       return this.$store.state.clients
     },
     suppliers() {
-      console.log(this.$store.state.suppliers)
       return this.$store.state.suppliers
     },
     orderFieldInvalid() {
-      return (!this.orderClientName || this.orderClientName === this.order.clientName)
+      return (!this.orderClientId || this.orderClientId === this.order.orderClientRef.id)
       && (!this.orderWorkTitle || this.orderWorkTitle === this.order.orderWorkTitle)
       && (!this.orderWorkProducts || this.orderWorkProducts === this.order.orderWork)
       && (!this.orderSupplierId || this.orderSupplierId === this.order.orderSupplierRef.id)
@@ -233,7 +231,7 @@ export default {
       if (!this.orderFieldInvalid) {
         let payload = {
           id: this.order.id,
-          clientName: this.orderClientName,
+          orderClientRef: db.doc(`clients/${this.orderClientId}`),
           orderWorkTitle: this.orderWorkTitle,
           orderWork: this.orderWorkProducts,
           orderSupplierRef: db.doc(`suppliers/${this.orderSupplierId}`),
@@ -256,7 +254,7 @@ export default {
     }
   },
   mounted() {
-    this.orderClientName = this.order.clientName
+    this.orderClientId = this.order.orderClientRef.id
     this.orderWorkTitle = this.order.orderWorkTitle
     this.orderWorkProducts = this.order.orderWork
     this.orderSupplierId = this.order.orderSupplierRef.id

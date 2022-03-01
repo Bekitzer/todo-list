@@ -214,7 +214,7 @@ import emailjs from '@emailjs/browser';
       addOrder() {
         if(!this.orderFieldInvalid){
           const orderFields = {
-            clientName: this.orderClient.id,
+            orderClientRef: db.doc(`clients/${this.orderClient.id}`),
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
             orderSupplierRef: db.doc(`suppliers/${this.orderSupplier.id}`),
@@ -229,11 +229,11 @@ import emailjs from '@emailjs/browser';
 
           this.$store.dispatch('addOrder', orderFields)
           const mailFields = {
-            clientName: this.orderClient.name,
+            orderClientRef: db.doc(`clients/${this.orderClient.name}`),
             clientEmail: this.orderClient.email,
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
-            supplierName: this.orderSupplier.name,
+            orderSupplierRef: db.doc(`suppliers/${this.orderSupplier.name}`),
             supplierEmail: this.orderSupplier.email,
             statusType: this.orderStatusType = 'בעבודה',
             deliveryDate: parseISO(this.orderDeliveryDate),
@@ -263,7 +263,7 @@ import emailjs from '@emailjs/browser';
       },
       addDraft() {
           const orderFields = {
-            clientName: this.orderClient.id,
+            orderClientRef: db.doc(`clients/${this.orderClient.id}`),
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
             orderSupplierRef: db.doc(`suppliers/${this.orderSupplier.id}`),
@@ -297,7 +297,7 @@ import emailjs from '@emailjs/browser';
     },
     mounted() {
       if(this.order) {
-        this.orderClient = this.clients.find(client => client.id === this.order.clientName)
+        this.orderClient = this.clients.find(client => client.id === this.order.orderClientRef.id)
         this.orderWorkTitle = this.order.orderWorkTitle
         this.orderWorkProducts = this.order.orderWork
         this.orderSupplier = this.suppliers.find(supplier => supplier.id === this.order.orderSupplierRef.id)
