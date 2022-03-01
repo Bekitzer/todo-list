@@ -1,28 +1,28 @@
 rules_version = '2';
 service cloud.firestore {
-  match /databases/{database}/documents {
-		function isOwner() {
-    	return resource.id == request.auth.uid;
-    }
-    // function isSignedIn() {
-    // 	return request.auth != null;
-    // }
-    function isAdmin() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin;
-    }
-    function contains(arr) {
-      return request.resource.data.keys().hasAny(arr)
-    }
+    match /databases/{database}/documents {
+        function isOwner() {
+            return resource.id == request.auth.uid;
+        }
+        // function isSignedIn() {
+        // 	return request.auth != null;
+        // }
+        function isAdmin() {
+            return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin;
+        }
+        function contains(arr) {
+            return request.resource.data.keys().hasAny(arr);
+        }
 
-    match /{document=**} {
-    	allow read, write: if isAdmin()
+        match /{document=**} {
+            allow read, write: if isAdmin();
+        }
+        match /users/{user} {
+            allow read: if isOwner();
+            allow create: if isOwner() && !contains(['isAdmin', 'userSupplierRef', 'clientRef']) && !exists(/databases/$(database)/documents/users/$(request.resource.id));
+        }
+        match /suppliers/{supplier} {
+            allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userSupplierRef == /databases/$(database)/documents/suppliers/$(resource.id);
+        }
     }
-    match /users/{user} {
-      allow read: if isOwner();
-    	allow create: if isOwner() && !contains(['isAdmin', 'userSupplierRef', 'clientRef']) && !exists(/databases/$(database)/documents/users/$(request.resource.id));
-		}
-    match /suppliers/{supplier} {
-      allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userSupplierRef == /databases/$(database)/documents/suppliers/$(resource.id);
-    }
-  }
 }

@@ -227,7 +227,9 @@ export default new Vuex.Store({
         console.log('Something went wrong - updateUser', error);
       })
     },
-    getUsers({commit}) {
+    getUsers({commit, state}) {
+      if (!state.user?.isAdmin) return console.debug('not pulling users since no admin role')
+
       db.collection('users').get().then(querySnapshot => {
         const users = [];
         querySnapshot.forEach(doc => {
@@ -315,8 +317,10 @@ export default new Vuex.Store({
         console.log('Something went wrong - updateProduct', error);
       })
     },
-    getProducts({commit}) {
-      db.collection('products').get().then(querySnapshot => {
+    getProducts({commit, state}) {
+      if (!state.user?.isAdmin) return console.debug('not pulling products since no admin role')
+
+      return db.collection('products').get().then(querySnapshot => {
         const products = [];
         querySnapshot.forEach(doc => {
           products.push({...doc.data(), id: doc.id})
@@ -384,8 +388,17 @@ export default new Vuex.Store({
         console.log('Something went wrong - updateOrder', error);
       })
     },
-    getOrders({commit}) {
-      db.collection('orders').get().then(querySnapshot => {
+    getOrders({commit, state}) {
+      // if (!state.user?.isAdmin) return console.debug('not pulling orders since no admin role')
+
+      //const allCapitalsRes = await citiesRef.where('capital', '==', true).get();
+       let ordersRef = db.collection('orders')
+      if (!state.user?.isAdmin) {
+        ordersRef = ordersRef.where('orderSupplierRef', '==', db.doc('suppliers/1jBRwGvpXzX7keqNk5te'))
+      }
+      ordersRef.get().then(querySnapshot => {
+      // return ordersRef
+
         const orders = [];
         querySnapshot.forEach(doc => {
           //if(doc.data().id === "zeBBSwcFbL9JxPRKcJB8") {
@@ -470,8 +483,10 @@ export default new Vuex.Store({
           console.log('Something went wrong - updateClient & updateUser', error);
         })
     },
-    getClients({commit}) {
-      db.collection('clients').get().then(querySnapshot => {
+    getClients({commit, state}) {
+      if (!state.user?.isAdmin) return console.debug('not pulling clients since no admin role')
+
+      return db.collection('clients').get().then(querySnapshot => {
         const clients = [];
         querySnapshot.forEach(doc => {
           clients.push({...doc.data(), id: doc.id})
@@ -548,8 +563,10 @@ export default new Vuex.Store({
           console.log('Something went wrong - updateSupplier & updateUser', error);
         })
     },
-    getSuppliers({commit}) {
-      db.collection('suppliers').get().then(querySnapshot => {
+    getSuppliers({commit, state}) {
+      if (!state.user?.isAdmin) return console.debug('not pulling suppliers since no admin role')
+
+      return db.collection('suppliers').get().then(querySnapshot => {
         const suppliers = [];
         querySnapshot.forEach(doc => {
           suppliers.push({...doc.data(), id: doc.id})
