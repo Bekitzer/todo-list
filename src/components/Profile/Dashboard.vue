@@ -127,6 +127,9 @@ export default {
     supplier() {
       return this.$store.state.supplier || {name: ''}
     },
+    client() {
+      return this.$store.state.client || {name: ''}
+    },
     headers () {
       return [
         { text: 'מס׳ הזמנה', value: 'number', align: 'start' },
@@ -157,7 +160,7 @@ export default {
     processing: {
       get() {
         return this.$store.state.orders.map(order => {
-          const client = this.clientsMap[order.clientName] || {}
+          const client = this.clientsMap[order.orderClientRef.id] || {}
           const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
           return {
             ...order,
@@ -167,6 +170,9 @@ export default {
         })
         .filter(order => {
           return order.orderSupplierRef.id === this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
+        })
+        .filter(order => {
+          return order.orderClientRef.id === this.client.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
          })
       },
       set(value) {

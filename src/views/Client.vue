@@ -327,7 +327,7 @@ export default {
   },
   computed: {
     users() {
-      return this.$store.state.users.filter(user => user.clientRef === this.client.id)
+      return this.$store.state.users.filter(user => user.userClientRef.id === this.client.id)
     },
     client() {
       return this.$store.state.clients.find(client => client.id === this.$route.params.id) || {name: ''}
@@ -347,7 +347,7 @@ export default {
     clientsMap() {
       const clientsMap = {}
       this.$store.state.clients.forEach(client => {
-        clientsMap[client.id] = client
+        clientsMap[`clients/${client.id}`] = client
       })
 
       return clientsMap
@@ -372,7 +372,7 @@ export default {
           }
         })
         .filter(order => {
-          return order.clientName === this.client.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
+          return order.orderClientRef.id === this.client.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
         })
       },
       set(value) {

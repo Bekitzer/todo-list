@@ -12,6 +12,7 @@ export default new Vuex.Store({
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
     supplier: null,
+    client: null,
     suppliers: [],
     clients: [],
     orders: [],
@@ -83,6 +84,10 @@ export default new Vuex.Store({
     },
     setOrders(state, orders) {
       state.orders = orders
+    },
+    // CLIENT
+    setClient(state, client) {
+      state.client = client
     },
     // CLIENTS
     addClient(state, newClient) {
@@ -401,13 +406,13 @@ export default new Vuex.Store({
 
         const orders = [];
         querySnapshot.forEach(doc => {
-          //if(doc.data().id === "zeBBSwcFbL9JxPRKcJB8") {
-          //   const sup = doc.data()
-            // const {supplierName, ...rest} = sup
+          // if(doc.data().id === "zeBBSwcFbL9JxPRKcJB8") {
+            // const sup = doc.data()
+            // const {clientName, ...rest} = sup
             // console.log(doc.ref.set(rest))
-          // if(supplierName) {
-          //   console.log(doc.ref.set({orderSupplierRef: db.doc(`suppliers/${supplierName}`), ...rest}))
-          // }
+            // if(clientName) {
+            //   console.log(doc.ref.set({orderClientRef: db.doc(`clients/${clientName}`), ...rest}))
+            // }
           // }
           orders.push({...doc.data(), id: doc.id})
         })
@@ -496,6 +501,15 @@ export default new Vuex.Store({
         console.log('Something went wrong - getClients', error);
       })
     },
+    getClient({commit, state}) {
+      if (state.user?.userClientRef) {
+        state.user.userClientRef.get().then(doc => {
+          commit('setClient', {...doc.data(), id: doc.id})
+        }).catch((error) => {
+          console.log('Something went wrong - getClient', error);
+        })
+      }
+    },
     setClients({commit}, clients) {
       setDoc(doc(collection(db, "clients")), clients).then(() => {
         commit('setClients', clients)
@@ -581,7 +595,7 @@ export default new Vuex.Store({
         state.user.userSupplierRef.get().then(doc => {
           commit('setSupplier', {...doc.data(), id: doc.id})
         }).catch((error) => {
-          console.log('Something went wrong - getSuppliers', error);
+          console.log('Something went wrong - getSupplier', error);
         })
       }
     },

@@ -19,10 +19,13 @@ service cloud.firestore {
         }
         match /users/{user} {
             allow read: if isOwner();
-            allow create: if isOwner() && !contains(['isAdmin', 'userSupplierRef', 'clientRef']) && !exists(/databases/$(database)/documents/users/$(request.resource.id));
+            allow create: if isOwner() && !contains(['isAdmin', 'userSupplierRef', 'userClientRef']) && !exists(/databases/$(database)/documents/users/$(request.resource.id));
         }
         match /suppliers/{supplier} {
             allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userSupplierRef == /databases/$(database)/documents/suppliers/$(resource.id);
+        }
+        match /clients/{client} {
+            allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userClientRef == /databases/$(database)/documents/clients/$(resource.id);
         }
     }
 }

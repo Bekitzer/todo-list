@@ -328,7 +328,7 @@ export default {
   },
   computed: {
     users() {
-      return this.$store.state.users.filter(user => user.userSupplierRef?.id === this.supplier.id)
+      return this.$store.state.users.filter(user => user.userSupplierRef.id === this.supplier.id)
     },
     supplier() {
       return this.$store.state.suppliers.find(supplier => supplier.id === this.$route.params.id) || {name: ''}
@@ -348,7 +348,7 @@ export default {
     clientsMap() {
       const clientsMap = {}
       this.$store.state.clients.forEach(client => {
-        clientsMap[client.id] = client
+        clientsMap[`clients/${client.id}`] = client
       })
 
       return clientsMap
@@ -364,7 +364,7 @@ export default {
     processing: {
       get() {
         return this.$store.state.orders.map(order => {
-          const client = this.clientsMap[order.clientName] || {}
+          const client = this.clientsMap[order.orderClientRef.id] || {}
           const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
           return {
             ...order,

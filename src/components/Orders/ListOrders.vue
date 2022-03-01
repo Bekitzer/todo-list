@@ -354,7 +354,7 @@ export default {
     orders: {
       get() {
         return this.$store.state.orders.map(order => {
-          const client = this.clientsMap[order.clientName] || {}
+          const client = this.clientsMap[order.orderClientRef.id] || {}
           const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
           return {
             ...order,

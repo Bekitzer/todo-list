@@ -31,7 +31,7 @@
             <div>
               <small class="margin-bottom:0 !important;">שם לקוח</small>
               <h2 v-if="clientsMap">
-                {{ clientsMap[order.clientName] }}
+                {{ clientsMap[order.orderClientRef.id] }}
               </h2>
               <h2 v-else>
                 empty
