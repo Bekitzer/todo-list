@@ -9,8 +9,9 @@ import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 import { format, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
-import * as VueGoogleMaps from 'vue2-google-maps';
+import * as VueGoogleMaps from 'vue2-google-maps'
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
+import './vee-validate'
 
 Vue.config.productionTip = false
 Vue.use(VueMeta, {

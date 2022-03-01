@@ -394,7 +394,7 @@ export default new Vuex.Store({
       })
     },
     getOrders({commit, state}) {
-      // if (!state.user?.isAdmin) return console.debug('not pulling orders since no admin role')
+      if (!state.user?.isAdmin) return console.debug('not pulling orders since no admin role')
 
       //const allCapitalsRes = await citiesRef.where('capital', '==', true).get();
        let ordersRef = db.collection('orders')
