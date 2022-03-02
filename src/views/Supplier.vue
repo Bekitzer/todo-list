@@ -348,7 +348,7 @@ export default {
     clientsMap() {
       const clientsMap = {}
       this.$store.state.clients.forEach(client => {
-        clientsMap[`clients/${client.id}`] = client
+        clientsMap[client.id] = client
       })
 
       return clientsMap
@@ -356,7 +356,7 @@ export default {
     suppliersMap() {
       const suppliersMap = {}
       this.$store.state.suppliers.forEach(supplier => {
-        suppliersMap[`suppliers/${supplier.id}`] = supplier
+        suppliersMap[supplier.id] = supplier
       })
 
       return suppliersMap

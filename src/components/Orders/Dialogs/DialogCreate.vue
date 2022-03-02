@@ -229,11 +229,11 @@ import emailjs from '@emailjs/browser';
 
           this.$store.dispatch('addOrder', orderFields)
           const mailFields = {
-            orderClientRef: db.doc(`clients/${this.orderClient.name}`),
+            clientName: this.orderClient.name,
             clientEmail: this.orderClient.email,
             orderWorkTitle: this.orderWorkTitle,
             orderWork: this.orderWorkProducts,
-            orderSupplierRef: db.doc(`suppliers/${this.orderSupplier.name}`),
+            supplierName: this.orderSupplier.name,
             supplierEmail: this.orderSupplier.email,
             statusType: this.orderStatusType = 'בעבודה',
             deliveryDate: parseISO(this.orderDeliveryDate),
