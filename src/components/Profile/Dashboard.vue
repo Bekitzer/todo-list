@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-appbar :pname="this.supplier.name"/>
+    <nav-appbar :pname="this.clientOrSupplier.name"/>
     <v-row v-if="!user.isAdmin">
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
@@ -11,19 +11,19 @@
               size="100px"
             >
               <v-img
-                :src="supplier.avatar"
+                :src="clientOrSupplier.avatar"
                 rounded
               ></v-img>
             </v-avatar>
           </v-col>
           <v-col cols="12" md="8" sm="8">
-            <h2>{{ supplier.name }}</h2>
-            <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
-            <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ supplier.numberId }}</p>
+            <h2>{{ clientOrSupplier.name }}</h2>
+            <p style="margin-bottom:0 !important;">{{ clientOrSupplier.companyName }}</p>
+            <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ clientOrSupplier.numberId }}</p>
             <div>
-              <a :href="supplier.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> |
-              <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> |
-              <a :href="supplier.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a>
+              <a :href="clientOrSupplier.website" style="text-decoration:none;"><v-icon>mdi-web</v-icon></a> |
+              <a :href="clientOrSupplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a> |
+              <a :href="clientOrSupplier.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a>
             </div>
           </v-col>
         </v-row>
@@ -33,67 +33,27 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">איש קשר ראשי</p> {{ supplier.contactName }}
+              <p class="spc-titles">איש קשר ראשי</p> {{ clientOrSupplier.contactName }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">טלפון</p> {{ supplier.phone }}
+              <p class="spc-titles">טלפון</p> {{ clientOrSupplier.phone }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">מייל</p> {{ supplier.email }}
+              <p class="spc-titles">מייל</p> {{ clientOrSupplier.email }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">וואטסאפ</p> {{ supplier.whatsapp }}
+              <p class="spc-titles">וואטסאפ</p> {{ clientOrSupplier.whatsapp }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">כתובת</p> {{ supplier.address }}
+              <p class="spc-titles">כתובת</p> {{ clientOrSupplier.address }}
             </div>
             <div class="user-information">
-              <p class="spc-titles">הוראות הגעה</p> {{ supplier.addressAditional }}
+              <p class="spc-titles">הוראות הגעה</p> {{ clientOrSupplier.addressAditional }}
             </div>
           </v-col>
         </v-row>
-      </v-col>
-      <v-col cols="12" md="9" sm="9" class="pr-10">
-        <v-col cols="12">
-          <h4>הזמנות</h4>
-          <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
-        </v-col>
-        <v-data-table
-          height="75vh"
-          fixed-header
-          :headers="headers"
-          :items="processing"
-          item-key="id"
-          sort-by="deliveryDate"
-          :items-per-page="-1"
-          hide-default-footer
-          sort-desc
-          no-data-text="אין הזמנות פעילות"
-        >
-          <template v-slot:item.clientLink="{ item }">
-              {{ item.clientLink }}
-          </template>
-          <template v-slot:item.supplierLink="{ item }">
-              {{ item.supplierLink }}
-          </template>
-          <template v-slot:item.buy="{ item }">
-              {{ item.buyPrice | formatNumber }}
-          </template>
-          <template v-slot:item.statusType="props">
-            <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
-              mdi-circle-small
-            </v-icon>
-            {{ props.item.statusType }}
-          </template>
-          <template v-slot:item.created="{ item }">
-            {{ item.orderCreationDate | formatDate }}
-          </template>
-          <template v-slot:item.delivery="{ item }">
-            {{ item.deliveryDate | formatDate }}
-          </template>
-        </v-data-table>
       </v-col>
     </v-row>
   </div>
@@ -106,57 +66,14 @@ import db from '@/firebase'
 export default {
   name: "Dashboard",
   data: () => ({
-    pageName: 'לוח בקרה',
-    viewSuppliedOnly: true
+    pageName: 'לוח בקרה'
   }),
-  methods: {
-    getColor (statusType) {
-      if (statusType === "טיוטה") return '#FF9800'
-      else if (statusType === "בעבודה") return '#2196F3'
-      else if (statusType === "מוכן - משרד") return '#4CAF50'
-      else if (statusType === "מוכן - ספק") return '#4CAF50'
-      else if (statusType === "במשלוח") return '#2196F3'
-      else if (statusType === "סופק") return '#9E9E9E'
-      else return 'grey darken-1'
-    }
-  },
   components: {
     'nav-appbar' : require('@/components/Global/AppBar.vue').default
   },
   computed: {
-    supplier() {
-      return this.$store.state.supplier || {name: ''}
-    },
-    client() {
-      return this.$store.state.client || {name: ''}
-    },
-    headers () {
-      return [
-        { text: 'מס׳ הזמנה', value: 'number', align: 'start' },
-        { text: 'תאריך הזמנה', value: 'created', 'sortable': false },
-        { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', 'sortable': false,  },
-        { text: 'ספק', value: 'supplierLink', 'sortable': false },
-        { text: 'מכירה', value: 'buy', 'sortable': false  },
-        { text: 'תאריך אספקה', value: 'delivery' },
-        { text: 'סטטוס הזמנה', value: 'statusType' }
-      ]
-    },
-    processing: {
-      get() {
-        return this.$store.state.orders.map(order => {
-          return {
-            ...order,
-            clientLink: this.client.name,
-            supplierLink: this.supplier.name
-          }
-        })
-        .filter(order => {
-          return this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק'
-        })
-      },
-      set(value) {
-        this.$store.dispatch('setOrders', value)
-      }
+    clientOrSupplier() {
+      return this.$store.state.supplier || this.$store.state.client || {name: ''}
     },
     user() {
       return this.$store.state.user || {name: ''}

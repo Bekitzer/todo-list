@@ -422,7 +422,7 @@ export default {
     this.clientStatus = this.client.status
     this.clientLead = this.client.lead
     this.clientNewsletter = this.client.newsletter
-    this.connectedUsersIds = this.users.filter(user => user.clientRef === this.client.id).map(user => user.id)
+    this.connectedUsersIds = this.users.filter(user => user.clientRef?.id === this.client.id).map(user => user.id)
     document.addEventListener("keyup", (e) => {
       if (e.keyCode == 27) {
           this.$emit('close')
