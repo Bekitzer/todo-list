@@ -29,8 +29,8 @@ export default {
   }),
   props: ['product'],
   methods: {
-    handleClick(porduct){
-      this.$router.push({ name: 'Product', params: { id : porduct.id }})
+    handleClick(product){
+      this.$router.push({ name: 'Product', params: { id : product.id }})
     }
   }
 }
