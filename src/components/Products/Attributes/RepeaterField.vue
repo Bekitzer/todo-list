@@ -85,18 +85,18 @@
 </template>
 
 <script>
-const defaultField = {
+const defaultField = () => ({
   name: '',
   values: [],
   items: [],
   search: null
-}
+})
 
 export default {
   name: 'RepeaterField',
   props: {
     value: {
-      default: () => ([defaultField])
+      default: () => ([defaultField()])
     }
   },
   data: () => ({
@@ -105,36 +105,11 @@ export default {
   }),
   methods: {
     addField() {
-      this.fields.push(defaultField);
+      this.fields.push(defaultField());
     },
     removeField(index) {
       this.fields.splice(index, 1);
       this.fields = [...this.fields]
-    },
-    saveChanges() {
-      console.log('TODO: save those values to DB', this.fields)
-      // TODO: the collection should look like this:
-      // attributes: {
-          // id: ABC
-          // name: color
-          // values: ['black', 'white']
-          // product_id: xyz
-      // }
-              // this.$store.dispatch('addAtribute', attributeFields)
-
-
-      // variations: {
-        // attribute_id: ABC
-        // attribute_value: 'black'
-        // product_id: xyz
-        // supplier_id: 123
-        // price_per_unit: $12
-        // price_amount_buckets: [
-        //  {min: 1, max: 5, price_per_unit: $7}
-        //  {min: 6, max: 20, price_per_unit: $5}
-        //  {min: 6, price_per_unit: $5}
-        // ]
-      // }
     },
     edit (index, item) {
       if (!this.editing) {
@@ -180,7 +155,6 @@ export default {
         return this.value
       },
       set(val) {
-        console.log(1)
         this.$emit('change', val.filter(({name}) => name))
         this.$emit('input', val)
       }
