@@ -474,12 +474,12 @@ export default new Vuex.Store({
           return updateDoc(doc(db, "users", userId), {clientRef: null})
         })))
         .then(() => Promise.all(usersIds.map(userId => {
-          return updateDoc(doc(db, "users", userId), {clientRef: client.id})
+          return updateDoc(doc(db, "users", userId), {clientRef: db.doc(`clients/${client.id}`)})
         })))
         .then(() => {
           commit('updateClient', client)
           removeUsersIds.map(id => commit('updateUser', {id, clientRef: null}))
-          usersIds.map(id => commit('updateUser', {id, clientRef: client.id}))
+          usersIds.map(id => commit('updateUser', {id, clientRef: db.doc(`clients/${client.id}`)}))
           commit('showSnackbar', 'לקוח עודכן!')
         })
         .catch((error) => {

@@ -20,7 +20,6 @@
           ></v-img>
         </v-list-item>
         <v-list-item
-          v-if="user.isAdmin"
           :to="{ name: 'Orders' }"
         >
           <v-list-item-content>
