@@ -141,39 +141,18 @@ export default {
         { text: 'סטטוס הזמנה', value: 'statusType' }
       ]
     },
-    clientsMap() {
-      const clientsMap = {}
-      this.$store.state.clients.forEach(client => {
-        clientsMap[client.id] = client
-      })
-
-      return clientsMap
-    },
-    suppliersMap() {
-      const suppliersMap = {}
-      this.$store.state.suppliers.forEach(supplier => {
-        suppliersMap[supplier.id] = supplier
-      })
-
-      return suppliersMap
-    },
     processing: {
       get() {
         return this.$store.state.orders.map(order => {
-          const client = this.clientsMap[order.orderClientRef.id] || {}
-          const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
           return {
             ...order,
-            clientLink: client.name,
-            supplierLink: supplier.name
+            clientLink: this.client.name,
+            supplierLink: this.supplier.name
           }
         })
         .filter(order => {
-          return order.orderSupplierRef.id === this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
+          return this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק'
         })
-        .filter(order => {
-          return order.orderClientRef.id === this.client.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
-         })
       },
       set(value) {
         this.$store.dispatch('setOrders', value)

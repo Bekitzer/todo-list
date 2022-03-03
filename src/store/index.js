@@ -397,8 +397,7 @@ export default new Vuex.Store({
       //const allCapitalsRes = await citiesRef.where('capital', '==', true).get();
        let ordersRef = db.collection('orders')
       if (!state.user?.isAdmin) {
-        console.log(state.user?.userSupplierRef.path)
-        ordersRef = ordersRef.where('orderSupplierRef', '==', db.doc('suppliers/1jBRwGvpXzX7keqNk5te'))
+        ordersRef = ordersRef.where('orderSupplierRef', '==', state.user?.userSupplierRef)
       }
       ordersRef.get().then(querySnapshot => {
       // return ordersRef
