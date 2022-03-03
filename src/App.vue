@@ -20,6 +20,7 @@ export default {
   }),
   mounted() {
     this.$store.dispatch('getUser').then(() => {
+      this.$store.dispatch('getProductsTags')
       this.$store.dispatch('getSupplier')
       this.$store.dispatch('getClient')
       this.$store.dispatch('getClients')

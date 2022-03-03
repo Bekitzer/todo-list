@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '@/firebase'
-import {doc, deleteDoc, updateDoc, collection, setDoc} from "firebase/firestore"
+import {doc, deleteDoc, updateDoc, collection, setDoc, addDoc, getDocs} from "firebase/firestore"
 import firebase from 'firebase/compat/app'
 import {getAuth} from "firebase/auth";
 
@@ -16,6 +16,7 @@ export default new Vuex.Store({
     suppliers: [],
     clients: [],
     orders: [],
+    productsTags: [],
     products: [],
     users: [],
     snackbar: {
@@ -70,6 +71,20 @@ export default new Vuex.Store({
     // Attribute
     setAttributes(state, attributes) {
       state.attributes = attributes
+    },
+    // PRODUCTS TAGS
+    addProductTag(state, payload) {
+      state.productsTags.push(payload)
+    },
+    deleteProductTag(state, id) {
+      state.productsTags = state.productsTags.filter(item => item.id !== id)
+    },
+    updateProductTag(state, payload) {
+      let item = state.productsTags.find(item => item.id === payload.id)
+      Object.assign(item, payload)
+    },
+    setProductsTags(state, payloads) {
+      state.productsTags = payloads
     },
     // ORDERS
     addOrder(state, newOrder) {
@@ -297,15 +312,6 @@ export default new Vuex.Store({
           })
       })
     },
-    // Attributes
-    updateAttributes({commit}, payload) {
-      updateDoc(doc(db, "products", payload.id), {attributes: payload.attributes}).then(() => {
-        commit('setAttributes', payload.attributes)
-        commit('showSnackbar', 'מאפיינים עודכנו!')
-      }).catch((error) => {
-        console.log('Something went wrong - updateAttributes', error);
-      })
-    },
     deleteProduct({commit}, id) {
       deleteDoc(doc(db, "products", id)).then(() => {
         commit('deleteProduct', id)
@@ -341,6 +347,73 @@ export default new Vuex.Store({
       }).catch((error) => {
         console.log('Something went wrong - setProducts', error);
       })
+    },
+    // Attributes
+    updateAttributes({commit}, payload) {
+      updateDoc(doc(db, "products", payload.id), {attributes: payload.attributes})
+        .then(() => {
+          commit('setAttributes', payload.attributes)
+          commit('showSnackbar', 'מאפיינים עודכנו!')
+        })
+        .catch(error => {
+          console.error('Something went wrong - updateAttributes', error);
+        })
+    },
+    // PRODUCTS TAGS
+    addProductTag({commit}, payload) {
+      return addDoc(collection(db, 'products-tags'), payload)
+        .then(docRef => {
+          commit('addProductTag', {...payload, id: docRef.id})
+          commit('showSnackbar', 'תגית חדשה נוספה!')
+        })
+        .catch(error => {
+          console.error('Something went wrong - addProductTag', error);
+        })
+    },
+    deleteProductTag({commit}, id) {
+      deleteDoc(doc(db, 'products-tags', id))
+        .then(() => {
+          commit('deleteProductTag', id)
+          commit('showSnackbar', 'תגית נמחקה!')
+        })
+        .catch(error => {
+          console.error('Something went wrong - deleteProductTag', error);
+        })
+    },
+    updateProductTag({commit}, payload) {
+      const {id, ...rest} = payload
+      updateDoc(doc(db, 'products-tags', id), rest)
+        .then(() => {
+          commit('updateProductTag', payload)
+          commit('showSnackbar', 'תגית עודכנה!')
+        })
+        .catch((error) => {
+          console.error('Something went wrong - updateProductTag', error);
+        })
+    },
+    getProductsTags({commit, state}) {
+      if (!state.user?.isAdmin) return console.debug('not pulling products tags since no admin role')
+
+      return getDocs(collection(db, 'products-tags'))
+        .then(querySnapshot => {
+          const items = [];
+          querySnapshot.forEach(doc => {
+            items.push({...doc.data(), id: doc.id})
+          })
+          commit('setProductsTags', items)
+        })
+        .catch(error => {
+          console.error('Something went wrong - getProductsTags', error);
+        })
+    },
+    setProductsTags({commit}, items) {
+      setDoc(doc(collection(db, 'products-tags')), items)
+        .then(() => {
+          commit('setProductsTags', items)
+        })
+        .catch((error) => {
+          console.error('Something went wrong - setProductsTags', error);
+        })
     },
     // ORDERS
     async addOrder({commit}, order) {
@@ -395,22 +468,22 @@ export default new Vuex.Store({
     },
     getOrders({commit, state}) {
       //const allCapitalsRes = await citiesRef.where('capital', '==', true).get();
-       let ordersRef = db.collection('orders')
+      let ordersRef = db.collection('orders')
       if (!state.user?.isAdmin) {
         ordersRef = ordersRef.where('orderSupplierRef', '==', state.user?.userSupplierRef)
       }
       ordersRef.get().then(querySnapshot => {
-      // return ordersRef
+        // return ordersRef
 
         const orders = [];
         querySnapshot.forEach(doc => {
           // if(doc.data().id === "zeBBSwcFbL9JxPRKcJB8") {
-            // const sup = doc.data()
-            // const {clientName, ...rest} = sup
-            // console.log(doc.ref.set(rest))
-            // if(clientName) {
-            //   console.log(doc.ref.set({orderClientRef: db.doc(`clients/${clientName}`), ...rest}))
-            // }
+          // const sup = doc.data()
+          // const {clientName, ...rest} = sup
+          // console.log(doc.ref.set(rest))
+          // if(clientName) {
+          //   console.log(doc.ref.set({orderClientRef: db.doc(`clients/${clientName}`), ...rest}))
+          // }
           // }
           orders.push({...doc.data(), id: doc.id})
         })
