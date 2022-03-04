@@ -1,4 +1,4 @@
-<template>
+a<template>
   <div>
     <nav-appbar :pname="'הזמנות - ' + this.order.number">
       <template v-slot:add-btn>
@@ -107,14 +107,31 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col cols="12" md="4" sm="4">
-        <v-img
-          :src="order.file"
-        ></v-img>
+        <v-hover v-slot="{ hover }">
+          <div>
+            <v-fade-transition>
+                <v-overlay v-if="hover" color="#000" absolute>
+                  <v-btn @click="openFile(order)">הוספה/שינוי תמונה</v-btn>
+                </v-overlay>
+              </v-fade-transition>
+            <v-img
+              :src="order.file"
+              lazy-src="/images/gravatar.jpg"
+            ></v-img>
+          </div>
+        </v-hover>
       </v-col>
     </v-row>
     <dialog-edit
       v-if="dialogs.edit"
-      @close = 'dialogs.edit = false'
+      v-model="dialogs.edit"
+      @close="dialogs.edit = false"
+      :order = 'order'
+    />
+    <dialog-image
+      v-if="dialogs.image"
+      v-model="dialogs.image"
+      @close="dialogs.image = false"
       :order = 'order'
     />
   </div>
@@ -129,12 +146,13 @@ export default {
     pageName: '',
     fab: false,
     dialogs: {
-      edit: false
+      edit: false,
+      image: false
     },
   }),
   computed: {
     order() {
-      return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: '', orderSupplierRef: {}, orderClientRef: {}}
+      return this.$store.state.Order.list.find(order => order.id === this.$route.params.id) || {number: '', orderSupplierRef: {}, orderClientRef: {}}
     },
     clientsMap() {
       const clientsMap = {}
@@ -147,7 +165,7 @@ export default {
     },
     suppliersMap() {
       const suppliersMap = {}
-      this.$store.state.suppliers.forEach(supplier => {
+      this.$store.state.Supplier.list.forEach(supplier => {
         suppliersMap[supplier.id] = supplier.name
       })
 
@@ -156,7 +174,8 @@ export default {
   },
   components: {
       'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,
-      'nav-appbar' : require('@/components/Global/AppBar.vue').default
+      'nav-appbar' : require('@/components/Global/AppBar.vue').default,
+      'dialog-image': require('@/components/Orders/Dialogs/DialogImage.vue').default,
   }
 }
 </script>

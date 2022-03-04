@@ -1,8 +1,8 @@
 <template>
   <v-row justify="center">
-    <v-dialog :value="true" persistent max-width="300">
+    <v-dialog v-model="dialog" max-width="300">
       <v-card>
-        <v-btn icon @click="closeDialog"><v-icon dark>mdi-close</v-icon></v-btn>
+        <v-btn icon @click="dialog = false"><v-icon dark>mdi-close</v-icon></v-btn>
         <file-store v-model="product.file" @onUpload="handleUpload" @onDelete="handleDelete"/>
       </v-card>
     </v-dialog>
@@ -17,14 +17,20 @@ import 'firebase/compat/storage'
 
 export default {
   name:'DialogImage',
-  props: ['product'],
+  props: ['product', 'value'],
   data: () => ({
-    dialog: false,
   }),
-  methods:{
-    closeDialog() {
-      this.$emit('close')
+  computed: {
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
     },
+  },
+  methods:{
     handleUpload(fileData) {
       const storageRef = firebase.storage().ref(`public/${uuidv4()}_${fileData.name}`).put(fileData);
 
@@ -35,7 +41,7 @@ export default {
           complete: () => {
             storageRef.snapshot.ref.getDownloadURL().then(url => {
               this.product.file = url
-              this.$store.dispatch('updateProduct', this.product)
+              this.$store.dispatch('Product/updateProduct', this.product)
             })
           }
         }
@@ -46,7 +52,7 @@ export default {
       firebase.storage().refFromURL(this.product.file).delete()
         .then(() => {
           this.product.file = null
-          this.$store.dispatch('updateProduct', this.product)
+          this.$store.dispatch('Product/updateProduct', this.product)
         })
         .catch(error => console.error(error))
     }

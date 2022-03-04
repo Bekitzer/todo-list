@@ -101,8 +101,8 @@ import firebase from 'firebase/compat/app'
               password: this.userData.password
             }
 
-            this.$store.dispatch('signUserIn', userFields)
-            this.userData.email = '',
+            this.$store.dispatch('User/signUserIn', userFields)
+            this.userData.email = ''
             this.userData.password = ''
           }
         }

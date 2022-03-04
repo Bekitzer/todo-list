@@ -1,15 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="700"
-    >
-      <v-card
-        elevation="8"
-        shaped
-      >
-
+    <v-dialog v-model="dialog" max-width="700">
+      <v-card elevation="8" shaped>
           <v-row class="pt-5 pr-5 pl-5">
             <v-col cols="12">
               <h3>יצירת הזמנה</h3>
@@ -133,8 +125,7 @@
                   outlined
                   large
                   color="red"
-                  @click="closeDialog"
-                  @keyup:esc="closeDialog"
+                  @click="dialog = false"
                 >
                   ביטול
                 </v-btn>
@@ -164,9 +155,8 @@ import firebase from 'firebase/compat/app'
 import emailjs from '@emailjs/browser';
   export default {
     name: 'DialogCreate',
-    props: ['order'],
+    props: ['order', 'value'],
     data: () => ({
-      dialog: false,
       orderClient: {},
       orderWorkTitle: '',
       orderWorkProducts: '',
@@ -195,7 +185,7 @@ import emailjs from '@emailjs/browser';
           return this.$store.state.Client.list
       },
       suppliers() {
-        return this.$store.state.suppliers
+        return this.$store.state.Supplier.list
       },
       orderFieldInvalid() {
         return (
@@ -208,7 +198,15 @@ import emailjs from '@emailjs/browser';
           !this.orderSellPrice ||
           !this.orderBuyPrice
         )
-      }
+      },
+      dialog: {
+        get() {
+          return this.value
+        },
+        set() {
+          this.$emit('close', false)
+        }
+      },
     },
     methods:{
       addOrder() {
@@ -227,7 +225,7 @@ import emailjs from '@emailjs/browser';
             deliveryType: this.orderDeliveryType,
           }
 
-          this.$store.dispatch('addOrder', orderFields)
+          this.$store.dispatch('Order/addOrder', orderFields)
           const mailFields = {
             clientName: this.orderClient.name,
             clientEmail: this.orderClient.email,
@@ -257,42 +255,39 @@ import emailjs from '@emailjs/browser';
             },(error) => {
               console.log('FAILED...', error.text)
             })
-        }
-        this.closeDialog()
+          }
+        this.dialog = false
         setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       },
       addDraft() {
-          const orderFields = {
-            orderClientRef: db.doc(`clients/${this.orderClient.id}`),
-            orderWorkTitle: this.orderWorkTitle,
-            orderWork: this.orderWorkProducts,
-            orderSupplierRef: db.doc(`suppliers/${this.orderSupplier.id}`),
-            deliveryAgent: this.name,
-            sellPrice: this.orderSellPrice,
-            buyPrice: this.orderBuyPrice,
-            margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-            statusType: this.orderStatusType = 'טיוטה',
-            deliveryDate: parseISO(this.orderDeliveryDate),
-            deliveryType: this.orderDeliveryType,
-          }
+        const orderFields = {
+          orderClientRef: db.doc(`clients/${this.orderClient.id}`),
+          orderWorkTitle: this.orderWorkTitle,
+          orderWork: this.orderWorkProducts,
+          orderSupplierRef: db.doc(`suppliers/${this.orderSupplier.id}`),
+          deliveryAgent: this.name,
+          sellPrice: this.orderSellPrice,
+          buyPrice: this.orderBuyPrice,
+          margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
+          statusType: this.orderStatusType = 'טיוטה',
+          deliveryDate: parseISO(this.orderDeliveryDate),
+          deliveryType: this.orderDeliveryType,
+        }
 
-          this.$store.dispatch('addOrder', orderFields)
-          this.orderClient = {}
-          this.orderWorkTitle = ''
-          this.orderWorkProducts = ''
-          this.orderSupplier = {}
-          this.orderDeliveryAgent = ''
-          this.orderSellPrice = ''
-          this.orderBuyPrice = ''
-          this.orderMargin = ''
-          this.orderStatusType = ''
-          this.orderDeliveryDate = ''
-          this.orderDeliveryType = ''
-          this.closeDialog()
-          setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
-      },
-      closeDialog() {
-        this.$emit('close')
+        this.$store.dispatch('Order/addOrder', orderFields)
+        this.orderClient = {}
+        this.orderWorkTitle = ''
+        this.orderWorkProducts = ''
+        this.orderSupplier = {}
+        this.orderDeliveryAgent = ''
+        this.orderSellPrice = ''
+        this.orderBuyPrice = ''
+        this.orderMargin = ''
+        this.orderStatusType = ''
+        this.orderDeliveryDate = ''
+        this.orderDeliveryType = ''
+        this.dialog = false
+        setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
       }
     },
     mounted() {
@@ -305,11 +300,6 @@ import emailjs from '@emailjs/browser';
         this.orderSellPrice = this.order.sellPrice
         this.orderBuyPrice = this.order.buyPrice
       }
-      document.addEventListener("keyup", (e) => {
-        if (e.keyCode === 27) {
-            this.$emit('close')
-        }
-      })
     }
   }
 </script>

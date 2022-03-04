@@ -1,14 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="700"
-    >
-      <v-card
-        elevation="8"
-        shaped
-      >
+    <v-dialog v-model="dialog" max-width="700">
+      <v-card elevation="8" shaped>
         <v-row class="pt-5 pl-5 pr-5">
           <v-col cols="12" style="padding-bottom:0">
             <h3 style="padding-bottom:0">עריכה לקוח</h3>
@@ -277,8 +270,7 @@
                 outlined
                 large
                 color="red"
-                @click="closeDialog"
-                @keyup:esc="closeDialog"
+                @click="dialog = false"
               >
                 ביטול
               </v-btn>
@@ -298,7 +290,8 @@
     </v-dialog>
     <dialog-delete
       v-if="dialogs.delete"
-      @close = 'dialogs.delete = false'
+      v-model="dialogs.delete"
+      @close="dialogs.delete = false"
       :client = 'client'
     />
   </v-row>
@@ -308,10 +301,9 @@
 import firebase from 'firebase/compat/app'
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 export default {
-  props: ['client'],
+  props: ['client', 'value'],
   data: () => ({
     address: '',
-    dialog: false,
     dialogs: {
       delete: false
     },
@@ -352,7 +344,15 @@ export default {
 
     },
     users() {
-      return this.$store.state.users
+      return this.$store.state.User.list
+    },
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
     },
   },
   methods: {
@@ -393,13 +393,10 @@ export default {
           removeUsersIds: this.removeUsersIds,
           clientUpdated: firebase.firestore.FieldValue.serverTimestamp(),
         }
+        this.dialog = false
         this.$store.dispatch('Client/updateClient', payload)
-        this.closeDialog()
         this.$router.push('/clients')
       }
-    },
-    closeDialog() {
-      this.$emit('close')
     }
   },
   mounted() {
@@ -423,11 +420,6 @@ export default {
     this.clientLead = this.client.lead
     this.clientNewsletter = this.client.newsletter
     this.connectedUsersIds = this.users.filter(user => user.userClientRef?.id === this.client.id).map(user => user.id)
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode == 27) {
-          this.$emit('close')
-      }
-    })
   },
   components: {
     'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default

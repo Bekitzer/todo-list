@@ -24,13 +24,13 @@
         </v-tooltip>
       </template>
     </nav-appbar>
-    <list-users v-if="$store.state.users.length" />
+    <list-users v-if="$store.state.User.list.length" />
     <no-users v-else />
     <dialog-create
-      v-if="dialogs.create"
-      @close = 'dialogs.create = false'
+        v-if="dialogs.create"
+        v-model="dialogs.create"
+        @close="dialogs.create = false"
     />
-
   </div>
 </template>
 

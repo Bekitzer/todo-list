@@ -1,14 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="700"
-    >
-      <v-card
-        elevation="8"
-        shaped
-      >
+    <v-dialog v-model="dialog" max-width="700">
+      <v-card elevation="8" shaped>
           <v-row class="pt-5 pl-5 pr-5">
             <v-col cols="12" style="padding-bottom:0">
               <h3 style="padding-bottom:0">עריכה ספק</h3>
@@ -276,8 +269,7 @@
                   outlined
                   large
                   color="red"
-                  @click="closeDialog"
-                  @keyup:esc="closeDialog"
+                  @click="dialog = false"
                 >
                   ביטול
                 </v-btn>
@@ -297,7 +289,8 @@
     </v-dialog>
     <dialog-delete
       v-if="dialogs.delete"
-      @close = 'dialogs.delete = false'
+      v-model="dialogs.delete"
+      @close="dialogs.delete = false"
       :supplier = 'supplier'
     />
   </v-row>
@@ -310,12 +303,11 @@ import 'firebase/compat/storage'
 import database from '@/firebase'
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
   export default {
-    props: ['supplier'],
+    props: ['supplier', 'value'],
     data: () => ({
       address: '',
       autoUpdate: true,
       isUpdating: false,
-      dialog: false,
       dialogs: {
         delete: false
       },
@@ -354,7 +346,15 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
         !this.supplierStatus || this.supplierStatus === this.supplier.status
       },
       users() {
-        return this.$store.state.users
+        return this.$store.state.User.list
+      },
+      dialog: {
+        get() {
+          return this.value
+        },
+        set() {
+          this.$emit('close', false)
+        }
       },
     },
     methods: {
@@ -395,13 +395,10 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
             removeUsersIds: this.removeUsersIds,
             supplierUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           }
-          this.$store.dispatch('updateSupplier', payload)
-          this.closeDialog()
+          this.dialog = false
+          this.$store.dispatch('Supplier/updateSupplier', payload)
           this.$router.push('/suppliers')
         }
-      },
-      closeDialog() {
-        this.$emit('close')
       }
     },
     mounted() {

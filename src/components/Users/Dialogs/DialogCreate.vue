@@ -1,14 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="700"
-    >
-      <v-card
-        elevation="8"
-        shaped
-      >
+    <v-dialog v-model="dialog" max-width="700">
+      <v-card elevation="8" shaped>
         <v-row class="pt-5 pr-5 pl-5">
           <v-col cols="12">
             <h3>יצירת משתמש</h3>
@@ -79,8 +72,7 @@
                 outlined
                 large
                 color="red"
-                @click="closeDialog"
-                @keyup:esc="closeDialog"
+                @click="dialog = false"
               >
                 ביטול
               </v-btn>
@@ -104,8 +96,8 @@
 <script>
 export default {
   name: 'DialogCreate',
+  props: ['user', 'value'],
   data: () => ({
-    dialog: false,
     userFirstName: '',
     userLastName: '',
     userUsername: '',
@@ -121,7 +113,15 @@ export default {
         !this.userLastName ||
         !this.userUsername
       )
-    }
+    },
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
+    },
   },
   methods: {
     addUser() {
@@ -135,7 +135,7 @@ export default {
           position: this.userPosition,
         }
 
-        this.$store.dispatch('addUser', userFields)
+        this.$store.dispatch('User/addUser', userFields)
         this.userFirstName = ''
         this.userLastName = ''
         this.userPhone = ''
@@ -143,19 +143,9 @@ export default {
         this.userUsername = ''
         this.userPosition = ''
       }
-      this.closeDialog()
-      // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
-    },
-    closeDialog() {
-      this.$emit('close')
+      this.dialog = false
+      setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
     }
-  },
-  mounted() {
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode == 27) {
-          this.$emit('close')
-      }
-    })
   }
 }
 </script>

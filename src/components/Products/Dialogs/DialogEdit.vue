@@ -1,14 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="700"
-    >
-      <v-card
-        elevation="8"
-        shaped
-      >
+    <v-dialog v-model="dialog" max-width="700">
+      <v-card elevation="8" shaped>
         <v-row class="pt-5 pl-5 pr-5">
           <v-col cols="12">
             <h3>שינוי מוצר</h3>
@@ -147,8 +140,7 @@
                 outlined
                 large
                 color="red"
-                @click="closeDialog"
-                @keyup:esc="closeDialog"
+                @click="dialog = false"
               >
                 ביטול
               </v-btn>
@@ -168,7 +160,8 @@
     </v-dialog>
     <dialog-delete
       v-if="dialogs.delete"
-      @close = 'dialogs.delete = false'
+      v-model="dialogs.delete"
+      @close="dialogs.delete = false"
       :product = 'product'
     />
   </v-row>
@@ -179,9 +172,8 @@ import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
 export default {
   name: 'DialogEdit',
-  props: ['product'],
+  props: ['product', 'value'],
   data: () => ({
-    dialog: false,
     dialogs: {
       delete: false
     },
@@ -208,7 +200,15 @@ export default {
     productFieldInvalid() {
       return
       !this.productName || this.productName === this.product.name
-    }
+    },
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
+    },
   },
   watch: {
     productTags (val, prev) {
@@ -258,12 +258,10 @@ export default {
           prices: this.supplierPrices,
           productUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
         }
-        this.$store.dispatch('updateProduct', payload)
-        this.closeDialog()
+        this.dialog = false
+        this.$store.dispatch('Product/updateProduct', payload)
+        this.$router.push('/products')
       }
-    },
-    closeDialog() {
-      this.$emit('close')
     }
   },
   mounted() {
@@ -272,11 +270,6 @@ export default {
     this.productTags = this.product.tags
     this.productInfo = this.product.productInfo
     this.supplierPrices = this.product.prices
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode == 27) {
-          this.$emit('close')
-      }
-    })
   },
   components: {
       'dialog-delete': require('@/components/Products/Dialogs/DialogDelete.vue').default

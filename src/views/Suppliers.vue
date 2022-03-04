@@ -4,7 +4,7 @@
       <template v-slot:add-btn>
         <v-tooltip
           bottom
-          content-class="normal tooltip-left"
+          content-class="normal tooltip-bottom"
         >
           <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -24,13 +24,13 @@
         </v-tooltip>
       </template>
     </nav-appbar>
-    <list-suppliers v-if="$store.state.suppliers.length" />
+    <list-suppliers v-if="$store.state.Supplier.list.length" />
     <no-suppliers v-else />
     <dialog-create
-      v-if="dialogs.create"
-      @close = 'dialogs.create = false'
+        v-if="dialogs.create"
+        v-model="dialogs.create"
+        @close="dialogs.create = false"
     />
-
   </div>
 </template>
 

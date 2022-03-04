@@ -254,23 +254,27 @@
     </v-row>
     <dialog-edit
       v-if="dialogs.edit"
+      v-model="dialogs.edit"
+      @close="dialogs.edit = false"
       :client = 'client'
-      @close = 'dialogs.edit = false'
-    />
-    <dialog-create
-      v-if="dialogs.create"
-      :order="order"
-      @close = 'dialogs.create = false'
     />
     <dialog-image
       v-if="dialogs.image"
+      v-model="dialogs.image"
+      @close="dialogs.image = false"
       :client = 'client'
-      @close = 'dialogs.image = false'
+    />
+    <dialog-create
+      v-if="dialogs.create"
+      v-model="dialogs.create"
+      @close="dialogs.create = false"
+      :client = 'client'
     />
     <dialog-order
       v-if="dialogs.order"
+      v-model="dialogs.order"
+      @close="dialogs.order = false"
       :order = 'order'
-      @close = 'dialogs.order = false'
     />
   </div>
 </template>
@@ -327,8 +331,7 @@ export default {
   },
   computed: {
     users() {
-      // TODO: igor: why not just do? return this.$store.state.user
-      return this.$store.state.users.filter(user => user.userClientRef?.id === this.client.id)
+      return this.$store.state.User.list.filter(user => user.userClientRef?.id === this.client.id)
     },
     client() {
       return this.$store.state.Client.list.find(client => client.id === this.$route.params.id) || {name: ''}
@@ -355,7 +358,7 @@ export default {
     },
     suppliersMap() {
       const suppliersMap = {}
-      this.$store.state.suppliers.forEach(supplier => {
+      this.$store.state.Supplier.list.forEach(supplier => {
         suppliersMap[supplier.id] = supplier
       })
 
@@ -363,7 +366,7 @@ export default {
     },
     processing: {
       get() {
-        return this.$store.state.orders.map(order => {
+        return this.$store.state.Order.list.map(order => {
           const client = this.clientsMap[order.orderClientRef.id] || {}
           const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
           return {
@@ -377,7 +380,7 @@ export default {
         })
       },
       set(value) {
-        this.$store.dispatch('setOrders', value)
+        this.$store.dispatch('Order/setOrders', value)
       }
     }
   },

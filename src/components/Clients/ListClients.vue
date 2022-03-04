@@ -52,7 +52,7 @@ export default {
     clients: {
       get() {
         const ordersMap = {}
-        this.$store.state.orders.forEach(order => {
+        this.$store.state.Order.list.forEach(order => {
           if( order.statusType !== 'סופק'){
             ordersMap[order.clientName] = ordersMap[order.clientName] || 0
             ordersMap[order.clientName]++
@@ -70,8 +70,7 @@ export default {
     }
   },
   components: {
-    'icon-edit': require('@/components/Icons/IconEdit.vue').default,
-    'icon-contacts': require('@/components/Icons/IconContact.vue').default
+    'icon-edit': require('@/components/Icons/IconEdit.vue').default
   }
 }
 </script>

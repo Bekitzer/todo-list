@@ -73,13 +73,15 @@
     </v-row>
     <dialog-edit
       v-if="dialogs.edit"
-      @close = 'dialogs.edit = false'
+      v-model="dialogs.edit"
+      @close="dialogs.edit = false"
       :user = 'user'
     />
     <dialog-image
       v-if="dialogs.image"
+      v-model="dialogs.image"
+      @close="dialogs.image = false"
       :user = 'user'
-      @close = 'dialogs.image = false'
     />
   </div>
 </template>
@@ -95,7 +97,8 @@ export default {
     transition: 'slide-y-transition',
     dialogs: {
       edit: false,
-      image: false    },
+      image: false
+    },
   }),
   methods: {
     openFileOrder (item) {
@@ -111,15 +114,13 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.users.find(user => user.id === this.$route.params.id) || {name: ''}
+      return this.$store.state.User.list.find(user => user.id === this.$route.params.id) || {name: ''}
     },
   },
   components: {
-      'dialog-edit': require('@/components/Users/Dialogs/DialogEdit.vue').default,
-      'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
-      'nav-appbar' : require('@/components/Global/AppBar.vue').default,
-      'dialog-image': require('@/components/Users/Dialogs/DialogImage.vue').default,
-      'dialog-order': require('@/components/Orders/Dialogs/DialogImage.vue').default
+    'dialog-edit': require('@/components/Users/Dialogs/DialogEdit.vue').default,
+    'nav-appbar' : require('@/components/Global/AppBar.vue').default,
+    'dialog-image': require('@/components/Users/Dialogs/DialogImage.vue').default,
   }
 }
 </script>

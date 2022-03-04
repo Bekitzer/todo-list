@@ -31,7 +31,11 @@
         :product="product"
       />
     </v-row>
-    <dialog-create v-if="dialogs.create" v-model="dialogs.create" @close="dialogs.create = false"/>
+    <dialog-create
+        v-if="dialogs.create"
+        v-model="dialogs.create"
+        @close="dialogs.create = false"
+    />
     <v-row class="spc-ul">
       <v-col cols="12" md="2" sm="2">
         <h5 >מיתוג ושיווק</h5>
@@ -126,20 +130,20 @@ export default {
       create: false
     },
   }),
+  computed: {
+    products: {
+      get() {
+        return this.$store.state.Product.list
+      },
+      set(value) {
+        this.$store.dispatch('Product/setProducts', value)
+      }
+    }
+  },
   components: {
     'list-products': require('@/components/Products/ListProducts.vue').default,
     'dialog-create': require('@/components/Products/Dialogs/DialogCreate.vue').default,
     'nav-appbar'          : require('@/components/Global/AppBar.vue').default
   },
-  computed: {
-    products: {
-      get() {
-        return this.$store.state.products
-      },
-      set(value) {
-        this.$store.dispatch('setProducts', value)
-      }
-    }
-  }
 }
 </script>

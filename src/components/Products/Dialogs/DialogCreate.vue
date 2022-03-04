@@ -34,7 +34,7 @@
                 v-model="productTags"
                 :filter="filter"
                 :hide-no-data="!search"
-                :items="$store.state.productsTags"
+                :items="$store.state.ProductsTags.list"
                 :search-input.sync="search"
                 hide-selected
                 filled
@@ -174,7 +174,7 @@ export default {
           v = {
             text: v,
           }
-          this.$store.dispatch('addProductTag', v)
+          this.$store.dispatch('ProductTag/addProductTag', v)
         }
       })
     },
@@ -186,7 +186,7 @@ export default {
         this.editing = item
         this.editingIndex = index
       } else {
-        this.$store.dispatch('updateProductTag', this.editing)
+        this.$store.dispatch('ProductTag/updateProductTag', this.editing)
         this.editing = {}
         this.editingIndex = -1
 
@@ -214,7 +214,7 @@ export default {
           prices: this.supplierPrices
         }
 
-        this.$store.dispatch('addProduct', productFields)
+        this.$store.dispatch('Product/addProduct', productFields)
         this.productName = ''
         this.productCategory = ''
         this.productTags = ''

@@ -115,6 +115,7 @@
         </v-list>
       <dialog-exit
         v-if="dialogs.exit"
+        v-model="dialogs.exit"
         @close = 'dialogs.exit = false'
       />
     </v-navigation-drawer>
@@ -141,7 +142,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.user || {}
+      return this.$store.getters.user || {}
     }
   }
 }

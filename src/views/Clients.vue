@@ -3,8 +3,8 @@
     <nav-appbar :pname="pageName">
       <template v-slot:add-btn>
         <v-tooltip
-          left
-          content-class="normal tooltip-left"
+          bottom
+          content-class="normal tooltip-bottom"
         >
           <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -27,8 +27,9 @@
     <list-clients v-if="$store.state.Client.list.length" />
     <no-clients v-else />
     <dialog-create
-      v-if="dialogs.create"
-      @close = 'dialogs.create = false'
+        v-if="dialogs.create"
+        v-model="dialogs.create"
+        @close="dialogs.create = false"
     />
   </div>
 </template>
