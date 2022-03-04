@@ -87,13 +87,15 @@
     </v-row>
     <dialog-edit
       v-if="dialogs.edit"
-      @close = 'dialogs.edit = false'
+      v-model="dialogs.edit"
+      @close="dialogs.edit = false"
       :product = 'product'
     />
     <dialog-image
       v-if="dialogs.image"
+      v-model="dialogs.image"
+      @close="dialogs.image = false"
       :product = 'product'
-      @close = 'dialogs.image = false'
     />
   </div>
 </template>
@@ -108,7 +110,6 @@ export default {
     transition: 'slide-y-transition',
     dialogs: {
       edit: false,
-      delete: false,
       image: false
     },
     tab: null,
@@ -160,11 +161,10 @@ export default {
     },
   },
   components: {
-      'dialog-edit': require('@/components/Products/Dialogs/DialogEdit.vue').default,
-      'dialog-delete': require('@/components/Products/Dialogs/DialogDelete.vue').default,
-      'nav-appbar' : require('@/components/Global/AppBar.vue').default,
-      'dialog-image': require('@/components/Products/Dialogs/DialogImage.vue').default,
-      'repeater-field' : require('@/components/Products/Attributes/RepeaterField.vue').default
+    'dialog-edit': require('@/components/Products/Dialogs/DialogEdit.vue').default,
+    'nav-appbar' : require('@/components/Global/AppBar.vue').default,
+    'dialog-image': require('@/components/Products/Dialogs/DialogImage.vue').default,
+    'repeater-field' : require('@/components/Products/Attributes/RepeaterField.vue').default
   }
 }
 </script>

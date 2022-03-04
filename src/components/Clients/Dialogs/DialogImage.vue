@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog :value="true" persistent max-width="300">
+    <v-dialog v-model="dialog" max-width="300">
       <v-card>
         <v-btn icon @click="closeDialog"><v-icon dark>mdi-close</v-icon></v-btn>
         <file-store v-model="client.avatar" @onUpload="handleUpload" @onDelete="handleDelete"/>
@@ -17,14 +17,20 @@ import 'firebase/compat/storage'
 
 export default {
   name:'DialogImage',
-  props: ['client'],
+  props: ['client', 'value'],
   data: () => ({
-    dialog: false,
   }),
-  methods:{
-    closeDialog() {
-      this.$emit('close')
+  computed: {
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
     },
+  },
+  methods:{
     handleUpload(fileData) {
       const storageRef = firebase.storage().ref(`public/${uuidv4()}_${fileData.name}`).put(fileData);
 

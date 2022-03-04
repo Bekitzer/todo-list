@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="500"
-    >
+    <v-dialog v-model="dialog" max-width="500">
       <v-card>
         <v-card-title>מחיקת לקוח</v-card-title>
         <v-card-text>אתה בטוח שאתה רוצה למחוק לקוח זה?</v-card-text>
@@ -16,8 +12,7 @@
             outlined
             large
             color="red"
-            @click="closeDialog"
-            @keyup:esc="closeDialog"
+            @click="dialog = false"
           >
             <v-icon>
               mdi-close
@@ -46,26 +41,25 @@
     data () {
       return {
         id: null,
-        dialog: false,
       }
     },
-    props: ['client'],
+    props: ['client', 'value'],
+    computed: {
+      dialog: {
+        get() {
+          return this.value
+        },
+        set() {
+          this.$emit('close', false)
+        }
+      },
+    },
     methods: {
       clientDelete() {
+        this.dialog = false
         this.$store.dispatch('Client/deleteClient', this.$route.params.id)
-        this.closeDialog()
         this.$router.push('/clients')
-      },
-      closeDialog() {
-        this.$emit('close')
       }
-    },
-    mounted() {
-      document.addEventListener("keyup", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
     }
   }
 </script>

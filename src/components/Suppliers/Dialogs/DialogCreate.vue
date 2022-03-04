@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="700"
-    >
+    <v-dialog v-model="dialog" max-width="700">
       <v-card
         elevation="8"
         shaped
@@ -214,8 +210,7 @@
                 outlined
                 large
                 color="red"
-                @click="closeDialog"
-                @keyup:esc="closeDialog"
+                @click="dialog = false"
               >
                 ביטול
               </v-btn>
@@ -240,9 +235,9 @@
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 export default {
   name: 'DialogCreate',
+  props: ['supplier','value'],
   data: () => ({
     address: '',
-    dialog: false,
     supplierName: '',
     supplierCompanyName: '',
     supplierContactName: '',
@@ -275,7 +270,15 @@ export default {
         !this.supplierName ||
         !this.supplierStatus
       )
-    }
+    },
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
+    },
   },
   methods: {
     getAddressData: function (addressData, placeResultData, id) {
@@ -326,19 +329,9 @@ export default {
         this.supplierNewsletter = ''
         this.supplierScope = ''
       }
-      this.closeDialog()
+      this.dialog = false
       setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
-    },
-    closeDialog() {
-      this.$emit('close')
     }
-  },
-  mounted() {
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode == 27) {
-          this.$emit('close')
-      }
-    })
   }
 }
 </script>

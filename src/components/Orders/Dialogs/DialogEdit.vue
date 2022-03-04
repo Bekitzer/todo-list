@@ -1,14 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-        :value="true"
-        @click:outside='closeDialog'
-        max-width="700"
-    >
-      <v-card
-          elevation="8"
-          shaped
-      >
+    <v-dialog v-model="dialog" max-width="700">
+      <v-card elevation="8" shaped>
         <v-row class="pt-5 pr-5 pl-5">
           <v-col cols="12">
             <h3>שינוי הזמנה</h3>
@@ -141,8 +134,7 @@
                   outlined
                   large
                   color="red"
-                  @click="closeDialog"
-                  @keyup:esc="closeDialog"
+                  @click="dialog = false"
               >
                 ביטול
               </v-btn>
@@ -161,9 +153,10 @@
       </v-card>
     </v-dialog>
     <dialog-delete
-        v-if="dialogs.delete"
-        @close='dialogs.delete = false'
-        :order='order'
+      v-if="dialogs.delete"
+      v-model="dialogs.delete"
+      @close="dialogs.delete = false"
+      :order = 'order'
     />
   </v-row>
 </template>
@@ -176,7 +169,7 @@ import db from '@/firebase';
 
 export default {
   name: 'DialogEdit',
-  props: ['order'],
+  props: ['order', 'value'],
   data: () => ({
     dialogs: {
       delete: false
@@ -224,7 +217,15 @@ export default {
       && (!this.orderSellPrice || this.orderSellPrice === this.order.sellPrice)
       && (!this.orderBuyPrice || this.orderBuyPrice === this.order.buyPrice)
       && (!this.orderDeliveryType || this.orderDeliveryType === this.order.deliveryType)
-    }
+    },
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
+    },
   },
   methods: {
     saveOrder() {
@@ -244,13 +245,10 @@ export default {
           deliveryType: this.orderDeliveryType,
           orderUpdated: firebase.firestore.FieldValue.serverTimestamp(),
         }
+        this.dialog = false
         this.$store.dispatch('Order/updateOrder', payload)
-        this.closeDialog()
         this.$router.push('/orders')
       }
-    },
-    closeDialog() {
-      this.$emit('close')
     }
   },
   mounted() {
@@ -264,11 +262,6 @@ export default {
     this.orderSellPrice = this.order.sellPrice
     this.orderBuyPrice = this.order.buyPrice
     this.orderDeliveryType = this.order.deliveryType
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode == 27) {
-        this.$emit('close')
-      }
-    })
   },
   components: {
     'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default

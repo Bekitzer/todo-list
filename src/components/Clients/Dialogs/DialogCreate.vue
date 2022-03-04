@@ -1,14 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="700"
-    >
-      <v-card
-        elevation="8"
-        shaped
-      >
+    <v-dialog v-model="dialog" max-width="700">
+      <v-card elevation="8" shaped>
         <v-row class="pt-5 pl-5 pr-5">
           <v-col cols="12" style="padding-bottom:0">
             <h3 style="padding-bottom:0">יצירת לקוח</h3>
@@ -227,8 +220,7 @@
                 outlined
                 large
                 color="red"
-                @click="closeDialog"
-                @keyup:esc="closeDialog"
+                @click="dialog = false"
               >
                 ביטול
               </v-btn>
@@ -253,9 +245,9 @@
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 export default {
   name: 'DialogCreate',
+  props: ['client', 'value'],
   data: () => ({
     address: '',
-    dialog: false,
     clientName: '',
     clientCompanyName: '',
     clientContactName: '',
@@ -288,7 +280,15 @@ export default {
       return (
         !this.clientName
       )
-    }
+    },
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
+    },
   },
   methods:{
     getAddressData: function (addressData, placeResultData, id) {
@@ -339,19 +339,9 @@ export default {
         this.clientLead = ''
         this.clientNewsletter = ''
       }
-      this.closeDialog()
+      this.dialog = false
       setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
-    },
-    closeDialog() {
-      this.$emit('close')
     }
-  },
-  mounted() {
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode == 27) {
-          this.$emit('close')
-      }
-    })
   }
 }
 </script>

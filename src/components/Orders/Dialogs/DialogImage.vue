@@ -1,8 +1,8 @@
 <template>
   <v-row justify="center">
-    <v-dialog :value="true" persistent max-width="500">
+    <v-dialog v-model="dialog" max-width="500">
       <v-card>
-        <v-btn icon @click="closeDialog"><v-icon dark>mdi-close</v-icon></v-btn>
+        <v-btn icon @click="dialog = false"><v-icon dark>mdi-close</v-icon></v-btn>
         <file-store v-model="order.file" @onUpload="handleUpload" @onDelete="handleDelete"/>
       </v-card>
     </v-dialog>
@@ -17,14 +17,20 @@ import 'firebase/compat/storage'
 import { setTimeout } from 'timers'
 export default {
   name:'DialogImage',
-  props: ['order'],
+  props: ['order', 'value'],
   data: () => ({
-    dialog: false,
   }),
-  methods:{
-    closeDialog() {
-      this.$emit('close')
+  computed: {
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
     },
+  },
+  methods:{
     handleUpload(fileData) {
       const storageRef = firebase.storage().ref(`public/${uuidv4()}_${fileData.name}`).put(fileData);
 

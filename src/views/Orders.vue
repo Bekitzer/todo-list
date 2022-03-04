@@ -28,13 +28,15 @@ a<template>
     <no-orders v-else />
     <dialog-create
       v-if="dialogs.create"
+      v-model="dialogs.create"
       :order="order"
-      @close = 'dialogs.create = false'
+      @close="dialogs.create = false"
     />
     <dialog-image
       v-if="dialogs.image"
+      v-model="dialogs.image"
       :order="order"
-      @close = 'dialogs.image = false'
+      @close="dialogs.image = false"
     />
   </div>
 </template>

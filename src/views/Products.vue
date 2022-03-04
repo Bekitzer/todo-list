@@ -126,11 +126,6 @@ export default {
       create: false
     },
   }),
-  components: {
-    'list-products': require('@/components/Products/ListProducts.vue').default,
-    'dialog-create': require('@/components/Products/Dialogs/DialogCreate.vue').default,
-    'nav-appbar'          : require('@/components/Global/AppBar.vue').default
-  },
   computed: {
     products: {
       get() {
@@ -140,6 +135,11 @@ export default {
         this.$store.dispatch('Product/setProducts', value)
       }
     }
-  }
+  },
+  components: {
+    'list-products': require('@/components/Products/ListProducts.vue').default,
+    'dialog-create': require('@/components/Products/Dialogs/DialogCreate.vue').default,
+    'nav-appbar'          : require('@/components/Global/AppBar.vue').default
+  },
 }
 </script>

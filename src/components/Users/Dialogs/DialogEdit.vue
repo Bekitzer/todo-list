@@ -1,14 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="700"
-    >
-      <v-card
-        elevation="8"
-        shaped
-      >
+    <v-dialog v-model="dialog" max-width="700">
+      <v-card elevation="8" shaped>
         <v-row class="pr-10 pl-10">
           <v-col cols="12">
             <h3>יצירת משתמש</h3>
@@ -74,7 +67,7 @@
             <v-card-actions
               style="padding:0"
             >
-              <!-- <v-btn
+              <v-btn
                 icon
                 color="red"
                 class="black--text"
@@ -83,14 +76,13 @@
                 <v-icon>
                   mdi-trash-can-outline
                 </v-icon>
-              </v-btn> -->
+              </v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 outlined
                 large
                 color="red"
-                @click="closeDialog"
-                @keyup:esc="closeDialog"
+                @click="dialog = false"
               >
                 ביטול
               </v-btn>
@@ -110,7 +102,8 @@
     </v-dialog>
     <dialog-delete
       v-if="dialogs.delete"
-      @close = 'dialogs.delete = false'
+      v-model="dialogs.delete"
+      @close="dialogs.delete = false"
       :user = 'user'
     />
   </v-row>
@@ -123,9 +116,8 @@ import 'firebase/compat/storage'
 import database from '@/firebase'
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
   export default {
-    props: ['user'],
+    props: ['user', 'value'],
     data: () => ({
-      dialog: false,
       dialogs: {
         delete: false
       },
@@ -146,6 +138,14 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
       users() {
         return this.$store.state.User.list
       },
+      dialog: {
+        get() {
+          return this.value
+        },
+        set() {
+          this.$emit('close', false)
+        }
+      },
     },
     methods: {
       saveUser() {
@@ -159,13 +159,10 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
             username: this.userUsername,
             position: this.userPosition,
           }
+          this.dialog = false
           this.$store.dispatch('User/updateUser', payload)
-          this.closeDialog()
           this.$router.push('/users')
         }
-      },
-      closeDialog() {
-        this.$emit('close')
       }
     },
     mounted() {
@@ -175,11 +172,6 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
       this.userEmail = this.user.email
       this.userUsername = this.user.username
       this.userPosition = this.user.position
-      document.addEventListener("keyup", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
     },
     components: {
       'dialog-delete': require('@/components/Users/Dialogs/DialogDelete.vue').default

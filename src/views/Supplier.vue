@@ -254,23 +254,27 @@
     </v-row>
     <dialog-edit
       v-if="dialogs.edit"
+      v-model="dialogs.edit"
+      @close="dialogs.edit = false"
       :supplier = 'supplier'
-      @close = 'dialogs.edit = false'
-    />
-    <dialog-create
-      v-if="dialogs.create"
-      :order="order"
-      @close = 'dialogs.create = false'
     />
     <dialog-image
       v-if="dialogs.image"
+      v-model="dialogs.image"
+      @close="dialogs.image = false"
       :supplier = 'supplier'
-      @close = 'dialogs.image = false'
+    />
+    <dialog-create
+      v-if="dialogs.create"
+      v-model="dialogs.create"
+      @close = 'dialogs.create = false'
+      :order="order"
     />
     <dialog-order
       v-if="dialogs.order"
-      :order = 'order'
+      v-model="dialogs.order"
       @close = 'dialogs.order = false'
+      :order = 'order'
     />
   </div>
 </template>

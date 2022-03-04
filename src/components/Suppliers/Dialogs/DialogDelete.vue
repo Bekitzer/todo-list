@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      @click:outside='closeDialog'
-      max-width="500"
-    >
+    <v-dialog v-model="dialog" max-width="500">
       <v-card
         elevation="8"
         shaped
@@ -19,8 +15,7 @@
             outlined
             large
             color="red"
-            @click="closeDialog"
-            @keyup:esc="closeDialog"
+            @click="dialog = false"
           >
             <v-icon>
               mdi-close
@@ -47,28 +42,24 @@
 
 <script>
   export default {
-    data () {
-      return {
-        dialog: false,
-      }
+    data: () => ({
+    }),
+    props: ['supplier', 'value'],
+    computed: {
+      dialog: {
+        get() {
+          return this.value
+        },
+        set() {
+          this.$emit('close', false)
+        }
+      },
     },
-    props: ['supplier'],
     methods: {
       supplierDelete() {
         this.$store.dispatch('Supplier/deleteSupplier', this.$route.params.id)
-        this.closeDialog()
         this.$router.push('/suppliers')
-      },
-      closeDialog() {
-        this.$emit('close')
       }
-    },
-    mounted() {
-      document.addEventListener("keyup", (e) => {
-        if (e.keyCode == 27) {
-            this.$emit('close')
-        }
-      })
     }
   }
 </script>
