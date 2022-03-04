@@ -1,10 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      :value="true"
-      persistent
-      max-width="500"
-    >
+    <v-dialog v-model="dialog" max-width="500">
       <v-card>
         <v-card-title>יציאה מהמערכת</v-card-title>
         <v-card-text>אתה בטוח שאתה רוצה לצאת?</v-card-text>
@@ -16,8 +12,7 @@
             outlined
             large
             color="red"
-            @click="closeDialog"
-            @keyup:esc="closeDialog"
+            @click="dialog = false"
           >
             <v-icon>
               mdi-close
@@ -46,25 +41,25 @@ import firebase from 'firebase/compat/app'
 export default {
   data: () => ({
     id: null,
-    dialog: false,
   }),
-  props: ['client'],
-  methods: {
-    closeDialog() {
-      this.$emit('close')
+  props: ['value'],
+  computed: {
+    dialog: {
+      get() {
+        return this.value
+      },
+      set() {
+        this.$emit('close', false)
+      }
     },
+  },
+  methods: {
     logout(){
+      this.dialog = false
       firebase.auth().signOut().then(() => {
           this.$router.go({path: this.$router.path})
       })
     }
-  },
-  mounted() {
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode == 27) {
-          this.$emit('close')
-      }
-    })
   }
 }
 </script>
