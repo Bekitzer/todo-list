@@ -1,4 +1,4 @@
-a<template>
+<template>
   <div>
     <nav-appbar :pname="'הזמנות - ' + this.order.number">
       <template v-slot:add-btn>
