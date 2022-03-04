@@ -10,7 +10,6 @@ export const updateDoc = (name, {id, ...item}) => {
 export const removeDoc = (name, id) => {
   return deleteDoc(doc(db, name, id))
 }
-
 export const fetchDocs = (name) => {
   return getDocs(collection(db, name))
 }

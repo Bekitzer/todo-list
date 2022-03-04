@@ -6,8 +6,8 @@ export default {
     list: []
   },
   mutations: {
-    initialize(state, items) {
-      state.list = items
+    initialize(state, payloads) {
+      state.list = payloads
     },
     remove(state, id) {
       state.list = state.list.filter(item => item.id !== id)
