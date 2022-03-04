@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     users() {
-      return this.$store.state.users.filter(user => user.uid === this.uid)
+      return this.$store.state.User.list.filter(user => user.uid === this.uid)
     },
   },
   components: {

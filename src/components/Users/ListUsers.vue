@@ -72,7 +72,7 @@ export default {
     },
     users: {
       get() {
-        return this.$store.state.users.map(user => {
+        return this.$store.state.User.list.map(user => {
           const client = this.clientsMap[user.userClientRef] || {}
           const supplier = this.suppliersMap[user.userSupplierRef?.id] || {}
           return {
@@ -83,7 +83,7 @@ export default {
         })
       },
       set(value) {
-        this.$store.dispatch('setUsers', value)
+        this.$store.dispatch('User/setUsers', value)
       }
     }
   },

@@ -327,8 +327,7 @@ export default {
   },
   computed: {
     users() {
-      // TODO: igor: why not just do? return this.$store.state.user
-      return this.$store.state.users.filter(user => user.userClientRef?.id === this.client.id)
+      return this.$store.state.User.list.filter(user => user.userClientRef?.id === this.client.id)
     },
     client() {
       return this.$store.state.Client.list.find(client => client.id === this.$route.params.id) || {name: ''}

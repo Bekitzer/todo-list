@@ -98,7 +98,7 @@ export default {
   },
   computed: {
     userId() {
-      return this.$store.state.user?.userClientRef?.id
+      return this.$store.getters.user?.userClientRef?.id
     },
     client() {
       return this.$store.state.Client.list.find(item => item.id = this.userId)

@@ -354,7 +354,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
         !this.supplierStatus || this.supplierStatus === this.supplier.status
       },
       users() {
-        return this.$store.state.users
+        return this.$store.state.User.list
       },
     },
     methods: {

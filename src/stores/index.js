@@ -3,8 +3,9 @@ import Vuex from 'vuex'
 import db from '@/firebase'
 import {doc, deleteDoc, updateDoc, collection, setDoc, addDoc, getDocs} from "firebase/firestore"
 import firebase from 'firebase/compat/app'
-import {getAuth} from "firebase/auth";
 import Client from "@/stores/Client.js";
+import User from "@/stores/User.js";
+import ProductsTags from "@/stores/ProductsTags.js";
 
 Vue.use(Vuex)
 
@@ -15,40 +16,15 @@ export default new Vuex.Store({
     supplier: null,
     suppliers: [],
     orders: [],
-    productsTags: [],
     products: [],
-    users: [],
     snackbar: {
       show: false,
       text: '',
       timeout: 2000
     },
-    sorting: false,
-    user: null,
-    auth: null
+    sorting: false
   },
   mutations: {
-    //USERS
-    addUser(state, newUser) {
-      state.users.push(newUser)
-    },
-    deleteUser(state, id) {
-      state.users = state.users.filter(user => user.id !== id)
-    },
-    setUsers(state, users) {
-      state.users = users
-    },
-    //USER
-    setUser(state, payload) {
-      state.user = payload
-    },
-    updateUser(state, payload) {
-      const user = state.users.find(user => user.id === payload.id)
-      Object.assign(user, payload)
-    },
-    setAuth(state, payload) {
-      state.auth = payload
-    },
     // SEARCH
     setSearch(state, value) {
       state.search = value
@@ -70,20 +46,6 @@ export default new Vuex.Store({
     // Attribute
     setAttributes(state, attributes) {
       state.attributes = attributes
-    },
-    // PRODUCTS TAGS
-    addProductTag(state, payload) {
-      state.productsTags.push(payload)
-    },
-    deleteProductTag(state, id) {
-      state.productsTags = state.productsTags.filter(item => item.id !== id)
-    },
-    updateProductTag(state, payload) {
-      let item = state.productsTags.find(item => item.id === payload.id)
-      Object.assign(item, payload)
-    },
-    setProductsTags(state, payloads) {
-      state.productsTags = payloads
     },
     // ORDERS
     addOrder(state, newOrder) {
@@ -134,133 +96,6 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    // SIGNUP
-    signUserUp({commit}, payload) {
-      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(({user}) => {
-          let newAuth = {
-            ...payload,
-            uid: user.uid
-          }
-          commit('setAuth', newAuth)
-          firebase.auth().currentUser.updateProfile({
-            displayName: payload.username
-          }).then(() => {
-            const {password, ...newUser} = payload
-            return db.collection('users').doc(newAuth.uid).set(newUser)
-              .then(() => commit('setUser', newUser))
-              .catch((error) => {
-                console.log('Something went wrong - signUserUp', error);
-              })
-          })
-        })
-    },
-    // SIGNIN
-    signUserIn({commit}, payload) {
-      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-        .then(({user}) => {
-          let newAuth = {
-            ...payload,
-            uid: user.uid
-          }
-          commit('setAuth', newAuth)
-          return newAuth
-        })
-        .then((newAuth) => {
-          db.collection('users').where("uid", "==", newAuth.uid).get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                const newUser = doc.data()
-                commit('setUser', newUser)
-              });
-            })
-            .catch((error) => {
-              console.log('Something went wrong - signUserIn', error);
-            })
-        })
-
-    },
-    // USERS
-    addUser({commit}, user) {
-      const incrementDocRef = db.collection('--stats--').doc('users');
-
-      db.runTransaction((transaction) => {
-        // This code may get re-run multiple times if there are conflicts.
-        return transaction
-          .get(incrementDocRef)
-          .then((incrementDoc) => {
-            if (!incrementDoc.exists) {
-              throw "Document does not exist!";
-            }
-
-            const incremented = incrementDoc.data().increment + 1;
-            transaction.update(incrementDocRef, {increment: incremented});
-            return incremented;
-          })
-          .then(async (number) => {
-            let isUser = {
-              ...user,
-              number: number,
-              userCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
-              userUpdated: null
-            }
-            await setDoc(doc(collection(db, "users")), isUser)
-            commit('addUser', isUser)
-            commit('showSnackbar', 'משתמש חדש נוסף!')
-          }).catch((error) => {
-            console.log('Something went wrong - addUser', error);
-          })
-      })
-    },
-    deleteUser({commit}, id) {
-      deleteDoc(doc(db, "users", id)).then(() => {
-        commit('deleteUser', id)
-        commit('showSnackbar', 'משתמש נמחק!')
-      }).catch((error) => {
-        console.log('Something went wrong - deleteUser', error);
-      })
-    },
-    updateUser({commit}, payload) {
-      updateDoc(doc(db, "users", payload.id), payload).then(() => {
-        commit('updateUser', payload)
-        commit('showSnackbar', 'משתמש עודכן!')
-      }).catch((error) => {
-        console.log('Something went wrong - updateUser', error);
-      })
-    },
-    getUsers({commit, state}) {
-      if (!state.user?.isAdmin) return console.debug('not pulling users since no admin role')
-
-      db.collection('users').get().then(querySnapshot => {
-        const users = [];
-        querySnapshot.forEach(doc => {
-          users.push({...doc.data(), id: doc.id})
-        })
-        commit('setUsers', users)
-      }).catch((error) => {
-        console.log('Something went wrong - getUsers', error);
-      })
-    },
-    setUsers({commit}, users) {
-      setDoc(doc(collection(db, "users")), users).then(() => {
-        commit('setUsers', users)
-      }).catch((error) => {
-        console.log('Something went wrong - setUsers', error);
-      })
-    },
-    // USER
-    getUser({commit}) {
-      const user = getAuth().currentUser
-      if (!user) return console.log('no user authenticated')
-      return db.collection('users').doc(user.uid).get()
-        .then(doc => {
-          const newUser = doc.data()
-          commit('setUser', newUser)
-        })
-        .catch((error) => {
-          console.log('Something went wrong - getUser', error);
-        })
-    },
     // PRODUCTS
     addProduct({commit}, product) {
       const incrementDocRef = db.collection('--stats--').doc('products');
@@ -309,8 +144,8 @@ export default new Vuex.Store({
         console.log('Something went wrong - updateProduct', error);
       })
     },
-    getProducts({commit, state}) {
-      if (!state.user?.isAdmin) return console.debug('not pulling products since no admin role')
+    getProducts({commit, rootGetters}) {
+      if (!rootGetters.user?.isAdmin) return console.debug('not pulling products since no admin role')
 
       return db.collection('products').get().then(querySnapshot => {
         const products = [];
@@ -338,62 +173,6 @@ export default new Vuex.Store({
         })
         .catch(error => {
           console.error('Something went wrong - updateAttributes', error);
-        })
-    },
-    // PRODUCTS TAGS
-    addProductTag({commit}, payload) {
-      return addDoc(collection(db, 'products-tags'), payload)
-        .then(docRef => {
-          commit('addProductTag', {...payload, id: docRef.id})
-          commit('showSnackbar', 'תגית חדשה נוספה!')
-        })
-        .catch(error => {
-          console.error('Something went wrong - addProductTag', error);
-        })
-    },
-    deleteProductTag({commit}, id) {
-      deleteDoc(doc(db, 'products-tags', id))
-        .then(() => {
-          commit('deleteProductTag', id)
-          commit('showSnackbar', 'תגית נמחקה!')
-        })
-        .catch(error => {
-          console.error('Something went wrong - deleteProductTag', error);
-        })
-    },
-    updateProductTag({commit}, payload) {
-      const {id, ...rest} = payload
-      updateDoc(doc(db, 'products-tags', id), rest)
-        .then(() => {
-          commit('updateProductTag', payload)
-          commit('showSnackbar', 'תגית עודכנה!')
-        })
-        .catch((error) => {
-          console.error('Something went wrong - updateProductTag', error);
-        })
-    },
-    getProductsTags({commit, state}) {
-      if (!state.user?.isAdmin) return console.debug('not pulling products tags since no admin role')
-
-      return getDocs(collection(db, 'products-tags'))
-        .then(querySnapshot => {
-          const items = [];
-          querySnapshot.forEach(doc => {
-            items.push({...doc.data(), id: doc.id})
-          })
-          commit('setProductsTags', items)
-        })
-        .catch(error => {
-          console.error('Something went wrong - getProductsTags', error);
-        })
-    },
-    setProductsTags({commit}, items) {
-      setDoc(doc(collection(db, 'products-tags')), items)
-        .then(() => {
-          commit('setProductsTags', items)
-        })
-        .catch((error) => {
-          console.error('Something went wrong - setProductsTags', error);
         })
     },
     // ORDERS
@@ -447,11 +226,11 @@ export default new Vuex.Store({
         console.log('Something went wrong - updateOrder', error);
       })
     },
-    getOrders({commit, state}) {
+    getOrders({commit, rootGetters}) {
       //const allCapitalsRes = await citiesRef.where('capital', '==', true).get();
       let ordersRef = db.collection('orders')
-      if (!state.user?.isAdmin) {
-        ordersRef = ordersRef.where('orderSupplierRef', '==', state.user?.userSupplierRef)
+      if (!rootGetters.user?.isAdmin) {
+        ordersRef = ordersRef.where('orderSupplierRef', '==', rootGetters.user?.userSupplierRef)
       }
       ordersRef.get().then(querySnapshot => {
         // return ordersRef
@@ -532,8 +311,8 @@ export default new Vuex.Store({
           console.log('Something went wrong - updateSupplier & updateUser', error);
         })
     },
-    getSuppliers({commit, state}) {
-      if (!state.user?.isAdmin) return console.debug('not pulling suppliers since no admin role')
+    getSuppliers({commit, rootGetters}) {
+      if (!rootGetters.user?.isAdmin) return console.debug('not pulling suppliers since no admin role')
 
       return db.collection('suppliers').get().then(querySnapshot => {
         const suppliers = [];
@@ -545,9 +324,9 @@ export default new Vuex.Store({
         console.log('Something went wrong - getSuppliers', error);
       })
     },
-    getSupplier({commit, state}) {
-      if (state.user?.userSupplierRef) {
-        state.user.userSupplierRef.get().then(doc => {
+    getSupplier({commit, rootGetters}) {
+      if (rootGetters.user?.userSupplierRef) {
+        rootGetters.user.userSupplierRef.get().then(doc => {
           commit('setSupplier', {...doc.data(), id: doc.id})
         }).catch((error) => {
           console.log('Something went wrong - getSupplier', error);
@@ -564,10 +343,12 @@ export default new Vuex.Store({
   },
   getters: {
     user(state) {
-      return state.user
+      return state.User.list.find(item => item.id === state.User.auth?.uid)
     }
   },
   modules: {
     Client,
+    User,
+    ProductsTags,
   }
 })

@@ -328,7 +328,7 @@ export default {
   },
   computed: {
     users() {
-      return this.$store.state.users.filter(user => user.userSupplierRef?.id === this.supplier.id)
+      return this.$store.state.User.list.filter(user => user.userSupplierRef?.id === this.supplier.id)
     },
     supplier() {
       return this.$store.state.suppliers.find(supplier => supplier.id === this.$route.params.id) || {name: ''}

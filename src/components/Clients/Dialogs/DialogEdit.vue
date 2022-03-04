@@ -352,7 +352,7 @@ export default {
 
     },
     users() {
-      return this.$store.state.users
+      return this.$store.state.User.list
     },
   },
   methods: {

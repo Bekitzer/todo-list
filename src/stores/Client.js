@@ -90,8 +90,8 @@ export default {
           console.log('Something went wrong - updateClient & updateUser', error);
         })
     },
-    getClients({commit, state}) {
-      if (!state.user?.isAdmin) return console.debug('not pulling clients since no admin role')
+    getClients({commit, rootGetters}) {
+      if (!rootGetters.user?.isAdmin) return console.debug('not pulling clients since no admin role')
 
       return db.collection('clients').get().then(querySnapshot => {
         const clients = [];
@@ -103,9 +103,9 @@ export default {
         console.log('Something went wrong - getClients', error);
       })
     },
-    getClient({commit, rootState}) {
-      if (rootState.user?.userClientRef) {
-        rootState.user.userClientRef.get().then(doc => {
+    getClient({commit, rootGetters}) {
+      if (rootGetters.user?.userClientRef) {
+        rootGetters.user.userClientRef.get().then(doc => {
           commit('upsertClient', {...doc.data(), id: doc.id})
         }).catch((error) => {
           console.log('Something went wrong - getClient', error);

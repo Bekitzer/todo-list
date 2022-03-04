@@ -35,7 +35,7 @@ export default {
           complete: () => {
             storageRef.snapshot.ref.getDownloadURL().then(url => {
               this.user.avatar = url
-              this.$store.dispatch('updateUser', this.user)
+              this.$store.dispatch('User/updateUser', this.user)
             })
           }
         }
@@ -46,7 +46,7 @@ export default {
       firebase.storage().refFromURL(this.user.avatar).delete()
         .then(() => {
           this.user.avatar = null
-          this.$store.dispatch('updateUser', this.user)
+          this.$store.dispatch('User/updateUser', this.user)
         })
         .catch(error => console.error(error))
     }

@@ -55,7 +55,7 @@
     props: ['user'],
     methods: {
       userDelete() {
-        this.$store.dispatch('deleteUser', this.$route.params.id)
+        this.$store.dispatch('User/deleteUser', this.$route.params.id)
         this.closeDialog()
         this.$router.push('/users')
       },

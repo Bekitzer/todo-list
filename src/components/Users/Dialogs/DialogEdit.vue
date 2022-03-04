@@ -144,7 +144,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
         !this.userLastName || this.userLastName === this.user.lastname
       },
       users() {
-        return this.$store.state.users
+        return this.$store.state.User.list
       },
     },
     methods: {
@@ -159,7 +159,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
             username: this.userUsername,
             position: this.userPosition,
           }
-          this.$store.dispatch('updateUser', payload)
+          this.$store.dispatch('User/updateUser', payload)
           this.closeDialog()
           this.$router.push('/users')
         }

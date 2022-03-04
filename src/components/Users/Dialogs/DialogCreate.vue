@@ -135,7 +135,7 @@ export default {
           position: this.userPosition,
         }
 
-        this.$store.dispatch('addUser', userFields)
+        this.$store.dispatch('User/addUser', userFields)
         this.userFirstName = ''
         this.userLastName = ''
         this.userPhone = ''

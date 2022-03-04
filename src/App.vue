@@ -19,15 +19,15 @@ export default {
     isLoggedIn: false
   }),
   mounted() {
-    this.$store.dispatch('getUser').then(() => {
-      this.$store.dispatch('getProductsTags')
+    this.$store.dispatch('User/getUser').then(() => {
+      this.$store.dispatch('ProductsTags/getProductsTags')
       this.$store.dispatch('getSupplier')
       this.$store.dispatch('Client/getClient')
       this.$store.dispatch('Client/getClients')
       this.$store.dispatch('getSuppliers')
       this.$store.dispatch('getOrders')
       this.$store.dispatch('getProducts')
-      this.$store.dispatch('getUsers')
+      this.$store.dispatch('User/getUsers')
     })
 
   },
