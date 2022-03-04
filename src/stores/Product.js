@@ -60,7 +60,7 @@ export default {
             }
             await setDoc(doc(collection(db, "products")), isProduct)
             commit('setProducts', isProduct)
-            commit('showSnackbar', 'ספק חדש נוסף!')
+            commit('showSnackbar', 'ספק חדש נוסף!', { root: true })
           }).catch((error) => {
             console.log('Something went wrong - addProduct', error);
           })
@@ -69,7 +69,7 @@ export default {
     deleteProduct({commit}, id) {
       deleteDoc(doc(db, "products", id)).then(() => {
         commit('deleteProduct', id)
-        commit('showSnackbar', 'ספק נמחק!')
+        commit('showSnackbar', 'ספק נמחק!', { root: true })
       }).catch((error) => {
         console.log('Something went wrong - deleteProduct', error);
       })
@@ -88,7 +88,7 @@ export default {
           commit('upsertProduct', product)
           removeUsersIds.map(id => commit('updateUser', {id, userProductRef: null}))
           usersIds.map(id => commit('updateUser', {id, userProductRef: db.doc(`products/${product.id}`)}))
-          commit('showSnackbar', 'ספק עודכן!')
+          commit('showSnackbar', 'ספק עודכן!', { root: true })
         })
         .catch((error) => {
           console.log('Something went wrong - updateProduct & updateUser', error);
@@ -128,7 +128,7 @@ export default {
       updateDoc(doc(db, "products", payload.id), {attributes: payload.attributes})
         .then(() => {
           commit('setAttributes', payload.attributes)
-          commit('showSnackbar', 'מאפיינים עודכנו!')
+          commit('showSnackbar', 'מאפיינים עודכנו!', { root: true })
         })
         .catch(error => {
           console.error('Something went wrong - updateAttributes', error);

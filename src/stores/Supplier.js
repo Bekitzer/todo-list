@@ -56,7 +56,7 @@ export default {
             }
             await setDoc(doc(collection(db, "suppliers")), isSupplier)
             commit('setSuppliers', isSupplier)
-            commit('showSnackbar', 'ספק חדש נוסף!')
+            commit('showSnackbar', 'ספק חדש נוסף!', { root: true })
           }).catch((error) => {
             console.log('Something went wrong - addSupplier', error);
           })
@@ -65,7 +65,7 @@ export default {
     deleteSupplier({commit}, id) {
       deleteDoc(doc(db, "suppliers", id)).then(() => {
         commit('deleteSupplier', id)
-        commit('showSnackbar', 'ספק נמחק!')
+        commit('showSnackbar', 'ספק נמחק!', { root: true })
       }).catch((error) => {
         console.log('Something went wrong - deleteSupplier', error);
       })
@@ -84,7 +84,7 @@ export default {
           commit('upsertSupplier', supplier)
           removeUsersIds.map(id => commit('updateUser', {id, userSupplierRef: null}))
           usersIds.map(id => commit('updateUser', {id, userSupplierRef: db.doc(`suppliers/${supplier.id}`)}))
-          commit('showSnackbar', 'ספק עודכן!')
+          commit('showSnackbar', 'ספק עודכן!', { root: true })
         })
         .catch((error) => {
           console.log('Something went wrong - updateSupplier & updateUser', error);

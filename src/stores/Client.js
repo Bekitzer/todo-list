@@ -56,7 +56,7 @@ export default {
             }
             await setDoc(doc(collection(db, "clients")), isClient)
             commit('setClients', isClient)
-            commit('showSnackbar', 'לקוח חדש נוסף!')
+            commit('showSnackbar', 'לקוח חדש נוסף!', { root: true })
           }).catch((error) => {
             console.log('Something went wrong - addClient', error);
           })
@@ -65,7 +65,7 @@ export default {
     deleteClient({commit}, id) {
       deleteDoc(doc(db, "clients", id)).then(() => {
         commit('deleteClient', id)
-        commit('showSnackbar', 'לקוח נמחק!')
+        commit('showSnackbar', 'לקוח נמחק!', { root: true })
       }).catch((error) => {
         console.log('Something went wrong - deleteClient', error);
       })
@@ -84,7 +84,7 @@ export default {
           commit('upsertClient', client)
           removeUsersIds.map(id => commit('updateUser', {id, userClientRef: null}))
           usersIds.map(id => commit('updateUser', {id, userClientRef: db.doc(`clients/${client.id}`)}))
-          commit('showSnackbar', 'לקוח עודכן!')
+          commit('showSnackbar', 'לקוח עודכן!', { root: true })
         })
         .catch((error) => {
           console.log('Something went wrong - updateClient & updateUser', error);

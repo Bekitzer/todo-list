@@ -35,7 +35,7 @@ export default {
       return addDoc(collection(db, 'products-tags'), payload)
         .then(docRef => {
           commit('setProductsTags', {...payload, id: docRef.id})
-          commit('showSnackbar', 'תגית חדשה נוספה!')
+          commit('showSnackbar', 'תגית חדשה נוספה!', { root: true })
         })
         .catch(error => {
           console.error('Something went wrong - addProductTag', error);
@@ -45,7 +45,7 @@ export default {
       deleteDoc(doc(db, 'products-tags', id))
         .then(() => {
           commit('deleteProductTag', id)
-          commit('showSnackbar', 'תגית נמחקה!')
+          commit('showSnackbar', 'תגית נמחקה!', { root: true })
         })
         .catch(error => {
           console.error('Something went wrong - deleteProductTag', error);
@@ -56,7 +56,7 @@ export default {
       updateDoc(doc(db, 'products-tags', id), rest)
         .then(() => {
           commit('upsertProductTag', payload)
-          commit('showSnackbar', 'תגית עודכנה!')
+          commit('showSnackbar', 'תגית עודכנה!', { root: true })
         })
         .catch((error) => {
           console.error('Something went wrong - updateProductTag', error);

@@ -108,7 +108,7 @@ export default {
             }
             await setDoc(doc(collection(db, "users")), isUser)
             commit('setUsers', isUser)
-            commit('showSnackbar', 'משתמש חדש נוסף!')
+            commit('showSnackbar', 'משתמש חדש נוסף!', { root: true })
           }).catch((error) => {
             console.log('Something went wrong - addUser', error);
           })
@@ -117,7 +117,7 @@ export default {
     deleteUser({commit}, id) {
       deleteDoc(doc(db, "users", id)).then(() => {
         commit('deleteUser', id)
-        commit('showSnackbar', 'משתמש נמחק!')
+        commit('showSnackbar', 'משתמש נמחק!', { root: true })
       }).catch((error) => {
         console.log('Something went wrong - deleteUser', error);
       })
@@ -125,7 +125,7 @@ export default {
     updateUser({commit}, payload) {
       updateDoc(doc(db, "users", payload.id), payload).then(() => {
         commit('upsertUser', payload)
-        commit('showSnackbar', 'משתמש עודכן!')
+        commit('showSnackbar', 'משתמש עודכן!', { root: true })
       }).catch((error) => {
         console.log('Something went wrong - updateUser', error);
       })
