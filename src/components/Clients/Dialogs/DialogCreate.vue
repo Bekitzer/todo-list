@@ -318,7 +318,7 @@ export default {
           newsletter: this.clientNewsletter
         }
 
-        this.$store.dispatch('addClient', clientFields)
+        this.$store.dispatch('Client/addClient', clientFields)
         this.clientName = ''
         this.clientCompanyName = ''
         this.clientContactName = ''

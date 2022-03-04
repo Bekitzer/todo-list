@@ -24,7 +24,7 @@
         </v-tooltip>
       </template>
     </nav-appbar>
-    <list-clients v-if="$store.state.clients.length" />
+    <list-clients v-if="$store.state.Client.list.length" />
     <no-clients v-else />
     <dialog-create
       v-if="dialogs.create"

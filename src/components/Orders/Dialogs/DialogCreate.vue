@@ -192,7 +192,7 @@ import emailjs from '@emailjs/browser';
         return this.orderDeliveryDate && parseISO(this.orderDeliveryDate).toISOString().substr(0, 10)
       },
       clients() {
-          return this.$store.state.clients
+          return this.$store.state.Client.list
       },
       suppliers() {
         return this.$store.state.suppliers

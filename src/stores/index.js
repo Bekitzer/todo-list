@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '@/firebase'
-import {doc, deleteDoc, updateDoc, collection, setDoc} from "firebase/firestore"
+import {doc, deleteDoc, updateDoc, collection, setDoc, addDoc, getDocs} from "firebase/firestore"
 import firebase from 'firebase/compat/app'
 import {getAuth} from "firebase/auth";
+import Client from "@/stores/Client.js";
 
 Vue.use(Vuex)
 
@@ -12,10 +13,9 @@ export default new Vuex.Store({
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
     supplier: null,
-    client: null,
     suppliers: [],
-    clients: [],
     orders: [],
+    productsTags: [],
     products: [],
     users: [],
     snackbar: {
@@ -71,6 +71,20 @@ export default new Vuex.Store({
     setAttributes(state, attributes) {
       state.attributes = attributes
     },
+    // PRODUCTS TAGS
+    addProductTag(state, payload) {
+      state.productsTags.push(payload)
+    },
+    deleteProductTag(state, id) {
+      state.productsTags = state.productsTags.filter(item => item.id !== id)
+    },
+    updateProductTag(state, payload) {
+      let item = state.productsTags.find(item => item.id === payload.id)
+      Object.assign(item, payload)
+    },
+    setProductsTags(state, payloads) {
+      state.productsTags = payloads
+    },
     // ORDERS
     addOrder(state, newOrder) {
       state.orders.push(newOrder)
@@ -84,24 +98,6 @@ export default new Vuex.Store({
     },
     setOrders(state, orders) {
       state.orders = orders
-    },
-    // CLIENT
-    setClient(state, client) {
-      state.client = client
-    },
-    // CLIENTS
-    addClient(state, newClient) {
-      state.clients.push(newClient)
-    },
-    deleteClient(state, id) {
-      state.clients = state.clients.filter(client => client.id !== id)
-    },
-    updateClient(state, payload) {
-      let client = state.clients.filter(client => client.id === payload.id)[0]
-      Object.assign(client, payload)
-    },
-    setClients(state, clients) {
-      state.clients = clients
     },
     // SUPPLIER
     setSupplier(state, supplier) {
@@ -297,15 +293,6 @@ export default new Vuex.Store({
           })
       })
     },
-    // Attributes
-    updateAttributes({commit}, payload) {
-      updateDoc(doc(db, "products", payload.id), {attributes: payload.attributes}).then(() => {
-        commit('setAttributes', payload.attributes)
-        commit('showSnackbar', 'מאפיינים עודכנו!')
-      }).catch((error) => {
-        console.log('Something went wrong - updateAttributes', error);
-      })
-    },
     deleteProduct({commit}, id) {
       deleteDoc(doc(db, "products", id)).then(() => {
         commit('deleteProduct', id)
@@ -341,6 +328,73 @@ export default new Vuex.Store({
       }).catch((error) => {
         console.log('Something went wrong - setProducts', error);
       })
+    },
+    // Attributes
+    updateAttributes({commit}, payload) {
+      updateDoc(doc(db, "products", payload.id), {attributes: payload.attributes})
+        .then(() => {
+          commit('setAttributes', payload.attributes)
+          commit('showSnackbar', 'מאפיינים עודכנו!')
+        })
+        .catch(error => {
+          console.error('Something went wrong - updateAttributes', error);
+        })
+    },
+    // PRODUCTS TAGS
+    addProductTag({commit}, payload) {
+      return addDoc(collection(db, 'products-tags'), payload)
+        .then(docRef => {
+          commit('addProductTag', {...payload, id: docRef.id})
+          commit('showSnackbar', 'תגית חדשה נוספה!')
+        })
+        .catch(error => {
+          console.error('Something went wrong - addProductTag', error);
+        })
+    },
+    deleteProductTag({commit}, id) {
+      deleteDoc(doc(db, 'products-tags', id))
+        .then(() => {
+          commit('deleteProductTag', id)
+          commit('showSnackbar', 'תגית נמחקה!')
+        })
+        .catch(error => {
+          console.error('Something went wrong - deleteProductTag', error);
+        })
+    },
+    updateProductTag({commit}, payload) {
+      const {id, ...rest} = payload
+      updateDoc(doc(db, 'products-tags', id), rest)
+        .then(() => {
+          commit('updateProductTag', payload)
+          commit('showSnackbar', 'תגית עודכנה!')
+        })
+        .catch((error) => {
+          console.error('Something went wrong - updateProductTag', error);
+        })
+    },
+    getProductsTags({commit, state}) {
+      if (!state.user?.isAdmin) return console.debug('not pulling products tags since no admin role')
+
+      return getDocs(collection(db, 'products-tags'))
+        .then(querySnapshot => {
+          const items = [];
+          querySnapshot.forEach(doc => {
+            items.push({...doc.data(), id: doc.id})
+          })
+          commit('setProductsTags', items)
+        })
+        .catch(error => {
+          console.error('Something went wrong - getProductsTags', error);
+        })
+    },
+    setProductsTags({commit}, items) {
+      setDoc(doc(collection(db, 'products-tags')), items)
+        .then(() => {
+          commit('setProductsTags', items)
+        })
+        .catch((error) => {
+          console.error('Something went wrong - setProductsTags', error);
+        })
     },
     // ORDERS
     async addOrder({commit}, order) {
@@ -395,23 +449,15 @@ export default new Vuex.Store({
     },
     getOrders({commit, state}) {
       //const allCapitalsRes = await citiesRef.where('capital', '==', true).get();
-       let ordersRef = db.collection('orders')
+      let ordersRef = db.collection('orders')
       if (!state.user?.isAdmin) {
         ordersRef = ordersRef.where('orderSupplierRef', '==', state.user?.userSupplierRef)
       }
       ordersRef.get().then(querySnapshot => {
-      // return ordersRef
+        // return ordersRef
 
         const orders = [];
         querySnapshot.forEach(doc => {
-          // if(doc.data().id === "zeBBSwcFbL9JxPRKcJB8") {
-            // const sup = doc.data()
-            // const {clientName, ...rest} = sup
-            // console.log(doc.ref.set(rest))
-            // if(clientName) {
-            //   console.log(doc.ref.set({orderClientRef: db.doc(`clients/${clientName}`), ...rest}))
-            // }
-          // }
           orders.push({...doc.data(), id: doc.id})
         })
         commit('setOrders', orders)
@@ -424,95 +470,6 @@ export default new Vuex.Store({
         commit('setOrders', orders)
       }).catch((error) => {
         console.log('Something went wrong - setOrders', error);
-      })
-    },
-    // CLIENTS
-    addClient({commit}, client) {
-      const incrementDocRef = db.collection('--stats--').doc('clients');
-
-      db.runTransaction((transaction) => {
-        // This code may get re-run multiple times if there are conflicts.
-        return transaction
-          .get(incrementDocRef)
-          .then((incrementDoc) => {
-            if (!incrementDoc.exists) {
-              throw "Document does not exist!";
-            }
-
-            const incremented = incrementDoc.data().increment + 1;
-            transaction.update(incrementDocRef, {increment: incremented});
-            return incremented;
-          })
-          .then(async (number) => {
-            let isClient = {
-              ...client,
-              number: number,
-              clientCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
-              clientUpdated: null
-            }
-            await setDoc(doc(collection(db, "clients")), isClient)
-            commit('addClient', isClient)
-            commit('showSnackbar', 'לקוח חדש נוסף!')
-          }).catch((error) => {
-            console.log('Something went wrong - addClient', error);
-          })
-      })
-    },
-    deleteClient({commit}, id) {
-      deleteDoc(doc(db, "clients", id)).then(() => {
-        commit('deleteClient', id)
-        commit('showSnackbar', 'לקוח נמחק!')
-      }).catch((error) => {
-        console.log('Something went wrong - deleteClient', error);
-      })
-    },
-    updateClient({commit}, payload) {
-      const {removeUsersIds, usersIds, ...client} = payload
-      // TODO: batch those requests to a transaction
-      updateDoc(doc(db, "clients", client.id), client)
-        .then(() => Promise.all(removeUsersIds.map(userId => {
-          return updateDoc(doc(db, "users", userId), {clientRef: null})
-        })))
-        .then(() => Promise.all(usersIds.map(userId => {
-          return updateDoc(doc(db, "users", userId), {clientRef: db.doc(`clients/${client.id}`)})
-        })))
-        .then(() => {
-          commit('updateClient', client)
-          removeUsersIds.map(id => commit('updateUser', {id, clientRef: null}))
-          usersIds.map(id => commit('updateUser', {id, clientRef: db.doc(`clients/${client.id}`)}))
-          commit('showSnackbar', 'לקוח עודכן!')
-        })
-        .catch((error) => {
-          console.log('Something went wrong - updateClient & updateUser', error);
-        })
-    },
-    getClients({commit, state}) {
-      if (!state.user?.isAdmin) return console.debug('not pulling clients since no admin role')
-
-      return db.collection('clients').get().then(querySnapshot => {
-        const clients = [];
-        querySnapshot.forEach(doc => {
-          clients.push({...doc.data(), id: doc.id})
-        })
-        commit('setClients', clients)
-      }).catch((error) => {
-        console.log('Something went wrong - getClients', error);
-      })
-    },
-    getClient({commit, state}) {
-      if (state.user?.userClientRef) {
-        state.user.userClientRef.get().then(doc => {
-          commit('setClient', {...doc.data(), id: doc.id})
-        }).catch((error) => {
-          console.log('Something went wrong - getClient', error);
-        })
-      }
-    },
-    setClients({commit}, clients) {
-      setDoc(doc(collection(db, "clients")), clients).then(() => {
-        commit('setClients', clients)
-      }).catch((error) => {
-        console.log('Something went wrong - setClients', error);
       })
     },
     // SUPPLIERS
@@ -609,5 +566,8 @@ export default new Vuex.Store({
     user(state) {
       return state.user
     }
+  },
+  modules: {
+    Client,
   }
 })

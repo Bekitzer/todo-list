@@ -97,8 +97,14 @@ export default {
     'nav-appbar' : require('@/components/Global/AppBar.vue').default
   },
   computed: {
+    userId() {
+      return this.$store.state.user?.userClientRef?.id
+    },
+    client() {
+      return this.$store.state.Client.list.find(item => item.id = this.userId)
+    },
     clientOrSupplier() {
-      return this.$store.state.supplier || this.$store.state.client || {name: ''}
+      return this.$store.state.supplier || this.client || {name: ''}
     },
     user() {
       return this.$store.state.user || {name: ''}

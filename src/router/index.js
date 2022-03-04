@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import goTo from 'vuetify/es5/services/goto'
 import firebase from 'firebase/compat/app'
-import store from "@/store"
+import store from "@/stores"
 
 Vue.use(VueRouter)
 

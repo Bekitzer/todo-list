@@ -119,10 +119,8 @@ export default {
     items: [
       { header: 'בחר או צור חדש' },
     ],
-    nonce: 1,
     menu: false,
     attributeName: '',
-    attributeValues: [],
     x: 0,
     search: null,
     y: 0,
@@ -131,19 +129,6 @@ export default {
     product() {
       return this.$store.state.products.find(product => product.id === this.$route.params.id) || {name: ""}
     }
-  },
-  watch: {
-    attributeValues (val, prev) {
-      if (val.length === prev.length) return
-      this.attributeValues = val.map(v => {
-        if (typeof v === 'string') {
-          v = {text: v,}
-          this.items.push(v)
-          this.nonce++
-        }
-        return v
-      })
-    },
   },
   methods:{
     openFile (product) {

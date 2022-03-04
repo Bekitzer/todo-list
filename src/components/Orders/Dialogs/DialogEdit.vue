@@ -208,7 +208,7 @@ export default {
       }
     },
     clients() {
-      return this.$store.state.clients
+      return this.$store.state.Client.list
     },
     suppliers() {
       return this.$store.state.suppliers
