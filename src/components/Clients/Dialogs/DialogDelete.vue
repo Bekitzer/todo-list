@@ -52,7 +52,7 @@
     props: ['client'],
     methods: {
       clientDelete() {
-        this.$store.dispatch('deleteClient', this.$route.params.id)
+        this.$store.dispatch('Client/deleteClient', this.$route.params.id)
         this.closeDialog()
         this.$router.push('/clients')
       },

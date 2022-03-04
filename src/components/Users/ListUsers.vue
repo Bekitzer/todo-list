@@ -56,7 +56,7 @@ export default {
   computed: {
     clientsMap() {
       const clientsMap = {}
-      this.$store.state.clients.forEach(client => {
+      this.$store.state.Client.list.forEach(client => {
         clientsMap[client.id] = client
       })
 
@@ -73,7 +73,7 @@ export default {
     users: {
       get() {
         return this.$store.state.users.map(user => {
-          const client = this.clientsMap[user.clientRef] || {}
+          const client = this.clientsMap[user.userClientRef] || {}
           const supplier = this.suppliersMap[user.userSupplierRef?.id] || {}
           return {
             ...user,

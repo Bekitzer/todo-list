@@ -59,13 +59,13 @@ export default {
           }
         })
 
-        return this.$store.state.clients.map(client => {
+        return this.$store.state.Client.list.map(client => {
           client.orders = ( ordersMap[client.id] || 0 )
           return client
         })
       },
       set(value) {
-        this.$store.dispatch('setClients', value)
+        this.$store.dispatch('Client/setClients', value)
       }
     }
   },

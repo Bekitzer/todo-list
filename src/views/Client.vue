@@ -331,7 +331,7 @@ export default {
       return this.$store.state.users.filter(user => user.userClientRef?.id === this.client.id)
     },
     client() {
-      return this.$store.state.clients.find(client => client.id === this.$route.params.id) || {name: ''}
+      return this.$store.state.Client.list.find(client => client.id === this.$route.params.id) || {name: ''}
     },
     headers () {
       return [
@@ -347,7 +347,7 @@ export default {
     },
     clientsMap() {
       const clientsMap = {}
-      this.$store.state.clients.forEach(client => {
+      this.$store.state.Client.list.forEach(client => {
         clientsMap[client.id] = client
       })
 

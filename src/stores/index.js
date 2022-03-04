@@ -4,6 +4,7 @@ import db from '@/firebase'
 import {doc, deleteDoc, updateDoc, collection, setDoc, addDoc, getDocs} from "firebase/firestore"
 import firebase from 'firebase/compat/app'
 import {getAuth} from "firebase/auth";
+import Client from "@/stores/Client.js";
 
 Vue.use(Vuex)
 
@@ -12,9 +13,7 @@ export default new Vuex.Store({
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
     supplier: null,
-    client: null,
     suppliers: [],
-    clients: [],
     orders: [],
     productsTags: [],
     products: [],
@@ -99,24 +98,6 @@ export default new Vuex.Store({
     },
     setOrders(state, orders) {
       state.orders = orders
-    },
-    // CLIENT
-    setClient(state, client) {
-      state.client = client
-    },
-    // CLIENTS
-    addClient(state, newClient) {
-      state.clients.push(newClient)
-    },
-    deleteClient(state, id) {
-      state.clients = state.clients.filter(client => client.id !== id)
-    },
-    updateClient(state, payload) {
-      let client = state.clients.filter(client => client.id === payload.id)[0]
-      Object.assign(client, payload)
-    },
-    setClients(state, clients) {
-      state.clients = clients
     },
     // SUPPLIER
     setSupplier(state, supplier) {
@@ -477,14 +458,6 @@ export default new Vuex.Store({
 
         const orders = [];
         querySnapshot.forEach(doc => {
-          // if(doc.data().id === "zeBBSwcFbL9JxPRKcJB8") {
-          // const sup = doc.data()
-          // const {clientName, ...rest} = sup
-          // console.log(doc.ref.set(rest))
-          // if(clientName) {
-          //   console.log(doc.ref.set({orderClientRef: db.doc(`clients/${clientName}`), ...rest}))
-          // }
-          // }
           orders.push({...doc.data(), id: doc.id})
         })
         commit('setOrders', orders)
@@ -497,95 +470,6 @@ export default new Vuex.Store({
         commit('setOrders', orders)
       }).catch((error) => {
         console.log('Something went wrong - setOrders', error);
-      })
-    },
-    // CLIENTS
-    addClient({commit}, client) {
-      const incrementDocRef = db.collection('--stats--').doc('clients');
-
-      db.runTransaction((transaction) => {
-        // This code may get re-run multiple times if there are conflicts.
-        return transaction
-          .get(incrementDocRef)
-          .then((incrementDoc) => {
-            if (!incrementDoc.exists) {
-              throw "Document does not exist!";
-            }
-
-            const incremented = incrementDoc.data().increment + 1;
-            transaction.update(incrementDocRef, {increment: incremented});
-            return incremented;
-          })
-          .then(async (number) => {
-            let isClient = {
-              ...client,
-              number: number,
-              clientCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
-              clientUpdated: null
-            }
-            await setDoc(doc(collection(db, "clients")), isClient)
-            commit('addClient', isClient)
-            commit('showSnackbar', 'לקוח חדש נוסף!')
-          }).catch((error) => {
-            console.log('Something went wrong - addClient', error);
-          })
-      })
-    },
-    deleteClient({commit}, id) {
-      deleteDoc(doc(db, "clients", id)).then(() => {
-        commit('deleteClient', id)
-        commit('showSnackbar', 'לקוח נמחק!')
-      }).catch((error) => {
-        console.log('Something went wrong - deleteClient', error);
-      })
-    },
-    updateClient({commit}, payload) {
-      const {removeUsersIds, usersIds, ...client} = payload
-      // TODO: batch those requests to a transaction
-      updateDoc(doc(db, "clients", client.id), client)
-        .then(() => Promise.all(removeUsersIds.map(userId => {
-          return updateDoc(doc(db, "users", userId), {clientRef: null})
-        })))
-        .then(() => Promise.all(usersIds.map(userId => {
-          return updateDoc(doc(db, "users", userId), {clientRef: db.doc(`clients/${client.id}`)})
-        })))
-        .then(() => {
-          commit('updateClient', client)
-          removeUsersIds.map(id => commit('updateUser', {id, clientRef: null}))
-          usersIds.map(id => commit('updateUser', {id, clientRef: db.doc(`clients/${client.id}`)}))
-          commit('showSnackbar', 'לקוח עודכן!')
-        })
-        .catch((error) => {
-          console.log('Something went wrong - updateClient & updateUser', error);
-        })
-    },
-    getClients({commit, state}) {
-      if (!state.user?.isAdmin) return console.debug('not pulling clients since no admin role')
-
-      return db.collection('clients').get().then(querySnapshot => {
-        const clients = [];
-        querySnapshot.forEach(doc => {
-          clients.push({...doc.data(), id: doc.id})
-        })
-        commit('setClients', clients)
-      }).catch((error) => {
-        console.log('Something went wrong - getClients', error);
-      })
-    },
-    getClient({commit, state}) {
-      if (state.user?.userClientRef) {
-        state.user.userClientRef.get().then(doc => {
-          commit('setClient', {...doc.data(), id: doc.id})
-        }).catch((error) => {
-          console.log('Something went wrong - getClient', error);
-        })
-      }
-    },
-    setClients({commit}, clients) {
-      setDoc(doc(collection(db, "clients")), clients).then(() => {
-        commit('setClients', clients)
-      }).catch((error) => {
-        console.log('Something went wrong - setClients', error);
       })
     },
     // SUPPLIERS
@@ -682,5 +566,8 @@ export default new Vuex.Store({
     user(state) {
       return state.user
     }
+  },
+  modules: {
+    Client,
   }
 })

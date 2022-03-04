@@ -337,7 +337,7 @@ export default {
     },
     clientsMap() {
       const clientsMap = {}
-      this.$store.state.clients.forEach(client => {
+      this.$store.state.Client.list.forEach(client => {
         clientsMap[client.id] = client
       })
 

@@ -22,8 +22,8 @@ export default {
     this.$store.dispatch('getUser').then(() => {
       this.$store.dispatch('getProductsTags')
       this.$store.dispatch('getSupplier')
-      this.$store.dispatch('getClient')
-      this.$store.dispatch('getClients')
+      this.$store.dispatch('Client/getClient')
+      this.$store.dispatch('Client/getClients')
       this.$store.dispatch('getSuppliers')
       this.$store.dispatch('getOrders')
       this.$store.dispatch('getProducts')
