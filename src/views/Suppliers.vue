@@ -26,8 +26,11 @@
     </nav-appbar>
     <list-suppliers v-if="$store.state.Supplier.list.length" />
     <no-suppliers v-else />
-    <dialog-create v-if="dialogs.create" v-model="dialogs.create" @close="dialogs.create = false"/>
-
+    <dialog-create
+        v-if="dialogs.create"
+        v-model="dialogs.create"
+        @close="dialogs.create = false"
+    />
   </div>
 </template>
 

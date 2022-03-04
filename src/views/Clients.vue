@@ -26,7 +26,11 @@
     </nav-appbar>
     <list-clients v-if="$store.state.Client.list.length" />
     <no-clients v-else />
-    <dialog-create v-if="dialogs.create" v-model="dialogs.create" @close="dialogs.create = false"/>
+    <dialog-create
+        v-if="dialogs.create"
+        v-model="dialogs.create"
+        @close="dialogs.create = false"
+    />
   </div>
 </template>
 

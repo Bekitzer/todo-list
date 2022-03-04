@@ -31,7 +31,11 @@
         :product="product"
       />
     </v-row>
-    <dialog-create v-if="dialogs.create" v-model="dialogs.create" @close="dialogs.create = false"/>
+    <dialog-create
+        v-if="dialogs.create"
+        v-model="dialogs.create"
+        @close="dialogs.create = false"
+    />
     <v-row class="spc-ul">
       <v-col cols="12" md="2" sm="2">
         <h5 >מיתוג ושיווק</h5>
