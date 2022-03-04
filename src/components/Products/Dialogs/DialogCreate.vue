@@ -214,7 +214,7 @@ export default {
           prices: this.supplierPrices
         }
 
-        this.$store.dispatch('Product/addProduct', productFields)
+        this.$store.dispatch('Product/create', productFields)
         this.productName = ''
         this.productCategory = ''
         this.productTags = ''

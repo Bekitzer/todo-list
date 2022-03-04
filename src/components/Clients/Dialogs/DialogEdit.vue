@@ -394,7 +394,7 @@ export default {
           clientUpdated: firebase.firestore.FieldValue.serverTimestamp(),
         }
         this.dialog = false
-        this.$store.dispatch('Client/updateClient', payload)
+        this.$store.dispatch('Client/update', payload)
         this.$router.push('/clients')
       }
     }

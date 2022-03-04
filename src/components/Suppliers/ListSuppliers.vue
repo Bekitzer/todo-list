@@ -65,7 +65,7 @@ export default {
         })
       },
       set(value) {
-        this.$store.dispatch('Supplier/setSuppliers', value)
+        this.$store.dispatch('Supplier/upsert', value)
       }
     }
   },

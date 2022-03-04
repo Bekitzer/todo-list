@@ -54,7 +54,7 @@
     methods: {
       productDelete() {
         this.dialog = false
-        this.$store.dispatch('Product/deleteProduct', this.$route.params.id)
+        this.$store.dispatch('Product/remove', this.$route.params.id)
         this.$router.push('/products')
       }
     }

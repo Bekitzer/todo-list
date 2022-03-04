@@ -57,7 +57,7 @@
     methods: {
       clientDelete() {
         this.dialog = false
-        this.$store.dispatch('Client/deleteClient', this.$route.params.id)
+        this.$store.dispatch('Client/remove', this.$route.params.id)
         this.$router.push('/clients')
       }
     }

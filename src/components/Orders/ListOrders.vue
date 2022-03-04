@@ -217,7 +217,7 @@ export default {
         statusType: order.value,
         orderUpdated: firebase.firestore.FieldValue.serverTimestamp(),
       }
-      this.$store.dispatch('Order/updateOrder', payload)
+      this.$store.dispatch('Order/update', payload)
     },
     duplicateItem (item) {
       this.$emit('duplicateOrder', item)
@@ -369,7 +369,7 @@ export default {
         })
       },
       set(value) {
-        this.$store.dispatch('Order/setOrders', value)
+        this.$store.dispatch('Order/upsert', value)
       }
     }
   }

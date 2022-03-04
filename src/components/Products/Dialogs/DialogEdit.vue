@@ -259,7 +259,7 @@ export default {
           productUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
         }
         this.dialog = false
-        this.$store.dispatch('Product/updateProduct', payload)
+        this.$store.dispatch('Product/update', payload)
         this.$router.push('/products')
       }
     }

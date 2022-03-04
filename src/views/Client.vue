@@ -380,7 +380,7 @@ export default {
         })
       },
       set(value) {
-        this.$store.dispatch('Order/setOrders', value)
+        this.$store.dispatch('Order/upsert', value)
       }
     }
   },

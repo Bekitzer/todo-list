@@ -65,7 +65,7 @@ export default {
         })
       },
       set(value) {
-        this.$store.dispatch('Client/setClients', value)
+        this.$store.dispatch('Client/upsert', value)
       }
     }
   },
