@@ -115,6 +115,7 @@
         </v-list>
       <dialog-exit
         v-if="dialogs.exit"
+        v-model="dialogs.exit"
         @close = 'dialogs.exit = false'
       />
     </v-navigation-drawer>
