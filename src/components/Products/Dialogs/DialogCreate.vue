@@ -174,7 +174,7 @@ export default {
           v = {
             text: v,
           }
-          this.$store.dispatch('ProductTag/addProductTag', v)
+          this.$store.dispatch('ProductTag/create', v)
         }
       })
     },
@@ -186,7 +186,7 @@ export default {
         this.editing = item
         this.editingIndex = index
       } else {
-        this.$store.dispatch('ProductTag/updateProductTag', this.editing)
+        this.$store.dispatch('ProductTag/update', this.editing)
         this.editing = {}
         this.editingIndex = -1
 

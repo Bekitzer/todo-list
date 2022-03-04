@@ -49,7 +49,7 @@ export default {
       return updateDoc('products-tags', payload)
         .then(() => commit('upsert', payload))
         .then(() => commit('showSnackbar', 'תגית עודכנה!', {root: true}))
-        .catch(err => console.error('Something went wrong - updateProductTag', err))
+        .catch(err => console.error('Something went wrong - ProductTag.update', err))
     },
     fetch({commit, rootGetters}) {
       // TODO extract to App.vue
@@ -57,7 +57,7 @@ export default {
 
       return fetchDocs('products-tags')
         .then(querySnapshot => commit('initialize', querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}))))
-        .catch(err => console.error('Something went wrong - getProductsTags', err))
+        .catch(err => console.error('Something went wrong - ProductTag.fetch', err))
     }
   },
   modules: {}
