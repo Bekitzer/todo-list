@@ -64,7 +64,7 @@ export default {
     },
     suppliersMap() {
       const suppliersMap = {}
-      this.$store.state.suppliers.forEach(supplier => {
+      this.$store.state.Supplier.list.forEach(supplier => {
         suppliersMap[supplier.id] = supplier
       })
 

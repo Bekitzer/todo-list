@@ -21,12 +21,12 @@ export default {
   mounted() {
     this.$store.dispatch('User/getUser').then(() => {
       this.$store.dispatch('ProductTag/getProductsTags')
-      this.$store.dispatch('getSupplier')
+      this.$store.dispatch('Supplier/getSupplier')
+      this.$store.dispatch('Supplier/getSuppliers')
       this.$store.dispatch('Client/getClient')
       this.$store.dispatch('Client/getClients')
-      this.$store.dispatch('getSuppliers')
-      this.$store.dispatch('getOrders')
-      this.$store.dispatch('getProducts')
+      this.$store.dispatch('Order/getOrders')
+      this.$store.dispatch('Product/getProducts')
       this.$store.dispatch('User/getUsers')
     })
 

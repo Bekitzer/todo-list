@@ -35,7 +35,7 @@ export default {
           complete: () => {
             storageRef.snapshot.ref.getDownloadURL().then(url => {
               this.order.file = url
-              this.$store.dispatch('updateOrder', this.order)
+              this.$store.dispatch('Order/updateOrder', this.order)
             })
           }
         }
@@ -46,7 +46,7 @@ export default {
       firebase.storage().refFromURL(this.order.file).delete()
         .then(() => {
           this.order.file = null
-          this.$store.dispatch('updateOrder', this.order)
+          this.$store.dispatch('Order/updateOrder', this.order)
         })
         .catch(error => console.error(error))
     }

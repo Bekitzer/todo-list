@@ -305,7 +305,7 @@ export default {
           scope: this.supplierScope,
         }
 
-        this.$store.dispatch('addSupplier', supplierFields)
+        this.$store.dispatch('Supplier/addSupplier', supplierFields)
         this.supplierName = ''
         this.supplierCompanyName = ''
         this.supplierContactName = ''

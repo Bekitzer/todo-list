@@ -227,7 +227,7 @@ import emailjs from '@emailjs/browser';
             deliveryType: this.orderDeliveryType,
           }
 
-          this.$store.dispatch('addOrder', orderFields)
+          this.$store.dispatch('Order/addOrder', orderFields)
           const mailFields = {
             clientName: this.orderClient.name,
             clientEmail: this.orderClient.email,
@@ -276,7 +276,7 @@ import emailjs from '@emailjs/browser';
             deliveryType: this.orderDeliveryType,
           }
 
-          this.$store.dispatch('addOrder', orderFields)
+          this.$store.dispatch('Order/addOrder', orderFields)
           this.orderClient = {}
           this.orderWorkTitle = ''
           this.orderWorkProducts = ''

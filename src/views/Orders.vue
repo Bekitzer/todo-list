@@ -1,4 +1,4 @@
-<template>
+a<template>
   <div>
     <nav-appbar :pname="pageName">
       <template v-slot:add-btn>
@@ -24,7 +24,7 @@
         </v-tooltip>
       </template>
     </nav-appbar>
-    <list-orders v-if="$store.state.orders.length" @duplicateOrder="onDuplicateOrder" @openOrderFile="onOpenOrderFile"/>
+    <list-orders v-if="$store.state.Order.list.length" @duplicateOrder="onDuplicateOrder" @openOrderFile="onOpenOrderFile"/>
     <no-orders v-else />
     <dialog-create
       v-if="dialogs.create"

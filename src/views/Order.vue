@@ -1,4 +1,4 @@
-<template>
+a<template>
   <div>
     <nav-appbar :pname="'הזמנות - ' + this.order.number">
       <template v-slot:add-btn>
@@ -134,7 +134,7 @@ export default {
   }),
   computed: {
     order() {
-      return this.$store.state.orders.find(order => order.id === this.$route.params.id) || {number: '', orderSupplierRef: {}, orderClientRef: {}}
+      return this.$store.state.Order.list.find(order => order.id === this.$route.params.id) || {number: '', orderSupplierRef: {}, orderClientRef: {}}
     },
     clientsMap() {
       const clientsMap = {}
@@ -147,7 +147,7 @@ export default {
     },
     suppliersMap() {
       const suppliersMap = {}
-      this.$store.state.suppliers.forEach(supplier => {
+      this.$store.state.Supplier.list.forEach(supplier => {
         suppliersMap[supplier.id] = supplier.name
       })
 

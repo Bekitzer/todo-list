@@ -395,7 +395,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
             removeUsersIds: this.removeUsersIds,
             supplierUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           }
-          this.$store.dispatch('updateSupplier', payload)
+          this.$store.dispatch('Supplier/updateSupplier', payload)
           this.closeDialog()
           this.$router.push('/suppliers')
         }

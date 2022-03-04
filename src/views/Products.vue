@@ -134,10 +134,10 @@ export default {
   computed: {
     products: {
       get() {
-        return this.$store.state.products
+        return this.$store.state.Product.list
       },
       set(value) {
-        this.$store.dispatch('setProducts', value)
+        this.$store.dispatch('Product/setProducts', value)
       }
     }
   }

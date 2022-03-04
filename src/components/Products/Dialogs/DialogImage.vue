@@ -35,7 +35,7 @@ export default {
           complete: () => {
             storageRef.snapshot.ref.getDownloadURL().then(url => {
               this.product.file = url
-              this.$store.dispatch('updateProduct', this.product)
+              this.$store.dispatch('Product/updateProduct', this.product)
             })
           }
         }
@@ -46,7 +46,7 @@ export default {
       firebase.storage().refFromURL(this.product.file).delete()
         .then(() => {
           this.product.file = null
-          this.$store.dispatch('updateProduct', this.product)
+          this.$store.dispatch('Product/updateProduct', this.product)
         })
         .catch(error => console.error(error))
     }

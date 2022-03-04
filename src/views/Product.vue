@@ -127,7 +127,7 @@ export default {
   }),
   computed: {
     product() {
-      return this.$store.state.products.find(product => product.id === this.$route.params.id) || {name: ""}
+      return this.$store.state.Product.list.find(product => product.id === this.$route.params.id) || {name: ""}
     }
   },
   methods:{
@@ -135,7 +135,7 @@ export default {
       this.dialogs.image = true
     },
     handleAttributeChange(attributes) {
-      this.$store.dispatch('updateAttributes', {id: this.product.id, attributes})
+      this.$store.dispatch('Product/updateAttributes', {id: this.product.id, attributes})
     },
     edit (index, item) {
       if (!this.editing) {

@@ -354,7 +354,7 @@ export default {
     },
     suppliersMap() {
       const suppliersMap = {}
-      this.$store.state.suppliers.forEach(supplier => {
+      this.$store.state.Supplier.list.forEach(supplier => {
         suppliersMap[supplier.id] = supplier
       })
 
@@ -362,7 +362,7 @@ export default {
     },
     processing: {
       get() {
-        return this.$store.state.orders.map(order => {
+        return this.$store.state.Order.list.map(order => {
           const client = this.clientsMap[order.orderClientRef.id] || {}
           const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
           return {
@@ -376,7 +376,7 @@ export default {
         })
       },
       set(value) {
-        this.$store.dispatch('setOrders', value)
+        this.$store.dispatch('Order/setOrders', value)
       }
     }
   },

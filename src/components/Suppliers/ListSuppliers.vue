@@ -52,21 +52,20 @@ export default {
     suppliers: {
       get() {
         const ordersMap = {}
-
-        this.$store.state.orders.forEach(order => {
+        this.$store.state.Order.list.forEach(order => {
           if( order.statusType !== 'סופק'){
-            ordersMap[order.orderSupplierRef.id] = ordersMap[order.orderSupplierRef.id] || 0
-            ordersMap[order.orderSupplierRef.id]++
+            ordersMap[order.supplierName] = ordersMap[order.supplierName] || 0
+            ordersMap[order.supplierName]++
           }
         })
 
-        return this.$store.state.suppliers.map(supplier => {
+        return this.$store.state.Supplier.list.map(supplier => {
           supplier.orders = ordersMap[supplier.id] || 0
           return supplier
         })
       },
       set(value) {
-        this.$store.dispatch('setSuppliers', value)
+        this.$store.dispatch('Supplier/setSuppliers', value)
       }
     }
   },

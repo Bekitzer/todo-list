@@ -258,7 +258,7 @@ export default {
           prices: this.supplierPrices,
           productUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
         }
-        this.$store.dispatch('updateProduct', payload)
+        this.$store.dispatch('Product/updateProduct', payload)
         this.closeDialog()
       }
     },

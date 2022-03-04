@@ -51,7 +51,7 @@
     props: ['order'],
     methods: {
       orderDelete() {
-        this.$store.dispatch('deleteOrder', this.$route.params.id)
+        this.$store.dispatch('Order/deleteOrder', this.$route.params.id)
         this.closeDialog()
         this.$router.push('/orders')
       },

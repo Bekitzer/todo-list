@@ -51,7 +51,7 @@
     props: ['product'],
     methods: {
       productDelete() {
-        this.$store.dispatch('deleteProduct', this.$route.params.id)
+        this.$store.dispatch('Product/deleteProduct', this.$route.params.id)
         this.closeDialog()
         this.$router.push('/products')
       },

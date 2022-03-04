@@ -244,7 +244,7 @@ export default {
           deliveryType: this.orderDeliveryType,
           orderUpdated: firebase.firestore.FieldValue.serverTimestamp(),
         }
-        this.$store.dispatch('updateOrder', payload)
+        this.$store.dispatch('Order/updateOrder', payload)
         this.closeDialog()
         this.$router.push('/orders')
       }

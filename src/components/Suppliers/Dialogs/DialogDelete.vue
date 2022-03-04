@@ -55,7 +55,7 @@
     props: ['supplier'],
     methods: {
       supplierDelete() {
-        this.$store.dispatch('deleteSupplier', this.$route.params.id)
+        this.$store.dispatch('Supplier/deleteSupplier', this.$route.params.id)
         this.closeDialog()
         this.$router.push('/suppliers')
       },
