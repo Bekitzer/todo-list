@@ -1,6 +1,4 @@
-import firebase from 'firebase/compat';
-import {addDoc, collection, deleteDoc, doc, getDocs, setDoc, updateDoc} from 'firebase/firestore';
-import db from '@/firebase'
+import {createDoc, fetchDocs, removeDoc, updateDoc} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -8,84 +6,59 @@ export default {
     list: []
   },
   mutations: {
-    deleteProductTag(state, id) {
+    initialize(state, items) {
+      state.list = items
+    },
+    remove(state, id) {
       state.list = state.list.filter(item => item.id !== id)
     },
-    upsertProductTag(state, payload) {
-      let found = false
+    upsert(state, payloads) {
+      if (!Array.isArray(payloads)) payloads = [payloads]
 
-      let items = state.list.map(item => {
-        if (item.id === payload.id) found = true
+      let items = [...state.list]
 
-        return found ? payload : item
+      payloads.forEach(payload => {
+        let found = false
+
+        items = items.map(item => {
+          if (item.id === payload.id) found = true
+
+          return found ? payload : item
+        })
+
+        if (!found) items = items.push(payload)
       })
-
-      if (!found) items = state.list.concat(payload)
 
       state.list = items
     },
-    setProductsTags(state, items) {
-      if(!Array.isArray(items)) items = [items]
-
-      state.list = state.list.concat(...items)
-    }
   },
   actions: {
-    addProductTag({commit}, payload) {
-      return addDoc(collection(db, 'products-tags'), payload)
-        .then(docRef => {
-          commit('setProductsTags', {...payload, id: docRef.id})
-          commit('showSnackbar', 'תגית חדשה נוספה!', { root: true })
-        })
-        .catch(error => {
-          console.error('Something went wrong - addProductTag', error);
-        })
+    create({commit}, payload) {
+      createDoc('products-tags', payload)
+        .then(docRef => commit('upsert', {...payload, id: docRef.id}))
+        .then(() => commit('showSnackbar', 'תגית חדשה נוספה!', {root: true}))
+        .catch(err => console.error('Something went wrong - ProductTag.create', err))
     },
-    deleteProductTag({commit}, id) {
-      deleteDoc(doc(db, 'products-tags', id))
-        .then(() => {
-          commit('deleteProductTag', id)
-          commit('showSnackbar', 'תגית נמחקה!', { root: true })
-        })
-        .catch(error => {
-          console.error('Something went wrong - deleteProductTag', error);
-        })
+    remove({commit}, id) {
+      return removeDoc('products-tags', id)
+        .then(() => commit('remove', id))
+        .then(() => commit('showSnackbar', 'תגית נמחקה!', {root: true}))
+        .catch(err => console.error('Something went wrong - ProductTag.remove', err))
     },
-    updateProductTag({commit}, payload) {
-      const {id, ...rest} = payload
-      updateDoc(doc(db, 'products-tags', id), rest)
-        .then(() => {
-          commit('upsertProductTag', payload)
-          commit('showSnackbar', 'תגית עודכנה!', { root: true })
-        })
-        .catch((error) => {
-          console.error('Something went wrong - updateProductTag', error);
-        })
+    update({commit}, payload) {
+      return updateDoc('products-tags', payload)
+        .then(() => commit('upsert', payload))
+        .then(() => commit('showSnackbar', 'תגית עודכנה!', {root: true}))
+        .catch(err => console.error('Something went wrong - updateProductTag', err))
     },
-    getProductsTags({commit, rootGetters}) {
+    fetch({commit, rootGetters}) {
+      // TODO extract to App.vue
       if (!rootGetters.user?.isAdmin) return console.debug('not pulling products tags since no admin role')
 
-      return getDocs(collection(db, 'products-tags'))
-        .then(querySnapshot => {
-          const items = [];
-          querySnapshot.forEach(doc => {
-            items.push({...doc.data(), id: doc.id})
-          })
-          commit('setProductsTags', items)
-        })
-        .catch(error => {
-          console.error('Something went wrong - getProductsTags', error);
-        })
-    },
-    setProductsTags({commit}, items) {
-      setDoc(doc(collection(db, 'products-tags')), items)
-        .then(() => {
-          commit('setProductsTags', items)
-        })
-        .catch((error) => {
-          console.error('Something went wrong - setProductsTags', error);
-        })
-    },
+      return fetchDocs('products-tags')
+        .then(querySnapshot => commit('initialize', querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}))))
+        .catch(err => console.error('Something went wrong - getProductsTags', err))
+    }
   },
   modules: {}
 }
