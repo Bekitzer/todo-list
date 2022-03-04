@@ -5,7 +5,7 @@ import {doc, deleteDoc, updateDoc, collection, setDoc, addDoc, getDocs} from "fi
 import firebase from 'firebase/compat/app'
 import Client from "@/stores/Client.js";
 import User from "@/stores/User.js";
-import ProductsTags from "@/stores/ProductsTags.js";
+import ProductsTags from "@/stores/ProductTag.js";
 
 Vue.use(Vuex)
 
@@ -25,10 +25,6 @@ export default new Vuex.Store({
     sorting: false
   },
   mutations: {
-    // SEARCH
-    setSearch(state, value) {
-      state.search = value
-    },
     // PRODUCTS
     addProduct(state, newProduct) {
       state.products.push(newProduct)
@@ -80,6 +76,9 @@ export default new Vuex.Store({
       state.suppliers = suppliers
     },
     // GLOBALS
+    setSearch(state, value) {
+      state.search = value
+    },
     showSnackbar(state, text) {
       let timeout = 0
       if (state.snackbar.show) {
