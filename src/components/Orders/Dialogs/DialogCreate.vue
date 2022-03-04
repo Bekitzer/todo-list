@@ -195,7 +195,7 @@ import emailjs from '@emailjs/browser';
           return this.$store.state.Client.list
       },
       suppliers() {
-        return this.$store.state.suppliers
+        return this.$store.state.Supplier.list
       },
       orderFieldInvalid() {
         return (

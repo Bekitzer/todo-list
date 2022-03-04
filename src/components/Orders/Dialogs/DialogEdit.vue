@@ -211,7 +211,7 @@ export default {
       return this.$store.state.Client.list
     },
     suppliers() {
-      return this.$store.state.suppliers
+      return this.$store.state.Supplier.list
     },
     orderFieldInvalid() {
       return (!this.orderClientId || this.orderClientId === this.order.orderClientRef.id)
