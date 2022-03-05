@@ -1,4 +1,4 @@
-import {createDoc, fetchDocs, removeDoc, updateDoc} from '@/stores/utils';
+import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -26,18 +26,18 @@ export default {
           return found ? payload : item
         })
 
-        if (!found) items = items.push(payload)
+        if (!found) items = items.concat(payload)
       })
 
       state.list = items
     }
   },
   actions: {
-    create({commit}, payload) {
-      createDoc('clients', payload)
+    upsert({commit}, payload) {
+      upsertDoc('clients', payload)
         .then(docRef => commit('upsert', {...payload, id: docRef.id}))
-        .then(() => commit('showSnackbar', 'לקוח חדש נוסף!', {root: true}))
-        .catch(err => console.error('Something went wrong - Client.create', err))
+        .then(() => commit('showSnackbar', 'לקוח נשמר!', {root: true}))
+        .catch(err => console.error('Something went wrong - Client.upsertv', err))
     },
     remove({commit}, id) {
       return removeDoc('clients', id)
@@ -45,29 +45,13 @@ export default {
         .then(() => commit('showSnackbar', 'לקוח נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.remove', err))
     },
-    update({commit}, payload) {
-      return updateDoc('clients', payload)
-        .then(() => commit('upsert', payload))
-        .then(() => commit('showSnackbar', 'לקוח עודכן!', {root: true}))
-        .catch(err => console.error('Something went wrong - Client.update', err))
-    },
     fetch({commit, rootGetters}) {
-      // TODO extract to App.vue
-      if (!rootGetters.user?.isAdmin) return console.debug('not pulling clients since no admin role')
+      const id = rootGetters.user?.isAdmin ? null : rootGetters.user?.userClientRef?.id
 
-      return fetchDocs('clients')
-        .then(querySnapshot => commit('initialize', querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}))))
+      return fetchDocs('clients', {id})
+        .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Client.fetch', err))
-    },
-    getClient({commit, rootGetters}) {
-      if (rootGetters.user?.userClientRef) {
-        rootGetters.user.userClientRef.get().then(doc => {
-          commit('upsert', {...doc.data(), id: doc.id})
-        }).catch((error) => {
-          console.log('Something went wrong - getClient', error);
-        })
-      }
-    },
+    }
   },
   modules: {}
 }

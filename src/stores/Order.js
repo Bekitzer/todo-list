@@ -1,4 +1,4 @@
-import {createDoc, fetchDocs, removeDoc, updateDoc} from '@/stores/utils';
+import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -26,30 +26,24 @@ export default {
           return found ? payload : item
         })
 
-        if (!found) items = items.push(payload)
+        if (!found) items = items.concat(payload)
       })
 
       state.list = items
     }
   },
   actions: {
-    create({commit}, payload) {
-      createDoc('orders', payload)
+    upsert({commit}, payload) {
+      upsertDoc('orders', payload)
         .then(docRef => commit('upsert', {...payload, id: docRef.id}))
-        .then(() => commit('showSnackbar', 'הזמנה חדשה נוספה!', {root: true}))
-        .catch(err => console.error('Something went wrong - Order.create', err))
+        .then(() => commit('showSnackbar', 'הזמנה נשמרה!', {root: true}))
+        .catch(err => console.error('Something went wrong - Order.upsert', err))
     },
     remove({commit}, id) {
       return removeDoc('orders', id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'הזמנה נמחקה!', {root: true}))
         .catch(err => console.error('Something went wrong - Order.remove', err))
-    },
-    update({commit}, payload) {
-      return updateDoc('orders', payload)
-        .then(() => commit('upsert', payload))
-        .then(() => commit('showSnackbar', 'הזמנה עודכנה!', {root: true}))
-        .catch(err => console.error('Something went wrong - Order.update', err))
     },
     fetch({commit, rootGetters}) {
       // TODO extract to App.vue

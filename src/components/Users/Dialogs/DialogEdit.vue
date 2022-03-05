@@ -160,7 +160,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
             position: this.userPosition,
           }
           this.dialog = false
-          this.$store.dispatch('User/updateUser', payload)
+          this.$store.dispatch('User/upsert', payload)
           this.$router.push('/users')
         }
       }

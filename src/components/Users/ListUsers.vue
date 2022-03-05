@@ -81,9 +81,6 @@ export default {
             supplierLink: supplier.name
           }
         })
-      },
-      set(value) {
-        this.$store.dispatch('User/setUsers', value)
       }
     }
   },

@@ -174,7 +174,7 @@ export default {
           v = {
             text: v,
           }
-          this.$store.dispatch('ProductTag/create', v)
+          this.$store.dispatch('ProductTag/upsert', v)
         }
       })
     },
@@ -186,7 +186,7 @@ export default {
         this.editing = item
         this.editingIndex = index
       } else {
-        this.$store.dispatch('ProductTag/update', this.editing)
+        this.$store.dispatch('ProductTag/upsert', this.editing)
         this.editing = {}
         this.editingIndex = -1
 
@@ -214,7 +214,7 @@ export default {
           prices: this.supplierPrices
         }
 
-        this.$store.dispatch('Product/create', productFields)
+        this.$store.dispatch('Product/upsert', productFields)
         this.productName = ''
         this.productCategory = ''
         this.productTags = ''

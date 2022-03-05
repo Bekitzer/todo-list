@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyDKRDIueceXgFm4DCCo6Tt1_fTiG_RQ_Uc",
   authDomain: "just-print-ngs.firebaseapp.com",
   databaseURL: "https://just-print-ngs-default-rtdb.firebaseio.com",
@@ -14,6 +14,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 const db = firebase.firestore()
 
-db.settings({timestampsInSnapshots: true, merge: true})
+db.settings({merge: true})
 
 export default db

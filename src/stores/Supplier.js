@@ -1,4 +1,4 @@
-import {createDoc, fetchDocs, removeDoc, updateDoc} from '@/stores/utils';
+import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -26,18 +26,18 @@ export default {
           return found ? payload : item
         })
 
-        if (!found) items = items.push(payload)
+        if (!found) items = items.concat(payload)
       })
 
       state.list = items
     }
   },
   actions: {
-    create({commit}, payload) {
-      createDoc('suppliers', payload)
+    upsert({commit}, payload) {
+      upsertDoc('suppliers', payload)
         .then(docRef => commit('upsert', {...payload, id: docRef.id}))
-        .then(() => commit('showSnackbar', 'ספק חדש נוסף!', {root: true}))
-        .catch(err => console.error('Something went wrong - Supplier.create', err))
+        .then(() => commit('showSnackbar', 'ספק נשמר!', {root: true}))
+        .catch(err => console.error('Something went wrong - Supplier.upsert', err))
     },
     remove({commit}, id) {
       return removeDoc('suppliers', id)
@@ -45,29 +45,13 @@ export default {
         .then(() => commit('showSnackbar', 'ספק נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Supplier.remove', err))
     },
-    update({commit}, payload) {
-      return updateDoc('suppliers', payload)
-        .then(() => commit('upsert', payload))
-        .then(() => commit('showSnackbar', 'ספק עודכן!', {root: true}))
-        .catch(err => console.error('Something went wrong - Supplier.update', err))
-    },
     fetch({commit, rootGetters}) {
-      // TODO extract to App.vue
-      if (!rootGetters.user?.isAdmin) return console.debug('not pulling suppliers since no admin role')
+      const id = rootGetters.user?.isAdmin ? null : rootGetters.user?.userSupplierRef?.id
 
-      return fetchDocs('suppliers')
-        .then(querySnapshot => commit('initialize', querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}))))
+      return fetchDocs('suppliers', {id})
+        .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Supplier.fetch', err))
-    },
-    getSupplier({commit, rootGetters}) {
-      if (rootGetters.user?.userSupplierRef) {
-        rootGetters.user.userSupplierRef.get().then(doc => {
-          commit('upsert', {...doc.data(), id: doc.id})
-        }).catch((error) => {
-          console.log('Something went wrong - getSupplier', error);
-        })
-      }
-    },
+    }
   },
   modules: {}
 }

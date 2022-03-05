@@ -396,7 +396,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
             supplierUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           }
           this.dialog = false
-          this.$store.dispatch('Supplier/update', payload)
+          this.$store.dispatch('Supplier/upsert', payload)
           this.$router.push('/suppliers')
         }
       }

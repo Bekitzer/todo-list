@@ -1,4 +1,4 @@
-import {createDoc, fetchDocs, removeDoc, updateDoc} from '@/stores/utils';
+import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -26,30 +26,24 @@ export default {
           return found ? payload : item
         })
 
-        if (!found) items = items.push(payload)
+        if (!found) items = items.concat(payload)
       })
 
       state.list = items
     }
   },
   actions: {
-    create({commit}, payload) {
-      createDoc('products', payload)
+    upsert({commit}, payload) {
+      upsertDoc('products', payload)
         .then(docRef => commit('upsert', {...payload, id: docRef.id}))
-        .then(() => commit('showSnackbar', 'מוצר חדש נוסף!', {root: true}))
-        .catch(err => console.error('Something went wrong - Product.create', err))
+        .then(() => commit('showSnackbar', 'מוצר נשמר!', {root: true}))
+        .catch(err => console.error('Something went wrong - Product.upsert', err))
     },
     remove({commit}, id) {
       return removeDoc('products', id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'מוצר נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.remove', err))
-    },
-    update({commit}, payload) {
-      return updateDoc('products', payload)
-        .then(() => commit('upsert', payload))
-        .then(() => commit('showSnackbar', 'מוצר עודכן!', {root: true}))
-        .catch(err => console.error('Something went wrong - Product.update', err))
     },
     fetch({commit, rootGetters}) {
       // TODO extract to App.vue
@@ -73,7 +67,7 @@ export default {
       updateDoc(doc(db, "products", payload.id), {attributes: payload.attributes})
         .then(() => {
           commit('upsert', payload.attributes)
-          commit('showSnackbar', 'מאפיינים עודכנו!', { root: true })
+          commit('showSnackbar', 'מאפיינים נשמרו!', { root: true })
         })
         .catch(error => {
           console.error('Something went wrong - updateAttributes', error);

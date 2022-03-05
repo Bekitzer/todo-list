@@ -14,20 +14,19 @@
 <script>
 import db from '@/firebase'
 import firebase from 'firebase/compat/app'
+
 export default {
   data: () => ({
     isLoggedIn: false
   }),
   mounted() {
-    this.$store.dispatch('User/getUser').then(() => {
+    this.$store.dispatch('User/fetchCurrent').then(() => {
       this.$store.dispatch('ProductTag/fetch')
-      this.$store.dispatch('Supplier/getSupplier')
       this.$store.dispatch('Supplier/fetch')
-      this.$store.dispatch('Client/getClient')
       this.$store.dispatch('Client/fetch')
       this.$store.dispatch('Order/fetch')
       this.$store.dispatch('Product/fetch')
-      this.$store.dispatch('User/getUsers')
+      this.$store.dispatch('User/fetch')
     })
 
   },

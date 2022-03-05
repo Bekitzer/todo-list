@@ -147,7 +147,7 @@ export default {
         password: this.userData.password
       }
 
-      this.$store.dispatch('User/signUserUp', userFields)
+      this.$store.dispatch('User/signUp', userFields)
     },
   },
   computed: {
