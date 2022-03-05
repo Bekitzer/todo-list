@@ -173,31 +173,31 @@
           sort-desc
           no-data-text="אין הזמנות פעילות"
         >
-          <template v-slot:item.clientLink="{ item }">
+          <template v-slot:[`item.clientLink`]="{ item }">
               {{ item.clientLink }}
           </template>
-          <template v-slot:item.sell="{ item }">
+          <template v-slot:[`item.sell`]="{ item }">
               {{ item.sellPrice | formatNumber }}
           </template>
-          <template v-slot:item.buy="{ item }">
+          <template v-slot:[`item.buy`]="{ item }">
               {{ item.buyPrice | formatNumber }}
           </template>
-          <template v-slot:item.margins="{ item }">
+          <template v-slot:[`item.margins`]="{ item }">
               {{ item.margin | formatNumber }}
           </template>
-          <template v-slot:item.statusType="props">
+          <template v-slot:[`item.statusType`]="props">
             <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
               mdi-circle-small
             </v-icon>
             {{ props.item.statusType }}
           </template>
-          <template v-slot:item.created="{ item }">
-            {{ item.orderCreationDate | formatDate }}
+          <template v-slot:[`item.created`]="{ item }">
+            {{ item.createdAt | formatDate }}
           </template>
-          <template v-slot:item.delivery="{ item }">
+          <template v-slot:[`item.delivery`]="{ item }">
             {{ item.deliveryDate | formatDate }}
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <v-tooltip
               top
               content-class="normal tooltip-top"

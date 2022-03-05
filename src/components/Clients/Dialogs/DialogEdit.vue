@@ -390,8 +390,7 @@ export default {
           lead: this.clientLead,
           newsletter: this.clientNewsletter,
           usersIds: this.connectedUsersIds,
-          removeUsersIds: this.removeUsersIds,
-          clientUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+          removeUsersIds: this.removeUsersIds
         }
         this.dialog = false
         this.$store.dispatch('Client/upsert', payload)

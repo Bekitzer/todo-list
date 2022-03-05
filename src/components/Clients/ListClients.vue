@@ -12,12 +12,13 @@
     :items-per-page="-1"
     hide-default-footer
   >
-    <template v-slot:item.emailLink="{ item }">
+    <template v-slot:[`item.emailLink`]="{ item }">
       <div @click.stop>
         <a :href="'mailto:' + item.email" style="text-decoration:none;">{{item.email}}</a>
       </div>
     </template>
-    <template v-slot:item.phoneLink="{ item }">
+    <template v-slot:[`item.phoneLink`]="{ item }">
+
       <div @click.stop>
         <a :href="'tel:' + item.phone" style="text-decoration:none;">{{item.phone}}</a>
       </div>

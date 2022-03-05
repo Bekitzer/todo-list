@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import db from '@/firebase'
-import {doc, deleteDoc, updateDoc, collection, setDoc, addDoc, getDocs} from "firebase/firestore"
-import firebase from 'firebase/compat/app'
 import Client from "@/stores/Client.js";
 import Supplier from "@/stores/Supplier.js";
 import Order from "@/stores/Order.js";

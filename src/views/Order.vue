@@ -95,12 +95,12 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">ת.רישום</p> {{ order.orderCreationDate | formatDate }}
+              <p class="spc-titles">ת.רישום</p> {{ order.createdAt | formatDate }}
             </div>
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">ת.עידכון</p> {{ order.orderUpdated | formatDate }}
+              <p class="spc-titles">ת.עידכון</p> {{ order.updatedAt | formatDate }}
             </div>
           </v-col>
         </v-row>

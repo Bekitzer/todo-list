@@ -242,8 +242,7 @@ export default {
           sellPrice: this.orderSellPrice,
           buyPrice: this.orderBuyPrice,
           margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-          deliveryType: this.orderDeliveryType,
-          orderUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+          deliveryType: this.orderDeliveryType
         }
         this.dialog = false
         this.$store.dispatch('Order/upsert', payload)

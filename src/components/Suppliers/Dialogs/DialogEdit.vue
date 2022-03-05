@@ -392,8 +392,7 @@ import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
             newsletter: this.supplierNewsletter,
             scope: this.supplierScope,
             usersIds: this.connectedUsersIds,
-            removeUsersIds: this.removeUsersIds,
-            supplierUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+            removeUsersIds: this.removeUsersIds
           }
           this.dialog = false
           this.$store.dispatch('Supplier/upsert', payload)

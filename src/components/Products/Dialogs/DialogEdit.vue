@@ -256,7 +256,7 @@ export default {
           tags: this.productTags,
           productInfo: this.productInfo,
           prices: this.supplierPrices,
-          productUpdated: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
+          updatedAt: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
         }
         this.dialog = false
         this.$store.dispatch('Product/upsert', payload)

@@ -36,6 +36,20 @@ export const upsertDoc = (name, {id, ...item}, {increment, timestamp} = {timesta
     else item.createdAt = serverTimestamp()
   }
 
+  // clientCreationDate - clientUpdated
+  // supplierCreationDate - supplierUpdated
+  // orderCreationDate - orderUpdated
+  // productCreationDate - productUpdated
+
+  // if(doc.data().id === "zeBBSwcFbL9JxPRKcJB8") {
+    // const sup = doc.data()
+    // const {clientName, ...rest} = sup
+    // console.log(doc.ref.set(rest))
+    // if(clientName) {
+    //   console.log(doc.ref.set({orderClientRef: db.doc(`clients/${clientName}`), ...rest}))
+    // }
+    // }
+
   if (id) {
     return setDoc(doc(db, name, id), item)
   }

@@ -20,7 +20,7 @@
           {{ item.orderWork }}
         </td>
       </template>
-      <template v-slot:item.actions="{ item }">
+      <template v-slot:[`item.actions`]="{ item }">
         <v-tooltip
           top
           content-class="normal tooltip-top"
@@ -72,32 +72,32 @@
           <span>ערוך הזמנה</span>
         </v-tooltip>
       </template>
-      <template v-slot:item.clientLink="{ item }">
+      <template v-slot:[`item.clientLink`]="{ item }">
         <v-btn @click.stop="clickClient(item)" dense plain class="ngs-button">
           {{ item.clientLink }}
         </v-btn>
       </template>
-      <template v-slot:item.supplierLink="{ item }">
+      <template v-slot:[`item.supplierLink`]="{ item }">
         <v-btn @click.stop="clickSupplier(item)" dense plain class="ngs-button">
           {{ item.supplierLink }}
         </v-btn>
       </template>
-      <template v-slot:item.created="{ item }">
-        {{ item.orderCreationDate | formatDate }}
+      <template v-slot:[`item.created`]="{ item }">
+        {{ item.createdAt | formatDate }}
       </template>
-      <template v-slot:item.sell="{ item }">
+      <template v-slot:[`item.sell`]="{ item }">
           {{ item.sellPrice | formatNumber }}
       </template>
-      <template v-slot:item.buy="{ item }">
+      <template v-slot:[`item.buy`]="{ item }">
           {{ item.buyPrice | formatNumber }}
       </template>
-      <template v-slot:item.margins="{ item }">
+      <template v-slot:[`item.margins`]="{ item }">
           {{ item.margin | formatNumber }}
       </template>
-      <template v-slot:item.delivery="{ item }">
+      <template v-slot:[`item.delivery`]="{ item }">
           {{ item.deliveryDate | formatDate }}
       </template>
-      <template v-slot:item.statusType="props">
+      <template v-slot:[`item.statusType`]="props">
         <v-edit-dialog
           save-text="שמור"
           cancel-text="בטל"
@@ -214,8 +214,7 @@ export default {
     save (order) {
       let payload = {
         id: order.item.id,
-        statusType: order.value,
-        orderUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+        statusType: order.value
       }
       this.$store.dispatch('Order/upsert', payload)
     },
@@ -362,7 +361,7 @@ export default {
             supplierLink: supplier.name
           }
         }).filter(order => {
-          const isValidOrderDate = this.isDateInRange(this.orderDate(order.orderCreationDate), this.dateEnumToRange(this.orderDateFilter))
+          const isValidOrderDate = this.isDateInRange(this.orderDate(order.createdAt), this.dateEnumToRange(this.orderDateFilter))
           const isValidDeliveryDate = this.isDateInRange(this.deliveryDate(order.deliveryDate), this.dateEnumToRange(this.deliveryDateFilter))
 
           return (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק') && isValidOrderDate && isValidDeliveryDate
