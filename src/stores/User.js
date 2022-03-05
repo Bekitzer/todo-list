@@ -1,8 +1,4 @@
 import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
-
-// import firebase from 'firebase/compat';
-// import {collection, deleteDoc, doc, setDoc, updateDoc} from 'firebase/firestore';
-import db from '@/firebase'
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, getAuth} from 'firebase/auth'
 
 const COLLECTION_NAME = 'users'

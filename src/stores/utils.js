@@ -11,7 +11,7 @@ import {
   runTransaction,
   serverTimestamp
 } from 'firebase/firestore';
-import db from '@/firebase';
+import {db} from '@/firebase';
 
 const incrementDoc = (transaction, name) => {
   const incrementDocRef = doc(db, '--stats--', name)
@@ -30,25 +30,42 @@ const incrementDoc = (transaction, name) => {
 
 export {where}
 
+function dbMigration() {
+  const ifYouKnowWhatYouAreDoing = false
+  if (!ifYouKnowWhatYouAreDoing) throw 'Stop right now you stupid f***'
+
+  const collectionName = 'XXX'
+  return getDocs(collection(db, collectionName))
+    .then(snapshot => snapshot.docs.forEach(item => {
+
+        if (item.id !== "xzz") return
+
+        const {firstFieldToRemove, firstFieldToRename, secondFieldToRename, ...rest} = item.data()
+
+        if (firstFieldToRename) {
+          rest.firstRenamedField = firstFieldToRename
+        }
+
+        if (secondFieldToRename) {
+          rest.secondRenamedField = secondFieldToRename
+        }
+
+        // console.log(item.id)
+        // console.log(rest)
+
+        // return setDoc(doc(db, collectionName, item.id), rest)
+        //   .catch(err => console.error(item.id, err))
+      })
+    )
+}
+
+// dbMigration()
+
 export const upsertDoc = (name, {id, ...item}, {increment, timestamp} = {timestamp: true}) => {
   if (timestamp) {
     if (id) item.updatedAt = serverTimestamp()
     else item.createdAt = serverTimestamp()
   }
-
-  // clientCreationDate - clientUpdated
-  // supplierCreationDate - supplierUpdated
-  // orderCreationDate - orderUpdated
-  // productCreationDate - productUpdated
-
-  // if(doc.data().id === "zeBBSwcFbL9JxPRKcJB8") {
-    // const sup = doc.data()
-    // const {clientName, ...rest} = sup
-    // console.log(doc.ref.set(rest))
-    // if(clientName) {
-    //   console.log(doc.ref.set({orderClientRef: db.doc(`clients/${clientName}`), ...rest}))
-    // }
-    // }
 
   if (id) {
     return setDoc(doc(db, name, id), item)

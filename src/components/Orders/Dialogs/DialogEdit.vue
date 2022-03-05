@@ -162,10 +162,8 @@
 </template>
 
 <script>
-import {format, parseISO, parse} from 'date-fns'
-import {he} from 'date-fns/locale'
-import firebase from 'firebase/compat/app'
-import db from '@/firebase';
+import {parseISO} from 'date-fns'
+import {db} from '@/firebase';
 
 export default {
   name: 'DialogEdit',

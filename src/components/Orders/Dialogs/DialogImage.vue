@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
+import {storage} from '@/firebase';
+import {ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
+
 import { v4 as uuidv4 } from 'uuid';
-import 'firebase/compat/firestore'
-import 'firebase/compat/storage'
-import { setTimeout } from 'timers'
+
 export default {
   name:'DialogImage',
   props: ['order', 'value'],
@@ -32,29 +32,25 @@ export default {
   },
   methods:{
     handleUpload(fileData) {
-      const storageRef = firebase.storage().ref(`public/${uuidv4()}_${fileData.name}`).put(fileData);
+      const storageRef = ref(storage, `public/${uuidv4()}_${fileData.name}`)
 
-      storageRef.on(
-        firebase.storage.TaskEvent.STATE_CHANGED, {
-          next: null,
-          error: err => console.error(err),
-          complete: () => {
-            storageRef.snapshot.ref.getDownloadURL().then(url => {
-              this.order.file = url
-              this.$store.dispatch('Order/upsert', this.order)
-            })
-          }
-        }
-      )
-      // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+      uploadBytes(storageRef, fileData)
+          .then((snapshot) => getDownloadURL(snapshot.ref))
+          .then((url) => {
+            this.order.file = url
+            this.$store.dispatch('Order/upsert', this.order)
+          })
+          .catch(err => console.error(err))
     },
     handleDelete() {
-      firebase.storage().refFromURL(this.order.file).delete()
-        .then(() => {
-          this.order.file = null
-          this.$store.dispatch('Order/upsert', this.order)
-        })
-        .catch(error => console.error(error))
+      const storageRef = ref(storage, this.order.file);
+
+      deleteObject(storageRef)
+          .then(() => {
+            this.order.file = null
+            this.$store.dispatch('Order/upsert', this.order)
+          })
+          .catch(error => console.error(error))
     }
   },
   components: {

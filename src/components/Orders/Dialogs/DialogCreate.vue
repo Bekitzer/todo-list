@@ -147,11 +147,9 @@
 </template>
 
 <script>
-import db from '@/firebase'
-import { format, parseISO } from 'date-fns'
-import { he } from 'date-fns/locale'
+import {db} from '@/firebase'
+import { parseISO } from 'date-fns'
 import { getAuth } from 'firebase/auth'
-import firebase from 'firebase/compat/app'
 import emailjs from '@emailjs/browser';
   export default {
     name: 'DialogCreate',

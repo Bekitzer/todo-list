@@ -3,19 +3,19 @@
     <nav-appbar :pname="'הזמנות - ' + this.order.number">
       <template v-slot:add-btn>
         <v-tooltip
-          left
-          content-class="normal tooltip-left"
+            left
+            content-class="normal tooltip-left"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              fab
-              small
-              elevation="0"
-              filled
-              v-bind="attrs"
-              v-on="on"
-              class="spc-create"
-              @click="dialogs.edit = true"
+                fab
+                small
+                elevation="0"
+                filled
+                v-bind="attrs"
+                v-on="on"
+                class="spc-create"
+                @click="dialogs.edit = true"
             >
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
@@ -110,36 +110,34 @@
         <v-hover v-slot="{ hover }">
           <div>
             <v-fade-transition>
-                <v-overlay v-if="hover" color="#000" absolute>
-                  <v-btn @click="openFile(order)">הוספה/שינוי תמונה</v-btn>
-                </v-overlay>
-              </v-fade-transition>
+              <v-overlay v-if="hover" color="#000" absolute>
+                <v-btn @click="openFile(order)">הוספה/שינוי תמונה</v-btn>
+              </v-overlay>
+            </v-fade-transition>
             <v-img
-              :src="order.file"
-              lazy-src="/images/gravatar.jpg"
+                :src="order.file"
+                lazy-src="/images/gravatar.jpg"
             ></v-img>
           </div>
         </v-hover>
       </v-col>
     </v-row>
     <dialog-edit
-      v-if="dialogs.edit"
-      v-model="dialogs.edit"
-      @close="dialogs.edit = false"
-      :order = 'order'
+        v-if="dialogs.edit"
+        v-model="dialogs.edit"
+        @close="dialogs.edit = false"
+        :order='order'
     />
     <dialog-image
-      v-if="dialogs.image"
-      v-model="dialogs.image"
-      @close="dialogs.image = false"
-      :order = 'order'
+        v-if="dialogs.image"
+        v-model="dialogs.image"
+        @close="dialogs.image = false"
+        :order='order'
     />
   </div>
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
-import { getAuth } from "firebase/auth";
 export default {
   name: 'Order',
   data: () => ({
@@ -152,7 +150,11 @@ export default {
   }),
   computed: {
     order() {
-      return this.$store.state.Order.list.find(order => order.id === this.$route.params.id) || {number: '', orderSupplierRef: {}, orderClientRef: {}}
+      return this.$store.state.Order.list.find(order => order.id === this.$route.params.id) || {
+        number: '',
+        orderSupplierRef: {},
+        orderClientRef: {}
+      }
     },
     clientsMap() {
       const clientsMap = {}
@@ -173,9 +175,9 @@ export default {
     }
   },
   components: {
-      'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,
-      'nav-appbar' : require('@/components/Global/AppBar.vue').default,
-      'dialog-image': require('@/components/Orders/Dialogs/DialogImage.vue').default,
+    'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,
+    'nav-appbar': require('@/components/Global/AppBar.vue').default,
+    'dialog-image': require('@/components/Orders/Dialogs/DialogImage.vue').default,
   }
 }
 </script>

@@ -12,8 +12,8 @@
 
 
 <script>
-import db from '@/firebase'
-import firebase from 'firebase/compat/app'
+import {getAuth} from 'firebase/auth'
+
 
 export default {
   data: () => ({
@@ -38,7 +38,7 @@ export default {
   },
   created() {
     this.$vuetify.rtl = true
-    if(firebase.auth().currentUser){
+    if(getAuth().currentUser){
       this.isLoggedIn = true
     }
   }

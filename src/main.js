@@ -4,14 +4,12 @@ import router from './router'
 import store from './stores'
 import vuetify from './plugins/vuetify'
 import VueMeta from 'vue-meta'
-import firebase from 'firebase/compat/app'
-import 'firebase/compat/auth'
-import 'firebase/compat/firestore'
 import { format, parse } from 'date-fns'
 import { he } from 'date-fns/locale'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 import './vee-validate'
+import {onAuthStateChanged, getAuth} from 'firebase/auth'
 
 Vue.config.productionTip = false
 Vue.use(VueMeta, {
@@ -35,7 +33,7 @@ Vue.use(VuetifyGoogleAutocomplete, {
 
 
 
-var numeral = require("numeral");
+const numeral = require("numeral");
 Vue.filter("formatNumber", function (value) {
   return numeral(value).format("0,0")
 })
@@ -53,7 +51,7 @@ Vue.filter("formatDateReverse", function (value) {
 })
 
 let app = '';
-firebase.auth().onAuthStateChanged(user => {
+onAuthStateChanged(getAuth(), user => {
   if(!app){
     app = new Vue({
       router,
@@ -62,4 +60,7 @@ firebase.auth().onAuthStateChanged(user => {
       render: h => h(App),
     }).$mount('#app')
   }
+}, err => {
+  console.error('Error while listen to onAuthStateChanged', err)
+  throw err
 })

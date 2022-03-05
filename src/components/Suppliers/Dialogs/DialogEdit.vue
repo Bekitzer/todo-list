@@ -2,40 +2,40 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="700">
       <v-card elevation="8" shaped>
-          <v-row class="pt-5 pl-5 pr-5">
-            <v-col cols="12" style="padding-bottom:0">
-              <h3 style="padding-bottom:0">עריכה ספק</h3>
-              <h4>פרטי ספק</h4>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+        <v-row class="pt-5 pl-5 pr-5">
+          <v-col cols="12" style="padding-bottom:0">
+            <h3 style="padding-bottom:0">עריכה ספק</h3>
+            <h4>פרטי ספק</h4>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierName"
                 label="שם ספק"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierCompanyName"
                 label="שם חברה"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierIdNumber"
                 label="ח.פ. / ע.מ."
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <vuetify-google-autocomplete
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <vuetify-google-autocomplete
                 ref="address"
                 id="map"
                 filled
@@ -45,158 +45,158 @@
                 label="כתובת"
                 dense
                 hide-details
-              >
-              </vuetify-google-autocomplete>
-            </v-col>
-            <v-col cols="12">
-              <v-textarea
+            >
+            </vuetify-google-autocomplete>
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
                 v-model="supplierAddressAdditional"
                 label="הוראות הגעה"
                 filled
                 dense
                 hide-details
                 rows="1"
-              ></v-textarea>
-            </v-col>
-          </v-row>
-          <v-row class="pt-5 pl-5 pr-5">
-            <v-col cols="12" style="padding-bottom:0">
-              <h4>פרטי התקשרות</h4>
-            </v-col>
-            <!-- <v-col cols="12" md="4" sm="12">
-              <v-text-field
-                v-model="supplierContactName"
-                label="איש קשר ראשי"
-                filled
-                dense
-                hide-details
-              />
-            </v-col> -->
-            <v-col cols="12" md="6">
-              <v-text-field
+            ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row class="pt-5 pl-5 pr-5">
+          <v-col cols="12" style="padding-bottom:0">
+            <h4>פרטי התקשרות</h4>
+          </v-col>
+          <!-- <v-col cols="12" md="4" sm="12">
+            <v-text-field
+              v-model="supplierContactName"
+              label="איש קשר ראשי"
+              filled
+              dense
+              hide-details
+            />
+          </v-col> -->
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierPhone"
                 label="טלפון משרד"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierEmail"
                 label="מייל משרד"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierWhatsapp"
                 label="וואטסאפ משרד"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierWebsite"
                 label="אתר אינטרנט"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierFacebook"
                 label="פייסבוק"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierInstagram"
                 label="אינסטגרם"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-          </v-row>
-          <v-row class="pt-5 pl-5 pr-5">
-            <v-col cols="12" style="padding-bottom:0">
-              <h4>הגדרות תשלום</h4>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-select
+            />
+          </v-col>
+        </v-row>
+        <v-row class="pt-5 pl-5 pr-5">
+          <v-col cols="12" style="padding-bottom:0">
+            <h4>הגדרות תשלום</h4>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
                 v-model="supplierPaymentTerms"
                 :items="supplierPaymentTermsList"
                 label="תנאי תשלום"
                 filled
                 dense
                 hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-select
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
                 v-model="supplierPaymentMethod"
                 :items="supplierPaymentMethodList"
                 label="אמצעי תשלום"
                 filled
                 dense
                 hide-details
-              ></v-select>
-            </v-col>
-          </v-row>
-          <v-row class="pt-5 pl-5 pr-5">
-            <v-col cols="12" style="padding-bottom:0">
-              <h4>הגדרות ספק</h4>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-select
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-row class="pt-5 pl-5 pr-5">
+          <v-col cols="12" style="padding-bottom:0">
+            <h4>הגדרות ספק</h4>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
                 v-model="supplierDeliveryType"
                 :items="supplierDeliveryTypeList"
                 label="אופן אספקה"
                 filled
                 dense
                 hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-text-field
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-text-field
                 v-model="supplierHours"
                 label="שעות פעילות"
                 filled
                 dense
                 hide-details
-              />
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-select
+            />
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
                 v-model="supplierStatus"
                 :items="supplierStatusList"
                 label="סטטוס ספק"
                 filled
                 dense
                 hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-select
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select
                 v-model="supplierNewsletter"
                 :items="supplierNewsletterList"
                 label="דיוור"
                 filled
                 dense
                 hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="6">
-              <v-autocomplete
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-autocomplete
                 v-model="connectedUsersIds"
                 :items="users"
                 filled
@@ -207,223 +207,219 @@
                 item-text="username"
                 item-value="id"
                 multiple
-              >
-                <template v-slot:selection="data">
-                  <v-chip
+            >
+              <template v-slot:selection="data">
+                <v-chip
                     v-bind="data.attrs"
                     :input-value="data.selected"
                     close
                     @click="data.select"
                     @click:close="remove(data.item)"
-                  >
-                    <v-avatar left>
-                      <v-img :src="data.item.avatar" lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
-                    </v-avatar>
-                    {{ data.item.username }}
-                  </v-chip>
+                >
+                  <v-avatar left>
+                    <v-img :src="data.item.avatar"
+                           lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                  </v-avatar>
+                  {{ data.item.username }}
+                </v-chip>
+              </template>
+              <template v-slot:item="data">
+                <template v-if="(typeof data.item !== 'object')">
+                  <v-list-item-content v-text="data.item"></v-list-item-content>
                 </template>
-                <template v-slot:item="data">
-                  <template v-if="(typeof data.item !== 'object')">
-                    <v-list-item-content v-text="data.item"></v-list-item-content>
-                  </template>
-                  <template v-else>
-                    <v-list-item-avatar>
-                      <v-img
-                      :src="data.item.avatar"
-                      lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
-                      <v-list-item-subtitle v-html="data.item.username"></v-list-item-subtitle>
-                    </v-list-item-content>
-                  </template>
+                <template v-else>
+                  <v-list-item-avatar>
+                    <v-img
+                        :src="data.item.avatar"
+                        lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
+                    <v-list-item-subtitle v-html="data.item.username"></v-list-item-subtitle>
+                  </v-list-item-content>
                 </template>
-              </v-autocomplete>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-select
+              </template>
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-select
                 v-model="supplierScope"
                 :items="supplierScopeList"
                 label="תחום"
                 filled
                 dense
                 hide-details
-              ></v-select>
-            </v-col>
-            <v-col cols="12">
-              <v-card-actions
+            ></v-select>
+          </v-col>
+          <v-col cols="12">
+            <v-card-actions
                 style="padding:0"
-              >
-                <v-btn
+            >
+              <v-btn
                   icon
                   color="red"
                   class="black--text"
                   @click="dialogs.delete = true"
-                >
-                  <v-icon>
-                    mdi-trash-can-outline
-                  </v-icon>
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn
+              >
+                <v-icon>
+                  mdi-trash-can-outline
+                </v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
                   outlined
                   large
                   color="red"
                   @click="dialog = false"
-                >
-                  ביטול
-                </v-btn>
-                <v-btn
+              >
+                ביטול
+              </v-btn>
+              <v-btn
                   outlined
                   large
                   color="green"
                   @click="saveSupplier"
                   :disabled="supplierFieldInvalid"
-                >
-                  שמור
-                </v-btn>
-              </v-card-actions>
-            </v-col>
-          </v-row>
+              >
+                שמור
+              </v-btn>
+            </v-card-actions>
+          </v-col>
+        </v-row>
       </v-card>
     </v-dialog>
     <dialog-delete
-      v-if="dialogs.delete"
-      v-model="dialogs.delete"
-      @close="dialogs.delete = false"
-      :supplier = 'supplier'
+        v-if="dialogs.delete"
+        v-model="dialogs.delete"
+        @close="dialogs.delete = false"
+        :supplier='supplier'
     />
   </v-row>
 </template>
 
 <script>
-import  firebase from 'firebase/compat/app'
-import 'firebase/compat/firestore'
-import 'firebase/compat/storage'
-import database from '@/firebase'
-import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
-  export default {
-    props: ['supplier', 'value'],
-    data: () => ({
-      address: '',
-      autoUpdate: true,
-      isUpdating: false,
-      dialogs: {
-        delete: false
-      },
-      supplierName: '',
-      supplierCompanyName:'',
-      supplierContactName: '',
-      supplierPhone: '',
-      supplierEmail: '',
-      supplierIdNumber: '',
-      supplierWebsite: '',
-      supplierFacebook: '',
-      supplierInstagram: '',
-      supplierPaymentTerms: '',
-      supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
-      supplierPaymentMethod: '',
-      supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-      supplierAddress: '',
-      supplierAddressAdditional: '',
-      supplierWhatsapp: '',
-      supplierHours: '',
-      supplierDeliveryType: '',
-      supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
-      supplierStatus: '',
-      supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
-      supplierNewsletter: '',
-      supplierNewsletterList: ["כן","לא"],
-      supplierScope: '',
-      supplierScopeList: ["2","1"],
-      connectedUsersIds: [],
-      removeUsersIds: []
-    }),
-    computed: {
-      supplierFieldInvalid() {
-        return
-        !this.supplierName || this.supplierName === this.supplier.name
-        !this.supplierStatus || this.supplierStatus === this.supplier.status
-      },
-      users() {
-        return this.$store.state.User.list
-      },
-      dialog: {
-        get() {
-          return this.value
-        },
-        set() {
-          this.$emit('close', false)
-        }
-      },
+export default {
+  props: ['supplier', 'value'],
+  data: () => ({
+    address: '',
+    autoUpdate: true,
+    isUpdating: false,
+    dialogs: {
+      delete: false
     },
-    methods: {
-      getAddressData: function (addressData, placeResultData, id) {
-        this.address = addressData;
+    supplierName: '',
+    supplierCompanyName: '',
+    supplierContactName: '',
+    supplierPhone: '',
+    supplierEmail: '',
+    supplierIdNumber: '',
+    supplierWebsite: '',
+    supplierFacebook: '',
+    supplierInstagram: '',
+    supplierPaymentTerms: '',
+    supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+    supplierPaymentMethod: '',
+    supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+    supplierAddress: '',
+    supplierAddressAdditional: '',
+    supplierWhatsapp: '',
+    supplierHours: '',
+    supplierDeliveryType: '',
+    supplierDeliveryTypeList: ["איסוף עצמי", "מגיע למשרד"],
+    supplierStatus: '',
+    supplierStatusList: ["פעיל", "לא פעיל", "מזדמן", "שת״פ"],
+    supplierNewsletter: '',
+    supplierNewsletterList: ["כן", "לא"],
+    supplierScope: '',
+    supplierScopeList: ["2", "1"],
+    connectedUsersIds: [],
+    removeUsersIds: []
+  }),
+  computed: {
+    supplierFieldInvalid() {
+      return
+      !this.supplierName || this.supplierName === this.supplier.name
+      !this.supplierStatus || this.supplierStatus === this.supplier.status
+    },
+    users() {
+      return this.$store.state.User.list
+    },
+    dialog: {
+      get() {
+        return this.value
       },
-      remove (item) {
-        const index = this.connectedUsersIds.indexOf(item.id)
-        if (index >= 0) {
-          this.removeUsersIds.push(this.connectedUsersIds[index])
-          this.connectedUsersIds.splice(index, 1)
-        }
-      },
-      saveSupplier() {
-        if(!this.supplierFieldInvalid){
-          let payload = {
-            id: this.supplier.id,
-            name: this.supplierName,
-            companyName: this.supplierCompanyName,
-            contactName: this.supplierContactName,
-            phone: this.supplierPhone,
-            email: this.supplierEmail,
-            numberId: this.supplierIdNumber,
-            website: this.supplierWebsite,
-            facebook: this.supplierFacebook,
-            instagram: this.supplierInstagram,
-            paymentTerms: this.supplierPaymentTerms,
-            paymentMethod: this.supplierPaymentMethod,
-            address: this.supplierAddress,
-            addressAditional: this.supplierAddressAdditional,
-            whatsapp: this.supplierWhatsapp,
-            workingHours: this.supplierHours,
-            deliveryType: this.supplierDeliveryType,
-            status: this.supplierStatus,
-            newsletter: this.supplierNewsletter,
-            scope: this.supplierScope,
-            usersIds: this.connectedUsersIds,
-            removeUsersIds: this.removeUsersIds
-          }
-          this.dialog = false
-          this.$store.dispatch('Supplier/upsert', payload)
-          this.$router.push('/suppliers')
-        }
+      set() {
+        this.$emit('close', false)
       }
     },
-    mounted() {
-      this.supplierName = this.supplier.name
-      this.supplierCompanyName = this.supplier.companyName
-      this.supplierContactName = this.supplier.contactName
-      this.supplierPhone = this.supplier.phone
-      this.supplierEmail = this.supplier.email
-      this.supplierIdNumber = this.supplier.numberId
-      this.supplierWebsite = this.supplier.website
-      this.supplierFacebook = this.supplier.facebook
-      this.supplierInstagram = this.supplier.instagram
-      this.supplierPaymentTerms = this.supplier.paymentTerms
-      this.supplierPaymentMethod = this.supplier.paymentMethod
-      this.supplierAddress = this.supplier.address
-      this.supplierAddressAdditional = this.supplier.addressAditional
-      this.supplierWhatsapp = this.supplier.whatsapp
-      this.supplierHours = this.supplier.workingHours
-      this.supplierDeliveryType = this.supplier.deliveryType
-      this.supplierStatus = this.supplier.status
-      this.supplierNewsletter = this.supplier.newsletter
-      this.supplierScope = this.supplier.scope
-      this.connectedUsersIds = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id).map(user => user.id)
+  },
+  methods: {
+    getAddressData: function (addressData, placeResultData, id) {
+      this.address = addressData;
     },
-    components: {
-      'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default
+    remove(item) {
+      const index = this.connectedUsersIds.indexOf(item.id)
+      if (index >= 0) {
+        this.removeUsersIds.push(this.connectedUsersIds[index])
+        this.connectedUsersIds.splice(index, 1)
+      }
+    },
+    saveSupplier() {
+      if (!this.supplierFieldInvalid) {
+        let payload = {
+          id: this.supplier.id,
+          name: this.supplierName,
+          companyName: this.supplierCompanyName,
+          contactName: this.supplierContactName,
+          phone: this.supplierPhone,
+          email: this.supplierEmail,
+          numberId: this.supplierIdNumber,
+          website: this.supplierWebsite,
+          facebook: this.supplierFacebook,
+          instagram: this.supplierInstagram,
+          paymentTerms: this.supplierPaymentTerms,
+          paymentMethod: this.supplierPaymentMethod,
+          address: this.supplierAddress,
+          addressAditional: this.supplierAddressAdditional,
+          whatsapp: this.supplierWhatsapp,
+          workingHours: this.supplierHours,
+          deliveryType: this.supplierDeliveryType,
+          status: this.supplierStatus,
+          newsletter: this.supplierNewsletter,
+          scope: this.supplierScope,
+          usersIds: this.connectedUsersIds,
+          removeUsersIds: this.removeUsersIds
+        }
+        this.dialog = false
+        this.$store.dispatch('Supplier/upsert', payload)
+        this.$router.push('/suppliers')
+      }
     }
+  },
+  mounted() {
+    this.supplierName = this.supplier.name
+    this.supplierCompanyName = this.supplier.companyName
+    this.supplierContactName = this.supplier.contactName
+    this.supplierPhone = this.supplier.phone
+    this.supplierEmail = this.supplier.email
+    this.supplierIdNumber = this.supplier.numberId
+    this.supplierWebsite = this.supplier.website
+    this.supplierFacebook = this.supplier.facebook
+    this.supplierInstagram = this.supplier.instagram
+    this.supplierPaymentTerms = this.supplier.paymentTerms
+    this.supplierPaymentMethod = this.supplier.paymentMethod
+    this.supplierAddress = this.supplier.address
+    this.supplierAddressAdditional = this.supplier.addressAditional
+    this.supplierWhatsapp = this.supplier.whatsapp
+    this.supplierHours = this.supplier.workingHours
+    this.supplierDeliveryType = this.supplier.deliveryType
+    this.supplierStatus = this.supplier.status
+    this.supplierNewsletter = this.supplier.newsletter
+    this.supplierScope = this.supplier.scope
+    this.connectedUsersIds = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id).map(user => user.id)
+  },
+  components: {
+    'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default
   }
+}
 </script>
