@@ -1,167 +1,100 @@
-import firebase from 'firebase/compat';
-import {collection, deleteDoc, doc, setDoc, updateDoc} from 'firebase/firestore';
-import db from '@/firebase'
-import {getAuth} from 'firebase/auth';
+import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, getAuth} from 'firebase/auth'
+
+const COLLECTION_NAME = 'users'
+const DEFAULT_STATE = () => ({
+  auth: null,
+  list: []
+})
 
 export default {
   namespaced: true,
-  state: {
-    auth: null,
-    list: []
-  },
+  state: DEFAULT_STATE(),
   mutations: {
-    deleteUser(state, id) {
+    reset(state) {
+      Object.assign(state, DEFAULT_STATE())
+    },
+    initializeAuth(state, payloads) {
+      state.auth = {...payloads}
+    },
+    initialize(state, payloads) {
+      state.list = [...payloads]
+    },
+    remove(state, id) {
       state.list = state.list.filter(item => item.id !== id)
     },
-    upsertUser(state, payload) {
-      let found = false
+    upsert(state, payloads) {
+      if (!Array.isArray(payloads)) payloads = [payloads]
 
-      let items = state.list.map(item => {
-        if (item.id === payload.id) found = true
+      let items = [...state.list]
 
-        return found ? payload : item
+      payloads.forEach(payload => {
+        let found = false
+
+        items = items.map(item => {
+          if (item.id === payload.id) found = true
+
+          return found ? payload : item
+        })
+
+        if (!found) items = items.concat(payload)
       })
-
-      if (!found) items = state.list.concat(payload)
 
       state.list = items
-    },
-    setUsers(state, items) {
-      if(!Array.isArray(items)) items = [items]
-
-      state.list = state.list.concat(...items)
-    },
-    setAuth(state, payload) {
-      state.auth = payload
-    },
+    }
   },
   actions: {
-    // SIGNUP
-    signUserUp({commit}, payload) {
-      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(({user}) => {
-          let newAuth = {
-            ...payload,
-            uid: user.uid
-          }
-          commit('setAuth', newAuth)
-          firebase.auth().currentUser.updateProfile({
-            displayName: payload.username
-          }).then(() => {
-            const {password, ...newUser} = payload
-            return db.collection('users').doc(newAuth.uid).set(newUser)
-              .then(() => commit('upsertUser', newUser))
-              .catch((error) => {
-                console.log('Something went wrong - signUserUp', error);
-              })
-          })
-        })
+    resetState({commit}) {
+      commit('reset')
     },
-    // SIGNIN
-    signUserIn({commit}, payload) {
-      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
-        .then(({user}) => {
-          let newAuth = {
-            ...payload,
-            uid: user.uid
-          }
-          commit('setAuth', newAuth)
-          return newAuth
-        })
-        .then((newAuth) => {
-          db.collection('users').where("uid", "==", newAuth.uid).get()
-            .then((querySnapshot) => {
-              querySnapshot.forEach((doc) => {
-                const newUser = doc.data()
-                commit('upsertUser', newUser)
-              });
-            })
-            .catch((error) => {
-              console.log('Something went wrong - signUserIn', error);
-            })
-        })
+    signUp({commit}, payload) {
+      return createUserWithEmailAndPassword(getAuth(), payload.email, payload.password)
+        .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
+        .then(() => getAuth().currentUser.updateProfile({displayName: payload.username}))
+        .then(() => upsertDoc(COLLECTION_NAME, {payload, id: getAuth().currentUser.uid}, {increment: true}))
+        .then(() => commit('upsert', {...payload, id: getAuth().currentUser.uid}))
+        .then(() => commit('showSnackbar', 'משתמש חדש נוסף!', {root: true}))
+        .catch(err => console.error('Something went wrong - User.signUp', err))
+    },
+    signIn({commit}, payload) {
+      return signInWithEmailAndPassword(getAuth(), payload.email, payload.password)
+        .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
+        .then(() => fetchDocs(COLLECTION_NAME, {id: getAuth().currentUser.uid}))
+        .then(docs => commit('upsert', docs))
+        .catch(err => console.error('Something went wrong - User.signIn', err))
+    },
+    signOut({commit}) {
+      return signOut(getAuth())
+        .then(() => commit('reset'))
+        .catch(err => console.error('Something went wrong - User.signOut', err))
+    },
+    upsert({commit}, payload) {
+      return upsertDoc(COLLECTION_NAME, payload, {increment: true})
+        .then(() => commit('upsert', payload))
+        .then(() => commit('showSnackbar', 'משתמש נשמר!', {root: true}))
+        .catch(err => console.error('Something went wrong - User.upsert', err))
+    },
+    remove({commit}, id) {
+      return removeDoc(COLLECTION_NAME, id)
+        .then(() => commit('remove', id))
+        .then(() => commit('showSnackbar', 'משתמש נמחק!', {root: true}))
+        .catch(err => console.error('Something went wrong - User.remove', err))
+    },
+    fetch({commit, rootGetters}) {
+      if(!rootGetters.user?.isAdmin) return Promise.resolve(null)
 
+      return fetchDocs(COLLECTION_NAME)
+        .then(docs => commit('initialize', docs))
+        .catch(err => console.error('Something went wrong - User.fetch', err))
     },
-    // USERS
-    addUser({commit}, user) {
-      const incrementDocRef = db.collection('--stats--').doc('users');
+    fetchCurrent({commit}) {
+      const {currentUser} = getAuth()
+      if (!currentUser) return console.debug('no user authenticated')
 
-      db.runTransaction((transaction) => {
-        // This code may get re-run multiple times if there are conflicts.
-        return transaction
-          .get(incrementDocRef)
-          .then((incrementDoc) => {
-            if (!incrementDoc.exists) {
-              throw "Document does not exist!";
-            }
-
-            const incremented = incrementDoc.data().increment + 1;
-            transaction.update(incrementDocRef, {increment: incremented});
-            return incremented;
-          })
-          .then(async (number) => {
-            let isUser = {
-              ...user,
-              number: number,
-              userCreationDate: firebase.firestore.FieldValue.serverTimestamp(),
-              userUpdated: null
-            }
-            await setDoc(doc(collection(db, "users")), isUser)
-            commit('setUsers', isUser)
-            commit('showSnackbar', 'משתמש חדש נוסף!', { root: true })
-          }).catch((error) => {
-            console.log('Something went wrong - addUser', error);
-          })
-      })
-    },
-    deleteUser({commit}, id) {
-      deleteDoc(doc(db, "users", id)).then(() => {
-        commit('deleteUser', id)
-        commit('showSnackbar', 'משתמש נמחק!', { root: true })
-      }).catch((error) => {
-        console.log('Something went wrong - deleteUser', error);
-      })
-    },
-    updateUser({commit}, payload) {
-      updateDoc(doc(db, "users", payload.id), payload).then(() => {
-        commit('upsertUser', payload)
-        commit('showSnackbar', 'משתמש עודכן!', { root: true })
-      }).catch((error) => {
-        console.log('Something went wrong - updateUser', error);
-      })
-    },
-    getUsers({commit, rootGetters}) {
-      if (!rootGetters.user?.isAdmin) return console.debug('not pulling users since no admin role')
-
-      db.collection('users').get().then(querySnapshot => {
-        const users = [];
-        querySnapshot.forEach(doc => {
-          users.push({...doc.data(), id: doc.id})
-        })
-        commit('setUsers', users)
-      }).catch((error) => {
-        console.log('Something went wrong - getUsers', error);
-      })
-    },
-    setUsers({commit}, users) {
-      setDoc(doc(collection(db, "users")), users).then(() => {
-        commit('setUsers', users)
-      }).catch((error) => {
-        console.log('Something went wrong - setUsers', error);
-      })
-    },
-    // USER
-    getUser({commit}) {
-      const user = getAuth().currentUser
-      if (!user) return console.debug('no user authenticated')
-      return db.collection('users').doc(user.uid).get()
-        .then(doc => {
-          const newUser = doc.data()
-          commit('upsertUser', newUser)
-        })
-        .catch((error) => {
-          console.log('Something went wrong - getUser', error);
-        })
+      return fetchDocs(COLLECTION_NAME, {id: currentUser.uid})
+        .then(docs => commit('upsert', docs))
+        .then(() => commit('initializeAuth', currentUser))
+        .catch(err => console.error('Something went wrong - User.fetchCurrent', err))
     },
   },
   modules: {}

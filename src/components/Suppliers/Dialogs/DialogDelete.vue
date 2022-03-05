@@ -57,7 +57,7 @@
     },
     methods: {
       supplierDelete() {
-        this.$store.dispatch('Supplier/deleteSupplier', this.$route.params.id)
+        this.$store.dispatch('Supplier/remove', this.$route.params.id)
         this.$router.push('/suppliers')
       }
     }

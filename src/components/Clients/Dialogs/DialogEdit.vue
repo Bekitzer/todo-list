@@ -9,53 +9,53 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientName"
-              label="שם לקוח"
-              filled
-              dense
-              hide-details
+                v-model="clientName"
+                label="שם לקוח"
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientCompanyName"
-              label="שם חברה"
-              filled
-              dense
-              hide-details
+                v-model="clientCompanyName"
+                label="שם חברה"
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientIdNumber"
-              label="ח.פ. / ע.מ."
-              filled
-              dense
-              hide-details
+                v-model="clientIdNumber"
+                label="ח.פ. / ע.מ."
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6">
-          <vuetify-google-autocomplete
-              ref="address"
-              id="map"
-              filled
-              v-on:placechanged="getAddressData"
-              country="il"
-              v-model="clientAddress"
-              label="כתובת"
-              dense
-              hide-details
+            <vuetify-google-autocomplete
+                ref="address"
+                id="map"
+                filled
+                v-on:placechanged="getAddressData"
+                country="il"
+                v-model="clientAddress"
+                label="כתובת"
+                dense
+                hide-details
             >
             </vuetify-google-autocomplete>
           </v-col>
           <v-col cols="12" md="12">
             <v-textarea
-              v-model="clientAddressAdditional"
-              label="הוראות הגעה"
-              filled
-              rows="1"
-              dense
-              hide-details
+                v-model="clientAddressAdditional"
+                label="הוראות הגעה"
+                filled
+                rows="1"
+                dense
+                hide-details
             ></v-textarea>
           </v-col>
         </v-row>
@@ -74,57 +74,57 @@
           </v-col> -->
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientPhone"
-              label="טלפון"
-              filled
-              dense
-              hide-details
+                v-model="clientPhone"
+                label="טלפון"
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientEmail"
-              label="מייל"
-              filled
-              dense
-              hide-details
+                v-model="clientEmail"
+                label="מייל"
+                filled
+                dense
+                hide-details
             />
           </v-col>
 
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientWhatsapp"
-              label="וואטסאפ"
-              filled
-              dense
-              hide-details
+                v-model="clientWhatsapp"
+                label="וואטסאפ"
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientWebsite"
-              label="אתר אינטרנט"
-              filled
-              dense
-              hide-details
+                v-model="clientWebsite"
+                label="אתר אינטרנט"
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientFacebook"
-              label="פייסבוק"
-              filled
-              dense
-              hide-details
+                v-model="clientFacebook"
+                label="פייסבוק"
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="clientInstagram"
-              label="אינסטגרם"
-              filled
-              dense
-              hide-details
+                v-model="clientInstagram"
+                label="אינסטגרם"
+                filled
+                dense
+                hide-details
             />
           </v-col>
         </v-row>
@@ -134,32 +134,32 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="clientPaymentType"
-              :items="clientPaymentTypeList"
-              label="סוג תשלום"
-              filled
-              dense
-              hide-details
+                v-model="clientPaymentType"
+                :items="clientPaymentTypeList"
+                label="סוג תשלום"
+                filled
+                dense
+                hide-details
             ></v-select>
           </v-col>
           <v-col cols="12" md="6" v-if="clientPaymentType !== 'מיידי'">
             <v-select
-              v-model="clientPaymentTerms"
-              :items="clientPaymentTermsList"
-              label="תנאי תשלום"
-              filled
-              dense
-              hide-details
+                v-model="clientPaymentTerms"
+                :items="clientPaymentTermsList"
+                label="תנאי תשלום"
+                filled
+                dense
+                hide-details
             ></v-select>
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="clientPaymentMethod"
-              :items="clientPaymentMethodList"
-              label="אמצעי תשלום"
-              filled
-              dense
-              hide-details
+                v-model="clientPaymentMethod"
+                :items="clientPaymentMethodList"
+                label="אמצעי תשלום"
+                filled
+                dense
+                hide-details
             ></v-select>
           </v-col>
         </v-row>
@@ -169,66 +169,67 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="clientDeliveryType"
-              :items="clientDeliveryTypeList"
-              label="אופן אספקה"
-              filled
-              dense
-              hide-details
+                v-model="clientDeliveryType"
+                :items="clientDeliveryTypeList"
+                label="אופן אספקה"
+                filled
+                dense
+                hide-details
             ></v-select>
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="clientStatus"
-              :items="clientStatusList"
-              label="סוג לקוח"
-              filled
-              dense
-              hide-details
+                v-model="clientStatus"
+                :items="clientStatusList"
+                label="סוג לקוח"
+                filled
+                dense
+                hide-details
             ></v-select>
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="clientLead"
-              :items="clientLeadList"
-              label="מקור הגעה"
-              filled
-              dense
-              hide-details
+                v-model="clientLead"
+                :items="clientLeadList"
+                label="מקור הגעה"
+                filled
+                dense
+                hide-details
             ></v-select>
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="clientNewsletter"
-              :items="clientNewsletterList"
-              label="דיוור"
-              filled
-              dense
-              hide-details
+                v-model="clientNewsletter"
+                :items="clientNewsletterList"
+                label="דיוור"
+                filled
+                dense
+                hide-details
             ></v-select>
           </v-col>
           <v-col cols="12" md="6">
             <v-autocomplete
-              v-model="connectedUsersIds"
-              :items="users"
-              filled
-              chips
-              color="blue-grey lighten-2"
-              label="משתמש"
-              item-text="username"
-              item-value="id"
-              multiple
+                v-model="connectedUsersIds"
+                :items="users"
+                filled
+                chips
+                color="blue-grey lighten-2"
+                label="משתמש"
+                item-text="username"
+                item-value="id"
+                multiple
             >
               <template v-slot:selection="data">
                 <v-chip
-                  v-bind="data.attrs"
-                  :input-value="data.selected"
-                  close
-                  @click="data.select"
-                  @click:close="remove(data.item)"
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    close
+                    @click="data.select"
+                    @click:close="remove(data.item)"
                 >
                   <v-avatar left>
-                    <v-img :src="data.item.avatar" lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                    <v-img :src="data.item.avatar"
+                           lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
                   </v-avatar>
                   {{ data.item.username }}
                 </v-chip>
@@ -240,8 +241,8 @@
                 <template v-else>
                   <v-list-item-avatar>
                     <v-img
-                    :src="data.item.avatar"
-                    lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                        :src="data.item.avatar"
+                        lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
@@ -253,13 +254,13 @@
           </v-col>
           <v-col cols="12">
             <v-card-actions
-              style="padding:0"
+                style="padding:0"
             >
               <v-btn
-                icon
-                color="red"
-                class="black--text"
-                @click="dialogs.delete = true"
+                  icon
+                  color="red"
+                  class="black--text"
+                  @click="dialogs.delete = true"
               >
                 <v-icon>
                   mdi-trash-can-outline
@@ -267,19 +268,19 @@
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn
-                outlined
-                large
-                color="red"
-                @click="dialog = false"
+                  outlined
+                  large
+                  color="red"
+                  @click="dialog = false"
               >
                 ביטול
               </v-btn>
               <v-btn
-                outlined
-                large
-                color="green"
-                @click="saveClient"
-                :disabled="clientFieldInvalid"
+                  outlined
+                  large
+                  color="green"
+                  @click="saveClient"
+                  :disabled="clientFieldInvalid"
               >
                 שמור
               </v-btn>
@@ -289,17 +290,15 @@
       </v-card>
     </v-dialog>
     <dialog-delete
-      v-if="dialogs.delete"
-      v-model="dialogs.delete"
-      @close="dialogs.delete = false"
-      :client = 'client'
+        v-if="dialogs.delete"
+        v-model="dialogs.delete"
+        @close="dialogs.delete = false"
+        :client='client'
     />
   </v-row>
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
-import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 export default {
   props: ['client', 'value'],
   data: () => ({
@@ -321,18 +320,18 @@ export default {
     clientPaymentMethod: '',
     clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
     clientPaymentType: '',
-    clientPaymentTypeList: ["מיידי","הסדר חברה"],
+    clientPaymentTypeList: ["מיידי", "הסדר חברה"],
     clientAddress: '',
     clientAddressAdditional: '',
     clientWhatsapp: '',
     clientDeliveryType: '',
     clientStatus: '',
-    clientDeliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
-    clientStatusList: ["פרטי","עסקי"],
+    clientDeliveryTypeList: ["איסוף עצמי", "משלוח", "משתנה"],
+    clientStatusList: ["פרטי", "עסקי"],
     clientLead: '',
-    clientLeadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
+    clientLeadList: ["גוגל אורגני", "גוגל ממומן", "גוגל ישן", "פה לאוזן", "היכרות אישית"],
     clientNewsletter: '',
-    clientNewsletterList: ["כן","לא"],
+    clientNewsletterList: ["כן", "לא"],
     connectedUsersIds: [],
     removeUsersIds: []
   }),
@@ -359,7 +358,7 @@ export default {
     getAddressData: function (addressData, placeResultData, id) {
       this.address = addressData;
     },
-    remove (item) {
+    remove(item) {
       const index = this.connectedUsersIds.indexOf(item.id)
       if (index >= 0) {
         this.removeUsersIds.push(this.connectedUsersIds[index])
@@ -367,7 +366,7 @@ export default {
       }
     },
     saveClient() {
-      if(!this.clientFieldInvalid){
+      if (!this.clientFieldInvalid) {
         let payload = {
           id: this.client.id,
           contactName: this.clientContactName,
@@ -390,11 +389,10 @@ export default {
           lead: this.clientLead,
           newsletter: this.clientNewsletter,
           usersIds: this.connectedUsersIds,
-          removeUsersIds: this.removeUsersIds,
-          clientUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+          removeUsersIds: this.removeUsersIds
         }
         this.dialog = false
-        this.$store.dispatch('Client/updateClient', payload)
+        this.$store.dispatch('Client/upsert', payload)
         this.$router.push('/clients')
       }
     }

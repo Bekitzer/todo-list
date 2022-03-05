@@ -2,7 +2,9 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="300">
       <v-card>
-        <v-btn icon @click="closeDialog"><v-icon dark>mdi-close</v-icon></v-btn>
+        <v-btn icon @click="closeDialog">
+          <v-icon dark>mdi-close</v-icon>
+        </v-btn>
         <file-store v-model="client.avatar" @onUpload="handleUpload" @onDelete="handleDelete"/>
       </v-card>
     </v-dialog>
@@ -10,16 +12,14 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
-import { v4 as uuidv4 } from 'uuid';
-import 'firebase/compat/firestore'
-import 'firebase/compat/storage'
+import {v4 as uuidv4} from 'uuid';
+import {storage} from '@/firebase';
+import {ref, uploadBytes, getDownloadURL, deleteObject} from "firebase/storage";
 
 export default {
-  name:'DialogImage',
+  name: 'DialogImage',
   props: ['client', 'value'],
-  data: () => ({
-  }),
+  data: () => ({}),
   computed: {
     dialog: {
       get() {
@@ -30,31 +30,27 @@ export default {
       }
     },
   },
-  methods:{
+  methods: {
     handleUpload(fileData) {
-      const storageRef = firebase.storage().ref(`public/${uuidv4()}_${fileData.name}`).put(fileData);
+      const storageRef = ref(storage, `public/${uuidv4()}_${fileData.name}`)
 
-      storageRef.on(
-        firebase.storage.TaskEvent.STATE_CHANGED, {
-          next: null,
-          error: err => console.error(err),
-          complete: () => {
-            storageRef.snapshot.ref.getDownloadURL().then(url => {
-              this.client.avatar = url
-              this.$store.dispatch('Client/updateClient', this.client)
-            })
-          }
-        }
-      )
-      // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+      uploadBytes(storageRef, fileData)
+          .then((snapshot) => getDownloadURL(snapshot.ref))
+          .then((url) => {
+            this.client.avatar = url
+            this.$store.dispatch('Client/upsert', this.client)
+          })
+          .catch(err => console.error(err))
     },
     handleDelete() {
-      firebase.storage().refFromURL(this.client.avatar).delete()
-        .then(() => {
-          this.client.avatar = null
-          this.$store.dispatch('Client/updateClient', this.client)
-        })
-        .catch(error => console.error(error))
+      const storageRef = ref(storage, this.client.avatar);
+
+      deleteObject(storageRef)
+          .then(() => {
+            this.client.avatar = null
+            this.$store.dispatch('Client/upsert', this.client)
+          })
+          .catch(error => console.error(error))
     }
   },
   components: {

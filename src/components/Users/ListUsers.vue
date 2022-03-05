@@ -11,7 +11,7 @@
     :items-per-page="-1"
     hide-default-footer
   >
-    <template v-slot:item.connected="{ item }">
+    <template v-slot:[`item.connected`]="{ item }">
       <span v-if="item.clientLink || item.supplierLink">
         {{ item.clientLink }}{{ item.supplierLink }}
       </span>
@@ -19,12 +19,12 @@
         <v-icon>mdi-close</v-icon>
       </span>
     </template>
-    <template v-slot:item.emailLink="{ item }">
+    <template v-slot:[`item.emailLink`]="{ item }">
       <div @click.stop>
         <a :href="'mailto:' + item.email" style="text-decoration:none;">{{item.email}}</a>
       </div>
     </template>
-    <template v-slot:item.phoneLink="{ item }">
+    <template v-slot:[`item.phoneLink`]="{ item }">
       <div @click.stop>
         <a :href="'tel:' + item.phone" style="text-decoration:none;">{{item.phone}}</a>
       </div>
@@ -81,9 +81,6 @@ export default {
             supplierLink: supplier.name
           }
         })
-      },
-      set(value) {
-        this.$store.dispatch('User/setUsers', value)
       }
     }
   },

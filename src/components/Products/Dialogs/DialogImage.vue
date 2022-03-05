@@ -10,10 +10,9 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
 import { v4 as uuidv4 } from 'uuid';
-import 'firebase/compat/firestore'
-import 'firebase/compat/storage'
+import {deleteObject, getDownloadURL, ref, uploadBytes} from 'firebase/storage';
+import {storage} from '@/firebase';
 
 export default {
   name:'DialogImage',
@@ -32,29 +31,25 @@ export default {
   },
   methods:{
     handleUpload(fileData) {
-      const storageRef = firebase.storage().ref(`public/${uuidv4()}_${fileData.name}`).put(fileData);
+      const storageRef = ref(storage, `public/${uuidv4()}_${fileData.name}`)
 
-      storageRef.on(
-        firebase.storage.TaskEvent.STATE_CHANGED, {
-          next: null,
-          error: err => console.error(err),
-          complete: () => {
-            storageRef.snapshot.ref.getDownloadURL().then(url => {
-              this.product.file = url
-              this.$store.dispatch('Product/updateProduct', this.product)
-            })
-          }
-        }
-      )
-      // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+      uploadBytes(storageRef, fileData)
+          .then((snapshot) => getDownloadURL(snapshot.ref))
+          .then((url) => {
+            this.product.file = url
+            this.$store.dispatch('Product/upsert', this.product)
+          })
+          .catch(err => console.error(err))
     },
     handleDelete() {
-      firebase.storage().refFromURL(this.product.file).delete()
-        .then(() => {
-          this.product.file = null
-          this.$store.dispatch('Product/updateProduct', this.product)
-        })
-        .catch(error => console.error(error))
+      const storageRef = ref(storage, this.product.file);
+
+      deleteObject(storageRef)
+          .then(() => {
+            this.product.file = null
+            this.$store.dispatch('Product/upsert', this.product)
+          })
+          .catch(error => console.error(error))
     }
   },
   components: {

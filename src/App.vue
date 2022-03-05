@@ -12,22 +12,21 @@
 
 
 <script>
-import db from '@/firebase'
-import firebase from 'firebase/compat/app'
+import {getAuth} from 'firebase/auth'
+
+
 export default {
   data: () => ({
     isLoggedIn: false
   }),
   mounted() {
-    this.$store.dispatch('User/getUser').then(() => {
-      this.$store.dispatch('ProductTag/getProductsTags')
-      this.$store.dispatch('Supplier/getSupplier')
-      this.$store.dispatch('Supplier/getSuppliers')
-      this.$store.dispatch('Client/getClient')
-      this.$store.dispatch('Client/getClients')
-      this.$store.dispatch('Order/getOrders')
-      this.$store.dispatch('Product/getProducts')
-      this.$store.dispatch('User/getUsers')
+    this.$store.dispatch('User/fetchCurrent').then(() => {
+      this.$store.dispatch('ProductTag/fetch')
+      this.$store.dispatch('Supplier/fetch')
+      this.$store.dispatch('Client/fetch')
+      this.$store.dispatch('Order/fetch')
+      this.$store.dispatch('Product/fetch')
+      this.$store.dispatch('User/fetch')
     })
 
   },
@@ -39,7 +38,7 @@ export default {
   },
   created() {
     this.$vuetify.rtl = true
-    if(firebase.auth().currentUser){
+    if(getAuth().currentUser){
       this.isLoggedIn = true
     }
   }

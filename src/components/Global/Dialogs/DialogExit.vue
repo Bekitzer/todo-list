@@ -7,24 +7,24 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="red"
-            @click="dialog = false"
+              fab
+              icon
+              outlined
+              large
+              color="red"
+              @click="dialog = false"
           >
             <v-icon>
               mdi-close
             </v-icon>
           </v-btn>
           <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="green"
-            @click.prevent.stop="logout"
+              fab
+              icon
+              outlined
+              large
+              color="green"
+              @click.prevent.stop="logout"
           >
             <v-icon>
               mdi-check
@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
 export default {
   data: () => ({
     id: null,
@@ -54,11 +53,11 @@ export default {
     },
   },
   methods: {
-    logout(){
+    logout() {
       this.dialog = false
-      firebase.auth().signOut().then(() => {
-          this.$router.go({path: this.$router.path})
-      })
+
+      this.$store.dispatch('User/signOut')
+          .then(() => this.$router.go({path: this.$router.path}))
     }
   }
 }

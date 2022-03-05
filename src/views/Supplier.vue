@@ -3,19 +3,19 @@
     <nav-appbar :pname="' ספקים - ' + this.supplier.name">
       <template v-slot:add-btn>
         <v-tooltip
-          bottom
-          content-class="normal tooltip-bottom"
+            bottom
+            content-class="normal tooltip-bottom"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              fab
-              small
-              elevation="0"
-              filled
-              v-bind="attrs"
-              v-on="on"
-              class="spc-create"
-              @click="dialogs.edit = true"
+                fab
+                small
+                elevation="0"
+                filled
+                v-bind="attrs"
+                v-on="on"
+                class="spc-create"
+                @click="dialogs.edit = true"
             >
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
@@ -25,19 +25,19 @@
       </template>
       <template v-slot:create-btn>
         <v-tooltip
-          bottom
-          content-class="normal tooltip-bottom"
+            bottom
+            content-class="normal tooltip-bottom"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              fab
-              small
-              elevation="0"
-              filled
-              v-bind="attrs"
-              v-on="on"
-              class="spc-create"
-              @click="dialogs.create = true"
+                fab
+                small
+                elevation="0"
+                filled
+                v-bind="attrs"
+                v-on="on"
+                class="spc-create"
+                @click="dialogs.create = true"
             >
               <v-icon>mdi-plus</v-icon>
             </v-btn>
@@ -52,22 +52,22 @@
           <v-col cols="6">
             <v-hover v-slot="{ hover }">
               <v-avatar
-                class="profile"
-                size="108px"
+                  class="profile"
+                  size="108px"
               >
                 <v-fade-transition>
-                    <v-overlay
+                  <v-overlay
                       v-if="hover"
                       absolute
                       color="#000"
-                    >
-                      <v-btn @click="openFile(supplier)">הוספה/שינוי תמונה</v-btn>
-                    </v-overlay>
-                  </v-fade-transition>
+                  >
+                    <v-btn @click="openFile(supplier)">הוספה/שינוי תמונה</v-btn>
+                  </v-overlay>
+                </v-fade-transition>
                 <v-img
-                  :src="supplier.avatar"
-                  lazy-src="/images/gravatar.jpg"
-                  rounded
+                    :src="supplier.avatar"
+                    lazy-src="/images/gravatar.jpg"
+                    rounded
                 ></v-img>
               </v-avatar>
             </v-hover>
@@ -77,7 +77,8 @@
             <p style="margin-bottom:0 !important;">{{ supplier.companyName }}</p>
             <p style="margin-bottom:0 !important;">ח.פ. / ע.מ. {{ supplier.numberId }}</p>
             <div>
-              <a :href="'http://' + supplier.website" style="text-decoration:none;color:#03616f;" target="_blank">{{supplier.website}}</a>
+              <a :href="'http://' + supplier.website" style="text-decoration:none;color:#03616f;"
+                 target="_blank">{{ supplier.website }}</a>
               <!-- <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a>
               <a :href="supplier.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a> -->
             </div>
@@ -88,13 +89,13 @@
             <h4>פרטי התקשרות</h4>
           </v-col>
           <v-col cols="6">
-              <p class="spc-titles">טלפון משרד</p> {{ supplier.phone }}
+            <p class="spc-titles">טלפון משרד</p> {{ supplier.phone }}
           </v-col>
           <v-col cols="6">
-              <p class="spc-titles">מייל משרד</p> {{ supplier.email }}
+            <p class="spc-titles">מייל משרד</p> {{ supplier.email }}
           </v-col>
           <v-col cols="6">
-              <p class="spc-titles">וואטסאפ משרד</p> {{ supplier.whatsapp }}
+            <p class="spc-titles">וואטסאפ משרד</p> {{ supplier.whatsapp }}
           </v-col>
           <v-col cols="6">
             <p class="spc-titles">כתובת</p> {{ supplier.address }}
@@ -110,13 +111,13 @@
           <v-expansion-panels>
             <v-expansion-panel v-for="user in users" :key="user.id">
               <v-expansion-panel-header>
-                {{user.firstname}} {{user.lastname}} - {{user.position}}
+                {{ user.firstname }} {{ user.lastname }} - {{ user.position }}
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-row>
                   <v-col cols="12">
-                    מייל: {{user.email}}<br>
-                    טלפון: {{user.phone}}<br>
+                    מייל: {{ user.email }}<br>
+                    טלפון: {{ user.phone }}<br>
                   </v-col>
                 </v-row>
               </v-expansion-panel-content>
@@ -161,90 +162,90 @@
           <h4>הזמנות</h4>
           <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
         </v-col>
-         <v-data-table
-          height="68vh"
-          fixed-header
-          :headers="headers"
-          :items="processing"
-          item-key="id"
-          sort-by="deliveryDate"
-          :items-per-page="-1"
-          hide-default-footer
-          sort-desc
-          no-data-text="אין הזמנות פעילות"
+        <v-data-table
+            height="68vh"
+            fixed-header
+            :headers="headers"
+            :items="processing"
+            item-key="id"
+            sort-by="deliveryDate"
+            :items-per-page="-1"
+            hide-default-footer
+            sort-desc
+            no-data-text="אין הזמנות פעילות"
         >
-          <template v-slot:item.clientLink="{ item }">
-              {{ item.clientLink }}
+          <template v-slot:[`item.clientLink`]="{ item }">
+            {{ item.clientLink }}
           </template>
-          <template v-slot:item.sell="{ item }">
-              {{ item.sellPrice | formatNumber }}
+          <template v-slot:[`item.sell`]="{ item }">
+            {{ item.sellPrice | formatNumber }}
           </template>
-          <template v-slot:item.buy="{ item }">
-              {{ item.buyPrice | formatNumber }}
+          <template v-slot:[`item.buy`]="{ item }">
+            {{ item.buyPrice | formatNumber }}
           </template>
-          <template v-slot:item.margins="{ item }">
-              {{ item.margin | formatNumber }}
+          <template v-slot:[`item.margins`]="{ item }">
+            {{ item.margin | formatNumber }}
           </template>
-          <template v-slot:item.statusType="props">
+          <template v-slot:[`item.statusType`]="props">
             <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
               mdi-circle-small
             </v-icon>
             {{ props.item.statusType }}
           </template>
-          <template v-slot:item.created="{ item }">
-            {{ item.orderCreationDate | formatDate }}
+          <template v-slot:[`item.created`]="{ item }">
+            {{ item.createdAt | formatDate }}
           </template>
-          <template v-slot:item.delivery="{ item }">
+          <template v-slot:[`item.delivery`]="{ item }">
             {{ item.deliveryDate | formatDate }}
           </template>
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <v-tooltip
-              top
-              content-class="normal tooltip-top"
+                top
+                content-class="normal tooltip-top"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-icon
-                small
-                class="ml-2"
-                @click.stop="openFileOrder(item)"
-                v-bind="attrs"
-                v-on="on"
-              >
-                mdi-file-image
-              </v-icon>
+                    small
+                    class="ml-2"
+                    @click.stop="openFileOrder(item)"
+                    v-bind="attrs"
+                    v-on="on"
+                >
+                  mdi-file-image
+                </v-icon>
               </template>
               <span>הצג תמונה</span>
             </v-tooltip>
             <v-tooltip
-              top
-              content-class="normal tooltip-top"
+                top
+                content-class="normal tooltip-top"
             >
               <template v-slot:activator="{ on, attrs }">
-              <v-icon
-                small
-                class="ml-2"
-                @click.stop="duplicateOrder(item)"
-                v-bind="attrs"
-                v-on="on"
-              >
-                mdi-content-duplicate
-              </v-icon>
+                <v-icon
+                    small
+                    class="ml-2"
+                    @click.stop="duplicateOrder(item)"
+                    v-bind="attrs"
+                    v-on="on"
+                >
+                  mdi-content-duplicate
+                </v-icon>
               </template>
               <span>שכפל הזמנה</span>
             </v-tooltip>
             <v-tooltip
-              top
-              content-class="normal tooltip-top"
+                top
+                content-class="normal tooltip-top"
             >
               <template v-slot:activator="{ on, attrs }">
-              <v-icon
-                small
-                @click.stop="clickOrder(item)"
-                v-bind="attrs"
-                v-on="on"
-              >
-                mdi-pencil-outline
-              </v-icon>
+                <v-icon
+                    small
+                    @click.stop="clickOrder(item)"
+                    v-bind="attrs"
+                    v-on="on"
+                >
+                  mdi-pencil-outline
+                </v-icon>
               </template>
               <span>ערוך הזמנה</span>
             </v-tooltip>
@@ -253,35 +254,33 @@
       </v-col>
     </v-row>
     <dialog-edit
-      v-if="dialogs.edit"
-      v-model="dialogs.edit"
-      @close="dialogs.edit = false"
-      :supplier = 'supplier'
+        v-if="dialogs.edit"
+        v-model="dialogs.edit"
+        @close="dialogs.edit = false"
+        :supplier='supplier'
     />
     <dialog-image
-      v-if="dialogs.image"
-      v-model="dialogs.image"
-      @close="dialogs.image = false"
-      :supplier = 'supplier'
+        v-if="dialogs.image"
+        v-model="dialogs.image"
+        @close="dialogs.image = false"
+        :supplier='supplier'
     />
     <dialog-create
-      v-if="dialogs.create"
-      v-model="dialogs.create"
-      @close = 'dialogs.create = false'
-      :order="order"
+        v-if="dialogs.create"
+        v-model="dialogs.create"
+        @close='dialogs.create = false'
+        :order="order"
     />
     <dialog-order
-      v-if="dialogs.order"
-      v-model="dialogs.order"
-      @close = 'dialogs.order = false'
-      :order = 'order'
+        v-if="dialogs.order"
+        v-model="dialogs.order"
+        @close='dialogs.order = false'
+        :order='order'
     />
   </div>
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
-import db from '@/firebase';
 export default {
   name: 'Supplier',
   data: () => ({
@@ -300,27 +299,27 @@ export default {
   }),
   watch: {
     'dialogs.create': function (val) {
-      if(!val) {
+      if (!val) {
         this.order = null
       }
     }
   },
   methods: {
-    openFileOrder (item) {
+    openFileOrder(item) {
       this.order = JSON.parse(JSON.stringify(item))
       this.dialogs.order = true
     },
-    openFile (supplier) {
+    openFile(supplier) {
       this.dialogs.image = true
     },
     duplicateOrder(item) {
       this.order = JSON.parse(JSON.stringify(item))
       this.dialogs.create = true
     },
-    clickOrder(order){
-      this.$router.push({ name: 'Order', params: { id : order.id }})
+    clickOrder(order) {
+      this.$router.push({name: 'Order', params: {id: order.id}})
     },
-    getColor (statusType) {
+    getColor(statusType) {
       if (statusType === "טיוטה") return '#FF9800'
       else if (statusType === "בעבודה") return '#2196F3'
       else if (statusType === "מוכן - משרד") return '#4CAF50'
@@ -337,16 +336,16 @@ export default {
     supplier() {
       return this.$store.state.Supplier.list.find(supplier => supplier.id === this.$route.params.id) || {name: ''}
     },
-    headers () {
+    headers() {
       return [
-        { text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '110px' },
-        { text: 'תאריך הזמנה', value: 'created', width: '110px', 'sortable': false },
-        { text: 'לקוח', value: 'clientLink', 'sortable': false },
-        { text: 'מוצר / שם עבודה', value: 'orderWorkTitle', 'sortable': false,  },
-        { text: 'קניה', value: 'buy',  width: '60px', 'sortable': false  },
-        { text: 'תאריך אספקה', value: 'delivery', width: '110px', 'sortable': false  },
-        { text: 'פעולות', value: 'actions', width: '100px', 'sortable': false  },
-        { text: 'סטטוס הזמנה', value: 'statusType', width: '110px','sortable': true}
+        {text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '110px'},
+        {text: 'תאריך הזמנה', value: 'created', width: '110px', 'sortable': false},
+        {text: 'לקוח', value: 'clientLink', 'sortable': false},
+        {text: 'מוצר / שם עבודה', value: 'orderWorkTitle', 'sortable': false,},
+        {text: 'קניה', value: 'buy', width: '60px', 'sortable': false},
+        {text: 'תאריך אספקה', value: 'delivery', width: '110px', 'sortable': false},
+        {text: 'פעולות', value: 'actions', width: '100px', 'sortable': false},
+        {text: 'סטטוס הזמנה', value: 'statusType', width: '110px', 'sortable': true}
       ]
     },
     clientsMap() {
@@ -376,21 +375,21 @@ export default {
             supplierLink: supplier.name
           }
         })
-        .filter(order => {
-          return order.orderSupplierRef.id === this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
-         })
+            .filter(order => {
+              return order.orderSupplierRef.id === this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
+            })
       },
       set(value) {
-        this.$store.dispatch('Order/setOrders', value)
+        this.$store.dispatch('Order/upsert', value)
       }
     }
   },
   components: {
-      'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
-      'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
-      'nav-appbar' : require('@/components/Global/AppBar.vue').default,
-      'dialog-image': require('@/components/Suppliers/Dialogs/DialogImage.vue').default,
-      'dialog-order': require('@/components/Orders/Dialogs/DialogImage.vue').default
+    'dialog-edit': require('@/components/Suppliers/Dialogs/DialogEdit.vue').default,
+    'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
+    'nav-appbar': require('@/components/Global/AppBar.vue').default,
+    'dialog-image': require('@/components/Suppliers/Dialogs/DialogImage.vue').default,
+    'dialog-order': require('@/components/Orders/Dialogs/DialogImage.vue').default
   }
 }
 </script>

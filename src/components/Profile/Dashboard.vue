@@ -85,9 +85,6 @@
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
-import { getAuth } from "firebase/auth";
-import db from '@/firebase'
 export default {
   name: "Dashboard",
   data: () => ({

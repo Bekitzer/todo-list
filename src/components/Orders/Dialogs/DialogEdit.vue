@@ -162,10 +162,8 @@
 </template>
 
 <script>
-import {format, parseISO, parse} from 'date-fns'
-import {he} from 'date-fns/locale'
-import firebase from 'firebase/compat/app'
-import db from '@/firebase';
+import {parseISO} from 'date-fns'
+import {db} from '@/firebase';
 
 export default {
   name: 'DialogEdit',
@@ -242,11 +240,10 @@ export default {
           sellPrice: this.orderSellPrice,
           buyPrice: this.orderBuyPrice,
           margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-          deliveryType: this.orderDeliveryType,
-          orderUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+          deliveryType: this.orderDeliveryType
         }
         this.dialog = false
-        this.$store.dispatch('Order/updateOrder', payload)
+        this.$store.dispatch('Order/upsert', payload)
         this.$router.push('/orders')
       }
     }

@@ -3,19 +3,19 @@
     <nav-appbar :pname="' משתמש - ' + this.user.username">
       <template v-slot:add-btn>
         <v-tooltip
-          bottom
-          content-class="normal tooltip-bottom"
+            bottom
+            content-class="normal tooltip-bottom"
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              fab
-              small
-              elevation="0"
-              filled
-              v-bind="attrs"
-              v-on="on"
-              class="spc-create"
-              @click="dialogs.edit = true"
+                fab
+                small
+                elevation="0"
+                filled
+                v-bind="attrs"
+                v-on="on"
+                class="spc-create"
+                @click="dialogs.edit = true"
             >
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
@@ -30,22 +30,22 @@
           <v-col cols="12" md="5" sm="5">
             <v-hover v-slot="{ hover }">
               <v-avatar
-                class="profile"
-                size="108px"
+                  class="profile"
+                  size="108px"
               >
                 <v-fade-transition>
                   <v-overlay
-                    v-if="hover"
-                    absolute
-                    color="#000"
+                      v-if="hover"
+                      absolute
+                      color="#000"
                   >
                     <v-btn @click="openFile(user)">הוספה/שינוי תמונה</v-btn>
                   </v-overlay>
                 </v-fade-transition>
                 <v-img
-                  :src="user.avatar"
-                  lazy-src="/images/gravatar.jpg"
-                  rounded
+                    :src="user.avatar"
+                    lazy-src="/images/gravatar.jpg"
+                    rounded
                 ></v-img>
               </v-avatar>
             </v-hover>
@@ -72,22 +72,21 @@
       <v-spacer></v-spacer>
     </v-row>
     <dialog-edit
-      v-if="dialogs.edit"
-      v-model="dialogs.edit"
-      @close="dialogs.edit = false"
-      :user = 'user'
+        v-if="dialogs.edit"
+        v-model="dialogs.edit"
+        @close="dialogs.edit = false"
+        :user='user'
     />
     <dialog-image
-      v-if="dialogs.image"
-      v-model="dialogs.image"
-      @close="dialogs.image = false"
-      :user = 'user'
+        v-if="dialogs.image"
+        v-model="dialogs.image"
+        @close="dialogs.image = false"
+        :user='user'
     />
   </div>
 </template>
 
 <script>
-import firebase from 'firebase/compat/app'
 export default {
   name: 'User',
   data: () => ({
@@ -101,15 +100,15 @@ export default {
     },
   }),
   methods: {
-    openFileOrder (item) {
+    openFileOrder(item) {
       this.order = JSON.parse(JSON.stringify(item))
       this.dialogs.order = true
     },
-    openFile (user) {
+    openFile(user) {
       this.dialogs.image = true
     },
-    clickOrder(order){
-      this.$router.push({ name: 'User', params: { id : order.id }})
+    clickOrder(order) {
+      this.$router.push({name: 'User', params: {id: order.id}})
     }
   },
   computed: {
@@ -119,7 +118,7 @@ export default {
   },
   components: {
     'dialog-edit': require('@/components/Users/Dialogs/DialogEdit.vue').default,
-    'nav-appbar' : require('@/components/Global/AppBar.vue').default,
+    'nav-appbar': require('@/components/Global/AppBar.vue').default,
     'dialog-image': require('@/components/Users/Dialogs/DialogImage.vue').default,
   }
 }

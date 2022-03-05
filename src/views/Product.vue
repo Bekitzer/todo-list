@@ -136,7 +136,7 @@ export default {
       this.dialogs.image = true
     },
     handleAttributeChange(attributes) {
-      this.$store.dispatch('Product/updateAttributes', {id: this.product.id, attributes})
+      this.$store.dispatch('Product/update', {id: this.product.id, attributes})
     },
     edit (index, item) {
       if (!this.editing) {

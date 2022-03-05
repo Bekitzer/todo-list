@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import goTo from 'vuetify/es5/services/goto'
-import firebase from 'firebase/compat/app'
+import {getAuth} from 'firebase/auth'
+
 import store from "@/stores"
 
 Vue.use(VueRouter)
@@ -17,14 +18,14 @@ const routes = [
     component: () => import('../views/Home.vue'),
     meta: {
       requiresAuth: true
-   }
+    }
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../components/Profile/Dashboard.vue'),
     meta: {
-       requiresAuth: true
+      requiresAuth: true
     }
   },
   {
@@ -38,14 +39,14 @@ const routes = [
     component: () => import('../components/Form/Register.vue'),
     meta: {
       requiresGuest: true
-   }
+    }
   },
   {
     path: '/terms',
     name: 'Terms',
     component: () => import('../views/Terms.vue'),
     meta: {
-       requiresAuth: true
+      requiresAuth: true
     }
   },
   {
@@ -53,7 +54,7 @@ const routes = [
     name: 'Privacy',
     component: () => import('../views/Privacy.vue'),
     meta: {
-       requiresAuth: true
+      requiresAuth: true
     }
   },
   {
@@ -61,17 +62,17 @@ const routes = [
     name: 'Products',
     component: () => import('../views/Products.vue'),
     meta: {
-       requiresAuth: true
+      requiresAuth: true
     }
   },
   {
     path: '/products/:id',
     name: 'Product',
     component: () => import('../views/Product.vue'),
-    props:true,
+    props: true,
     meta: {
-       requiresAuth: true,
-       back: "Products"
+      requiresAuth: true,
+      back: "Products"
     }
   },
   {
@@ -79,17 +80,17 @@ const routes = [
     name: 'Orders',
     component: () => import('../views/Orders.vue'),
     meta: {
-       requiresAuth: true
+      requiresAuth: true
     }
   },
   {
     path: '/orders/:id',
     name: 'Order',
     component: () => import('../views/Order.vue'),
-    props:true,
+    props: true,
     meta: {
-       requiresAuth: true,
-       back: "Orders"
+      requiresAuth: true,
+      back: "Orders"
     }
   },
   {
@@ -97,17 +98,17 @@ const routes = [
     name: 'Clients',
     component: () => import('../views/Clients.vue'),
     meta: {
-       requiresAuth: true
+      requiresAuth: true
     }
   },
   {
     path: '/clients/:id',
     name: 'Client',
     component: () => import('../views/Client.vue'),
-    props:true,
+    props: true,
     meta: {
-       requiresAuth: true,
-       back: "Clients"
+      requiresAuth: true,
+      back: "Clients"
     }
   },
   {
@@ -115,17 +116,17 @@ const routes = [
     name: 'Suppliers',
     component: () => import('../views/Suppliers.vue'),
     meta: {
-       requiresAuth: true
+      requiresAuth: true
     }
   },
   {
     path: '/suppliers/:id',
     name: 'Supplier',
     component: () => import('../views/Supplier.vue'),
-    props:true,
+    props: true,
     meta: {
-       requiresAuth: true,
-       back: "Suppliers"
+      requiresAuth: true,
+      back: "Suppliers"
     }
   },
   {
@@ -133,17 +134,17 @@ const routes = [
     name: 'Users',
     component: () => import('../views/Users.vue'),
     meta: {
-       requiresAuth: true
+      requiresAuth: true
     }
   },
   {
     path: '/users/:id',
     name: 'User',
     component: () => import('../views/User.vue'),
-    props:true,
+    props: true,
     meta: {
-       requiresAuth: true,
-       back: "Users"
+      requiresAuth: true,
+      back: "Users"
     }
   }
 ]
@@ -154,16 +155,16 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  document.title = `${ to.name } - ${ process.env.VUE_APP_TITLE }`
+  document.title = `${to.name} - ${process.env.VUE_APP_TITLE}`
   store.commit('setSearch', '')
-  const currentUser = firebase.auth().currentUser
+  const {currentUser} = getAuth()
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   if (requiresAuth && !currentUser) next('login')
   else if (!requiresAuth && currentUser) next('dashboard')
   else next();
 })
 router.afterEach((to, from) => {
-  goTo(0, ({ duration:0 }))
+  goTo(0, ({duration: 0}))
 })
 
 export default router

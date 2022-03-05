@@ -136,7 +136,7 @@ export default {
         return this.$store.state.Product.list
       },
       set(value) {
-        this.$store.dispatch('Product/setProducts', value)
+        this.$store.dispatch('Product/upsert', value)
       }
     }
   },
