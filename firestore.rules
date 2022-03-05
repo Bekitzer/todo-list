@@ -4,9 +4,9 @@ service cloud.firestore {
         function isOwner() {
             return resource.id == request.auth.uid;
         }
-        // function isSignedIn() {
-        // 	return request.auth != null;
-        // }
+         function isSignedIn() {
+         	return request.auth != null;
+         }
         function isAdmin() {
             return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin;
         }
@@ -29,6 +29,9 @@ service cloud.firestore {
         }
         match /orders/{order} {
             allow read, write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userSupplierRef == resource.data.orderSupplierRef;
+        }
+        match /products/{order} {
+            allow read: if isSignedIn();
         }
     }
 }

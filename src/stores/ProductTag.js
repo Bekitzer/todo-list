@@ -7,7 +7,7 @@ export default {
   },
   mutations: {
     initialize(state, payloads) {
-      state.list = payloads
+      state.list = [...payloads]
     },
     remove(state, id) {
       state.list = state.list.filter(item => item.id !== id)
@@ -46,11 +46,10 @@ export default {
         .catch(err => console.error('Something went wrong - ProductTag.remove', err))
     },
     fetch({commit, rootGetters}) {
-      // TODO extract to App.vue
-      if (!rootGetters.user?.isAdmin) return console.debug('not pulling products tags since no admin role')
+      if (!rootGetters.user?.isAdmin) return Promise.resolve(null)
 
       return fetchDocs('products-tags')
-        .then(querySnapshot => commit('initialize', querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}))))
+        .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - ProductTag.fetch', err))
     }
   },

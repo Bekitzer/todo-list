@@ -7,7 +7,7 @@ export default {
   },
   mutations: {
     initialize(state, payloads) {
-      state.list = payloads
+      state.list = [...payloads]
     },
     remove(state, id) {
       state.list = state.list.filter(item => item.id !== id)
@@ -34,7 +34,7 @@ export default {
   },
   actions: {
     upsert({commit}, payload) {
-      upsertDoc('suppliers', payload)
+      upsertDoc('suppliers', payload, {increment: true})
         .then(docRef => commit('upsert', {...payload, id: docRef.id}))
         .then(() => commit('showSnackbar', 'ספק נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Supplier.upsert', err))

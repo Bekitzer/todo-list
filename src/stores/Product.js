@@ -1,4 +1,4 @@
-import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
+import {upsertDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -7,7 +7,7 @@ export default {
   },
   mutations: {
     initialize(state, payloads) {
-      state.list = payloads
+      state.list = [...payloads]
     },
     remove(state, id) {
       state.list = state.list.filter(item => item.id !== id)
@@ -34,7 +34,7 @@ export default {
   },
   actions: {
     upsert({commit}, payload) {
-      upsertDoc('products', payload)
+      upsertDoc('products', payload, {increment: true})
         .then(docRef => commit('upsert', {...payload, id: docRef.id}))
         .then(() => commit('showSnackbar', 'מוצר נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.upsert', err))
@@ -45,34 +45,22 @@ export default {
         .then(() => commit('showSnackbar', 'מוצר נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.remove', err))
     },
-    fetch({commit, rootGetters}) {
-      // TODO extract to App.vue
-      if (!rootGetters.user?.isAdmin) return console.debug('not pulling clients since no admin role')
-
+    fetch({commit}) {
       return fetchDocs('products')
-        .then(querySnapshot => commit('initialize', querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}))))
+        .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Product.fetch', err))
     },
-    getProduct({commit, rootGetters}) {
-      if (rootGetters.user?.userProductRef) {
-        rootGetters.user.userProductRef.get().then(doc => {
-          commit('upsert', {...doc.data(), id: doc.id})
-        }).catch((error) => {
-          console.log('Something went wrong - getProduct', error);
-        })
-      }
-    },
     // Attributes
-    updateAttributes({commit}, payload) {
-      updateDoc(doc(db, "products", payload.id), {attributes: payload.attributes})
-        .then(() => {
-          commit('upsert', payload.attributes)
-          commit('showSnackbar', 'מאפיינים נשמרו!', { root: true })
-        })
-        .catch(error => {
-          console.error('Something went wrong - updateAttributes', error);
-        })
-    }
+    // updateAttributes({commit}, payload) {
+    //   upsertDoc(doc(db, "products", payload.id), {attributes: payload.attributes})
+    //     .then(() => {
+    //       commit('upsert', payload.attributes)
+    //       commit('showSnackbar', 'מאפיינים נשמרו!', { root: true })
+    //     })
+    //     .catch(error => {
+    //       console.error('Something went wrong - updateAttributes', error);
+    //     })
+    // }
   },
   modules: {}
 }

@@ -1,4 +1,4 @@
-import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
+import {upsertDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -7,7 +7,7 @@ export default {
   },
   mutations: {
     initialize(state, payloads) {
-      state.list = payloads
+      state.list = [...payloads]
     },
     remove(state, id) {
       state.list = state.list.filter(item => item.id !== id)
@@ -34,7 +34,7 @@ export default {
   },
   actions: {
     upsert({commit}, payload) {
-      upsertDoc('orders', payload)
+      upsertDoc('orders', payload, {increment: true})
         .then(docRef => commit('upsert', {...payload, id: docRef.id}))
         .then(() => commit('showSnackbar', 'הזמנה נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - Order.upsert', err))
@@ -46,21 +46,12 @@ export default {
         .catch(err => console.error('Something went wrong - Order.remove', err))
     },
     fetch({commit, rootGetters}) {
-      // TODO extract to App.vue
-      if (!rootGetters.user?.isAdmin) return console.debug('not pulling orders since no admin role')
+      const {user} = rootGetters
+      const filter = user?.isAdmin ? null : where('orderSupplierRef', '==', user?.userSupplierRef)
 
-      return fetchDocs('orders')
-        .then(querySnapshot => commit('initialize', querySnapshot.docs.map(doc => ({...doc.data(), id: doc.id}))))
+      return fetchDocs('orders', {filter})
+        .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Order.fetch', err))
-    },
-    getOrder({commit, rootGetters}) {
-      if (rootGetters.user?.userOrderRef) {
-        rootGetters.user.userOrderRef.get().then(doc => {
-          commit('upsert', {...doc.data(), id: doc.id})
-        }).catch((error) => {
-          console.log('Something went wrong - getOrder', error);
-        })
-      }
     }
   },
   modules: {}

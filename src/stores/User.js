@@ -19,10 +19,10 @@ export default {
       Object.assign(state, DEFAULT_STATE())
     },
     initializeAuth(state, payloads) {
-      state.auth = payloads
+      state.auth = {...payloads}
     },
     initialize(state, payloads) {
-      state.list = payloads
+      state.list = [...payloads]
     },
     remove(state, id) {
       state.list = state.list.filter(item => item.id !== id)
@@ -55,7 +55,7 @@ export default {
       return createUserWithEmailAndPassword(getAuth(), payload.email, payload.password)
         .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
         .then(() => getAuth().currentUser.updateProfile({displayName: payload.username}))
-        .then(() => upsertDoc(COLLECTION_NAME, {payload, id: getAuth().currentUser.uid}))
+        .then(() => upsertDoc(COLLECTION_NAME, {payload, id: getAuth().currentUser.uid}, {increment: true}))
         .then(() => commit('upsert', {...payload, id: getAuth().currentUser.uid}))
         .then(() => commit('showSnackbar', 'משתמש חדש נוסף!', {root: true}))
         .catch(err => console.error('Something went wrong - User.signUp', err))
@@ -73,7 +73,7 @@ export default {
         .catch(err => console.error('Something went wrong - User.signOut', err))
     },
     upsert({commit}, payload) {
-      return upsertDoc(COLLECTION_NAME, payload)
+      return upsertDoc(COLLECTION_NAME, payload, {increment: true})
         .then(() => commit('upsert', payload))
         .then(() => commit('showSnackbar', 'משתמש נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - User.upsert', err))
@@ -85,18 +85,19 @@ export default {
         .catch(err => console.error('Something went wrong - User.remove', err))
     },
     fetch({commit, rootGetters}) {
-      const id = rootGetters.user?.isAdmin ? null : rootGetters.user?.userSupplierRef?.id
+      if(!rootGetters.user?.isAdmin) return Promise.resolve(null)
 
-      return fetchDocs(COLLECTION_NAME, {id})
+      return fetchDocs(COLLECTION_NAME)
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - User.fetch', err))
     },
     fetchCurrent({commit}) {
-      const id = getAuth().currentUser?.uid
-      if (!id) return console.debug('no user authenticated')
+      const {currentUser} = getAuth()
+      if (!currentUser) return console.debug('no user authenticated')
 
-      return fetchDocs(COLLECTION_NAME, {id})
+      return fetchDocs(COLLECTION_NAME, {id: currentUser.uid})
         .then(docs => commit('upsert', docs))
+        .then(() => commit('initializeAuth', currentUser))
         .catch(err => console.error('Something went wrong - User.fetchCurrent', err))
     },
   },
