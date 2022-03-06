@@ -45,11 +45,10 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    :value="computedDate"
+                    :value="orderDeliveryDate"
                     clearable
                     filled
                     dense
-                    hide-details
                     label="תאריך אספקה"
                     readonly
                     v-bind="attrs"
@@ -58,7 +57,7 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
-                  v-model="orderDeliveryDate"
+                  v-model="computedDate"
                   @change="dateDialog = false"
                   :first-day-of-week="0"
                   locale="he-il"
@@ -153,7 +152,7 @@ import { getAuth } from 'firebase/auth'
 import emailjs from '@emailjs/browser';
   export default {
     name: 'DialogCreate',
-    props: ['order', 'value'],
+    props: ['client', 'supplier', 'value'],
     data: () => ({
       orderClient: {},
       orderWorkTitle: '',
@@ -176,8 +175,14 @@ import emailjs from '@emailjs/browser';
       }
     },
     computed: {
-      computedDate () {
-        return this.orderDeliveryDate && parseISO(this.orderDeliveryDate).toISOString().substr(0, 10)
+      computedDate: {
+        get() {
+          return this.orderDeliveryDate && this.$options.filters.formatDateReverse(this.orderDeliveryDate).toISOString().substr(0, 10)
+        },
+        set(newValue) {
+          const seconds = parseISO(newValue).getTime() / 1000
+          this.orderDeliveryDate = this.$options.filters.formatDate({seconds})
+        }
       },
       clients() {
           return this.$store.state.Client.list
@@ -219,7 +224,7 @@ import emailjs from '@emailjs/browser';
             buyPrice: this.orderBuyPrice,
             margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
             statusType: this.orderStatusType = 'בעבודה',
-            deliveryDate: parseISO(this.orderDeliveryDate),
+            deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
             deliveryType: this.orderDeliveryType,
           }
 
@@ -268,7 +273,7 @@ import emailjs from '@emailjs/browser';
           buyPrice: this.orderBuyPrice,
           margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
           statusType: this.orderStatusType = 'טיוטה',
-          deliveryDate: parseISO(this.orderDeliveryDate),
+          deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
           deliveryType: this.orderDeliveryType,
         }
 
@@ -289,14 +294,11 @@ import emailjs from '@emailjs/browser';
       }
     },
     mounted() {
-      if(this.order) {
-        this.orderClient = this.clients.find(client => client.id === this.order.orderClientRef.id)
-        this.orderWorkTitle = this.order.orderWorkTitle
-        this.orderWorkProducts = this.order.orderWork
-        this.orderSupplier = this.suppliers.find(supplier => supplier.id === this.order.orderSupplierRef.id)
-        this.orderDeliveryAgent = this.order.deliveryAgent
-        this.orderSellPrice = this.order.sellPrice
-        this.orderBuyPrice = this.order.buyPrice
+      if(this.client) {
+        this.orderClient = this.client
+      }
+      if(this.supplier) {
+        this.orderSupplier = this.supplier
       }
     }
   }

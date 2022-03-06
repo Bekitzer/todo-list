@@ -271,7 +271,7 @@
         @close="dialogs.create = false"
         :client='client'
     />
-    <dialog-order
+    <dialog-image-order
         v-if="dialogs.order"
         v-model="dialogs.order"
         @close="dialogs.order = false"
@@ -389,7 +389,7 @@ export default {
     'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
     'nav-appbar': require('@/components/Global/AppBar.vue').default,
     'dialog-image': require('@/components/Clients/Dialogs/DialogImage.vue').default,
-    'dialog-order': require('@/components/Orders/Dialogs/DialogImage.vue').default
+    'dialog-image-order': require('@/components/Orders/Dialogs/DialogImage.vue').default
   }
 }
 </script>

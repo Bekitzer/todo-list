@@ -48,6 +48,7 @@
                     :value="orderDeliveryDate"
                     clearable
                     filled
+                    dense
                     label="בחר תאריך אספקה"
                     readonly
                     v-bind="attrs"

@@ -25,7 +25,7 @@
       </template>
     </nav-appbar>
     <v-row no-gutters>
-      <v-col cols="12" md="7" sm="7" class="pa-10 grey lighten-3 rounded-b-xl">
+      <v-col cols="12" md="12" sm="12" class="pa-10 grey lighten-3 rounded-b-xl">
         <v-tabs v-model="tab" align-with-title>
           <v-tabs-slider color="yellow"></v-tabs-slider>
           <v-tab>
@@ -104,27 +104,11 @@
 export default {
   name: 'Product',
   data: () => ({
-    overlay: false,
-    pageName: '',
-    fab: false,
-    transition: 'slide-y-transition',
+    tab: null,
     dialogs: {
       edit: false,
       image: false
     },
-    tab: null,
-    activator: null,
-    attach: null,
-    editing: null,
-    editingIndex: -1,
-    items: [
-      { header: 'בחר או צור חדש' },
-    ],
-    menu: false,
-    attributeName: '',
-    x: 0,
-    search: null,
-    y: 0,
   }),
   computed: {
     product() {
@@ -137,28 +121,7 @@ export default {
     },
     handleAttributeChange(attributes) {
       this.$store.dispatch('Product/update', {id: this.product.id, attributes})
-    },
-    edit (index, item) {
-      if (!this.editing) {
-        this.editing = item
-        this.editingIndex = index
-      } else {
-        this.editing = null
-        this.editingIndex = -1
-      }
-    },
-    filter (item, queryText, itemText) {
-      if (item.header) return false
-
-      const hasValue = val => val != null ? val : ''
-
-      const text = hasValue(itemText)
-      const query = hasValue(queryText)
-
-      return text.toString()
-        .toLowerCase()
-        .indexOf(query.toString().toLowerCase()) > -1
-    },
+    }
   },
   components: {
     'dialog-edit': require('@/components/Products/Dialogs/DialogEdit.vue').default,
