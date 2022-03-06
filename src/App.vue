@@ -1,7 +1,6 @@
 <template>
   <v-app id="inspire">
-    <nav-drawer-logged-in v-if="isLoggedIn" />
-    <nav-drawer-logged-out v-if="!isLoggedIn" />
+    <nav-drawer />
     <v-main>
       <router-view style="padding: 4px 4%;"></router-view>
       <snackbar />
@@ -12,9 +11,6 @@
 
 
 <script>
-import {getAuth} from 'firebase/auth'
-
-
 export default {
   data: () => ({
     isLoggedIn: false
@@ -31,17 +27,10 @@ export default {
 
   },
   components: {
-    'nav-drawer-logged-in' : require('@/components/Global/NavDrawerLoggedIn.vue').default,
-    'nav-drawer-logged-out' : require('@/components/Global/NavDrawerLoggedOut.vue').default,
+    'nav-drawer' : require('@/components/Global/NavDrawer.vue').default,
     'nav-footer' : require('@/components/Global/FooterBar.vue').default,
     'snackbar' : require('@/components/Global/Snackbar.vue').default
   },
-  created() {
-    this.$vuetify.rtl = true
-    if(getAuth().currentUser){
-      this.isLoggedIn = true
-    }
-  }
 }
 </script>
 <style lang="sass">
