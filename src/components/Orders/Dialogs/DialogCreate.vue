@@ -176,8 +176,6 @@ import emailjs from '@emailjs/browser';
     },
     computed: {
       computedDate: {
-        // return this.orderDeliveryDate && parseISO(this.orderDeliveryDate).toISOString().substr(0, 10)
-
         get() {
           return this.orderDeliveryDate && this.$options.filters.formatDateReverse(this.orderDeliveryDate).toISOString().substr(0, 10)
         },
