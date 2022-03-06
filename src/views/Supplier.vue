@@ -269,7 +269,7 @@
         v-if="dialogs.create"
         v-model="dialogs.create"
         @close='dialogs.create = false'
-        :order="order"
+        :supplier="supplier"
     />
     <dialog-order
         v-if="dialogs.order"

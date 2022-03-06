@@ -14,6 +14,7 @@
         sort-desc
         :expanded.sync="expanded"
         @click:row="clickRow"
+        @current-items="getFiltered"
     >
       <template v-slot:expanded-item="{ headers, item }">
         <td class="orderWorkInfo" :colspan="headers.length">
@@ -215,9 +216,13 @@ export default {
       {text: "מוכן - ספק", value: "מוכן - ספק"},
       {text: "במשלוח", value: "במשלוח"},
       {text: "סופק", value: "סופק"}
-    ]
+    ],
+    filteredItems: [],
   }),
   methods: {
+    getFiltered(e) {
+      this.filteredItems = e
+    },
     save(order) {
       let payload = {
         id: order.item.id,
@@ -327,11 +332,9 @@ export default {
       return date ? new Date(date.seconds * 1000) : null
     },
     sumField(key) {
-      if (!this.$store.state.search) {
-        return this.orders.reduce((a, b) =>
-            a + (b[key]), 0
-        )
-      }
+      return (this.filteredItems || this.orders).reduce((a, b) =>
+          a + (b[key]), 0
+      )
     }
   },
   computed: {
