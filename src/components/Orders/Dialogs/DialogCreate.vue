@@ -227,7 +227,6 @@ import emailjs from '@emailjs/browser';
             deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
             deliveryType: this.orderDeliveryType,
           }
-
           this.$store.dispatch('Order/upsert', orderFields)
           const mailFields = {
             clientName: this.orderClient.name,
