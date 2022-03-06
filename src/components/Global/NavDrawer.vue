@@ -3,6 +3,7 @@
     <v-navigation-drawer
       v-model="drawer"
       :mobile-breakpoint="800"
+      :right="$vuetify.rtl"
       permanent
       width="70"
       flat
