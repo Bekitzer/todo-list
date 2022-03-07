@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-menu
-        v-for="user in users" :key="user.id"
         v-model="menu"
         :close-on-content-click="false"
         open-on-hover
@@ -80,25 +79,15 @@ import {getAuth} from 'firebase/auth'
 export default {
   name: 'Profile',
   data: () => ({
-    user: '',
     menu: false,
   }),
-  created() {
-    const currentUserAuth = getAuth().currentUser
-    if (currentUserAuth !== null) {
-      this.uid = currentUserAuth.uid;
-    }
-  },
   computed: {
-    users() {
-      return this.$store.state.User.list.filter(user => user.uid === this.uid)
-    },
+    user() {
+      return this.$store.getters.user || {}
+    }
   },
   components: {
     'day-period': require('@/components/Tools/DayPeriod.vue').default
   }
 }
 </script>
-
-<style>
-</style>
