@@ -113,7 +113,7 @@ export default {
   data: () => ({
     tab: null,
     dialogs: {
-      edit: true,
+      edit: false,
       image: false
     },
   }),
