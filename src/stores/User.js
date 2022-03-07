@@ -32,9 +32,12 @@ export default {
         let found = false
 
         items = items.map(item => {
-          if (item.id === payload.id) found = true
+          if (item.id === payload.id) {
+            found = true
+            return payload
+          }
 
-          return found ? payload : item
+          return item
         })
 
         if (!found) items = items.concat(payload)

@@ -68,7 +68,7 @@ export const upsertDoc = (name, {id, ...item}, {increment, timestamp} = {timesta
   }
 
   if (id) {
-    return setDoc(doc(db, name, id), item)
+    return setDoc(doc(db, name, id), item).then(() => ({id}))
   }
 
   return runTransaction(db, transaction => {

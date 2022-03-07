@@ -21,9 +21,12 @@ export default {
         let found = false
 
         items = items.map(item => {
-          if (item.id === payload.id) found = true
+          if (item.id === payload.id) {
+            found = true
+            return payload
+          }
 
-          return found ? payload : item
+          return item
         })
 
         if (!found) items = items.concat(payload)
@@ -34,7 +37,7 @@ export default {
   },
   actions: {
     upsert({commit}, payload) {
-      upsertDoc('products-tags', payload)
+      return upsertDoc('products-tags', payload)
         .then(docRef => commit('upsert', {...payload, id: docRef.id}))
         .then(() => commit('showSnackbar', 'תגית נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - ProductTag.upsert', err))

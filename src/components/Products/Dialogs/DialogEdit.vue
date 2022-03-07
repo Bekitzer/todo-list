@@ -7,150 +7,49 @@
             <h3>שינוי מוצר</h3>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="productName"
-              label="שם מוצר"
-              filled
-              dense
-              hide-details
-            />
+            <v-text-field v-model="form.name" label="שם מוצר" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="productCategory"
-              :items="productCategoryList"
-              label="שם קטגוריה"
-              filled
-              dense
-              hide-details
-              small-chips
-              multiple
+                v-model="form.category"
+                :items="productCategoryList"
+                label="שם קטגוריה"
+                filled
+                dense
+                hide-details
+                small-chips
+                multiple
             ></v-select>
           </v-col>
           <v-col cols="12" md="12">
-            <v-combobox
-              v-model="productTags"
-              :filter="filter"
-              :hide-no-data="!search"
-              :items="items"
-              :search-input.sync="search"
-              hide-selected
-              label="חפש או צור חדש"
-              multiple
-              small-chips
-              filled
-              dense
-              hide-details
-            >
-              <template v-slot:no-data>
-                <v-list-item>
-                  <span class="subheading">חדש</span>
-                  <v-chip
-                    label
-                    small
-                  >
-                    {{ search }}
-                  </v-chip>
-                </v-list-item>
-              </template>
-              <template v-slot:selection="{ attrs, item, parent, selected }">
-                <v-chip
-                  v-if="item === Object(item)"
-                  v-bind="attrs"
-                  :input-value="selected"
-                  label
-                  small
-                >
-                  <span class="pr-2">
-                    {{ item.text }}
-                  </span>
-                  <v-icon
-                    small
-                    @click="parent.selectItem(item)"
-                  >
-                    $delete
-                  </v-icon>
-                </v-chip>
-              </template>
-              <template v-slot:item="{ index, item }">
-                <v-text-field
-                  v-if="editing === item"
-                  v-model="editing.text"
-                  autofocus
-                  flat
-                  background-color="transparent"
-                  hide-details
-                  solo
-                  @keyup.enter="edit(index, item)"
-                ></v-text-field>
-                <v-chip
-                  v-else
-                  dark
-                  label
-                  small
-                >
-                  {{ item.text }}
-                </v-chip>
-                <v-spacer></v-spacer>
-                <v-list-item-action @click.stop>
-                  <v-btn
-                    icon
-                    @click.stop.prevent="edit(index, item)"
-                  >
-                    <v-icon>{{ editing !== item ? 'mdi-pencil' : 'mdi-check' }}</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </template>
-            </v-combobox>
+            <tags-field v-model="form.tags"/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-textarea
-              v-model="productInfo"
-              label="מפרט"
-              filled
-              dense
-              hide-details
-            ></v-textarea>
+            <v-textarea v-model="form.productInfo" label="מפרט" filled dense hide-details></v-textarea>
           </v-col>
           <v-col cols="12" md="6">
-            <v-textarea
-              v-model="supplierPrices"
-              label="מחירון ספקים"
-              filled
-              dense
-              hide-details
-            ></v-textarea>
+            <v-textarea v-model="form.prices" label="מחירון ספקים" filled dense hide-details></v-textarea>
+          </v-col>
+
+          <v-divider class="mx-4"></v-divider>
+
+          <v-col cols="12">
+            <h3>מאפיינים</h3>
           </v-col>
           <v-col cols="12">
-            <v-card-actions
-              style="padding:0"
-            >
-              <v-btn
-                icon
-                color="red"
-                class="black--text"
-                @click="dialogs.delete = true"
-              >
-                <v-icon>
-                  mdi-trash-can-outline
-                </v-icon>
+            <attributes-field v-model="form.attributes"/>
+          </v-col>
+
+          <v-col cols="12">
+            <v-card-actions style="padding:0">
+              <v-btn icon color="red" class="black--text" @click="dialogs.delete = true">
+                <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn
-                outlined
-                large
-                color="red"
-                @click="dialog = false"
-              >
+              <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn
-                outlined
-                large
-                color="green"
-                @click="saveProduct"
-                :disabled="productFieldInvalid"
-              >
+              <v-btn outlined large color="green" @click="saveProduct" :disabled="formInvalid">
                 שמור
               </v-btn>
             </v-card-actions>
@@ -159,17 +58,16 @@
       </v-card>
     </v-dialog>
     <dialog-delete
-      v-if="dialogs.delete"
-      v-model="dialogs.delete"
-      @close="dialogs.delete = false"
-      :product = 'product'
+        v-if="dialogs.delete"
+        v-model="dialogs.delete"
+        @close="dialogs.delete = false"
+        :product='product'
     />
   </v-row>
 </template>
 
 <script>
-import { format, parseISO } from 'date-fns'
-import { he } from 'date-fns/locale'
+
 export default {
   name: 'DialogEdit',
   props: ['product', 'value'],
@@ -177,29 +75,15 @@ export default {
     dialogs: {
       delete: false
     },
-    productName: '',
-    productCategory: '',
-    productCategoryList: ['מיתוג ושיווק','משרדי ואירגוני','שילוט ותצוגה','מתקנים ומעמדים','מדבקות וטפטים','מוצרי קד״מ'],
-    productInfo: '',
-    supplierPrices: '',
-    activator: null,
-    attach: null,
-    editing: null,
-    editingIndex: -1,
-    items: [
-      { header: 'בחר או שנה תגית' },
-    ],
-    nonce: 1,
-    menu: false,
+    form: {},
     productTags: [],
-    x: 0,
-    search: null,
-    y: 0,
+    productCategoryList: ['מיתוג ושיווק', 'משרדי ואירגוני', 'שילוט ותצוגה', 'מתקנים ומעמדים', 'מדבקות וטפטים', 'מוצרי קד״מ']
   }),
   computed: {
-    productFieldInvalid() {
-      return
-      !this.productName || this.productName === this.product.name
+    formInvalid() {
+      //TODO: if empty attribute disable btn
+      //TODO: if duplicate attribute disable btn
+      return !this.form.name
     },
     dialog: {
       get() {
@@ -208,71 +92,24 @@ export default {
       set() {
         this.$emit('close', false)
       }
-    },
-  },
-  watch: {
-    productTags (val, prev) {
-      if (val.length === prev.length) return
-
-      this.productTags = val.map(v => {
-        if (typeof v === 'string') {
-          v = {
-            text: v,
-          }
-          this.items.push(v)
-        }
-        return v
-      })
-    },
+    }
   },
   methods: {
-    edit (index, item) {
-      if (!this.editing) {
-        this.editing = item
-        this.editingIndex = index
-      } else {
-        this.editing = null
-        this.editingIndex = -1
-      }
-    },
-    filter (item, queryText, itemText) {
-      if (item.header) return false
-
-      const hasValue = val => val != null ? val : ''
-
-      const text = hasValue(itemText)
-      const query = hasValue(queryText)
-
-      return text.toString()
-        .toLowerCase()
-        .indexOf(query.toString().toLowerCase()) > -1
-    },
     saveProduct() {
-      if(!this.productFieldInvalid){
-        let payload = {
-          id: this.product.id,
-          name: this.productName,
-          category: this.productCategory,
-          tags: this.productTags,
-          productInfo: this.productInfo,
-          prices: this.supplierPrices,
-          updatedAt: format(new Date(Date.now()), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
-        }
+      if (!this.formInvalid) {
         this.dialog = false
-        this.$store.dispatch('Product/upsert', payload)
+        this.$store.dispatch('Product/upsert', this.form)
         this.$router.push('/products')
       }
     }
   },
   mounted() {
-    this.productName = this.product.name
-    this.productCategory = this.product.category
-    this.productTags = this.product.tags
-    this.productInfo = this.product.productInfo
-    this.supplierPrices = this.product.prices
+    this.form = JSON.parse(JSON.stringify(this.product))
   },
   components: {
-      'dialog-delete': require('@/components/Products/Dialogs/DialogDelete.vue').default
+    'dialog-delete': require('@/components/Products/Dialogs/DialogDelete.vue').default,
+    'attributes-field': require('@/components/Products/Dialogs/Fields/AttributesField.vue').default,
+    'tags-field': require('@/components/Products/Dialogs/Fields/TagsField.vue').default
   }
 }
 </script>
