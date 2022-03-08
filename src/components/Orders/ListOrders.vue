@@ -247,11 +247,11 @@ export default {
         this.expanded.push(item);
       }
     },
-    clickClient(client) {
-      this.$router.push({name: 'Client', params: {id: client.id}})
+    clickClient({orderClientRef}) {
+      this.$router.push({name: 'Client', params: {id: orderClientRef.id}})
     },
-    clickSupplier(supplier) {
-      this.$router.push({name: 'Supplier', params: {id: supplier.id}})
+    clickSupplier({orderSupplierRef}) {
+      this.$router.push({name: 'Supplier', params: {id: orderSupplierRef.id}})
     },
     getColor(statusType) {
       if (statusType === "טיוטה") return '#FF9800'
