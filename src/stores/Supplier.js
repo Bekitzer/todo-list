@@ -38,7 +38,7 @@ export default {
   actions: {
     upsert({commit}, payload) {
       return upsertDoc('suppliers', payload, {increment: true})
-        .then(docRef => commit('upsert', {...payload, id: docRef.id}))
+        .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'ספק נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Supplier.upsert', err))
     },

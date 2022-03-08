@@ -73,7 +73,7 @@ export default {
     },
     upsert({commit}, payload) {
       return upsertDoc(COLLECTION_NAME, payload, {increment: true})
-        .then(() => commit('upsert', payload))
+        .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'משתמש נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - User.upsert', err))
     },

@@ -154,16 +154,17 @@
       </v-card>
     </v-dialog>
     <dialog-delete
-      v-if="dialogs.delete"
-      v-model="dialogs.delete"
-      @close="dialogs.delete = false"
-      :order = 'order'
+        v-if="dialogs.delete"
+        v-model="dialogs.delete"
+        @close="dialogs.delete = false"
+        :order='order'
     />
   </v-row>
 </template>
 
 <script>
 import {parseISO} from 'date-fns'
+import {doc} from 'firebase/firestore';
 import {db} from '@/firebase';
 
 export default {
@@ -207,15 +208,15 @@ export default {
     },
     orderFieldInvalid() {
       return (!this.orderClientId || this.orderClientId === this.order.orderClientRef.id)
-      && (!this.orderWorkTitle || this.orderWorkTitle === this.order.orderWorkTitle)
-      && (!this.orderWorkProducts || this.orderWorkProducts === this.order.orderWork)
-      && (!this.orderSupplierId || this.orderSupplierId === this.order.orderSupplierRef.id)
-      && (!this.orderStatusType || this.orderStatusType === this.order.statusType)
-      && (!this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate)
-      && (!this.orderDeliveryAgent || this.orderDeliveryAgent === this.order.deliveryAgent)
-      && (!this.orderSellPrice || this.orderSellPrice === this.order.sellPrice)
-      && (!this.orderBuyPrice || this.orderBuyPrice === this.order.buyPrice)
-      && (!this.orderDeliveryType || this.orderDeliveryType === this.order.deliveryType)
+          && (!this.orderWorkTitle || this.orderWorkTitle === this.order.orderWorkTitle)
+          && (!this.orderWorkProducts || this.orderWorkProducts === this.order.orderWork)
+          && (!this.orderSupplierId || this.orderSupplierId === this.order.orderSupplierRef.id)
+          && (!this.orderStatusType || this.orderStatusType === this.order.statusType)
+          && (!this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate)
+          && (!this.orderDeliveryAgent || this.orderDeliveryAgent === this.order.deliveryAgent)
+          && (!this.orderSellPrice || this.orderSellPrice === this.order.sellPrice)
+          && (!this.orderBuyPrice || this.orderBuyPrice === this.order.buyPrice)
+          && (!this.orderDeliveryType || this.orderDeliveryType === this.order.deliveryType)
     },
     dialog: {
       get() {
@@ -231,10 +232,10 @@ export default {
       if (!this.orderFieldInvalid) {
         let payload = {
           id: this.order.id,
-          orderClientRef: db.doc(`clients/${this.orderClientId}`),
+          orderClientRef: doc(db, `clients/${this.orderClientId}`),
           orderWorkTitle: this.orderWorkTitle,
           orderWork: this.orderWorkProducts,
-          orderSupplierRef: db.doc(`suppliers/${this.orderSupplierId}`),
+          orderSupplierRef: doc(db, `suppliers/${this.orderSupplierId}`),
           statusType: this.orderStatusType,
           deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
           deliveryAgent: this.orderDeliveryAgent,
