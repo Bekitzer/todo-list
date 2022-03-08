@@ -9,7 +9,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierName"
+                v-model="form.name"
                 label="שם ספק"
                 filled
                 dense
@@ -18,7 +18,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierCompanyName"
+                v-model="form.companyName"
                 label="שם חברה"
                 filled
                 dense
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierIdNumber"
+                v-model="form.numberId"
                 label="ח.פ. / ע.מ."
                 filled
                 dense
@@ -41,7 +41,7 @@
                 filled
                 v-on:placechanged="getAddressData"
                 country="il"
-                v-model="supplierAddress"
+                v-model="form.address"
                 label="כתובת"
                 dense
                 hide-details
@@ -50,7 +50,7 @@
           </v-col>
           <v-col cols="12">
             <v-textarea
-                v-model="supplierAddressAdditional"
+                v-model="form.addressAdditional"
                 label="הוראות הגעה"
                 filled
                 dense
@@ -63,18 +63,9 @@
           <v-col cols="12" style="padding-bottom:0">
             <h4>פרטי התקשרות</h4>
           </v-col>
-          <!-- <v-col cols="12" md="4" sm="12">
-            <v-text-field
-              v-model="supplierContactName"
-              label="איש קשר ראשי"
-              filled
-              dense
-              hide-details
-            />
-          </v-col> -->
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierPhone"
+                v-model="form.phone"
                 label="טלפון משרד"
                 filled
                 dense
@@ -83,7 +74,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierEmail"
+                v-model="form.email"
                 label="מייל משרד"
                 filled
                 dense
@@ -92,7 +83,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierWhatsapp"
+                v-model="form.whatsapp"
                 label="וואטסאפ משרד"
                 filled
                 dense
@@ -101,7 +92,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierWebsite"
+                v-model="form.website"
                 label="אתר אינטרנט"
                 filled
                 dense
@@ -110,7 +101,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierFacebook"
+                v-model="form.facebook"
                 label="פייסבוק"
                 filled
                 dense
@@ -119,7 +110,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierInstagram"
+                v-model="form.instagram"
                 label="אינסטגרם"
                 filled
                 dense
@@ -133,8 +124,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="supplierPaymentTerms"
-                :items="supplierPaymentTermsList"
+                v-model="form.paymentTerms"
+                :items="paymentTermsList"
                 label="תנאי תשלום"
                 filled
                 dense
@@ -143,8 +134,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="supplierPaymentMethod"
-                :items="supplierPaymentMethodList"
+                v-model="form.paymentMethod"
+                :items="paymentMethodList"
                 label="אמצעי תשלום"
                 filled
                 dense
@@ -158,8 +149,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="supplierDeliveryType"
-                :items="supplierDeliveryTypeList"
+                v-model="form.deliveryType"
+                :items="deliveryTypeList"
                 label="אופן אספקה"
                 filled
                 dense
@@ -168,7 +159,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="supplierHours"
+                v-model="form.hours"
                 label="שעות פעילות"
                 filled
                 dense
@@ -177,8 +168,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="supplierStatus"
-                :items="supplierStatusList"
+                v-model="form.status"
+                :items="statusList"
                 label="סטטוס ספק"
                 filled
                 dense
@@ -187,8 +178,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="supplierNewsletter"
-                :items="supplierNewsletterList"
+                v-model="form.newsletter"
+                :items="newsletterList"
                 label="דיוור"
                 filled
                 dense
@@ -243,8 +234,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-                v-model="supplierScope"
-                :items="supplierScopeList"
+                v-model="form.scope"
+                :items="scopeList"
                 label="תחום"
                 filled
                 dense
@@ -279,7 +270,7 @@
                   large
                   color="green"
                   @click="saveSupplier"
-                  :disabled="supplierFieldInvalid"
+                  :disabled="formInvalid"
               >
                 שמור
               </v-btn>
@@ -307,39 +298,19 @@ export default {
     dialogs: {
       delete: false
     },
-    supplierName: '',
-    supplierCompanyName: '',
-    supplierContactName: '',
-    supplierPhone: '',
-    supplierEmail: '',
-    supplierIdNumber: '',
-    supplierWebsite: '',
-    supplierFacebook: '',
-    supplierInstagram: '',
-    supplierPaymentTerms: '',
-    supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
-    supplierPaymentMethod: '',
-    supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-    supplierAddress: '',
-    supplierAddressAdditional: '',
-    supplierWhatsapp: '',
-    supplierHours: '',
-    supplierDeliveryType: '',
-    supplierDeliveryTypeList: ["איסוף עצמי", "מגיע למשרד"],
-    supplierStatus: '',
-    supplierStatusList: ["פעיל", "לא פעיל", "מזדמן", "שת״פ"],
-    supplierNewsletter: '',
-    supplierNewsletterList: ["כן", "לא"],
-    supplierScope: '',
-    supplierScopeList: ["2", "1"],
+    form: {},
+    paymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+    paymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+    deliveryTypeList: ["איסוף עצמי", "מגיע למשרד"],
+    statusList: ["פעיל", "לא פעיל", "מזדמן", "שת״פ"],
+    newsletterList: ["כן", "לא"],
+    scopeList: ["2", "1"],
     connectedUsersIds: [],
     removeUsersIds: []
   }),
   computed: {
-    supplierFieldInvalid() {
-      return
-      !this.supplierName || this.supplierName === this.supplier.name
-      !this.supplierStatus || this.supplierStatus === this.supplier.status
+    formInvalid() {
+      return !this.form.name
     },
     users() {
       return this.$store.state.User.list
@@ -367,55 +338,17 @@ export default {
     saveSupplier() {
       if (!this.supplierFieldInvalid) {
         let payload = {
-          id: this.supplier.id,
-          name: this.supplierName,
-          companyName: this.supplierCompanyName,
-          contactName: this.supplierContactName,
-          phone: this.supplierPhone,
-          email: this.supplierEmail,
-          numberId: this.supplierIdNumber,
-          website: this.supplierWebsite,
-          facebook: this.supplierFacebook,
-          instagram: this.supplierInstagram,
-          paymentTerms: this.supplierPaymentTerms,
-          paymentMethod: this.supplierPaymentMethod,
-          address: this.supplierAddress,
-          addressAditional: this.supplierAddressAdditional,
-          whatsapp: this.supplierWhatsapp,
-          workingHours: this.supplierHours,
-          deliveryType: this.supplierDeliveryType,
-          status: this.supplierStatus,
-          newsletter: this.supplierNewsletter,
-          scope: this.supplierScope,
           usersIds: this.connectedUsersIds,
           removeUsersIds: this.removeUsersIds
         }
         this.dialog = false
-        this.$store.dispatch('Supplier/upsert', payload)
-        this.$router.push('/suppliers')
+        this.$store.dispatch('Supplier/upsert', this.form, payload)
+        // this.$router.push('/suppliers')
       }
     }
   },
   mounted() {
-    this.supplierName = this.supplier.name
-    this.supplierCompanyName = this.supplier.companyName
-    this.supplierContactName = this.supplier.contactName
-    this.supplierPhone = this.supplier.phone
-    this.supplierEmail = this.supplier.email
-    this.supplierIdNumber = this.supplier.numberId
-    this.supplierWebsite = this.supplier.website
-    this.supplierFacebook = this.supplier.facebook
-    this.supplierInstagram = this.supplier.instagram
-    this.supplierPaymentTerms = this.supplier.paymentTerms
-    this.supplierPaymentMethod = this.supplier.paymentMethod
-    this.supplierAddress = this.supplier.address
-    this.supplierAddressAdditional = this.supplier.addressAditional
-    this.supplierWhatsapp = this.supplier.whatsapp
-    this.supplierHours = this.supplier.workingHours
-    this.supplierDeliveryType = this.supplier.deliveryType
-    this.supplierStatus = this.supplier.status
-    this.supplierNewsletter = this.supplier.newsletter
-    this.supplierScope = this.supplier.scope
+    this.form = JSON.parse(JSON.stringify(this.supplier))
     this.connectedUsersIds = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id).map(user => user.id)
   },
   components: {

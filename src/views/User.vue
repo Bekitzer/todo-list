@@ -72,7 +72,7 @@
       <v-spacer></v-spacer>
     </v-row>
     <dialog-edit
-        v-if="dialogs.edit"
+        v-if="user.id && dialogs.edit"
         v-model="dialogs.edit"
         @close="dialogs.edit = false"
         :user='user'

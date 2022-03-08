@@ -254,7 +254,7 @@
       </v-col>
     </v-row>
     <dialog-edit
-        v-if="dialogs.edit"
+        v-if="supplier.id && dialogs.edit"
         v-model="dialogs.edit"
         @close="dialogs.edit = false"
         :supplier='supplier'

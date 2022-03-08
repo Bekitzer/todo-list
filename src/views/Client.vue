@@ -166,7 +166,7 @@
             fixed-header
             :search="$store.state.search"
             :headers="headers"
-            :items="processing"
+            :items="orders"
             item-key="id"
             sort-by="deliveryDate"
             :items-per-page="-1"
@@ -254,7 +254,7 @@
       </v-col>
     </v-row>
     <dialog-edit
-        v-if="dialogs.edit"
+        v-if="client.id && dialogs.edit"
         v-model="dialogs.edit"
         @close="dialogs.edit = false"
         :client='client'
@@ -334,7 +334,9 @@ export default {
       return this.$store.state.User.list.filter(user => user.userClientRef?.id === this.client.id)
     },
     client() {
-      return this.$store.state.Client.list.find(client => client.id === this.$route.params.id) || {name: ''}
+      return this.$store.state.Client.list.find(client => {
+        return client.id === this.$route.params.id
+      }) || {}
     },
     headers() {
       return [
@@ -364,7 +366,7 @@ export default {
 
       return suppliersMap
     },
-    processing: {
+    orders: {
       get() {
         return this.$store.state.Order.list.map(order => {
           const client = this.clientsMap[order.orderClientRef.id] || {}

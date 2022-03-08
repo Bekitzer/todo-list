@@ -9,7 +9,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientName"
+                v-model="form.name"
                 label="שם לקוח"
                 filled
                 dense
@@ -18,7 +18,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientCompanyName"
+                v-model="form.companyName"
                 label="שם חברה"
                 filled
                 dense
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientIdNumber"
+                v-model="form.numberId"
                 label="ח.פ. / ע.מ."
                 filled
                 dense
@@ -41,7 +41,7 @@
                 filled
                 v-on:placechanged="getAddressData"
                 country="il"
-                v-model="clientAddress"
+                v-model="form.address"
                 label="כתובת"
                 dense
                 hide-details
@@ -50,7 +50,7 @@
           </v-col>
           <v-col cols="12" md="12">
             <v-textarea
-                v-model="clientAddressAdditional"
+                v-model="form.addressAdditional"
                 label="הוראות הגעה"
                 filled
                 rows="1"
@@ -63,18 +63,9 @@
           <v-col cols="12" style="padding-bottom:0">
             <h4>פרטי התקשרות</h4>
           </v-col>
-          <!-- <v-col cols="12" md="4">
-            <v-text-field
-              v-model="clientContactName"
-              label="איש קשר ראשי"
-              filled
-              dense
-              hide-details
-            />
-          </v-col> -->
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientPhone"
+                v-model="form.phone"
                 label="טלפון"
                 filled
                 dense
@@ -83,7 +74,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientEmail"
+                v-model="form.email"
                 label="מייל"
                 filled
                 dense
@@ -93,7 +84,7 @@
 
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientWhatsapp"
+                v-model="form.whatsapp"
                 label="וואטסאפ"
                 filled
                 dense
@@ -102,7 +93,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientWebsite"
+                v-model="form.website"
                 label="אתר אינטרנט"
                 filled
                 dense
@@ -111,7 +102,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientFacebook"
+                v-model="form.facebook"
                 label="פייסבוק"
                 filled
                 dense
@@ -120,7 +111,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="clientInstagram"
+                v-model="form.instagram"
                 label="אינסטגרם"
                 filled
                 dense
@@ -134,18 +125,18 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="clientPaymentType"
-                :items="clientPaymentTypeList"
+                v-model="form.paymentType"
+                :items="paymentTypeList"
                 label="סוג תשלום"
                 filled
                 dense
                 hide-details
             ></v-select>
           </v-col>
-          <v-col cols="12" md="6" v-if="clientPaymentType !== 'מיידי'">
+          <v-col cols="12" md="6" v-if="form.paymentType !== 'מיידי'">
             <v-select
-                v-model="clientPaymentTerms"
-                :items="clientPaymentTermsList"
+                v-model="form.paymentTerms"
+                :items="paymentTermsList"
                 label="תנאי תשלום"
                 filled
                 dense
@@ -154,8 +145,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="clientPaymentMethod"
-                :items="clientPaymentMethodList"
+                v-model="form.paymentMethod"
+                :items="paymentMethodList"
                 label="אמצעי תשלום"
                 filled
                 dense
@@ -169,8 +160,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="clientDeliveryType"
-                :items="clientDeliveryTypeList"
+                v-model="form.deliveryType"
+                :items="deliveryTypeList"
                 label="אופן אספקה"
                 filled
                 dense
@@ -179,8 +170,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="clientStatus"
-                :items="clientStatusList"
+                v-model="form.status"
+                :items="statusList"
                 label="סוג לקוח"
                 filled
                 dense
@@ -189,8 +180,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="clientLead"
-                :items="clientLeadList"
+                v-model="form.lead"
+                :items="leadList"
                 label="מקור הגעה"
                 filled
                 dense
@@ -199,8 +190,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="clientNewsletter"
-                :items="clientNewsletterList"
+                v-model="form.newsletter"
+                :items="newsletterList"
                 label="דיוור"
                 filled
                 dense
@@ -280,7 +271,7 @@
                   large
                   color="green"
                   @click="saveClient"
-                  :disabled="clientFieldInvalid"
+                  :disabled="formInvalid"
               >
                 שמור
               </v-btn>
@@ -300,46 +291,27 @@
 
 <script>
 export default {
+  name: 'DialogEdit',
   props: ['client', 'value'],
   data: () => ({
     address: '',
     dialogs: {
       delete: false
     },
-    clientName: '',
-    clientCompanyName: '',
-    clientContactName: '',
-    clientPhone: '',
-    clientEmail: '',
-    clientIdNumber: '',
-    clientWebsite: '',
-    clientFacebook: '',
-    clientInstagram: '',
-    clientPaymentTerms: '',
-    clientPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
-    clientPaymentMethod: '',
-    clientPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-    clientPaymentType: '',
-    clientPaymentTypeList: ["מיידי", "הסדר חברה"],
-    clientAddress: '',
-    clientAddressAdditional: '',
-    clientWhatsapp: '',
-    clientDeliveryType: '',
-    clientStatus: '',
-    clientDeliveryTypeList: ["איסוף עצמי", "משלוח", "משתנה"],
-    clientStatusList: ["פרטי", "עסקי"],
-    clientLead: '',
-    clientLeadList: ["גוגל אורגני", "גוגל ממומן", "גוגל ישן", "פה לאוזן", "היכרות אישית"],
-    clientNewsletter: '',
-    clientNewsletterList: ["כן", "לא"],
+    form: {},
+    paymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+    paymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+    paymentTypeList: ["מיידי", "הסדר חברה"],
+    deliveryTypeList: ["איסוף עצמי", "משלוח", "משתנה"],
+    statusList: ["פרטי", "עסקי"],
+    leadList: ["גוגל אורגני", "גוגל ממומן", "גוגל ישן", "פה לאוזן", "היכרות אישית"],
+    newsletterList: ["כן", "לא"],
     connectedUsersIds: [],
     removeUsersIds: []
   }),
   computed: {
-    clientFieldInvalid() {
-      return
-      !this.clientName || this.clientName === this.client.name
-      !this.clientStatus || this.clientStatus === this.client.status
+    formInvalid() {
+      return !this.form.name
 
     },
     users() {
@@ -366,58 +338,21 @@ export default {
       }
     },
     saveClient() {
-      if (!this.clientFieldInvalid) {
+      if (!this.formInvalid) {
         let payload = {
-          id: this.client.id,
-          contactName: this.clientContactName,
-          phone: this.clientPhone,
-          email: this.clientEmail,
-          name: this.clientName,
-          companyName: this.clientCompanyName,
-          numberId: this.clientIdNumber,
-          website: this.clientWebsite,
-          facebook: this.clientFacebook,
-          instagram: this.clientInstagram,
-          paymentTerms: this.clientPaymentTerms,
-          paymentMethod: this.clientPaymentMethod,
-          paymentType: this.clientPaymentType,
-          address: this.clientAddress,
-          addressAdditional: this.clientAddressAdditional,
-          whatsapp: this.clientWhatsapp,
-          deliveryType: this.clientDeliveryType,
-          status: this.clientStatus,
-          lead: this.clientLead,
-          newsletter: this.clientNewsletter,
           usersIds: this.connectedUsersIds,
           removeUsersIds: this.removeUsersIds
         }
         this.dialog = false
-        this.$store.dispatch('Client/upsert', payload)
-        this.$router.push('/clients')
+        this.$store.dispatch('Client/upsert', this.form, payload)
+        // this.$router.push('/clients')
       }
     }
   },
   mounted() {
-    this.clientName = this.client.name
-    this.clientCompanyName = this.client.companyName
-    this.clientContactName = this.client.contactName
-    this.clientPhone = this.client.phone
-    this.clientEmail = this.client.email
-    this.clientIdNumber = this.client.numberId
-    this.clientWebsite = this.client.website
-    this.clientFacebook = this.client.facebook
-    this.clientInstagram = this.client.instagram
-    this.clientPaymentTerms = this.client.paymentTerms
-    this.clientPaymentMethod = this.client.paymentMethod
-    this.clientPaymentType = this.client.paymentType
-    this.clientAddress = this.client.address
-    this.clientAddressAdditional = this.client.addressAdditional
-    this.clientWhatsapp = this.client.whatsapp
-    this.clientDeliveryType = this.client.deliveryType
-    this.clientStatus = this.client.status
-    this.clientLead = this.client.lead
-    this.clientNewsletter = this.client.newsletter
+    this.form = JSON.parse(JSON.stringify(this.client))
     this.connectedUsersIds = this.users.filter(user => user.userClientRef?.id === this.client.id).map(user => user.id)
+
   },
   components: {
     'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default

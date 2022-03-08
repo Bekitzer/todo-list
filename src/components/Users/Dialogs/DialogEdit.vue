@@ -9,7 +9,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="userFirstName"
+                v-model="form.firstname"
                 label="שם פרטי"
                 filled
                 dense
@@ -18,7 +18,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="userLastName"
+                v-model="form.lastname"
                 label="שם משפחה"
                 filled
                 dense
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="userUsername"
+                v-model="form.username"
                 label="שם משתמש"
                 filled
                 dense
@@ -36,7 +36,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="userPhone"
+                v-model="form.phone"
                 label="טלפון"
                 filled
                 dense
@@ -45,7 +45,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="userEmail"
+                v-model="form.email"
                 label="מייל"
                 filled
                 dense
@@ -54,8 +54,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="userPosition"
-                :items="userPositionList"
+                v-model="form.position"
+                :items="positionList"
                 label="תפקיד"
                 filled
                 dense
@@ -116,13 +116,8 @@ export default {
     dialogs: {
       delete: false
     },
-    userFirstName: '',
-    userLastName: '',
-    userUsername: '',
-    userPhone: '',
-    userEmail: '',
-    userPosition: '',
-    userPositionList: ['בעלים', 'הנהלת חשבונות', 'מזכירות', 'עובד יצור'],
+    form: {},
+    positionList: ['בעלים', 'הנהלת חשבונות', 'מזכירות', 'עובד יצור'],
   }),
   computed: {
     userFieldInvalid() {
@@ -145,28 +140,14 @@ export default {
   methods: {
     saveUser() {
       if (!this.userFieldInvalid) {
-        let payload = {
-          id: this.user.id,
-          firstname: this.userFirstName,
-          lastname: this.userLastName,
-          phone: this.userPhone,
-          email: this.userEmail,
-          username: this.userUsername,
-          position: this.userPosition,
-        }
         this.dialog = false
-        this.$store.dispatch('User/upsert', payload)
+        this.$store.dispatch('User/upsert', this.form)
         this.$router.push('/users')
       }
     }
   },
   mounted() {
-    this.userFirstName = this.user.firstname
-    this.userLastName = this.user.lastname
-    this.userPhone = this.user.phone
-    this.userEmail = this.user.email
-    this.userUsername = this.user.username
-    this.userPosition = this.user.position
+    this.form = JSON.parse(JSON.stringify(this.user))
   },
   components: {
     'dialog-delete': require('@/components/Users/Dialogs/DialogDelete.vue').default
