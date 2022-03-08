@@ -123,7 +123,7 @@
       </v-col>
     </v-row>
     <dialog-edit
-        v-if="dialogs.edit"
+        v-if="order.id && dialogs.edit"
         v-model="dialogs.edit"
         @close="dialogs.edit = false"
         :order='order'

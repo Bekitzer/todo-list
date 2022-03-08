@@ -119,7 +119,7 @@ export default {
   }),
   computed: {
     product() {
-      return this.$store.state.Product.list.find((product, i) => {
+      return this.$store.state.Product.list.find(product => {
         return product.id === this.$route.params.id
       }) || {attributes: []}
     },

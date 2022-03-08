@@ -22,7 +22,7 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-text-field
-                v-model="orderWorkTitle"
+                v-model="form.orderWorkTitle"
                 label="שם עבודה"
                 filled
                 dense
@@ -31,7 +31,7 @@
           </v-col>
           <v-col cols="12" md="12" sm="12">
             <v-textarea
-                v-model="orderWorkProducts"
+                v-model="form.orderWork"
                 label="מפרט"
                 filled
                 dense
@@ -80,8 +80,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-                v-model="orderStatusType"
-                :items="orderStatusTypeList"
+                v-model="form.statusType"
+                :items="statusTypeList"
                 label="סטטוס הזמנה"
                 filled
                 hide-details
@@ -89,8 +89,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-                v-model="orderDeliveryType"
-                :items="orderDeliveryTypeList"
+                v-model="form.deliveryType"
+                :items="deliveryTypeList"
                 label="אופן אספקה"
                 filled
                 hide-details
@@ -99,7 +99,7 @@
           <v-col cols="12" md="6" sm="6">
             <v-text-field
                 type="number"
-                v-model.number="orderSellPrice"
+                v-model.number="form.sellPrice"
                 label="מחיר מכירה"
                 filled
                 dense
@@ -109,7 +109,7 @@
           <v-col cols="12" md="6" sm="6">
             <v-text-field
                 type="number"
-                v-model.number="orderBuyPrice"
+                v-model.number="form.buyPrice"
                 label="מחיר קנייה"
                 filled
                 dense
@@ -144,7 +144,7 @@
                   large
                   color="green"
                   @click="saveOrder"
-                  :disabled="orderFieldInvalid"
+                  :disabled="formInvalid"
               >
                 שמור
               </v-btn>
@@ -173,20 +173,14 @@ export default {
     dialogs: {
       delete: false
     },
-    orderClientId: '',
-    orderWorkTitle: '',
-    orderWorkProducts: '',
-    orderSupplierId: '',
     orderFile: '',
-    orderDeliveryType: '',
-    orderDeliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
+    form: {},
+    orderClientId: '',
+    orderSupplierId: '',
     orderDeliveryDate: '',
-    orderDeliveryAgent: '',
-    orderSellPrice: '',
-    orderBuyPrice: '',
+    deliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
     orderMargin: '',
-    orderStatusType: '',
-    orderStatusTypeList: ["בעבודה", "מוכן - משרד", "מוכן - ספק", "במשלוח", "סופק"],
+    statusTypeList: ["בעבודה", "מוכן - משרד", "מוכן - ספק", "במשלוח", "סופק"],
     dateDialog: false,
   }),
   computed: {
@@ -205,17 +199,8 @@ export default {
     suppliers() {
       return this.$store.state.Supplier.list
     },
-    orderFieldInvalid() {
-      return (!this.orderClientId || this.orderClientId === this.order.orderClientRef.id)
-      && (!this.orderWorkTitle || this.orderWorkTitle === this.order.orderWorkTitle)
-      && (!this.orderWorkProducts || this.orderWorkProducts === this.order.orderWork)
-      && (!this.orderSupplierId || this.orderSupplierId === this.order.orderSupplierRef.id)
-      && (!this.orderStatusType || this.orderStatusType === this.order.statusType)
-      && (!this.orderDeliveryDate || this.orderDeliveryDate === this.order.deliveryDate)
-      && (!this.orderDeliveryAgent || this.orderDeliveryAgent === this.order.deliveryAgent)
-      && (!this.orderSellPrice || this.orderSellPrice === this.order.sellPrice)
-      && (!this.orderBuyPrice || this.orderBuyPrice === this.order.buyPrice)
-      && (!this.orderDeliveryType || this.orderDeliveryType === this.order.deliveryType)
+    formInvalid() {
+      return !this.form.workTitle
     },
     dialog: {
       get() {
@@ -230,36 +215,22 @@ export default {
     saveOrder() {
       if (!this.orderFieldInvalid) {
         let payload = {
-          id: this.order.id,
           orderClientRef: db.doc(`clients/${this.orderClientId}`),
-          orderWorkTitle: this.orderWorkTitle,
-          orderWork: this.orderWorkProducts,
           orderSupplierRef: db.doc(`suppliers/${this.orderSupplierId}`),
-          statusType: this.orderStatusType,
           deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
-          deliveryAgent: this.orderDeliveryAgent,
-          sellPrice: this.orderSellPrice,
-          buyPrice: this.orderBuyPrice,
           margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-          deliveryType: this.orderDeliveryType
         }
         this.dialog = false
-        this.$store.dispatch('Order/upsert', payload)
+        this.$store.dispatch('Order/upsert', this.form, payload)
         this.$router.push('/orders')
       }
     }
   },
   mounted() {
     this.orderClientId = this.order.orderClientRef.id
-    this.orderWorkTitle = this.order.orderWorkTitle
-    this.orderWorkProducts = this.order.orderWork
     this.orderSupplierId = this.order.orderSupplierRef.id
-    this.orderStatusType = this.order.statusType
+    this.form = JSON.parse(JSON.stringify(this.order))
     this.orderDeliveryDate = this.$options.filters.formatDate(this.order.deliveryDate)
-    this.orderDeliveryAgent = this.order.deliveryAgent
-    this.orderSellPrice = this.order.sellPrice
-    this.orderBuyPrice = this.order.buyPrice
-    this.orderDeliveryType = this.order.deliveryType
   },
   components: {
     'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default
