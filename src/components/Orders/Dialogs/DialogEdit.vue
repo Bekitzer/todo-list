@@ -154,16 +154,17 @@
       </v-card>
     </v-dialog>
     <dialog-delete
-      v-if="dialogs.delete"
-      v-model="dialogs.delete"
-      @close="dialogs.delete = false"
-      :order = 'order'
+        v-if="dialogs.delete"
+        v-model="dialogs.delete"
+        @close="dialogs.delete = false"
+        :order='order'
     />
   </v-row>
 </template>
 
 <script>
 import {parseISO} from 'date-fns'
+import {doc} from 'firebase/firestore';
 import {db} from '@/firebase';
 
 export default {
@@ -215,8 +216,8 @@ export default {
     saveOrder() {
       if (!this.orderFieldInvalid) {
         let payload = {
-          orderClientRef: db.doc(`clients/${this.orderClientId}`),
-          orderSupplierRef: db.doc(`suppliers/${this.orderSupplierId}`),
+          orderClientRef: doc(db, `clients/${this.orderClientId}`),
+          orderSupplierRef: doc(db, `suppliers/${this.orderSupplierId}`),
           deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
           margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
         }

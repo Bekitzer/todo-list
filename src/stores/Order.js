@@ -38,7 +38,7 @@ export default {
   actions: {
     upsert({commit}, payload) {
       return upsertDoc('orders', payload, {increment: true})
-        .then(docRef => commit('upsert', {...payload, id: docRef.id}))
+        .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'הזמנה נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - Order.upsert', err))
     },
@@ -50,6 +50,8 @@ export default {
     },
     fetch({commit, rootGetters}) {
       const {user} = rootGetters
+      if(!user?.userSupplierRef) return console.debug('Can\'t fetch Orders since no supplier connected to this user')
+
       const filter = user?.isAdmin ? null : where('orderSupplierRef', '==', user?.userSupplierRef)
 
       return fetchDocs('orders', {filter})

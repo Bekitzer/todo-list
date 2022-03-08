@@ -77,6 +77,7 @@
                           hint="הכנס סיסמא חזקה"
                           :error="invalid && validated"
                           :error-message="errors[0]"
+                          autocomplete="on"
                       ></v-text-field>
                     </ValidationProvider>
                   </v-col>
