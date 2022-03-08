@@ -32,13 +32,14 @@ export default {
         if (!found) items = items.concat(payload)
       })
 
+      console.log(items)
       state.list = items
     }
   },
   actions: {
     upsert({commit}, payload) {
       return upsertDoc('orders', payload, {increment: true})
-        .then(docRef => commit('upsert', {...payload, id: docRef.id}))
+        .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'הזמנה נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - Order.upsert', err))
     },

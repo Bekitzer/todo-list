@@ -223,11 +223,7 @@ export default {
       this.filteredItems = e
     },
     save(order) {
-      let payload = {
-        id: order.item.id,
-        statusType: order.value
-      }
-      this.$store.dispatch('Order/upsert', payload)
+      this.$store.dispatch('Order/upsert', {...order.item, statusType: order.value})
     },
     duplicateItem(item) {
       this.$emit('duplicateOrder', item)

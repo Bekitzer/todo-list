@@ -61,28 +61,6 @@ function dbMigration() {
 
 // dbMigration()
 
-export const upsertDoc = (name, {id, ...item}, {increment, timestamp} = {timestamp: true}) => {
-  if (timestamp) {
-    if (id) item.updatedAt = serverTimestamp()
-    else item.createdAt = serverTimestamp()
-  }
-
-  if (id) {
-    return setDoc(doc(db, name, id), item).then(() => ({id}))
-  }
-
-  return runTransaction(db, transaction => {
-    return (increment ? incrementDoc(transaction, name) : Promise.resolve())
-      .then(number => {
-        if (number) item.number = number
-
-        return addDoc(collection(db, name), item)
-      })
-  })
-}
-export const removeDoc = (name, id) => {
-  return deleteDoc(doc(db, name, id))
-}
 export const fetchDocs = (name, {id = null, filter = null} = {}) => {
   if (id) {
     return getDoc(doc(db, name, id)).then(doc => ([{...doc.data(), id: doc.id}]))
@@ -94,4 +72,30 @@ export const fetchDocs = (name, {id = null, filter = null} = {}) => {
   }
 
   return getDocs(collection(db, name)).then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+}
+export const upsertDoc = (name, {id, ...payload}, {increment, timestamp = true} = {}) => {
+  if (timestamp) {
+    if (id) payload.updatedAt = serverTimestamp()
+    else payload.createdAt = serverTimestamp()
+  }
+
+  if (id) {
+    return setDoc(doc(db, name, id), payload)
+      .then(() => fetchDocs(name, {id}))
+      .then(([item]) => item)
+  }
+
+  return runTransaction(db, transaction => {
+    return (increment ? incrementDoc(transaction, name) : Promise.resolve())
+      .then(number => {
+        if (number) payload.number = number
+
+        return addDoc(collection(db, name), payload)
+          .then(docRef => fetchDocs(name, {id: docRef.id}))
+          .then(([item]) => item)
+      })
+  })
+}
+export const removeDoc = (name, id) => {
+  return deleteDoc(doc(db, name, id))
 }

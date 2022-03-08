@@ -38,11 +38,6 @@
 
 <script>
   export default {
-    data () {
-      return {
-        dialog: false,
-      }
-    },
     props: ['order', 'value'],
     computed: {
       dialog: {
