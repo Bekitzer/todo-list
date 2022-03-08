@@ -1,5 +1,11 @@
 import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, getAuth} from 'firebase/auth'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  getAuth,
+  updateProfile
+} from 'firebase/auth'
 
 const COLLECTION_NAME = 'users'
 const DEFAULT_STATE = () => ({
@@ -53,10 +59,10 @@ export default {
     signUp({commit}, payload) {
       return createUserWithEmailAndPassword(getAuth(), payload.email, payload.password)
         .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
-        .then(() => getAuth().currentUser.updateProfile({displayName: payload.username}))
-        .then(() => upsertDoc(COLLECTION_NAME, {payload, id: getAuth().currentUser.uid}, {increment: true}))
+        .then(() => updateProfile(getAuth().currentUser, {displayName: payload.username}))
+        .then(() => upsertDoc(COLLECTION_NAME, {...payload, id: getAuth().currentUser.uid}, {increment: true}))
         .then(() => commit('upsert', {...payload, id: getAuth().currentUser.uid}))
-        .then(() => commit('showSnackbar', 'משתמש חדש נוסף!', {root: true}))
+        .then(() => commit('showSnackbar', 'הרשמה בוצעה בהצלחה!', {root: true}))
         .catch(err => console.error('Something went wrong - User.signUp', err))
     },
     signIn({commit}, payload) {
@@ -64,6 +70,7 @@ export default {
         .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
         .then(() => fetchDocs(COLLECTION_NAME, {id: getAuth().currentUser.uid}))
         .then(docs => commit('upsert', docs))
+        .then(() => commit('showSnackbar', 'התחברות בוצעה בהצלחה!', {root: true}))
         .catch(err => console.error('Something went wrong - User.signIn', err))
     },
     signOut({commit}) {
@@ -84,7 +91,7 @@ export default {
         .catch(err => console.error('Something went wrong - User.remove', err))
     },
     fetch({commit, rootGetters}) {
-      if(!rootGetters.user?.isAdmin) return Promise.resolve(null)
+      if (!rootGetters.user?.isAdmin) return Promise.resolve(null)
 
       return fetchDocs(COLLECTION_NAME)
         .then(docs => commit('initialize', docs))
@@ -92,7 +99,7 @@ export default {
     },
     fetchCurrent({commit}) {
       const {currentUser} = getAuth()
-      if (!currentUser) return console.debug('no user authenticated')
+      if (!currentUser) return Promise.reject('UNAUTHENTICATED')
 
       return fetchDocs(COLLECTION_NAME, {id: currentUser.uid})
         .then(docs => commit('upsert', docs))

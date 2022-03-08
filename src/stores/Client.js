@@ -49,7 +49,11 @@ export default {
         .catch(err => console.error('Something went wrong - Client.remove', err))
     },
     fetch({commit, rootGetters}) {
-      const id = rootGetters.user?.isAdmin ? null : rootGetters.user?.userClientRef?.id
+      const {user} = rootGetters
+
+      if(!user?.userClientRef) return console.debug('Can\'t fetch Client since no client connected to this user')
+
+      const id = user?.isAdmin ? null : user?.userClientRef?.id
 
       return fetchDocs('clients', {id})
         .then(docs => commit('initialize', docs))

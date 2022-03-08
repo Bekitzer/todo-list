@@ -49,7 +49,11 @@ export default {
         .catch(err => console.error('Something went wrong - Supplier.remove', err))
     },
     fetch({commit, rootGetters}) {
-      const id = rootGetters.user?.isAdmin ? null : rootGetters.user?.userSupplierRef?.id
+      const {user} = rootGetters
+
+      if(!user?.userSupplierRef) return console.debug('Can\'t fetch Supplier since no supplier connected to this user')
+
+      const id = user?.isAdmin ? null : user?.userSupplierRef?.id
 
       return fetchDocs('suppliers', {id})
         .then(docs => commit('initialize', docs))

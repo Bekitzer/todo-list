@@ -67,6 +67,7 @@ export const fetchDocs = (name, {id = null, filter = null} = {}) => {
   }
 
   if (filter) {
+    console.log(name, filter)
     return getDocs(query(collection(db, name), filter))
       .then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
   }
@@ -75,8 +76,8 @@ export const fetchDocs = (name, {id = null, filter = null} = {}) => {
 }
 export const upsertDoc = (name, {id, ...payload}, {increment, timestamp = true} = {}) => {
   if (timestamp) {
-    if (id) payload.updatedAt = serverTimestamp()
-    else payload.createdAt = serverTimestamp()
+    if (!payload.createdAt) payload.createdAt = serverTimestamp()
+    payload.updatedAt = serverTimestamp()
   }
 
   if (id) {
