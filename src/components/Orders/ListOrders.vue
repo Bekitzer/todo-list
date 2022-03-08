@@ -185,7 +185,6 @@ const filterDateEnum = {
 
 export default {
   name: 'ListOrders',
-  props: ['order'],
   data: () => ({
     editStatusType: '',
     expanded: [],
