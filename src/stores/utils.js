@@ -67,7 +67,6 @@ export const fetchDocs = (name, {id = null, filter = null} = {}) => {
   }
 
   if (filter) {
-    console.log(name, filter)
     return getDocs(query(collection(db, name), filter))
       .then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
   }
