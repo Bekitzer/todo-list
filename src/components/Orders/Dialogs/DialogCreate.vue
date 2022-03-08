@@ -254,15 +254,14 @@ export default {
         this.orderDeliveryDate = ''
         this.orderDeliveryType = ''
 
-        // emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
-        //     .then((result) => {
-        //       console.log('SUCCESS!', result.text)
-        //     }, (error) => {
-        //       console.log('FAILED...', error.text)
-        //     })
+        emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
+            .then((result) => {
+              console.log('SUCCESS!', result.text)
+            }, (error) => {
+              console.log('FAILED...', error.text)
+            })
       }
       this.dialog = false
-      //setTimeout(() => this.$router.go({path: this.$router.path}), 3000)
     },
     addDraft() {
       const orderFields = {

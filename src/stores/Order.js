@@ -32,7 +32,6 @@ export default {
         if (!found) items = items.concat(payload)
       })
 
-      console.log(items)
       state.list = items
     }
   },
