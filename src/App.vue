@@ -271,4 +271,54 @@ th.spc-status-dot
 
 .v-icon.notranslate.v-data-table-header__icon.mdi-arrow-up::before
   content: "\F0143"
+.theme--dark.v-btn--has-bg:hover
+  background-color: #006D7B !important
+
+.theme--dark.v-btn--has-bg:hover .v-icon
+  transform: scale(1.2)
+  transform: rotate(90deg)
+
+.v-text-field__details
+  display: none !important
+
+.v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover) .v-btn__content
+  opacity:1 !important
+
+.v-btn--plain:focus .v-btn__content, .v-btn--plain:hover .v-btn__content
+  opacity:.62 !important
+
+.ngs-button
+  letter-spacing: 0 !important
+
+  color:#006d7b !important
+  height: auto !important
+  min-width: auto !important
+  padding: 0 !important
+
+.ngs-button:focus:hover
+  opacity: .62 !important
+
+.v-list-item__content
+  padding: 12px 0 !important
+
+.v-application .elevation-1, .theme--light.v-data-table.v-data-table--fixed-header thead th
+  box-shadow: none !important
+
+.theme--light.v-data-table .v-data-footer
+  border-top: none !important
+
+.orderWorkInfo
+  padding: 20px !important
+  white-space: pre-line !important
+  border-radius: 20px !important
+
+.v-data-table > .v-data-table__wrapper tbody tr.v-data-table__expanded__content
+  box-shadow: none !important
+  background: #fbfbfb !important
+
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th
+  font-size: 0.875rem !important
+
+.v-list-item__title
+  align-self: flex-start
 </style>

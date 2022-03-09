@@ -160,22 +160,65 @@
       <v-col cols="12" md="9" class="pr-10">
         <v-col cols="12">
           <h4>הזמנות</h4>
-          <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
         </v-col>
         <v-data-table
-            height="68vh"
-            fixed-header
-            :headers="headers"
-            :items="processing"
-            item-key="id"
-            sort-by="deliveryDate"
-            :items-per-page="-1"
-            hide-default-footer
-            sort-desc
-            no-data-text="אין הזמנות פעילות"
+          height="68vh"
+          fixed-header
+          :headers="headers"
+          :items="orders"
+          item-key="id"
+          sort-by="deliveryDate"
+          :items-per-page="-1"
+          hide-default-footer
+          sort-desc
+          no-data-text="אין הזמנות פעילות"
+          singleExpand: false
+          :expanded.sync="expanded"
+          @click:row="clickRow"
+          @current-items="getFiltered"
         >
+          <template v-slot:top>
+            <v-row no-gutters class="mt-6 mb-6 text-center align-center">
+              <v-col cols="12" md="2"" class="pl-2">
+                <v-select
+                    :items="orderDateList"
+                    clearable
+                    filled
+                    rounded
+                    v-model="orderDateFilter"
+                    label="סנן לפי תאריך הזמנה"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" md="2"">
+                <v-select
+                    :items="orderDeliveryDateList"
+                    clearable
+                    filled
+                    rounded
+                    v-model="deliveryDateFilter"
+                    label="סנן לפי תאריך אספקה"
+                ></v-select>
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col cols="12" md="3"" class="ml-2 rounded-pill">
+                <span>מכירה: {{ sumField('sellPrice')  | formatNumber }} | </span>
+                <span>קניה: {{ sumField('buyPrice')  | formatNumber }} | </span>
+                <span>רווח: {{ sumField('margin')  | formatNumber }}</span>
+              </v-col>
+              <v-col cols="12" md="1" sm="1">
+                <v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
+              </v-col>
+            </v-row>
+          </template>
+          <template v-slot:expanded-item="{ headers, item }">
+            <td class="orderWorkInfo" :colspan="headers.length">
+              {{ item.orderWork }}
+            </td>
+          </template>
           <template v-slot:[`item.clientLink`]="{ item }">
-            {{ item.clientLink }}
+            <v-btn @click.stop="clickClient(item)" dense plain class="ngs-button">
+              {{ item.clientLink }}
+            </v-btn>
           </template>
           <template v-slot:[`item.sell`]="{ item }">
             {{ item.sellPrice | formatNumber }}
@@ -187,10 +230,27 @@
             {{ item.margin | formatNumber }}
           </template>
           <template v-slot:[`item.statusType`]="props">
-            <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
-              mdi-circle-small
-            </v-icon>
-            {{ props.item.statusType }}
+            <v-edit-dialog
+                save-text="שמור"
+                cancel-text="בטל"
+                :return-value.sync="props.item.statusType"
+                @save="save(props)"
+                large
+                persistent
+            >
+              <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
+                mdi-circle-small
+              </v-icon>
+              {{ props.item.statusType }}
+              <template v-slot:input>
+                <v-select
+                    :items="orderStatusTypeList"
+                    v-model="props.item.statusType"
+                    label="סטטוס"
+                    single-line
+                ></v-select>
+              </template>
+            </v-edit-dialog>
           </template>
           <template v-slot:[`item.created`]="{ item }">
             {{ item.createdAt | formatDate }}
@@ -281,15 +341,69 @@
 </template>
 
 <script>
+import {
+  startOfDay,
+  endOfDay,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  subDays,
+  subMonths,
+  addDays,
+  addMonths
+} from 'date-fns'
+
+const filterDateEnum = {
+  THIS_DAY: "THIS_DAY",
+  NEXT_3_DAYS: "NEXT_3_DAYS",
+  NEXT_DAY: "NEXT_DAY",
+  LAST_3_DAYS: "LAST_3_DAYS",
+  THIS_WEEK: "THIS_WEEK",
+  THIS_MONTH: "THIS_MONTH",
+  LAST_MONTH: "LAST_MONTH",
+  NEXT_3_MONTH: "NEXT_3_MONTH",
+  LAST_3_MONTH: "LAST_3_MONTH"
+}
 export default {
   name: 'Supplier',
   data: () => ({
+    editStatusType: '',
+    expanded: [],
+    viewSuppliedOnly: true,
+    singleExpand: true,
+    orderDateFilter: "",
+    deliveryDateFilter: "",
+    orderDeliveryDateList: [
+      {text: "היום", value: filterDateEnum.THIS_DAY},
+      {text: "מחר", value: filterDateEnum.NEXT_DAY},
+      {text: "3 ימים הקרובים", value: filterDateEnum.NEXT_3_DAYS},
+      {text: "השבוע הקרוב", value: filterDateEnum.THIS_WEEK},
+      {text: "החודש הקרוב", value: filterDateEnum.THIS_MONTH},
+      {text: "3 חודשים הקרובים", value: filterDateEnum.NEXT_3_MONTHS},
+    ],
+    orderDateList: [
+      {text: "היום", value: filterDateEnum.THIS_DAY},
+      {text: "3 ימים אחרונים", value: filterDateEnum.LAST_3_DAYS},
+      {text: "השבוע", value: filterDateEnum.THIS_WEEK},
+      {text: "החודש", value: filterDateEnum.THIS_MONTH},
+      {text: "חודש שעבר", value: filterDateEnum.LAST_MONTH},
+      {text: "3 חודשים אחרונים", value: filterDateEnum.LAST_3_MONTHS},
+    ],
+    orderStatusTypeList: [
+      {text: "טיוטה", value: "טיוטה"},
+      {text: "בעבודה", value: "בעבודה"},
+      {text: "מוכן - משרד", value: "מוכן - משרד"},
+      {text: "מוכן - ספק", value: "מוכן - ספק"},
+      {text: "במשלוח", value: "במשלוח"},
+      {text: "סופק", value: "סופק"}
+    ],
+    filteredItems: [],
     overlay: false,
     order: null,
     pageName: '',
     fab: false,
     transition: 'slide-y-transition',
-    viewSuppliedOnly: true,
     dialogs: {
       edit: false,
       create: false,
@@ -305,19 +419,39 @@ export default {
     }
   },
   methods: {
-    openFileOrder(item) {
-      this.order = JSON.parse(JSON.stringify(item))
-      this.dialogs.order = true
+    getFiltered(e) {
+      this.filteredItems = e
     },
-    openFile(supplier) {
-      this.dialogs.image = true
+    save(order) {
+      this.$store.dispatch('Order/upsert', {...order.item, statusType: order.value})
     },
     duplicateOrder(item) {
       this.order = JSON.parse(JSON.stringify(item))
       this.dialogs.create = true
     },
+    openFile(supplier) {
+      this.dialogs.image = true
+    },
+    openFileOrder(item) {
+      this.order = JSON.parse(JSON.stringify(item))
+      this.dialogs.order = true
+    },
     clickOrder(order) {
       this.$router.push({name: 'Order', params: {id: order.id}})
+    },
+    clickRow(item, event) {
+      if (event.isExpanded) {
+        const index = this.expanded.findIndex(i => i === item);
+        this.expanded.splice(index, 1)
+      } else {
+        this.expanded.push(item);
+      }
+    },
+    clickClient({orderClientRef}) {
+      this.$router.push({name: 'Client', params: {id: orderClientRef.id}})
+    },
+    clickSupplier({orderSupplierRef}) {
+      this.$router.push({name: 'Supplier', params: {id: orderSupplierRef.id}})
     },
     getColor(statusType) {
       if (statusType === "טיוטה") return '#FF9800'
@@ -327,6 +461,80 @@ export default {
       else if (statusType === "במשלוח") return '#2196F3'
       else if (statusType === "סופק") return '#9E9E9E'
       else return 'grey darken-1'
+    },
+    isDateInRange(date, range) {
+      if (!date || !range) return true
+      const {start, end} = range
+      return date >= start && date <= end
+    },
+    dateEnumToRange(dateEnum) {
+      const d = new Date()
+      const {
+        LAST_3_DAYS,
+        NEXT_3_DAYS,
+        THIS_DAY,
+        NEXT_DAY,
+        THIS_WEEK,
+        THIS_MONTH,
+        LAST_MONTH,
+        LAST_3_MONTHS,
+        NEXT_3_MONTHS
+      } = filterDateEnum
+      let start, end;
+
+      switch (dateEnum) {
+        case THIS_DAY:
+          start = startOfDay(d)
+          end = endOfDay(d)
+          break;
+        case NEXT_DAY:
+          start = addDays(startOfDay(d), 1)
+          end = addDays(endOfDay(d), 1)
+          break;
+        case LAST_3_DAYS:
+          start = subDays(startOfDay(d), 3)
+          end = endOfDay(d)
+          break;
+        case NEXT_3_DAYS:
+          start = startOfDay(d)
+          end = addDays(endOfDay(d), 3)
+          break;
+        case THIS_WEEK:
+          start = startOfWeek(d, {weekStartsOn: 0})
+          end = endOfWeek(d, {weekStartsOn: 0})
+          break;
+        case THIS_MONTH:
+          start = startOfMonth(d)
+          end = endOfMonth(d)
+          break;
+        case LAST_MONTH:
+          start = subMonths(startOfMonth(d), 1)
+          end = subMonths(endOfMonth(d), 1)
+          break;
+        case LAST_3_MONTHS:
+          start = subMonths(startOfMonth(d), 3)
+          end = endOfMonth(d)
+          break;
+        case NEXT_3_MONTHS:
+          start = startOfMonth(d)
+          end = addMonths(endOfMonth(d), 3)
+          break;
+        default:
+          return null
+      }
+
+      return {start, end}
+    },
+    deliveryDate(date) {
+      return date ? new Date(date.seconds * 1000) : null
+    },
+    orderDate(date) {
+      return date ? new Date(date.seconds * 1000) : null
+    },
+    sumField(key) {
+      return (this.filteredItems || this.orders).reduce((a, b) =>
+          a + (b[key]), 0
+      )
     }
   },
   computed: {
@@ -364,7 +572,7 @@ export default {
 
       return suppliersMap
     },
-    processing: {
+    orders: {
       get() {
         return this.$store.state.Order.list.map(order => {
           const client = this.clientsMap[order.orderClientRef.id] || {}
@@ -376,7 +584,10 @@ export default {
           }
         })
             .filter(order => {
-              return order.orderSupplierRef.id === this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק')
+              const isValidOrderDate = this.isDateInRange(this.orderDate(order.createdAt), this.dateEnumToRange(this.orderDateFilter))
+              const isValidDeliveryDate = this.isDateInRange(this.deliveryDate(order.deliveryDate), this.dateEnumToRange(this.deliveryDateFilter))
+
+              return order.orderSupplierRef.id === this.supplier.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק') && isValidOrderDate && isValidDeliveryDate
             })
       },
       set(value) {
