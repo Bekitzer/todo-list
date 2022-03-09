@@ -336,7 +336,7 @@ export default {
       }
     },
     saveSupplier() {
-      if (!this.supplierFieldInvalid) {
+      if (!this.formInvalid) {
         const payload =  {
           ...this.form,
           usersIds: this.connectedUsers,
@@ -350,7 +350,7 @@ export default {
   },
   mounted() {
     this.form = JSON.parse(JSON.stringify(this.supplier))
-    this.connectedUsers = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id).map(user => user.id)
+    this.connectedUsers = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id)
   },
   components: {
     'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default
