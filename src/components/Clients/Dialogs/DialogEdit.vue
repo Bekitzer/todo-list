@@ -200,14 +200,14 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-autocomplete
-                v-model="connectedUsersIds"
+                item-text="username"
+                return-object
+                v-model="connectedUsers"
                 :items="users"
                 filled
                 chips
                 color="blue-grey lighten-2"
                 label="משתמש"
-                item-text="username"
-                item-value="id"
                 multiple
             >
               <template v-slot:selection="data">
@@ -306,8 +306,8 @@ export default {
     statusList: ["פרטי", "עסקי"],
     leadList: ["גוגל אורגני", "גוגל ממומן", "גוגל ישן", "פה לאוזן", "היכרות אישית"],
     newsletterList: ["כן", "לא"],
-    connectedUsersIds: [],
-    removeUsersIds: []
+    connectedUsers: [],
+    removeUsers: []
   }),
   computed: {
     formInvalid() {
@@ -331,29 +331,30 @@ export default {
       this.address = addressData;
     },
     remove(item) {
-      const index = this.connectedUsersIds.indexOf(item.id)
+      const index = this.connectedUsers.indexOf(item.id)
       if (index >= 0) {
-        this.removeUsersIds.push(this.connectedUsersIds[index])
-        this.connectedUsersIds.splice(index, 1)
+        this.removeUsers.push(this.connectedUsers[index])
+        this.connectedUsers.splice(index, 1)
       }
     },
     saveClient() {
       if (!this.formInvalid) {
-        let payload = {
-          usersIds: this.connectedUsersIds,
-          removeUsersIds: this.removeUsersIds
-        }
         this.dialog = false
-        this.$store.dispatch('Client/upsert', this.form, payload)
+        const payload =  {
+        ...this.form,
+            addUsers: this.connectedUsers,
+            removeUsers: this.removeUsers
+        }
+        this.$store.dispatch('Client/upsert', payload)
         // this.$router.push('/clients')
       }
     }
   },
   mounted() {
     this.form = JSON.parse(JSON.stringify(this.client))
-    this.connectedUsersIds = this.users.filter(user => user.userClientRef?.id === this.client.id).map(user => user.id)
+    this.connectedUsers = this.users.filter(user => user.userClientRef?.id === this.client.id)
 
-  },
+  },f
   components: {
     'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default
   }

@@ -36,8 +36,29 @@ export default {
     }
   },
   actions: {
-    upsert({commit}, payload) {
+    upsert({commit}, {addUsers = [], removeUsers = [], ...payload}) {
+      console.log(addUsers, removeUsers, payload)
+
+      // updateDoc(doc(db, "suppliers", supplier.id), supplier)
+      //   .then(() => Promise.all(removeUsersIds.map(userId => {
+      //     return updateDoc(doc(db, "users", userId), {supplierRef: null})
+      //   })))
+      //   .then(() => Promise.all(usersIds.map(userId => {
+      //     return updateDoc(doc(db, "users", userId), {supplierRef: supplier.id})
+      //   })))
+      //   .then(() => {
+      //     commit('updateSupplier', supplier)
+      //     removeUsersIds.map(id => commit('updateUser', {id, supplierRef: null}))
+      //     usersIds.map(id => commit('updateUser', {id, supplierRef: supplier.id}))
+      //     commit('showSnackbar', 'ספק עודכן!')
+      //   })
+
       return upsertDoc('clients', payload, {increment: true})
+        .then(() => Promise.all(removeUsers.map(user =>
+          upsertDoc('users', {...user, userClientRef: null}))))
+        .then(() => Promise.all(addUsers.map(user =>
+          upsertDoc('users', {...user, userClientRef: payload.id}))))
+        .then(() => upsertDoc('clients', payload, {increment: true}))
         .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'לקוח נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.upsertv', err))
