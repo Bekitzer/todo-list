@@ -51,7 +51,9 @@ export default {
     fetch({commit, rootGetters}) {
       const {user} = rootGetters
 
-      if(!user?.userClientRef) return console.debug('Can\'t fetch Client since no client connected to this user')
+      if (!user?.isAdmin && !user?.userClientRef) {
+        return console.debug(`Can't fetch Client since no client connected to this user`)
+      }
 
       const id = user?.isAdmin ? null : user?.userClientRef?.id
 

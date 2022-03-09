@@ -50,9 +50,18 @@ export default {
     },
     fetch({commit, rootGetters}) {
       const {user} = rootGetters
-      if(!user?.userSupplierRef) return console.debug('Can\'t fetch Orders since no supplier connected to this user')
 
-      const filter = user?.isAdmin ? null : where('orderSupplierRef', '==', user?.userSupplierRef)
+      let filter = null
+
+      if (!user?.isAdmin) {
+        if (!user?.userSupplierRef && !user?.userClientRef) {
+          return console.debug(`Can't fetch Orders since no supplier not client connected to this user`)
+        }
+
+        filter = user?.userSupplierRef
+          ? where('orderSupplierRef', '==', user?.userSupplierRef)
+          : where('orderClientRef', '==', user?.userClientRef)
+      }
 
       return fetchDocs('orders', {filter})
         .then(docs => commit('initialize', docs))

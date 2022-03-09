@@ -51,7 +51,9 @@ export default {
     fetch({commit, rootGetters}) {
       const {user} = rootGetters
 
-      if(!user?.userSupplierRef) return console.debug('Can\'t fetch Supplier since no supplier connected to this user')
+      if (!user?.isAdmin && !user?.userSupplierRef) {
+        return console.debug(`Can't fetch Supplier since no supplier connected to this user`)
+      }
 
       const id = user?.isAdmin ? null : user?.userSupplierRef?.id
 
