@@ -27,8 +27,7 @@
 
 <script>
 export default {
-  name: 'Listuppliers',
-  props: ['supplier'],
+  name: 'ListSuppliers',
   data: () => ({
     headers: [
       { text: 'מס׳ ספק', value: 'number', align: 'start', width: '80px' },

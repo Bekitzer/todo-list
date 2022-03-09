@@ -4,6 +4,7 @@ import Client from "@/stores/Client.js";
 import Supplier from "@/stores/Supplier.js";
 import Order from "@/stores/Order.js";
 import Product from "@/stores/Product.js";
+import Variation from "@/stores/Variation.js";
 import User from "@/stores/User.js";
 import ProductTag from "@/stores/ProductTag.js";
 
@@ -52,6 +53,7 @@ export default new Vuex.Store({
     Supplier,
     Order,
     Product,
+    Variation,
     User,
     ProductTag
   }

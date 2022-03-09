@@ -143,7 +143,7 @@ export default {
   components: {
     'list-products': require('@/components/Products/ListProducts.vue').default,
     'dialog-create': require('@/components/Products/Dialogs/DialogCreate.vue').default,
-    'nav-appbar'          : require('@/components/Global/AppBar.vue').default
+    'nav-appbar': require('@/components/Global/AppBar.vue').default
   },
 }
 </script>

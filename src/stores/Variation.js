@@ -37,16 +37,16 @@ export default {
   },
   actions: {
     upsert({commit}, payload) {
-      return upsertDoc('orders', payload, {increment: true})
+      return upsertDoc('variations', payload, {increment: true})
         .then(doc => commit('upsert', doc))
-        .then(() => commit('showSnackbar', 'הזמנה נשמרה!', {root: true}))
-        .catch(err => console.error('Something went wrong - Order.upsert', err))
+        .then(() => commit('showSnackbar', 'וריאציה נשמרה!', {root: true}))
+        .catch(err => console.error('Something went wrong - Variation.upsert', err))
     },
     remove({commit}, id) {
-      return removeDoc('orders', id)
+      return removeDoc('variations', id)
         .then(() => commit('remove', id))
-        .then(() => commit('showSnackbar', 'הזמנה נמחקה!', {root: true}))
-        .catch(err => console.error('Something went wrong - Order.remove', err))
+        .then(() => commit('showSnackbar', 'וריאציה נמחקה!', {root: true}))
+        .catch(err => console.error('Something went wrong - Variation.remove', err))
     },
     fetch({commit, rootGetters}) {
       const {user} = rootGetters
@@ -54,18 +54,16 @@ export default {
       let filter = null
 
       if (!user?.isAdmin) {
-        if (!user?.userSupplierRef && !user?.userClientRef) {
-          return console.debug(`Can't fetch Orders since no supplier nor client connected to this user`)
+        if (!user?.userSupplierRef) {
+          return console.debug(`Can't fetch Variations since no supplier connected to this user`)
         }
 
-        filter = user?.userSupplierRef
-          ? where('orderSupplierRef', '==', user?.userSupplierRef)
-          : where('orderClientRef', '==', user?.userClientRef)
+        filter = where('variationSupplierRef', '==', user?.userSupplierRef?.id)
       }
 
-      return fetchDocs('orders', {filter})
+      return fetchDocs('variations', {filter})
         .then(docs => commit('initialize', docs))
-        .catch(err => console.error('Something went wrong - Order.fetch', err))
+        .catch(err => console.error('Something went wrong - Variation.fetch', err))
     }
   },
   modules: {}
