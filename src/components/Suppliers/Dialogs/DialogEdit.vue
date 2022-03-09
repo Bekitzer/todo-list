@@ -188,15 +188,14 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-autocomplete
-                v-model="connectedUsersIds"
+                item-text="username"
+                return-object
+                v-model="connectedUsers"
                 :items="users"
                 filled
                 chips
-                dense
                 color="blue-grey lighten-2"
                 label="משתמש"
-                item-text="username"
-                item-value="id"
                 multiple
             >
               <template v-slot:selection="data">
@@ -290,6 +289,7 @@
 
 <script>
 export default {
+  name: 'DialogEdit',
   props: ['supplier', 'value'],
   data: () => ({
     address: '',
@@ -305,8 +305,8 @@ export default {
     statusList: ["פעיל", "לא פעיל", "מזדמן", "שת״פ"],
     newsletterList: ["כן", "לא"],
     scopeList: ["2", "1"],
-    connectedUsersIds: [],
-    removeUsersIds: []
+    connectedUsers: [],
+    removeUsers: []
   }),
   computed: {
     formInvalid() {
@@ -329,27 +329,28 @@ export default {
       this.address = addressData;
     },
     remove(item) {
-      const index = this.connectedUsersIds.indexOf(item.id)
+      const index = this.connectedUsers.indexOf(item.id)
       if (index >= 0) {
-        this.removeUsersIds.push(this.connectedUsersIds[index])
-        this.connectedUsersIds.splice(index, 1)
+        this.removeUsers.push(this.connectedUsers[index])
+        this.connectedUsers.splice(index, 1)
       }
     },
     saveSupplier() {
       if (!this.supplierFieldInvalid) {
-        let payload = {
-          usersIds: this.connectedUsersIds,
-          removeUsersIds: this.removeUsersIds
+        const payload =  {
+          ...this.form,
+          usersIds: this.connectedUsers,
+          removeUsers: this.removeUsers
         }
         this.dialog = false
-        this.$store.dispatch('Supplier/upsert', this.form, payload)
+        this.$store.dispatch('Supplier/upsert', payload)
         // this.$router.push('/suppliers')
       }
     }
   },
   mounted() {
     this.form = JSON.parse(JSON.stringify(this.supplier))
-    this.connectedUsersIds = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id).map(user => user.id)
+    this.connectedUsers = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id).map(user => user.id)
   },
   components: {
     'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default

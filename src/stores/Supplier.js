@@ -36,11 +36,16 @@ export default {
     }
   },
   actions: {
-    upsert({commit}, payload) {
+    upsert({commit}, {addUsers = [], removeUsers = [], ...payload}) {
       return upsertDoc('suppliers', payload, {increment: true})
+        .then(() => Promise.all(removeUsers.map(user =>
+          upsertDoc('users', {...user, userSupplierRef: null}))))
+        .then(() => Promise.all(addUsers.map(user =>
+          upsertDoc('users', {...user, userSupplierRef: payload.id}))))
+        .then(() => upsertDoc('suppliers', payload, {increment: true}))
         .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'ספק נשמר!', {root: true}))
-        .catch(err => console.error('Something went wrong - Supplier.upsert', err))
+        .catch(err => console.error('Something went wrong - Supplier.upsertv', err))
     },
     remove({commit}, id) {
       return removeDoc('suppliers', id)

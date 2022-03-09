@@ -312,7 +312,6 @@ export default {
   computed: {
     formInvalid() {
       return !this.form.name
-
     },
     users() {
       return this.$store.state.User.list
@@ -339,12 +338,12 @@ export default {
     },
     saveClient() {
       if (!this.formInvalid) {
-        this.dialog = false
         const payload =  {
-        ...this.form,
-            addUsers: this.connectedUsers,
-            removeUsers: this.removeUsers
+          ...this.form,
+          addUsers: this.connectedUsers,
+          removeUsers: this.removeUsers
         }
+        this.dialog = false
         this.$store.dispatch('Client/upsert', payload)
         // this.$router.push('/clients')
       }
@@ -354,7 +353,7 @@ export default {
     this.form = JSON.parse(JSON.stringify(this.client))
     this.connectedUsers = this.users.filter(user => user.userClientRef?.id === this.client.id)
 
-  },f
+  },
   components: {
     'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete.vue').default
   }
