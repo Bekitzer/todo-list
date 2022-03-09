@@ -8,31 +8,13 @@
             <h4>פרטי ספק</h4>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.name"
-                label="שם ספק"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.name" label="שם ספק" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.companyName"
-                label="שם חברה"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.companyName" label="שם חברה" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.numberId"
-                label="ח.פ. / ע.מ."
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.numberId" label="ח.פ. / ע.מ." filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
             <vuetify-google-autocomplete
@@ -49,14 +31,7 @@
             </vuetify-google-autocomplete>
           </v-col>
           <v-col cols="12">
-            <v-textarea
-                v-model="form.addressAdditional"
-                label="הוראות הגעה"
-                filled
-                dense
-                hide-details
-                rows="1"
-            ></v-textarea>
+            <v-textarea v-model="form.addressAdditional" label="הוראות הגעה" filled dense hide-details rows="1"/>
           </v-col>
         </v-row>
         <v-row class="pt-5 pl-5 pr-5">
@@ -64,58 +39,22 @@
             <h4>פרטי התקשרות</h4>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.phone"
-                label="טלפון משרד"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.phone" label="טלפון משרד" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.email"
-                label="מייל משרד"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.email" label="מייל משרד" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.whatsapp"
-                label="וואטסאפ משרד"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.whatsapp" label="וואטסאפ משרד" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.website"
-                label="אתר אינטרנט"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.website" label="אתר אינטרנט" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.facebook"
-                label="פייסבוק"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.facebook" label="פייסבוק" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.instagram"
-                label="אינסטגרם"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.instagram" label="אינסטגרם" filled dense hide-details/>
           </v-col>
         </v-row>
         <v-row class="pt-5 pl-5 pr-5">
@@ -130,7 +69,7 @@
                 filled
                 dense
                 hide-details
-            ></v-select>
+            />
           </v-col>
           <v-col cols="12" md="6">
             <v-select
@@ -140,7 +79,7 @@
                 filled
                 dense
                 hide-details
-            ></v-select>
+            />
           </v-col>
         </v-row>
         <v-row class="pt-5 pl-5 pr-5">
@@ -155,42 +94,22 @@
                 filled
                 dense
                 hide-details
-            ></v-select>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.hours"
-                label="שעות פעילות"
-                filled
-                dense
-                hide-details
             />
           </v-col>
           <v-col cols="12" md="6">
-            <v-select
-                v-model="form.status"
-                :items="statusList"
-                label="סטטוס ספק"
-                filled
-                dense
-                hide-details
-            ></v-select>
+            <v-text-field v-model="form.hours" label="שעות פעילות" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-select
-                v-model="form.newsletter"
-                :items="newsletterList"
-                label="דיוור"
-                filled
-                dense
-                hide-details
-            ></v-select>
+            <v-select v-model="form.status" :items="statusList" label="סטטוס ספק" filled dense hide-details/>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-select v-model="form.newsletter" :items="newsletterList" label="דיוור" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
             <v-autocomplete
                 item-text="username"
                 return-object
-                v-model="connectedUsers"
+                v-model="formUsers"
                 :items="users"
                 filled
                 chips
@@ -199,13 +118,7 @@
                 multiple
             >
               <template v-slot:selection="data">
-                <v-chip
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    close
-                    @click="data.select"
-                    @click:close="remove(data.item)"
-                >
+                <v-chip close @click:close="remove(data.item)">
                   <v-avatar left>
                     <v-img :src="data.item.avatar"
                            lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
@@ -232,45 +145,20 @@
             </v-autocomplete>
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-select
-                v-model="form.scope"
-                :items="scopeList"
-                label="תחום"
-                filled
-                dense
-                hide-details
-            ></v-select>
+            <v-select v-model="form.scope" :items="scopeList" label="תחום" filled dense hide-details/>
           </v-col>
           <v-col cols="12">
-            <v-card-actions
-                style="padding:0"
-            >
-              <v-btn
-                  icon
-                  color="red"
-                  class="black--text"
-                  @click="dialogs.delete = true"
-              >
+            <v-card-actions style="padding:0">
+              <v-btn icon color="red" class="black--text" @click="dialogs.delete = true">
                 <v-icon>
                   mdi-trash-can-outline
                 </v-icon>
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn
-                  outlined
-                  large
-                  color="red"
-                  @click="dialog = false"
-              >
+              <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn
-                  outlined
-                  large
-                  color="green"
-                  @click="saveSupplier"
-                  :disabled="formInvalid"
-              >
+              <v-btn outlined large color="green" @click="saveSupplier" :disabled="saving || formInvalid" :loading="saving">
                 שמור
               </v-btn>
             </v-card-actions>
@@ -292,6 +180,7 @@ export default {
   name: 'DialogEdit',
   props: ['supplier', 'value'],
   data: () => ({
+    saving: false,
     address: '',
     autoUpdate: true,
     isUpdating: false,
@@ -305,8 +194,7 @@ export default {
     statusList: ["פעיל", "לא פעיל", "מזדמן", "שת״פ"],
     newsletterList: ["כן", "לא"],
     scopeList: ["2", "1"],
-    connectedUsers: [],
-    removeUsers: []
+    formUsers: []
   }),
   computed: {
     formInvalid() {
@@ -314,6 +202,9 @@ export default {
     },
     users() {
       return this.$store.state.User.list
+    },
+    supplierUsers() {
+      return this.users.filter(user => user.userSupplierRef?.id === this.supplier.id)
     },
     dialog: {
       get() {
@@ -329,28 +220,27 @@ export default {
       this.address = addressData;
     },
     remove(item) {
-      const index = this.connectedUsers.indexOf(item.id)
-      if (index >= 0) {
-        this.removeUsers.push(this.connectedUsers[index])
-        this.connectedUsers.splice(index, 1)
-      }
+      this.formUsers = this.formUsers.filter(({id}) => id !== item.id)
     },
     saveSupplier() {
       if (!this.formInvalid) {
-        const payload =  {
+        this.saving = true
+        const payload = {
           ...this.form,
-          usersIds: this.connectedUsers,
-          removeUsers: this.removeUsers
+          connectUsers: this.formUsers,
+          disconnectUsers: this.supplierUsers.filter(user => !this.formUsers.find(({id}) => id === user.id))
         }
-        this.dialog = false
-        this.$store.dispatch('Supplier/upsert', payload)
-        // this.$router.push('/suppliers')
+
+        this.$store.dispatch('Supplier/upsert', payload).finally(() => {
+          this.saving = false
+          this.dialog = false
+        })
       }
     }
   },
   mounted() {
     this.form = JSON.parse(JSON.stringify(this.supplier))
-    this.connectedUsers = this.users.filter(user => user.userSupplierRef?.id === this.supplier.id)
+    this.formUsers = JSON.parse(JSON.stringify(this.supplierUsers))
   },
   components: {
     'dialog-delete': require('@/components/Suppliers/Dialogs/DialogDelete.vue').default

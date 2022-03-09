@@ -146,11 +146,10 @@
 </template>
 
 <script>
-import {doc} from 'firebase/firestore';
-import {db} from '@/firebase';
 import {parseISO} from 'date-fns'
 import {getAuth} from 'firebase/auth'
 import emailjs from '@emailjs/browser';
+import {docRef} from '@/stores/utils';
 
 export default {
   name: 'DialogCreate',
@@ -217,10 +216,10 @@ export default {
     addOrder() {
       if (!this.orderFieldInvalid) {
         const orderFields = {
-          orderClientRef: doc(db,`clients/${this.orderClient.id}`),
+          orderClientRef: docRef(`clients/${this.orderClient.id}`),
           orderWorkTitle: this.orderWorkTitle,
           orderWork: this.orderWorkProducts,
-          orderSupplierRef: doc(db,`suppliers/${this.orderSupplier.id}`),
+          orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
           deliveryAgent: this.name,
           sellPrice: this.orderSellPrice,
           buyPrice: this.orderBuyPrice,
@@ -265,10 +264,10 @@ export default {
     },
     addDraft() {
       const orderFields = {
-        orderClientRef: doc(db, `clients/${this.orderClient.id}`),
+        orderClientRef: docRef(`clients/${this.orderClient.id}`),
         orderWorkTitle: this.orderWorkTitle,
         orderWork: this.orderWorkProducts,
-        orderSupplierRef: doc(db, `suppliers/${this.orderSupplier.id}`),
+        orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
         deliveryAgent: this.name,
         sellPrice: this.orderSellPrice,
         buyPrice: this.orderBuyPrice,

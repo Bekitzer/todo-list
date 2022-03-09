@@ -164,8 +164,7 @@
 
 <script>
 import {parseISO} from 'date-fns'
-import {doc} from 'firebase/firestore';
-import {db} from '@/firebase';
+import {docRef} from '@/stores/utils';
 
 export default {
   name: 'DialogEdit',
@@ -216,8 +215,8 @@ export default {
     saveOrder() {
       if (!this.orderFieldInvalid) {
         let payload = {
-          orderClientRef: doc(db, `clients/${this.orderClientId}`),
-          orderSupplierRef: doc(db, `suppliers/${this.orderSupplierId}`),
+          orderClientRef: docRef(`clients/${this.orderClientId}`),
+          orderSupplierRef: docRef(`suppliers/${this.orderSupplierId}`),
           deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
           margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
         }

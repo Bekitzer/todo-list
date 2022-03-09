@@ -2,10 +2,7 @@
   <div>
     <nav-appbar :pname="'לקוחות - ' + this.client.name">
       <template v-slot:add-btn>
-        <v-tooltip
-            bottom
-            content-class="normal tooltip-bottom"
-        >
+        <v-tooltip bottom content-class="normal tooltip-bottom">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 fab
@@ -24,10 +21,7 @@
         </v-tooltip>
       </template>
       <template v-slot:create-btn>
-        <v-tooltip
-            bottom
-            content-class="normal tooltip-bottom"
-        >
+        <v-tooltip bottom content-class="normal tooltip-bottom">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 fab
@@ -51,24 +45,13 @@
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="6">
             <v-hover v-slot="{ hover }">
-              <v-avatar
-                  class="profile"
-                  size="108px"
-              >
+              <v-avatar class="profile" size="108px">
                 <v-fade-transition>
-                  <v-overlay
-                      v-if="hover"
-                      absolute
-                      color="#000"
-                  >
+                  <v-overlay v-if="hover" absolute color="#000">
                     <v-btn @click="openFile(client)">הוספה/שינוי תמונה</v-btn>
                   </v-overlay>
                 </v-fade-transition>
-                <v-img
-                    :src="client.avatar"
-                    lazy-src="/images/gravatar.jpg"
-                    rounded
-                ></v-img>
+                <v-img :src="client.avatar" lazy-src="/images/gravatar.jpg" rounded/>
               </v-avatar>
             </v-hover>
           </v-col>
@@ -199,51 +182,25 @@
             {{ item.deliveryDate | formatDate }}
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-tooltip
-                top
-                content-class="normal tooltip-top"
-            >
+            <v-tooltip top content-class="normal tooltip-top">
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                    small
-                    class="ml-2"
-                    @click.stop="openFileOrder(item)"
-                    v-bind="attrs"
-                    v-on="on"
-                >
+                <v-icon small class="ml-2" @click.stop="openFileOrder(item)" v-bind="attrs" v-on="on">
                   mdi-file-image
                 </v-icon>
               </template>
               <span>הצג תמונה</span>
             </v-tooltip>
-            <v-tooltip
-                top
-                content-class="normal tooltip-top"
-            >
+            <v-tooltip top content-class="normal tooltip-top">
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                    small
-                    class="ml-2"
-                    @click.stop="duplicateOrder(item)"
-                    v-bind="attrs"
-                    v-on="on"
-                >
+                <v-icon small class="ml-2" @click.stop="duplicateOrder(item)" v-bind="attrs" v-on="on">
                   mdi-content-duplicate
                 </v-icon>
               </template>
               <span>שכפל הזמנה</span>
             </v-tooltip>
-            <v-tooltip
-                top
-                content-class="normal tooltip-top"
-            >
+            <v-tooltip top content-class="normal tooltip-top">
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                    small
-                    @click.stop="clickOrder(item)"
-                    v-bind="attrs"
-                    v-on="on"
-                >
+                <v-icon small @click.stop="clickOrder(item)" v-bind="attrs" v-on="on">
                   mdi-pencil-outline
                 </v-icon>
               </template>
@@ -253,6 +210,7 @@
         </v-data-table>
       </v-col>
     </v-row>
+
     <dialog-edit
         v-if="client.id && dialogs.edit"
         v-model="dialogs.edit"

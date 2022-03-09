@@ -13,8 +13,10 @@ import {
 } from 'firebase/firestore';
 import {db} from '@/firebase';
 
+export const docRef = path => doc(db, path)
+
 const incrementDoc = (transaction, name) => {
-  const incrementDocRef = doc(db, '--stats--', name)
+  const incrementDocRef = docRef(`--stats--/${name}`)
 
   return transaction.get(incrementDocRef)
     .then((incrementDoc) => {
@@ -53,7 +55,7 @@ function dbMigration() {
         // console.log(item.id)
         // console.log(rest)
 
-        // return setDoc(doc(db, collectionName, item.id), rest)
+        // return setDoc(docRef(`${collectionName}/${item.id}`), rest)
         //   .catch(err => console.error(item.id, err))
       })
     )
@@ -63,7 +65,7 @@ function dbMigration() {
 
 export const fetchDocs = (name, {id = null, filter = null} = {}) => {
   if (id) {
-    return getDoc(doc(db, name, id)).then(doc => ([{...doc.data(), id: doc.id}]))
+    return getDoc(docRef(`${name}/${id}`)).then(doc => ([{...doc.data(), id: doc.id}]))
   }
 
   if (filter) {
@@ -80,7 +82,7 @@ export const upsertDoc = (name, {id, ...payload}, {increment, timestamp = true} 
   }
 
   if (id) {
-    return setDoc(doc(db, name, id), payload)
+    return setDoc(docRef(`${name}/${id}`), payload)
       .then(() => fetchDocs(name, {id}))
       .then(([item]) => item)
   }
@@ -97,5 +99,5 @@ export const upsertDoc = (name, {id, ...payload}, {increment, timestamp = true} 
   })
 }
 export const removeDoc = (name, id) => {
-  return deleteDoc(doc(db, name, id))
+  return deleteDoc(docRef(`${name}/${id}`))
 }
