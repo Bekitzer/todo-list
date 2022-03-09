@@ -1,7 +1,7 @@
 <template>
   <v-app-bar flat :height="90">
     <v-row style="font-size:14px;" class="no-gutters align-center">
-      <v-col cols="12" md="4" sm="6">
+      <v-col cols="12" md="5">
         <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86;position:relative;">
           <router-link style="text-decoration:none;" v-if="$route.meta.back" :to="{name: $route.meta.back}">
             <v-icon large class="ml-2" color="#03616f">
@@ -14,11 +14,12 @@
         </h2>
 
       </v-col>
-      <v-col cols="12" md="2" sm="6">
+      <v-spacer></v-spacer>
+      <v-col cols="12" md="2">
         <search v-if="tableListSearch"/>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col cols="12" md="1" sm="3">
+      <v-col cols="12" md="1">
         <live-date/>
       </v-col>
       <div>
