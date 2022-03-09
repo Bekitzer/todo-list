@@ -1,4 +1,4 @@
-import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
+import {upsertDoc, fetchDocs, removeDoc, docRef} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -36,11 +36,19 @@ export default {
     }
   },
   actions: {
-    upsert({commit}, payload) {
+    upsert({commit}, {connectUsers = [], disconnectUsers = [], ...payload}) {
       return upsertDoc('suppliers', payload, {increment: true})
         .then(doc => commit('upsert', doc))
+        .then(() => Promise.all(disconnectUsers.map(user =>
+          upsertDoc('users', {...user, userSupplierRef: null})))
+          .then(doc => commit('User/upsert', doc, {root: true}))
+        )
+        .then(() => Promise.all(connectUsers.map(user =>
+          upsertDoc('users', {...user, userSupplierRef: docRef(`suppliers/${payload.id}`)})))
+          .then(doc => commit('User/upsert', doc, {root: true}))
+        )
         .then(() => commit('showSnackbar', 'ספק נשמר!', {root: true}))
-        .catch(err => console.error('Something went wrong - Supplier.upsert', err))
+        .catch(err => console.error('Something went wrong - Supplier.upsertv', err))
     },
     remove({commit}, id) {
       return removeDoc('suppliers', id)

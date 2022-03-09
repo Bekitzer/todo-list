@@ -52,18 +52,7 @@ export default {
       return fetchDocs('products')
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Product.fetch', err))
-    },
-    // Attributes
-    // updateAttributes({commit}, payload) {
-    //   upsertDoc(doc(db, "products", payload.id), {attributes: payload.attributes})
-    //     .then(() => {
-    //       commit('upsert', payload.attributes)
-    //       commit('showSnackbar', 'מאפיינים נשמרו!', { root: true })
-    //     })
-    //     .catch(error => {
-    //       console.error('Something went wrong - updateAttributes', error);
-    //     })
-    // }
+    }
   },
   modules: {}
 }

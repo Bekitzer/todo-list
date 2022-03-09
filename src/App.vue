@@ -2,7 +2,8 @@
   <v-app id="inspire">
     <nav-drawer/>
     <v-main>
-      <router-view style="padding: 4px 4%;"></router-view>
+      <v-progress-linear v-if="loading" color="#03616f" indeterminate></v-progress-linear>
+      <router-view v-else style="padding: 4px 4%;"></router-view>
       <snackbar/>
     </v-main>
     <nav-footer style="padding: 4px 4%;"/>
@@ -13,19 +14,22 @@
 <script>
 export default {
   data: () => ({
-    isLoggedIn: false
+    isLoggedIn: false,
+    loading: true
   }),
   mounted() {
     this.$store.dispatch('User/fetchCurrent')
-        .then(() => {
-          this.$store.dispatch('ProductTag/fetch')
-          this.$store.dispatch('Supplier/fetch')
-          this.$store.dispatch('Client/fetch')
-          this.$store.dispatch('Order/fetch')
-          this.$store.dispatch('Product/fetch')
-          this.$store.dispatch('User/fetch')
-        })
+        .then(() => Promise.all([
+              this.$store.dispatch('ProductTag/fetch'),
+              this.$store.dispatch('Supplier/fetch'),
+              this.$store.dispatch('Client/fetch'),
+              this.$store.dispatch('Order/fetch'),
+              this.$store.dispatch('Product/fetch'),
+              this.$store.dispatch('User/fetch')
+            ])
+        )
         .catch(err => err === 'UNAUTHENTICATED' ? console.debug('no user authenticated') : console.error(err))
+        .finally(() => this.loading = false)
   },
   components: {
     'nav-drawer': require('@/components/Global/NavDrawer.vue').default,

@@ -1,4 +1,4 @@
-import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
+import {upsertDoc, fetchDocs, removeDoc, docRef} from '@/stores/utils';
 
 export default {
   namespaced: true,
@@ -36,9 +36,17 @@ export default {
     }
   },
   actions: {
-    upsert({commit}, payload) {
+    upsert({commit}, {connectUsers = [], disconnectUsers = [], ...payload}) {
       return upsertDoc('clients', payload, {increment: true})
         .then(doc => commit('upsert', doc))
+        .then(() => Promise.all(disconnectUsers.map(user =>
+          upsertDoc('users', {...user, userClientRef: null})))
+          .then(doc => commit('User/upsert', doc, {root: true}))
+        )
+        .then(() => Promise.all(connectUsers.map(user =>
+          upsertDoc('users', {...user, userClientRef: docRef(`clients/${payload.id}`)})))
+          .then(doc => commit('User/upsert', doc, {root: true}))
+        )
         .then(() => commit('showSnackbar', 'לקוח נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.upsertv', err))
     },
