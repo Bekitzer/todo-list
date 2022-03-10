@@ -55,8 +55,8 @@ export default {
         const ordersMap = {}
         this.$store.state.Order.list.forEach(order => {
           if( order.statusType !== 'סופק'){
-            ordersMap[order.clientName] = ordersMap[order.clientName] || 0
-            ordersMap[order.clientName]++
+            ordersMap[order.orderClientRef.id] = ordersMap[order.orderClientRef.id] || 0
+            ordersMap[order.orderClientRef.id]++
           }
         })
 
