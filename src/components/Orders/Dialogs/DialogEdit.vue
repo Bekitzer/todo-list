@@ -219,7 +219,7 @@ export default {
           orderClientRef: docRef(`clients/${this.orderClientId}`),
           orderSupplierRef: docRef(`suppliers/${this.orderSupplierId}`),
           deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
-          margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
+          margin: this.orderMargin = (this.form.sellPrice - this.form.buyPrice),
         }
         this.dialog = false
         this.$store.dispatch('Order/upsert', payload)
