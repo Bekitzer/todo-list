@@ -1,4 +1,4 @@
-import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
+import {writeDoc, fetchDocs, removeDoc} from '@/stores/utils';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -7,7 +7,7 @@ import {
   updateProfile
 } from 'firebase/auth'
 
-const COLLECTION_NAME = 'users'
+const COLLECTION = 'users'
 const DEFAULT_STATE = () => ({
   auth: null,
   list: []
@@ -60,7 +60,7 @@ export default {
       return createUserWithEmailAndPassword(getAuth(), payload.email, payload.password)
         .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
         .then(() => updateProfile(getAuth().currentUser, {displayName: payload.username}))
-        .then(() => upsertDoc(COLLECTION_NAME, {...payload, id: getAuth().currentUser.uid}, {increment: true}))
+        .then(() => writeDoc(COLLECTION, {...payload, id: getAuth().currentUser.uid}, {increment: true}))
         .then(() => commit('upsert', {...payload, id: getAuth().currentUser.uid}))
         .then(() => commit('showSnackbar', 'הרשמה בוצעה בהצלחה!', {root: true}))
         .catch(err => console.error('Something went wrong - User.signUp', err))
@@ -68,7 +68,7 @@ export default {
     signIn({commit}, payload) {
       return signInWithEmailAndPassword(getAuth(), payload.email, payload.password)
         .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
-        .then(() => fetchDocs(COLLECTION_NAME, {id: getAuth().currentUser.uid}))
+        .then(() => fetchDocs(COLLECTION, {id: getAuth().currentUser.uid}))
         .then(docs => commit('upsert', docs))
         .then(() => commit('showSnackbar', 'התחברות בוצעה בהצלחה!', {root: true}))
         .catch(err => console.error('Something went wrong - User.signIn', err))
@@ -79,13 +79,13 @@ export default {
         .catch(err => console.error('Something went wrong - User.signOut', err))
     },
     upsert({commit}, payloads) {
-      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
+      return writeDoc(COLLECTION, payloads, {increment: true})
         .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'משתמש נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - User.upsert', err))
     },
     remove({commit}, id) {
-      return removeDoc(COLLECTION_NAME, id)
+      return removeDoc(COLLECTION, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'משתמש נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - User.remove', err))
@@ -93,7 +93,7 @@ export default {
     fetch({commit, rootGetters}) {
       if (!rootGetters.user?.isAdmin) return Promise.resolve(null)
 
-      return fetchDocs(COLLECTION_NAME)
+      return fetchDocs(COLLECTION)
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - User.fetch', err))
     },
@@ -101,7 +101,7 @@ export default {
       const {currentUser} = getAuth()
       if (!currentUser) return Promise.reject('UNAUTHENTICATED')
 
-      return fetchDocs(COLLECTION_NAME, {id: currentUser.uid})
+      return fetchDocs(COLLECTION, {id: currentUser.uid})
         .then(docs => commit('upsert', docs))
         .then(() => commit('initializeAuth', currentUser))
         .catch(err => console.error('Something went wrong - User.fetchCurrent', err))

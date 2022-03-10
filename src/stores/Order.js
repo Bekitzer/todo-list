@@ -1,5 +1,5 @@
-import {upsertDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
-const COLLECTION_NAME = 'orders'
+import {writeDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
+const COLLECTION = 'orders'
 
 export default {
   namespaced: true,
@@ -38,13 +38,13 @@ export default {
   },
   actions: {
     upsert({commit}, payloads) {
-      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
+      return writeDoc(COLLECTION, payloads, {increment: true})
         .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'הזמנה נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - Order.upsert', err))
     },
     remove({commit}, id) {
-      return removeDoc(COLLECTION_NAME, id)
+      return removeDoc(COLLECTION, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'הזמנה נמחקה!', {root: true}))
         .catch(err => console.error('Something went wrong - Order.remove', err))
@@ -64,7 +64,7 @@ export default {
           : where('orderClientRef', '==', user?.userClientRef)
       }
 
-      return fetchDocs(COLLECTION_NAME, {filter})
+      return fetchDocs(COLLECTION, {filter})
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Order.fetch', err))
     }

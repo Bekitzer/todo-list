@@ -2,6 +2,8 @@
   <v-row>
     <v-col cols="5">
       <v-autocomplete
+          :class="{'red': variation.OPERATION === OPERATIONS.DELETE}"
+          :disabled="variation.OPERATION === OPERATIONS.DELETE"
           v-model="variation.attribute"
           :items="attributes"
           item-text="name"
@@ -16,7 +18,8 @@
     </v-col>
     <v-col cols="5">
       <v-autocomplete
-          :disabled="!variation.attribute"
+          :class="{'red': variation.OPERATION === OPERATIONS.DELETE}"
+          :disabled="!variation.attribute || variation.OPERATION === OPERATIONS.DELETE"
           v-model="variation.input"
           :items="attribute.inputs"
           item-text="text"
@@ -64,19 +67,20 @@
     -->
     <v-spacer></v-spacer>
     <v-col cols="1">
-      <v-btn small color="error" @click="removeField">
-        <v-icon>
-          mdi-minus
-        </v-icon>
-      </v-btn>
+      <v-switch @change="removeField" label="מחיקה" color="red" hide-details></v-switch>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import {OPERATIONS} from '@/stores/utils';
+
 export default {
   name: 'VariationField',
   props: ['value', 'attributes'],
+  data: () => ({
+    OPERATIONS
+  }),
   computed: {
     variation: {
       get() {
@@ -91,8 +95,9 @@ export default {
     }
   },
   methods: {
-    removeField() {
-      this.$emit('remove', this.variation)
+    removeField(val) {
+      this.variation = {...this.variation, OPERATION: val ? OPERATIONS.DELETE : null}
+      console.log(val, this.variation)
     }
   }
 }

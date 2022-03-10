@@ -1,5 +1,5 @@
-import {upsertDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
-const COLLECTION_NAME = 'products'
+import {writeDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
+const COLLECTION = 'products'
 
 export default {
   namespaced: true,
@@ -38,19 +38,19 @@ export default {
   },
   actions: {
     upsert({commit}, payloads) {
-      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
+      return writeDoc(COLLECTION, payloads, {increment: true})
         .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'מוצר נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.upsert', err))
     },
     remove({commit}, id) {
-      return removeDoc(COLLECTION_NAME, id)
+      return removeDoc(COLLECTION, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'מוצר נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.remove', err))
     },
     fetch({commit}) {
-      return fetchDocs(COLLECTION_NAME)
+      return fetchDocs(COLLECTION)
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Product.fetch', err))
     }

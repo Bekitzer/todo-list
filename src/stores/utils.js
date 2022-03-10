@@ -33,6 +33,12 @@ export const docRef = path => doc(db, path)
 
 export {where}
 
+export const OPERATIONS = {
+  SET: 'set',
+  UPDATE: 'update',
+  DELETE: 'delete',
+}
+
 function dbMigration() {
   const ifYouKnowWhatYouAreDoing = false
   if (!ifYouKnowWhatYouAreDoing) throw 'Stop right now you stupid f***'
@@ -63,6 +69,27 @@ function dbMigration() {
 }
 
 // dbMigration()
+const groupByKey = (list, key) =>
+  list.reduce((hash, obj) =>
+    ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {})
+
+const batchIncrement = (name, items) => {
+  const incrementDocRef = docRef(`--stats--/${name}`)
+
+  return runTransaction(db, async (transaction) => {
+    const incrementDoc = await transaction.get(incrementDocRef);
+
+    if (!incrementDoc.exists()) throw "Document does not exist!";
+
+    const oldNumber = incrementDoc.data().increment
+
+    const newNumber = oldNumber + items.length;
+
+    transaction.update(incrementDocRef, {increment: newNumber});
+
+    return {oldNumber, newNumber}
+  })
+}
 
 export const fetchDocs = (name, {id = null, filter = null} = {}) => {
   if (id) {
@@ -76,64 +103,58 @@ export const fetchDocs = (name, {id = null, filter = null} = {}) => {
 
   return getDocs(collection(db, name)).then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
 }
-export const upsertDoc = async (name, payloads, {increment, timestamp = true} = {}) => {
+export const writeDoc = async (payloads, {increment, timestamp = true} = {}) => {
   if (!Array.isArray(payloads)) payloads = [payloads]
 
   const serverTime = serverTimestamp()
   const localTime = new Date()
 
-  let items = payloads.map(payload => {
-    const {id, ...fields} = payload
+  const collections = groupByKey(payloads, 'COLLECTION') // e.g. {users: [...]}
 
-    if (timestamp) {
-      if (!fields.createdAt) fields.createdAt = localTime
-      fields.updatedAt = localTime
-    }
+  Object.keys(collections)
+    .forEach(name =>
+      collections[name] = groupByKey(collections[name], 'OPERATION')) // e.g. {users: {delete: [...]}}
 
-    const newDocRef = id ? docRef(`${name}/${id}`) : doc(collection(db, name))
 
-    return {fields, newDocRef}
-  })
+  await Promise.all(Object.keys(collections).map(name => {
+    if (!collections[name][OPERATIONS.SET]?.length || !increment) return Promise.resolve()
 
-  if (increment) {
-    const incrementDocRef = docRef(`--stats--/${name}`)
+    const newDocs = collections[name][OPERATIONS.SET].filter(({id}) => !id)
 
-    const {oldNumber} = await runTransaction(db, async (transaction) => {
-      const incrementDoc = await transaction.get(incrementDocRef);
-
-      if (!incrementDoc.exists()) throw "Document does not exist!";
-
-      const oldNumber = incrementDoc.data().increment
-
-      const newNumber = oldNumber + items.length;
-
-      transaction.update(incrementDocRef, {increment: newNumber});
-
-      return {oldNumber, newNumber}
-    })
-
-    items = items.map((item, i) => {
-      item.fields.number = oldNumber + i + 1
-      return item
-    })
-  }
+    return batchIncrement(name, newDocs)
+      .then(({oldNumber}) =>
+        collections[name][OPERATIONS.SET]
+          .forEach((payload, i) => {
+            payload.number = oldNumber + i + 1
+          }))
+  }))
 
   const batch = writeBatch(db);
 
-  items.forEach(({fields, newDocRef}) => {
-    const {createdAt, updatedAt, ...rest} = fields
+  Object.keys(collections).forEach(name => Object.keys(collections[name]).forEach(operation => {
+    collections[name][operation] = collections[name][operation].map(payload => {
 
-    const payload = rest
+      const {COLLECTION, OPERATION, id, ...fields} = payload
 
-    if (createdAt) payload.createdAt = serverTime
-    if (updatedAt) payload.updatedAt = serverTime
+      if (timestamp) {
+        if (!payload.createdAt) payload.createdAt = localTime
+        payload.updatedAt = localTime
+      }
 
-    batch.set(newDocRef, payload);
-  })
+      const newDocRef = id ? docRef(`${COLLECTION}/${id}`) : doc(collection(db, COLLECTION))
+
+      if (fields.createdAt) fields.createdAt = serverTime
+      if (fields.updatedAt) fields.updatedAt = serverTime
+
+      batch[OPERATION](newDocRef, fields);
+
+      return {...fields, id: newDocRef.id}
+    })
+  }))
 
   await batch.commit()
 
-  return items.map(({fields, newDocRef}) => ({...fields, id: newDocRef.id}))
+  return collections
   //
   // const payload = payloads
   //

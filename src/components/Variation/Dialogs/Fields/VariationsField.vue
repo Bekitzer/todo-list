@@ -1,9 +1,8 @@
 <template>
   <v-card>
     <v-card-text>
-      //{{ variations }}//
       <div v-for="(variation, i) in variations" :key="i">
-        <variation-field v-model="variations[i]" @remove="handleRemove" :attributes="unusedVariations"/>
+        <variation-field v-model="variations[i]" :attributes="unusedVariations"/>
       </div>
 
       <v-btn color="primary" @click="handleAdd">
@@ -16,14 +15,14 @@
 </template>
 
 <script>
-const defaultField = () => ({
-  attribute: '',
-  input: ''
-})
+import {docRef} from '@/stores/utils';
 
 export default {
   name: 'Variations',
   props: {
+    product: {
+      default: () => ({})
+    },
     attributes: {
       default: () => ([])
     },
@@ -33,10 +32,12 @@ export default {
   },
   methods: {
     handleAdd() {
-      this.variations = this.variations.concat(defaultField())
-    },
-    handleRemove({attribute}) {
-      this.variations = this.variations.filter(item => item.attribute !== attribute);
+      this.variations = this.variations.concat({
+        attribute: '',
+        input: '',
+        variationSupplierRef: this.$store.getters.user?.userSupplierRef,
+        variationProductRef: docRef(`products/${this.product.id}`)
+      })
     }
   },
   computed: {

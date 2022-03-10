@@ -1,5 +1,5 @@
-import {upsertDoc, fetchDocs, removeDoc, docRef} from '@/stores/utils';
-const COLLECTION_NAME = 'clients'
+import {writeDoc, fetchDocs, removeDoc, docRef} from '@/stores/utils';
+const COLLECTION = 'clients'
 
 export default {
   namespaced: true,
@@ -38,21 +38,21 @@ export default {
   },
   actions: {
     upsert({commit}, {connectUsers = [], disconnectUsers = [], ...payloads}) {
-      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
+      return writeDoc(COLLECTION, payloads, {increment: true})
         .then(doc => commit('upsert', doc))
         .then(() => Promise.all(disconnectUsers.map(user =>
-          upsertDoc('users', {...user, userClientRef: null})))
+          writeDoc('users', {...user, userClientRef: null})))
           .then(doc => commit('User/upsert', doc, {root: true}))
         )
         .then(() => Promise.all(connectUsers.map(user =>
-          upsertDoc('users', {...user, userClientRef: docRef(`clients/${payload.id}`)})))
+          writeDoc('users', {...user, userClientRef: docRef(`clients/${payload.id}`)})))
           .then(doc => commit('User/upsert', doc, {root: true}))
         )
         .then(() => commit('showSnackbar', 'לקוח נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.upsertv', err))
     },
     remove({commit}, id) {
-      return removeDoc(COLLECTION_NAME, id)
+      return removeDoc(COLLECTION, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'לקוח נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.remove', err))
@@ -66,7 +66,7 @@ export default {
 
       const id = user?.isAdmin ? null : user?.userClientRef?.id
 
-      return fetchDocs(COLLECTION_NAME, {id})
+      return fetchDocs(COLLECTION, {id})
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Client.fetch', err))
     }
