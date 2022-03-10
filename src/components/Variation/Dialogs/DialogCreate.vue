@@ -27,7 +27,7 @@
                 v-model="productTags"
                 :filter="filter"
                 :hide-no-data="!search"
-                :items="$store.state.ProductsTags.list"
+                :items="$store.state.ProductTag.list"
                 :search-input.sync="search"
                 hide-selected
                 filled
