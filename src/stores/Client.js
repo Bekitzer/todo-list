@@ -1,4 +1,5 @@
 import {upsertDoc, fetchDocs, removeDoc, docRef} from '@/stores/utils';
+const COLLECTION_NAME = 'clients'
 
 export default {
   namespaced: true,
@@ -36,8 +37,8 @@ export default {
     }
   },
   actions: {
-    upsert({commit}, {connectUsers = [], disconnectUsers = [], ...payload}) {
-      return upsertDoc('clients', payload, {increment: true})
+    upsert({commit}, {connectUsers = [], disconnectUsers = [], ...payloads}) {
+      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
         .then(doc => commit('upsert', doc))
         .then(() => Promise.all(disconnectUsers.map(user =>
           upsertDoc('users', {...user, userClientRef: null})))
@@ -51,7 +52,7 @@ export default {
         .catch(err => console.error('Something went wrong - Client.upsertv', err))
     },
     remove({commit}, id) {
-      return removeDoc('clients', id)
+      return removeDoc(COLLECTION_NAME, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'לקוח נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.remove', err))
@@ -65,7 +66,7 @@ export default {
 
       const id = user?.isAdmin ? null : user?.userClientRef?.id
 
-      return fetchDocs('clients', {id})
+      return fetchDocs(COLLECTION_NAME, {id})
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Client.fetch', err))
     }

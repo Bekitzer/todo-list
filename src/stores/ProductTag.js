@@ -1,4 +1,5 @@
 import {upsertDoc, fetchDocs, removeDoc} from '@/stores/utils';
+const COLLECTION_NAME = 'products-tags'
 
 export default {
   namespaced: true,
@@ -36,14 +37,14 @@ export default {
     },
   },
   actions: {
-    upsert({commit}, payload) {
-      return upsertDoc('products-tags', payload)
+    upsert({commit}, payloads) {
+      return upsertDoc(COLLECTION_NAME, payloads)
         .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'תגית נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - ProductTag.upsert', err))
     },
     remove({commit}, id) {
-      return removeDoc('products-tags', id)
+      return removeDoc(COLLECTION_NAME, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'תגית נמחקה!', {root: true}))
         .catch(err => console.error('Something went wrong - ProductTag.remove', err))
@@ -51,7 +52,7 @@ export default {
     fetch({commit, rootGetters}) {
       if (!rootGetters.user?.isAdmin) return Promise.resolve(null)
 
-      return fetchDocs('products-tags')
+      return fetchDocs(COLLECTION_NAME)
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - ProductTag.fetch', err))
     }

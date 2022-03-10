@@ -1,4 +1,5 @@
 import {upsertDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
+const COLLECTION_NAME = 'products'
 
 export default {
   namespaced: true,
@@ -36,20 +37,20 @@ export default {
     }
   },
   actions: {
-    upsert({commit}, payload) {
-      return upsertDoc('products', payload, {increment: true})
+    upsert({commit}, payloads) {
+      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
         .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'מוצר נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.upsert', err))
     },
     remove({commit}, id) {
-      return removeDoc('products', id)
+      return removeDoc(COLLECTION_NAME, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'מוצר נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.remove', err))
     },
     fetch({commit}) {
-      return fetchDocs('products')
+      return fetchDocs(COLLECTION_NAME)
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Product.fetch', err))
     }

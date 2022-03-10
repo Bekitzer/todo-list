@@ -1,4 +1,5 @@
 import {upsertDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
+const COLLECTION_NAME = 'variations'
 
 export default {
   namespaced: true,
@@ -37,13 +38,13 @@ export default {
   },
   actions: {
     upsert({commit}, payloads) {
-      return upsertDoc('variations', payloads, {increment: true})
-        .then(docs => commit('upsert', docs))
+      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
+        .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'וריאציה נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - Variation.upsert', err))
     },
     remove({commit}, id) {
-      return removeDoc('variations', id)
+      return removeDoc(COLLECTION_NAME, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'וריאציה נמחקה!', {root: true}))
         .catch(err => console.error('Something went wrong - Variation.remove', err))
@@ -61,7 +62,7 @@ export default {
         filter = where('variationSupplierRef', '==', user?.userSupplierRef?.id)
       }
 
-      return fetchDocs('variations', {filter})
+      return fetchDocs(COLLECTION_NAME, {filter})
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Variation.fetch', err))
     }

@@ -1,5 +1,6 @@
 import {upsertDoc, fetchDocs, removeDoc, docRef} from '@/stores/utils';
 
+const COLLECTION_NAME = 'suppliers'
 export default {
   namespaced: true,
   state: {
@@ -36,8 +37,8 @@ export default {
     }
   },
   actions: {
-    upsert({commit}, {connectUsers = [], disconnectUsers = [], ...payload}) {
-      return upsertDoc('suppliers', payload, {increment: true})
+    upsert({commit}, {connectUsers = [], disconnectUsers = [], ...payloads}) {
+      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
         .then(doc => commit('upsert', doc))
         .then(() => Promise.all(disconnectUsers.map(user =>
           upsertDoc('users', {...user, userSupplierRef: null})))
@@ -51,7 +52,7 @@ export default {
         .catch(err => console.error('Something went wrong - Supplier.upsertv', err))
     },
     remove({commit}, id) {
-      return removeDoc('suppliers', id)
+      return removeDoc(COLLECTION_NAME, id)
         .then(() => commit('remove', id))
         .then(() => commit('showSnackbar', 'ספק נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Supplier.remove', err))
@@ -65,7 +66,7 @@ export default {
 
       const id = user?.isAdmin ? null : user?.userSupplierRef?.id
 
-      return fetchDocs('suppliers', {id})
+      return fetchDocs(COLLECTION_NAME, {id})
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Supplier.fetch', err))
     }

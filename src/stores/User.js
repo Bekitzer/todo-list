@@ -78,8 +78,8 @@ export default {
         .then(() => commit('reset'))
         .catch(err => console.error('Something went wrong - User.signOut', err))
     },
-    upsert({commit}, payload) {
-      return upsertDoc(COLLECTION_NAME, payload, {increment: true})
+    upsert({commit}, payloads) {
+      return upsertDoc(COLLECTION_NAME, payloads, {increment: true})
         .then(doc => commit('upsert', doc))
         .then(() => commit('showSnackbar', 'משתמש נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - User.upsert', err))
