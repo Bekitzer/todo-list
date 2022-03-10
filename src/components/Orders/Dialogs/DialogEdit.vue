@@ -215,13 +215,14 @@ export default {
     saveOrder() {
       if (!this.orderFieldInvalid) {
         let payload = {
+          ...this.form,
           orderClientRef: docRef(`clients/${this.orderClientId}`),
           orderSupplierRef: docRef(`suppliers/${this.orderSupplierId}`),
           deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
           margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
         }
         this.dialog = false
-        this.$store.dispatch('Order/upsert', this.form, payload)
+        this.$store.dispatch('Order/upsert', payload)
         this.$router.push('/orders')
       }
     }
