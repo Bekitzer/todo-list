@@ -12,7 +12,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierName"
+              v-model="form.name"
               label="שם ספק"
               filled
               dense
@@ -21,7 +21,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierCompanyName"
+              v-model="form.companyName"
               label="שם חברה"
               filled
               dense
@@ -30,7 +30,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierIdNumber"
+              v-model="form.numberId"
               label="ח.פ. / ע.מ."
               filled
               dense
@@ -45,7 +45,7 @@
               v-if="getAddressData"
               v-on:placechanged="getAddressData"
               country="il"
-              v-model="supplierAddress"
+              v-model="form.address"
               label="כתובת"
               dense
               hide-details
@@ -54,7 +54,7 @@
           </v-col>
           <v-col cols="12" md="12">
             <v-textarea
-              v-model="supplierAddressAdditional"
+              v-model="form.addressAdditional"
               label="הערות"
               filled
               rows="1"
@@ -69,7 +69,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierPhone"
+              v-model="form.phone"
               label="טלפון משרד"
               filled
               dense
@@ -78,7 +78,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierEmail"
+              v-model="form.email"
               label="מייל משרד"
               filled
               dense
@@ -88,7 +88,7 @@
 
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierWhatsapp"
+              v-model="form.whatsapp"
               label="וואטסאפ משרד"
               filled
               dense
@@ -97,7 +97,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierWebsite"
+              v-model="form.website"
               label="אתר אינטרנט"
               filled
               dense
@@ -106,7 +106,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierFacebook"
+              v-model="form.facebook"
               label="פייסבוק"
               filled
               dense
@@ -115,7 +115,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="supplierInstagram"
+              v-model="form.instagram"
               label="אינסטגרם"
               filled
               dense
@@ -129,8 +129,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-              v-model="supplierPaymentTerms"
-              :items="supplierPaymentTermsList"
+              v-model="form.paymentTerms"
+              :items="paymentTermsList"
               label="תנאי תשלום"
               filled
               dense
@@ -139,8 +139,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-              v-model="supplierPaymentMethod"
-              :items="supplierPaymentMethodList"
+              v-model="form.paymentMethod"
+              :items="paymentMethodList"
               label="אמצעי תשלום"
               filled
               dense
@@ -154,8 +154,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-              v-model="supplierDeliveryType"
-              :items="supplierDeliveryTypeList"
+              v-model="form.deliveryType"
+              :items="deliveryTypeList"
               label="אופן אספקה"
               filled
               dense
@@ -164,7 +164,7 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-text-field
-              v-model="supplierHours"
+              v-model="form.workingHours"
               label="שעות פעילות"
               filled
               dense
@@ -173,8 +173,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-              v-model="supplierStatus"
-              :items="supplierStatusList"
+              v-model="form.status"
+              :items="statusList"
               label="סטטוס ספק"
               filled
               dense
@@ -183,8 +183,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-              v-model="supplierNewsletter"
-              :items="supplierNewsletterList"
+              v-model="form.newsletter"
+              :items="newsletterList"
               label="דיוור"
               filled
               dense
@@ -193,8 +193,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-              v-model="supplierScope"
-              :items="supplierScopeList"
+              v-model="form.scope"
+              :items="scopeList"
               label="תחום"
               filled
               dense
@@ -219,7 +219,8 @@
                 large
                 color="green"
                 @click="addSupplier"
-                :disabled="supplierFieldInvalid"
+                :disabled="saving || formInvalid"
+                :loading="saving"
               >
                 צור
               </v-btn>
@@ -237,39 +238,19 @@ export default {
   name: 'DialogCreate',
   props: ['supplier','value'],
   data: () => ({
+    saving: false,
     address: '',
-    supplierName: '',
-    supplierCompanyName: '',
-    supplierContactName: '',
-    supplierPhone: '',
-    supplierEmail: '',
-    supplierIdNumber: '',
-    supplierWebsite: '',
-    supplierFacebook: '',
-    supplierInstagram: '',
-    supplierPaymentTerms: '',
-    supplierPaymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
-    supplierPaymentMethod: '',
-    supplierPaymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-    supplierAddress: '',
-    supplierAddressAdditional: '',
-    supplierWhatsapp: '',
-    supplierHours: '',
-    supplierDeliveryType: '',
-    supplierDeliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
-    supplierStatus: '',
-    supplierStatusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
-    supplierNewsletter: '',
-    supplierNewsletterList: ["כן","לא"],
-    supplierScope: '',
-    supplierScopeList: ["2","1"],
+    form: {},
+    paymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+    paymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+    deliveryTypeList: ["איסוף עצמי","מגיע למשרד"],
+    statusList: ["פעיל", "לא פעיל", "מזדמן","שת״פ"],
+    newsletterList: ["כן","לא"],
+    scopeList: ["2","1"],
     }),
   computed: {
-    supplierFieldInvalid() {
-      return (
-        !this.supplierName ||
-        !this.supplierStatus
-      )
+    formInvalid() {
+      return !this.form.name
     },
     dialog: {
       get() {
@@ -285,52 +266,16 @@ export default {
       this.address = addressData;
     },
     addSupplier() {
-      if(!this.supplierFieldInvalid){
-        const supplierFields = {
-          name: this.supplierName,
-          companyName: this.supplierCompanyName,
-          contactName: this.supplierContactName,
-          phone: this.supplierPhone,
-          email: this.supplierEmail,
-          numberId: this.supplierIdNumber,
-          website: this.supplierWebsite,
-          facebook: this.supplierFacebook,
-          instagram: this.supplierInstagram,
-          paymentTerms: this.supplierPaymentTerms,
-          paymentMethod: this.supplierPaymentMethod,
-          address: this.supplierAddress,
-          addressAditional: this.supplierAddressAdditional,
-          whatsapp: this.supplierWhatsapp,
-          workingHours: this.supplierHours,
-          deliveryType: this.supplierDeliveryType,
-          status: this.supplierStatus,
-          newsletter: this.supplierNewsletter,
-          scope: this.supplierScope,
+      if(!this.formInvalid){
+        this.saving = true
+        const payload = {
+          ...this.form
         }
-
-        this.$store.dispatch('Supplier/upsert', supplierFields)
-        this.supplierName = ''
-        this.supplierCompanyName = ''
-        this.supplierContactName = ''
-        this.supplierPhone = ''
-        this.supplierEmail = ''
-        this.supplierIdNumber = ''
-        this.supplierWebsite = ''
-        this.supplierFacebook = ''
-        this.supplierInstagram = ''
-        this.supplierPaymentTerms = ''
-        this.supplierPaymentMethod = ''
-        this.supplierAddress = ''
-        this.supplierAddressAdditional = ''
-        this.supplierWhatsapp = ''
-        this.supplierHours = ''
-        this.supplierDeliveryType = ''
-        this.supplierStatus = ''
-        this.supplierNewsletter = ''
-        this.supplierScope = ''
+        this.$store.dispatch('Supplier/upsert', payload)
+        this.saving = false
+        this.dialog = false
       }
-      this.dialog = false
-      setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+      // setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
     }
   }
 }

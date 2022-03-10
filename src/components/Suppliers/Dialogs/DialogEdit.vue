@@ -158,7 +158,7 @@
               <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn outlined large color="green" @click="saveSupplier" :disabled="saving || formInvalid" :loading="saving">
+              <v-btn :disabled="saving || formInvalid" :loading="saving" @click="saveSupplier" color="green" large outlined>
                 שמור
               </v-btn>
             </v-card-actions>

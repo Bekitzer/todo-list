@@ -22,7 +22,7 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-text-field
-                v-model="orderWorkTitle"
+                v-model="form.orderWorkTitle"
                 label="שם עבודה"
                 filled
                 dense
@@ -31,7 +31,7 @@
           </v-col>
           <v-col cols="12" md="12" sm="12">
             <v-textarea
-                v-model="orderWorkProducts"
+                v-model="form.orderWork"
                 label="מפרט"
                 filled
                 dense
@@ -45,7 +45,7 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                    :value="orderDeliveryDate"
+                    :value="form.deliveryDate"
                     clearable
                     filled
                     dense
@@ -53,7 +53,7 @@
                     readonly
                     v-bind="attrs"
                     v-on="on"
-                    @click:clear="orderDeliveryDate = null"
+                    @click:clear="form.deliveryDate = null"
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -80,8 +80,8 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-                v-model="orderDeliveryType"
-                :items="orderDeliveryTypeList"
+                v-model="form.deliveryType"
+                :items="deliveryTypeList"
                 label="אופן אספקה"
                 filled
                 hide-details
@@ -90,7 +90,7 @@
           <v-col cols="12" md="6" sm="6">
             <v-text-field
                 type="number"
-                v-model.number="orderSellPrice"
+                v-model.number="form.sellPrice"
                 label="מחיר מכירה"
                 filled
                 dense
@@ -100,7 +100,7 @@
           <v-col cols="12" md="6" sm="6">
             <v-text-field
                 type="number"
-                v-model.number="orderBuyPrice"
+                v-model.number="form.buyPrice"
                 label="מחיר קנייה"
                 filled
                 dense
@@ -129,11 +129,12 @@
                 ביטול
               </v-btn>
               <v-btn
-                  outlined
-                  large
-                  color="green"
-                  @click="addOrder"
-                  :disabled="orderFieldInvalid"
+                outlined
+                large
+                color="green"
+                @click="addOrder"
+                :disabled="saving || formInvalid"
+                :loading="saving"
               >
                 צור
               </v-btn>
@@ -155,18 +156,12 @@ export default {
   name: 'DialogCreate',
   props: ['client', 'supplier', 'value'],
   data: () => ({
+    saving: false,
     orderClient: {},
-    orderWorkTitle: '',
-    orderWorkProducts: '',
     orderSupplier: {},
-    orderDeliveryType: '',
-    orderDeliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
-    orderDeliveryDate: '',
-    orderDeliveryAgent: '',
-    orderSellPrice: '',
-    orderBuyPrice: '',
+    form: {},
+    deliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
     orderMargin: '',
-    orderStatusType: '',
     dateDialog: false,
   }),
   created() {
@@ -178,11 +173,11 @@ export default {
   computed: {
     computedDate: {
       get() {
-        return this.orderDeliveryDate && this.$options.filters.formatDateReverse(this.orderDeliveryDate).toISOString().substr(0, 10)
+        return this.form.deliveryDate && this.$options.filters.formatDateReverse(this.form.deliveryDate).toISOString().substr(0, 10)
       },
       set(newValue) {
         const seconds = parseISO(newValue).getTime() / 1000
-        this.orderDeliveryDate = this.$options.filters.formatDate({seconds})
+        this.form.deliveryDate = this.$options.filters.formatDate({seconds})
       }
     },
     clients() {
@@ -191,17 +186,8 @@ export default {
     suppliers() {
       return this.$store.state.Supplier.list
     },
-    orderFieldInvalid() {
-      return (
-          !this.orderClient.id ||
-          !this.orderWorkTitle ||
-          !this.orderWorkProducts ||
-          !this.orderSupplier.id ||
-          !this.orderDeliveryDate ||
-          !this.orderDeliveryType ||
-          !this.orderSellPrice ||
-          !this.orderBuyPrice
-      )
+    formInvalid() {
+      return !this.form.orderWorkTitle
     },
     dialog: {
       get() {
@@ -214,83 +200,53 @@ export default {
   },
   methods: {
     addOrder() {
-      if (!this.orderFieldInvalid) {
-        const orderFields = {
+      if (!this.formInvalid) {
+        this.saving = true
+        const payload = {
+          ...this.form,
           orderClientRef: docRef(`clients/${this.orderClient.id}`),
-          orderWorkTitle: this.orderWorkTitle,
-          orderWork: this.orderWorkProducts,
           orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
-          deliveryAgent: this.name,
-          sellPrice: this.orderSellPrice,
-          buyPrice: this.orderBuyPrice,
           margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-          statusType: this.orderStatusType = 'בעבודה',
-          deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
-          deliveryType: this.orderDeliveryType,
+          statusType: this.orderStatusType = 'בהמתנה',
+          deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
         }
 
-        this.$store.dispatch('Order/upsert', orderFields)
-        const mailFields = {
-          clientName: this.orderClient.name,
-          clientEmail: this.orderClient.email,
-          orderWorkTitle: this.orderWorkTitle,
-          orderWork: this.orderWorkProducts,
-          supplierName: this.orderSupplier.name,
-          supplierEmail: this.orderSupplier.email,
-          statusType: this.orderStatusType = 'בעבודה',
-          deliveryDate: parseISO(this.orderDeliveryDate),
-          deliveryType: this.orderDeliveryType,
-        }
-        this.orderClient = {}
-        this.orderWorkTitle = ''
-        this.orderWorkProducts = ''
-        this.orderSupplier = {}
-        this.orderDeliveryAgent = ''
-        this.orderSellPrice = ''
-        this.orderBuyPrice = ''
-        this.orderMargin = ''
-        this.orderStatusType = ''
-        this.orderDeliveryDate = ''
-        this.orderDeliveryType = ''
-
-        emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
-            .then((result) => {
-              console.log('SUCCESS!', result.text)
-            }, (error) => {
-              console.log('FAILED...', error.text)
-            })
+        this.$store.dispatch('Order/upsert', payload)
+        this.saving = false
+        this.dialog = false
+        // const mailFields = {
+        //   clientName: this.orderClient.name,
+        //   clientEmail: this.orderClient.email,
+        //   orderWorkTitle: this.orderWorkTitle,
+        //   orderWork: this.orderWorkProducts,
+        //   supplierName: this.orderSupplier.name,
+        //   supplierEmail: this.orderSupplier.email,
+        //   statusType: this.orderStatusType = 'בעבודה',
+        //   deliveryDate: parseISO(this.form.deliveryDate),
+        //   deliveryType: this.orderDeliveryType,
+        // }
+        // emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
+        //     .then((result) => {
+        //       console.log('SUCCESS!', result.text)
+        //     }, (error) => {
+        //       console.log('FAILED...', error.text)
+        //     })
       }
-      this.dialog = false
     },
     addDraft() {
-      const orderFields = {
+      this.saving = true
+      const payload = {
+        ...this.form,
         orderClientRef: docRef(`clients/${this.orderClient.id}`),
-        orderWorkTitle: this.orderWorkTitle,
-        orderWork: this.orderWorkProducts,
         orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
-        deliveryAgent: this.name,
-        sellPrice: this.orderSellPrice,
-        buyPrice: this.orderBuyPrice,
         margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
         statusType: this.orderStatusType = 'טיוטה',
-        deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
-        deliveryType: this.orderDeliveryType,
+        deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
       }
 
-      this.$store.dispatch('Order/upsert', orderFields)
-      this.orderClient = {}
-      this.orderWorkTitle = ''
-      this.orderWorkProducts = ''
-      this.orderSupplier = {}
-      this.orderDeliveryAgent = ''
-      this.orderSellPrice = ''
-      this.orderBuyPrice = ''
-      this.orderMargin = ''
-      this.orderStatusType = ''
-      this.orderDeliveryDate = ''
-      this.orderDeliveryType = ''
+      this.$store.dispatch('Order/upsert', payload)
+      this.saving = false
       this.dialog = false
-      setTimeout(() => this.$router.go({path: this.$router.path}), 3000)
     }
   },
   mounted() {

@@ -49,7 +49,14 @@
               <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn outlined large color="green" @click="saveProduct" :disabled="formInvalid">
+              <v-btn
+                :disabled="saving || formInvalid"
+                :loading="saving"
+                @click="saveProduct"
+                color="green"
+                large
+                outlined
+              >
                 שמור
               </v-btn>
             </v-card-actions>
@@ -75,6 +82,7 @@ export default {
     dialogs: {
       delete: false
     },
+    saving: false,
     form: {},
     productTags: [],
     productCategoryList: ['מיתוג ושיווק', 'משרדי ואירגוני', 'שילוט ותצוגה', 'מתקנים ומעמדים', 'מדבקות וטפטים', 'מוצרי קד״מ']
@@ -97,9 +105,13 @@ export default {
   methods: {
     saveProduct() {
       if (!this.formInvalid) {
+        this.saving = true
+        let payload = {
+          ...this.form
+        }
+        this.$store.dispatch('Product/upsert', payload)
+        this.saving = false
         this.dialog = false
-        this.$store.dispatch('Product/upsert', this.form)
-        this.$router.push('/products')
       }
     }
   },

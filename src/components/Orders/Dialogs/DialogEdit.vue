@@ -140,11 +140,12 @@
                 ביטול
               </v-btn>
               <v-btn
+                  :disabled="saving || formInvalid"
+                  :loading="saving"
+                  @click="saveOrder"
                   outlined
                   large
                   color="green"
-                  @click="saveOrder"
-                  :disabled="formInvalid"
               >
                 שמור
               </v-btn>
@@ -174,6 +175,7 @@ export default {
       delete: false
     },
     orderFile: '',
+    saving: false,
     form: {},
     orderClientId: '',
     orderSupplierId: '',
@@ -213,7 +215,8 @@ export default {
   },
   methods: {
     saveOrder() {
-      if (!this.orderFieldInvalid) {
+      if (!this.formInvalid) {
+        this.saving = true
         let payload = {
           ...this.form,
           orderClientRef: docRef(`clients/${this.orderClientId}`),
@@ -221,9 +224,9 @@ export default {
           deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
           margin: this.orderMargin = (this.form.sellPrice - this.form.buyPrice),
         }
-        this.dialog = false
         this.$store.dispatch('Order/upsert', payload)
-        this.$router.push('/orders')
+        this.saving = false
+        this.dialog = false
       }
     }
   },
