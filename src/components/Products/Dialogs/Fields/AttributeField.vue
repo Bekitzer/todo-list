@@ -6,13 +6,13 @@
     <v-col cols="5">
       <v-combobox
           :disabled="!attribute.name"
-          v-model="attribute.values"
+          v-model="attribute.inputs"
           :filter="filter"
           :hide-no-data="!search"
           :items="attribute.items"
           :search-input.sync="search"
           hide-selected
-          label="תגיות"
+          label="וראציות"
           placeholder="חפש או צור חדש"
           multiple
           small-chips
@@ -74,7 +74,7 @@
 
 <script>
 export default {
-  name: 'FieldsGroup',
+  name: 'AttributeField',
   props: ['value'],
   data: () => ({
     editing: null,
@@ -118,10 +118,10 @@ export default {
     }
   },
   watch: {
-    'attribute.values': function (val, prev) {
+    'attribute.inputs': function (val, prev) {
       if (val.length === prev.length) return
 
-      this.attribute.values = val.map(v => {
+      this.attribute.inputs = val.map(v => {
         if (typeof v === 'string') {
           v = {text: v}
           this.attribute.items.push(v)

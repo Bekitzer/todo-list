@@ -31,7 +31,7 @@
         </v-tabs>
         <v-tabs-items v-model="tab">
           <v-tab-item>
-            <list-variations/>
+            <list-variations :product="product"/>
           </v-tab-item>
           <v-tab-item>
             <list-attributes :attributes="product.attributes"></list-attributes>

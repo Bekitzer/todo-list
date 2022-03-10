@@ -20,14 +20,15 @@
       </v-tooltip>
     </v-card-title>
 
-    variationSupplierRef
-    variationProductRef
-    attributes
+<!--    variationSupplierRef-->
+<!--    variationProductRef-->
+<!--    attributes-->
     <no-variations v-if="!variations.length"/>
     <dialog-edit
         v-if="dialogs.edit"
         v-model="dialogs.edit"
         @close="dialogs.edit = false"
+        :attributes='attributes'
         :variations='variations'
     />
   </v-card>
@@ -36,14 +37,18 @@
 <script>
 export default {
   name: 'ListVariations',
+  props: ['product'],
   data: () => ({
     dialogs: {
-      edit: false,
+      edit: true,
     }
   }),
   computed: {
+    attributes() {
+      return this.product?.attributes || []
+    },
     variations() {
-      return this.$store.state.Variation.list.filter(variation => variation.variationProductRef.id === this.$route.params.id)
+      return this.$store.state.Variation.list.filter(variation => variation.variationProductRef.id === this.product.id)
     }
   },
   components: {

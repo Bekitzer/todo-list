@@ -17,7 +17,7 @@
 <script>
 const defaultField = () => ({
   name: '',
-  values: [],
+  inputs: [],
   items: []
 })
 

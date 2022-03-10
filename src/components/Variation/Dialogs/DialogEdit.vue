@@ -4,40 +4,11 @@
       <v-card elevation="8" shaped>
         <v-row class="pt-5 pl-5 pr-5">
           <v-col cols="12">
-            <h3>שינוי וריאציה</h3>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-text-field v-model="form.name" label="שם מוצר" filled dense hide-details/>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-select
-                v-model="form.category"
-                :items="productCategoryList"
-                label="שם קטגוריה"
-                filled
-                dense
-                hide-details
-                small-chips
-                multiple
-            ></v-select>
-          </v-col>
-          <v-col cols="12" md="12">
-            <tags-field v-model="form.tags"/>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-textarea v-model="form.productInfo" label="מפרט" filled dense hide-details></v-textarea>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-textarea v-model="form.prices" label="מחירון ספקים" filled dense hide-details></v-textarea>
+            <h3>עדכון וריאציות</h3>
           </v-col>
 
-          <v-divider class="mx-4"></v-divider>
-
           <v-col cols="12">
-            <h3>מאפיינים</h3>
-          </v-col>
-          <v-col cols="12">
-            <attributes-field v-model="form.attributes"/>
+            <variations-field v-model="form" :attributes="attributes"/>
           </v-col>
 
           <v-col cols="12">
@@ -67,23 +38,20 @@
 </template>
 
 <script>
-
 export default {
   name: 'DialogEdit',
-  props: ['variations', 'value'],
+  props: ['variations', 'attributes', 'value'],
   data: () => ({
     dialogs: {
       delete: false
     },
-    form: {},
-    productTags: [],
-    productCategoryList: ['מיתוג ושיווק', 'משרדי ואירגוני', 'שילוט ותצוגה', 'מתקנים ומעמדים', 'מדבקות וטפטים', 'מוצרי קד״מ']
+    form: {}
   }),
   computed: {
     formInvalid() {
       //TODO: if empty attribute disable btn
       //TODO: if duplicate attribute disable btn
-      return !this.form.name
+      return true
     },
     dialog: {
       get() {
@@ -99,16 +67,16 @@ export default {
       if (!this.formInvalid) {
         this.dialog = false
         this.$store.dispatch('Product/upsert', this.form)
-        this.$router.push('/products')
+        //this.$router.push('/products')
       }
     }
   },
   mounted() {
-    this.form = JSON.parse(JSON.stringify(this.product))
+    this.form = JSON.parse(JSON.stringify(this.variations))
   },
   components: {
     'dialog-delete': require('@/components/Variation/Dialogs/DialogDelete.vue').default,
-    'attributes-field': require('@/components/Variation/Dialogs/Fields/AttributesField.vue').default,
+    'variations-field': require('@/components/Variation/Dialogs/Fields/VariationsField.vue').default,
     'tags-field': require('@/components/Variation/Dialogs/Fields/TagsField.vue').default
   }
 }
