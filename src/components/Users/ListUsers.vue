@@ -12,13 +12,16 @@
     hide-default-footer
   >
     <template v-slot:[`item.connected`]="{ item }">
-      <span v-if="item.clientLink || item.supplierLink">
-        {{ item.clientLink }}{{ item.supplierLink }}
-      </span>
-      <span v-else >
+        <v-btn v-if="item.clientLink" @click.stop="clickClient(item)" dense plain class="ngs-button">
+          {{ item.clientLink }}
+        </v-btn>
+        <v-btn v-else-if="item.supplierLink" @click.stop="clickSupplier(item)" dense plain class="ngs-button">
+          {{ item.supplierLink }}
+        </v-btn>
+        <span v-else >
         <v-icon>mdi-close</v-icon>
       </span>
-    </template>
+      </template>
     <template v-slot:[`item.emailLink`]="{ item }">
       <div @click.stop>
         <a :href="'mailto:' + item.email" style="text-decoration:none;">{{item.email}}</a>
@@ -51,7 +54,13 @@ export default {
   methods: {
     handleClick(user){
       this.$router.push({ name: 'User', params: { id : user.id }})
-    }
+    },
+    clickClient({userClientRef}) {
+      this.$router.push({name: 'Client', params: {id: userClientRef.id}})
+    },
+    clickSupplier({userSupplierRef}) {
+      this.$router.push({name: 'Supplier', params: {id: userSupplierRef.id}})
+    },
   },
   computed: {
     clientsMap() {
@@ -73,7 +82,7 @@ export default {
     users: {
       get() {
         return this.$store.state.User.list.map(user => {
-          const client = this.clientsMap[user.userClientRef] || {}
+          const client = this.clientsMap[user.userClientRef?.id] || {}
           const supplier = this.suppliersMap[user.userSupplierRef?.id] || {}
           return {
             ...user,
