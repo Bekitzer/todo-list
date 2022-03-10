@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-text>
-      //{{variations}}//
+      //{{ variations }}//
       <div v-for="(variation, i) in variations" :key="i">
         <variation-field v-model="variations[i]" @remove="handleRemove" :attributes="unusedVariations"/>
       </div>
@@ -18,7 +18,7 @@
 <script>
 const defaultField = () => ({
   attribute: '',
-  inputs: []
+  input: ''
 })
 
 export default {
@@ -35,8 +35,8 @@ export default {
     handleAdd() {
       this.variations = this.variations.concat(defaultField())
     },
-    handleRemove({name}) {
-      this.variations = this.variations.filter(item => item.name !== name);
+    handleRemove({attribute}) {
+      this.variations = this.variations.filter(item => item.attribute !== attribute);
     }
   },
   computed: {

@@ -1,12 +1,11 @@
 <template>
   <v-row>
     <v-col cols="5">
-      {{ attributes.map(a => a.name) }}
       <v-autocomplete
+          v-model="variation.attribute"
           :items="attributes"
           item-text="name"
           item-value="name"
-          v-model="variation.attribute"
           label="מאפיין"
           clearable
           filled
@@ -18,8 +17,10 @@
     <v-col cols="5">
       <v-autocomplete
           :disabled="!variation.attribute"
-          v-model="variation.inputs"
+          v-model="variation.input"
           :items="attribute.inputs"
+          item-text="text"
+          item-value="text"
           label="וראציות"
           clearable
           filled
@@ -76,9 +77,6 @@
 export default {
   name: 'VariationField',
   props: ['value', 'attributes'],
-  mounted() {
-    console.log(this.attributes)
-  },
   computed: {
     variation: {
       get() {
@@ -89,18 +87,13 @@ export default {
       }
     },
     attribute() {
-      return this.attributes.filter(attr => attr.name === this.variation.attribute)
+      return this.attributes.find(attr => attr.name === this.variation.attribute) || {}
     }
   },
   methods: {
     removeField() {
       this.$emit('remove', this.variation)
     }
-  },
-  // watch: {
-  //   'variation.attribute'(val, prev) {
-  //     this.attribute.filter(attr => attr.name === this.variation.attribute)
-  //   }
-  // }
+  }
 }
 </script>

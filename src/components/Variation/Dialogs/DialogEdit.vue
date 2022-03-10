@@ -20,7 +20,7 @@
               <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn outlined large color="green" @click="saveProduct" :disabled="formInvalid">
+              <v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
                 שמור
               </v-btn>
             </v-card-actions>
@@ -38,10 +38,13 @@
 </template>
 
 <script>
+import {docRef} from '@/stores/utils';
+
 export default {
   name: 'DialogEdit',
-  props: ['variations', 'attributes', 'value'],
+  props: ['variations', 'attributes', 'value', 'product'],
   data: () => ({
+    saving: false,
     dialogs: {
       delete: false
     },
@@ -51,7 +54,8 @@ export default {
     formInvalid() {
       //TODO: if empty attribute disable btn
       //TODO: if duplicate attribute disable btn
-      return true
+      //TODO: notify the user for the reason the form is invalid
+      return !this.$store.getters.user?.userSupplierRef
     },
     dialog: {
       get() {
@@ -63,11 +67,19 @@ export default {
     }
   },
   methods: {
-    saveProduct() {
+    save() {
       if (!this.formInvalid) {
-        this.dialog = false
-        this.$store.dispatch('Product/upsert', this.form)
-        //this.$router.push('/products')
+        this.saving = true
+        const payload = this.form.map(variation => ({
+          ...variation,
+          variationSupplierRef: this.$store.getters.user?.userSupplierRef,
+          variationProductRef: docRef(`products/${this.product.id}`)
+        }))
+
+        this.$store.dispatch('Variation/upsert', payload).finally(() => {
+          this.saving = false
+          this.dialog = false
+        })
       }
     }
   },

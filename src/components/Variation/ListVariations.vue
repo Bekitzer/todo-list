@@ -20,16 +20,15 @@
       </v-tooltip>
     </v-card-title>
 
-<!--    variationSupplierRef-->
-<!--    variationProductRef-->
-<!--    attributes-->
     <no-variations v-if="!variations.length"/>
+
     <dialog-edit
         v-if="dialogs.edit"
         v-model="dialogs.edit"
         @close="dialogs.edit = false"
         :attributes='attributes'
         :variations='variations'
+        :product='product'
     />
   </v-card>
 </template>

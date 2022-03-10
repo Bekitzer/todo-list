@@ -36,9 +36,9 @@ export default {
     }
   },
   actions: {
-    upsert({commit}, payload) {
-      return upsertDoc('variations', payload, {increment: true})
-        .then(doc => commit('upsert', doc))
+    upsert({commit}, payloads) {
+      return upsertDoc('variations', payloads, {increment: true})
+        .then(docs => commit('upsert', docs))
         .then(() => commit('showSnackbar', 'וריאציה נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - Variation.upsert', err))
     },
