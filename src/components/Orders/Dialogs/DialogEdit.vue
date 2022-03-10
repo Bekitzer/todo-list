@@ -200,7 +200,7 @@ export default {
       return this.$store.state.Supplier.list
     },
     formInvalid() {
-      return !this.form.workTitle
+      return !this.form.orderWorkTitle
     },
     dialog: {
       get() {
