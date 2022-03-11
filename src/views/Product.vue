@@ -22,7 +22,7 @@
       </template>
     </nav-appbar>
     <v-row no-gutters>
-      <v-col cols="12" md="12" sm="12" class="pa-10 grey lighten-3 rounded-b-xl">
+      <v-col cols="8" class="pa-10 grey lighten-3 rounded-b-xl">
         <v-tabs v-model="tab" align-with-title>
           <v-tabs-slider color="yellow"></v-tabs-slider>
           <v-tab>וריאציות</v-tab>
@@ -49,19 +49,16 @@
           </v-tab-item>
         </v-tabs-items>
       </v-col>
-      <v-col cols="12" md="5" sm="5">
+      <v-col cols="4">
         <v-hover v-slot="{ hover }">
-          <div>
+          <v-card>
             <v-fade-transition>
-              <v-overlay v-if="hover" color="#000" absolute>
+              <v-overlay v-if="hover" absolute color="#000">
                 <v-btn @click="openFile(product)">הוספה/שינוי תמונה</v-btn>
               </v-overlay>
             </v-fade-transition>
-            <v-img
-                :src="product.file"
-                lazy-src="/images/gravatar.jpg"
-            ></v-img>
-          </div>
+            <v-img height="370px" :src="product.avatar" lazy-src="/images/gravatar.jpg" rounded/>
+          </v-card>
         </v-hover>
       </v-col>
     </v-row>
