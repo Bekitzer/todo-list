@@ -1,8 +1,6 @@
 <template>
   <v-row>
-    {{variation.number}}
     <v-col cols="5">
-
       <v-autocomplete
           :class="{'red': variation.OPERATION === OPERATIONS.DELETE}"
           :disabled="variation.OPERATION === OPERATIONS.DELETE"
@@ -12,7 +10,6 @@
           item-value="name"
           label="מאפיין"
           clearable
-          filled
           dense
           hide-details
           autocomplete="off"
@@ -28,7 +25,6 @@
           item-value="text"
           label="וראציות"
           clearable
-          filled
           dense
           hide-details
           autocomplete="off"
@@ -67,8 +63,7 @@
          }
 
     -->
-    <v-spacer></v-spacer>
-    <v-col cols="1">
+    <v-col cols="2">
       <v-switch @change="removeField" label="מחיקה" color="red" hide-details></v-switch>
     </v-col>
   </v-row>

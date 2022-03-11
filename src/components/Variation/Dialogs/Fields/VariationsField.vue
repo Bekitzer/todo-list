@@ -3,6 +3,7 @@
     <v-card-text>
       <div v-for="(variation, i) in variations" :key="i">
         <variation-field v-model="variations[i]" :attributes="unusedVariations"/>
+        <variation-field-amounts v-model="variations[i]" />
       </div>
 
       <v-btn color="primary" @click="handleAdd">
@@ -55,6 +56,7 @@ export default {
   },
   components: {
     'variation-field': require('@/components/Variation/Dialogs/Fields/VariationField').default,
+    "variation-field-amounts": require('@/components/Variation/Dialogs/Fields/VariationFieldAmounts').default,
   }
 }
 </script>

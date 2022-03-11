@@ -19,7 +19,18 @@
         <span>עריכת וריאציה</span>
       </v-tooltip>
     </v-card-title>
+    <v-list two-line>
+      <template v-for="(variation, i) in variations">
+        <v-list-item :key="'item_' + i">
+          <v-list-item-content>
+            <v-list-item-title v-html="variation.attribute"></v-list-item-title>
+            <v-list-item-subtitle v-html="variation.input"></v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
 
+        <v-divider :key="'divider_' +i"></v-divider>
+      </template>
+    </v-list>
     <no-variations v-if="!variations.length"/>
 
     <dialog-edit
@@ -39,7 +50,7 @@ export default {
   props: ['product'],
   data: () => ({
     dialogs: {
-      edit: true,
+      edit: false,
     }
   }),
   computed: {
