@@ -18,16 +18,16 @@
           </v-col>
           <v-col cols="12" md="6">
             <vuetify-google-autocomplete
-              ref="address"
-              id="map"
-              filled
-              v-if="getAddressData"
-              v-on:placechanged="getAddressData"
-              country="il"
-              v-model="form.address"
-              label="כתובת"
-              dense
-              hide-details
+                ref="address"
+                id="map"
+                filled
+                v-if="getAddressData"
+                v-on:placechanged="getAddressData"
+                country="il"
+                v-model="form.address"
+                label="כתובת"
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="12">
@@ -64,32 +64,32 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-              v-model="form.paymentType"
-              :items="paymentTypeList"
-              label="סוג תשלום"
-              filled
-              dense
-              hide-details
+                v-model="form.paymentType"
+                :items="paymentTypeList"
+                label="סוג תשלום"
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6" sm="6" v-if="form.paymentType !== 'מיידי'">
             <v-select
-              v-model="form.paymentTerms"
-              :items="paymentTermsList"
-              label="תנאי תשלום"
-              filled
-              dense
-              hide-details
+                v-model="form.paymentTerms"
+                :items="paymentTermsList"
+                label="תנאי תשלום"
+                filled
+                dense
+                hide-details
             />
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select
-              v-model="form.paymentMethod"
-              :items="paymentMethodList"
-              label="אמצעי תשלום"
-              filled
-              dense
-              hide-details
+                v-model="form.paymentMethod"
+                :items="paymentMethodList"
+                label="אמצעי תשלום"
+                filled
+                dense
+                hide-details
             />
           </v-col>
         </v-row>
@@ -98,7 +98,8 @@
             <h4>הגדרות לקוח</h4>
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-select v-model="form.deliveryType" :items="deliveryTypeList" label="אופן אספקה" filled dense hide-details/>
+            <v-select v-model="form.deliveryType" :items="deliveryTypeList" label="אופן אספקה" filled dense
+                      hide-details/>
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select v-model="form.status" :items="statusList" label="סוג לקוח" filled dense hide-details/>
@@ -133,14 +134,33 @@ export default {
   data: () => ({
     saving: false,
     address: '',
-    form: {},
+    form: {
+      // name: 'test',
+      // companyName: 'test',
+      // numberId: 'test',
+      // address: 'test',
+      // addressAdditional: 'test',
+      // email: 'test',
+      // phone: 'test',
+      // whatsapp: 'test',
+      // website: 'test',
+      // facebook: 'test',
+      // instagram: 'test',
+      // paymentType: 'מיידי',
+      // paymentTerms: 'מיידי',
+      // paymentMethod: 'אשראי',
+      // deliveryType: 'משלוח',
+      // status: 'פרטי',
+      // lead: 'גוגל ממומן',
+      // newsletter: 'כן'
+    },
     paymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
     paymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
-    paymentTypeList: ["מיידי","הסדר חברה"],
-    deliveryTypeList: ["איסוף עצמי","משלוח","משתנה"],
-    statusList: ["פרטי","עסקי"],
-    leadList: ["גוגל אורגני", "גוגל ממומן","גוגל ישן","פה לאוזן","היכרות אישית"],
-    newsletterList: ["כן","לא"]
+    paymentTypeList: ["מיידי", "הסדר חברה"],
+    deliveryTypeList: ["איסוף עצמי", "משלוח", "משתנה"],
+    statusList: ["פרטי", "עסקי"],
+    leadList: ["גוגל אורגני", "גוגל ממומן", "גוגל ישן", "פה לאוזן", "היכרות אישית"],
+    newsletterList: ["כן", "לא"]
   }),
   computed: {
     formInvalid() {
@@ -155,15 +175,13 @@ export default {
       }
     },
   },
-  methods:{
+  methods: {
     getAddressData: function (addressData, placeResultData, id) {
       this.address = addressData;
     },
     save() {
-      if(!this.formInvalid){
+      if (!this.formInvalid) {
         this.saving = true
-        console.log(this.form)
-
         this.$store.dispatch('Client/upsert', this.form).finally(() => {
           this.saving = false
           this.dialog = false

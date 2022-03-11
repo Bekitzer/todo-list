@@ -1,4 +1,4 @@
-import {writeDoc, fetchDocs, removeDoc, where, OPERATIONS} from '@/stores/utils';
+import {writeDoc, fetchDocs, where, OPERATIONS} from '@/stores/utils';
 
 const defaults = {
   DEFAULT_COLLECTION: 'variations',

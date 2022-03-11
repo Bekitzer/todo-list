@@ -1,4 +1,4 @@
-import {writeDoc, fetchDocs, removeDoc, OPERATIONS} from '@/stores/utils';
+import {writeDoc, fetchDocs, OPERATIONS} from '@/stores/utils';
 
 const defaults = {
   DEFAULT_COLLECTION: 'products-tags',
@@ -43,7 +43,7 @@ export default {
   actions: {
     write({commit}, payloads) {
       return writeDoc(payloads, defaults)
-        .then(({[defaults.DEFAULT_OPERATION]: {set, delete: remove}}) => {
+        .then(({[defaults.DEFAULT_COLLECTION]: {set, delete: remove}}) => {
           commit('upsert', set)
           commit('remove', remove)
         })
@@ -52,13 +52,13 @@ export default {
     },
     upsert({commit}, payloads) {
       return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.SET})
-        .then(({[defaults.DEFAULT_OPERATION]: {set}}) => commit('upsert', set))
+        .then(({[defaults.DEFAULT_COLLECTION]: {set}}) => commit('upsert', set))
         .then(() => commit('showSnackbar', 'תגית נשמרה!', {root: true}))
         .catch(err => console.error('Something went wrong - ProductTag.upsert', err))
     },
     remove({commit}, payloads) {
       return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.DELETE})
-        .then(({[defaults.DEFAULT_OPERATION]: {delete: remove}}) => commit('remove', remove))
+        .then(({[defaults.DEFAULT_COLLECTION]: {delete: remove}}) => commit('remove', remove))
         .then(() => commit('showSnackbar', 'תגית נמחקה!', {root: true}))
         .catch(err => console.error('Something went wrong - ProductTag.remove', err))
     },
