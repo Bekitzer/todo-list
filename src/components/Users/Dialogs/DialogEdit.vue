@@ -87,11 +87,12 @@
                 ביטול
               </v-btn>
               <v-btn
+                  :disabled="saving || formInvalid"
+                  :loading="saving"
+                  @click="saveUser"
                   outlined
                   large
                   color="green"
-                  @click="saveUser"
-                  :disabled="userFieldInvalid"
               >
                 שמור
               </v-btn>
@@ -116,11 +117,12 @@ export default {
     dialogs: {
       delete: false
     },
+    saving: false,
     form: {},
     positionList: ['בעלים', 'הנהלת חשבונות', 'מזכירות', 'עובד יצור'],
   }),
   computed: {
-    userFieldInvalid() {
+    formInvalid() {
       return
       !this.userFirstName || this.userFirstName === this.user.firstname
       !this.userLastName || this.userLastName === this.user.lastname
@@ -139,10 +141,14 @@ export default {
   },
   methods: {
     saveUser() {
-      if (!this.userFieldInvalid) {
+      if (!this.formInvalid) {
+        this.saving = true
+        let payload = {
+          ...this.form
+        }
+        this.$store.dispatch('User/upsert', payload)
+        this.saving = false
         this.dialog = false
-        this.$store.dispatch('User/upsert', this.form)
-        this.$router.push('/users')
       }
     }
   },

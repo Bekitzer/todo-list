@@ -8,7 +8,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-                v-model="productName"
+                v-model="form.name"
                 label="שם מוצר"
                 clearable
                 filled
@@ -18,8 +18,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-                v-model="productCategory"
-                :items="productCategoryList"
+                v-model="form.category"
+                :items="categoryList"
                 label="שם קטגוריה"
                 clearable
                 filled
@@ -82,7 +82,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-textarea
-                v-model="productInfo"
+                v-model="form.productInfo"
                 label="מפרט"
                 filled
                 dense
@@ -91,7 +91,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-textarea
-                v-model="supplierPrices"
+                v-model="form.prices"
                 label="מחירון ספקים"
                 filled
                 dense
@@ -116,7 +116,7 @@
                   large
                   color="green"
                   @click="addProduct"
-                  :disabled="productFieldInvalid"
+                  :disabled="formInvalid"
               >
                 צור
               </v-btn>
@@ -133,12 +133,8 @@ export default {
   name: 'DialogCreate',
   props: ['product', 'value'],
   data: () => ({
-    productNumber: '',
-    productName: '',
-    productCategory: '',
-    productCategoryList: ['מיתוג ושיווק', 'משרדי ואירגוני', 'שילוט ותצוגה', 'מתקנים ומעמדים', 'מדבקות וטפטים', 'מוצרי קד״מ'],
-    productInfo: '',
-    supplierPrices: '',
+    categoryList: ['מיתוג ושיווק', 'משרדי ואירגוני', 'שילוט ותצוגה', 'מתקנים ומעמדים', 'מדבקות וטפטים', 'מוצרי קד״מ'],
+    form: {},
     activator: null,
     attach: null,
     editing: {},
@@ -153,8 +149,8 @@ export default {
     y: 0,
   }),
   computed: {
-    productFieldInvalid() {
-      return !this.productName
+    formInvalid() {
+      return !this.form.name
     },
     dialog: {
       get() {
@@ -205,25 +201,15 @@ export default {
           .indexOf(query.toString().toLowerCase()) > -1
     },
     addProduct() {
-      if (!this.productFieldInvalid) {
-        const productFields = {
-          name: this.productName,
-          category: this.productCategory,
+      if (!this.formInvalid) {
+        const payload = {
+          ...this.form,
           tags: this.productTags,
-          productInfo: this.productInfo,
-          prices: this.supplierPrices
         }
 
-        this.$store.dispatch('Product/upsert', productFields)
-        this.productName = ''
-        this.productCategory = ''
-        this.productTags = ''
-        this.productInfo = ''
-        this.supplierPrices = ''
-        this.attributeName = ''
+        this.$store.dispatch('Product/upsert', payload)
       }
       this.dialog = false
-      setTimeout(() => this.$router.go({path: this.$router.path}), 3000)
     }
   },
 }

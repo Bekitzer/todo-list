@@ -9,7 +9,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="userFirstName"
+              v-model="form.firstname"
               label="שם פרטי"
               filled
               dense
@@ -18,7 +18,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="userLastName"
+              v-model="form.lastname"
               label="שם משפחה"
               filled
               dense
@@ -27,7 +27,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="userUsername"
+              v-model="form.username"
               label="שם משתמש"
               filled
               dense
@@ -36,7 +36,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="userEmail"
+              v-model="form.email"
               label="מייל"
               filled
               dense
@@ -45,7 +45,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="userPhone"
+              v-model="form.phone"
               label="טלפון"
               filled
               dense
@@ -54,8 +54,8 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="userPosition"
-              :items="userPositionList"
+              v-model="form.position"
+              :items="positionList"
               label="תפקיד"
               filled
               dense
@@ -81,7 +81,8 @@
                 large
                 color="green"
                 @click="addUser"
-                :disabled="userFieldInvalid"
+                :disabled="saving || formInvalid"
+                :loading="saving"
               >
                 צור
               </v-btn>
@@ -98,21 +99,13 @@ export default {
   name: 'DialogCreate',
   props: ['user', 'value'],
   data: () => ({
-    userFirstName: '',
-    userLastName: '',
-    userUsername: '',
-    userPhone: '',
-    userEmail: '',
-    userPosition: '',
-    userPositionList: ['בעלים','הנהלת חשבונות','מזכירות','עובד יצור'],
+    saving: false,
+    form: {},
+    positionList: ['בעלים','הנהלת חשבונות','מזכירות','עובד יצור'],
     }),
   computed: {
-    userFieldInvalid() {
-      return (
-        !this.userFirstName ||
-        !this.userLastName ||
-        !this.userUsername
-      )
+    formInvalid() {
+      return !this.form.firstname
     },
     dialog: {
       get() {
@@ -125,26 +118,16 @@ export default {
   },
   methods: {
     addUser() {
-      if(!this.userFieldInvalid){
-        const userFields = {
-          firstname: this.userFirstName,
-          lastname: this.userLastName,
-          phone: this.userPhone,
-          email: this.userEmail,
-          username: this.userUsername,
-          position: this.userPosition,
+      if(!this.formInvalid){
+        this.saving = true
+        const payload = {
+          ...this.form
         }
-
-        this.$store.dispatch('User/upsert', userFields)
-        this.userFirstName = ''
-        this.userLastName = ''
-        this.userPhone = ''
-        this.userEmail = ''
-        this.userUsername = ''
-        this.userPosition = ''
+        this.$store.dispatch('User/upsert', payload)
+        this.saving = false
+        this.dialog = false
       }
-      this.dialog = false
-      setTimeout( () => this.$router.go({path: this.$router.path}), 3000)
+
     }
   }
 }
