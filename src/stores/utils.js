@@ -58,6 +58,21 @@ const groupByKey = (list, key) => {
   return list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {})
 }
 
+const generateTimestamps = (payload, times) => {
+  const localTimestamps = {}
+  const serverTimestamps = {}
+
+  if (!payload.createdAt) {
+    localTimestamps.createdAt = times.local
+    serverTimestamps.createdAt = times.server
+  }
+
+  localTimestamps.updatedAt = times.local
+  serverTimestamps.updatedAt = times.server
+
+  return {localTimestamps, serverTimestamps}
+}
+
 const batchIncrement = (name, items) => {
   const incrementDocRef = docRef(`--stats--/${name}`)
 
@@ -70,7 +85,7 @@ const batchIncrement = (name, items) => {
 
     const newNumber = oldNumber + items.length;
 
-    transaction.update(incrementDocRef, {increment: newNumber});
+    await transaction.update(incrementDocRef, {increment: newNumber});
 
     return {oldNumber, newNumber}
   })
@@ -103,15 +118,16 @@ export const writeDoc = async (payloads, options = {}) => {
     OPERATION: payload.OPERATION || DEFAULT_OPERATION
   }))
 
-  const serverTime = serverTimestamp()
-  const localTime = new Date()
+  const times = {
+    local: new Date(),
+    server: serverTimestamp()
+  }
 
   const collections = groupByKey(payloads, 'COLLECTION') // e.g. {users: [...]}
 
-  Object.keys(collections)
-    .forEach(name =>
-      collections[name] = groupByKey(collections[name], 'OPERATION')) // e.g. {users: {delete: [...]}}
-
+  Object.keys(collections).forEach(name => {
+    collections[name] = groupByKey(collections[name], 'OPERATION') // e.g. {users: {delete: [...]}}
+  })
 
   await Promise.all(Object.keys(collections).map(name => {
     if (!collections[name][OPERATIONS.SET]?.length || !INCREMENT) return Promise.resolve()
@@ -131,29 +147,19 @@ export const writeDoc = async (payloads, options = {}) => {
   Object.keys(collections).forEach(name => Object.keys(collections[name]).forEach(operation => {
     collections[name][operation] = collections[name][operation].map(payload => {
 
-      const {COLLECTION, OPERATION, id, ...fields} = payload
+      const {localTimestamps, serverTimestamps} = TIMESTAMPS ? generateTimestamps(payload, times) : {}
 
-      if (TIMESTAMPS) {
-        if (!payload.createdAt) payload.createdAt = localTime
-        payload.updatedAt = localTime
-      }
+      const {COLLECTION, OPERATION, id, ...fields} = payload
 
       const newDocRef = id ? docRef(`${COLLECTION}/${id}`) : doc(collection(db, COLLECTION))
 
-      if (fields.createdAt) fields.createdAt = serverTime
-      if (fields.updatedAt) fields.updatedAt = serverTime
+      batch[OPERATION](newDocRef, {...fields, ...serverTimestamps});
 
-      batch[OPERATION](newDocRef, fields);
-
-      return {...fields, id: newDocRef.id}
+      return {...fields, ...localTimestamps, id: newDocRef.id}
     })
   }))
 
   await batch.commit()
 
   return collections
-}
-
-export const removeDoc = (name, id) => {
-  return deleteDoc(docRef(`${name}/${id}`))
 }

@@ -1,4 +1,4 @@
-import {writeDoc, fetchDocs, removeDoc, OPERATIONS} from '@/stores/utils';
+import {writeDoc, fetchDocs, OPERATIONS} from '@/stores/utils';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -66,7 +66,7 @@ export default {
         .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
         .then(() => updateProfile(getAuth().currentUser, {displayName: payload.username}))
         .then(() => writeDoc({...payload, id: getAuth().currentUser.uid, OPERATION: OPERATIONS.SET}, defaults))
-        .then(({[defaults.DEFAULT_OPERATION]: {set}}) => commit('upsert', set))
+        .then(({[defaults.DEFAULT_COLLECTION]: {set}}) => commit('upsert', set))
         .then(() => commit('showSnackbar', 'הרשמה בוצעה בהצלחה!', {root: true}))
         .catch(err => console.error('Something went wrong - User.signUp', err))
     },
@@ -85,7 +85,7 @@ export default {
     },
     write({commit}, payloads) {
       return writeDoc(payloads, defaults)
-        .then(({[defaults.DEFAULT_OPERATION]: {set, delete: remove}}) => {
+        .then(({[defaults.DEFAULT_COLLECTION]: {set, delete: remove}}) => {
           commit('upsert', set)
           commit('remove', remove)
         })
@@ -94,13 +94,13 @@ export default {
     },
     upsert({commit}, payloads) {
       return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.SET})
-        .then(({[defaults.DEFAULT_OPERATION]: {set}}) => commit('upsert', set))
+        .then(({[defaults.DEFAULT_COLLECTION]: {set}}) => commit('upsert', set))
         .then(() => commit('showSnackbar', 'משתמש נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - User.upsert', err))
     },
     remove({commit}, payloads) {
       return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.DELETE})
-        .then(({[defaults.DEFAULT_OPERATION]: {delete: remove}}) => commit('remove', remove))
+        .then(({[defaults.DEFAULT_COLLECTION]: {delete: remove}}) => commit('remove', remove))
         .then(() => commit('showSnackbar', 'משתמש נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - User.remove', err))
     },
