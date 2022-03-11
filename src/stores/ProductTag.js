@@ -17,7 +17,7 @@ export default {
     remove(state, payloads = []) {
       state.list = state.list.filter(item => !payloads.find(({id}) => id === item.id))
     },
-    upsert(state, payloads) {
+    upsert(state, payloads = []) {
       if (!Array.isArray(payloads)) payloads = [payloads]
 
       let items = [...state.list]
@@ -43,9 +43,9 @@ export default {
   actions: {
     write({commit}, payloads) {
       return writeDoc(payloads, defaults)
-        .then(({[defaults.DEFAULT_COLLECTION]: {set, delete: remove}}) => {
-          commit('upsert', set)
+        .then(({[defaults.DEFAULT_COLLECTION]: {delete: remove, set}}) => {
           commit('remove', remove)
+          commit('upsert', set)
         })
         .then(() => commit('showSnackbar', 'תגית עודכנה!', {root: true}))
         .catch(err => console.error('Something went wrong - ProductTag.write', err))

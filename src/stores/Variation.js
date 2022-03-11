@@ -44,9 +44,9 @@ export default {
   actions: {
     write({commit}, payloads) {
       return writeDoc(payloads, defaults)
-        .then(({variations: {set, delete:remove}}) => {
-          commit('upsert', set)
+        .then(({[defaults.DEFAULT_COLLECTION]: {delete: remove, set}}) => {
           commit('remove', remove)
+          commit('upsert', set)
         })
         .then(() => commit('showSnackbar', 'וריאציות עודכנו!', {root: true}))
         .catch(err => console.error('Something went wrong - Variation.write', err))

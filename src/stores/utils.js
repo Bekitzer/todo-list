@@ -1,16 +1,14 @@
 import {
   getDoc,
   getDocs,
-  addDoc,
   collection,
-  deleteDoc,
   doc,
-  setDoc,
   query,
   where,
   runTransaction,
   serverTimestamp,
   writeBatch,
+  Timestamp
 } from 'firebase/firestore';
 import {db} from '@/firebase';
 
@@ -54,18 +52,22 @@ function dbMigration() {
 }
 
 // dbMigration()
+
+
 const groupByKey = (list, key) => {
   return list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {})
+}
+
+const toTimestamp = ({seconds, nanoseconds}) => {
+  return new Timestamp(seconds, nanoseconds)
 }
 
 const generateTimestamps = (payload, times) => {
   const localTimestamps = {}
   const serverTimestamps = {}
 
-  if (!payload.createdAt) {
-    localTimestamps.createdAt = times.local
-    serverTimestamps.createdAt = times.server
-  }
+  localTimestamps.createdAt = payload.createdAt ? toTimestamp(payload.createdAt) : times.local
+  serverTimestamps.createdAt = payload.createdAt ? toTimestamp(payload.createdAt) : times.server
 
   localTimestamps.updatedAt = times.local
   serverTimestamps.updatedAt = times.server
@@ -119,7 +121,7 @@ export const writeDoc = async (payloads, options = {}) => {
   }))
 
   const times = {
-    local: new Date(),
+    local: Timestamp.now(),
     server: serverTimestamp()
   }
 
@@ -138,7 +140,7 @@ export const writeDoc = async (payloads, options = {}) => {
       .then(({oldNumber}) =>
         collections[name][OPERATIONS.SET]
           .forEach((payload, i) => {
-            payload.number = oldNumber + i + 1
+            if (!payload.id) payload.number = oldNumber + i + 1
           }))
   }))
 

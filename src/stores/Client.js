@@ -18,7 +18,7 @@ export default {
     remove(state, payloads = []) {
       state.list = state.list.filter(item => !payloads.find(({id}) => id === item.id))
     },
-    upsert(state, payloads) {
+    upsert(state, payloads = []) {
       if (!Array.isArray(payloads)) payloads = [payloads]
 
       let items = [...state.list]
@@ -44,16 +44,19 @@ export default {
   actions: {
     write({commit}, payloads) {
       return writeDoc(payloads, defaults)
-        .then(({[defaults.DEFAULT_COLLECTION]: {set, delete: remove}}) => {
-          commit('upsert', set)
+        .then(({[defaults.DEFAULT_COLLECTION]: {delete: remove, set}}) => {
           commit('remove', remove)
+          commit('upsert', set)
         })
         .then(() => commit('showSnackbar', 'לקוח עודכן!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.write', err))
     },
     upsert({commit}, payloads) {
       return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.SET})
-        .then(({[defaults.DEFAULT_COLLECTION]: {set}}) => commit('upsert', set))
+        .then(({[defaults.DEFAULT_COLLECTION]: {set}, users: {set: setUsers} = {}}) => {
+          commit('upsert', set)
+          commit('User/upsert', setUsers, {root: true})
+        })
         .then(() => commit('showSnackbar', 'לקוח נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.upsert', err))
     },
@@ -63,26 +66,6 @@ export default {
         .then(() => commit('showSnackbar', 'לקוח נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Client.remove', err))
     },
-    // oldupsert({commit}, {connectUsers = [], disconnectUsers = [], ...payloads}) {
-    //   return writeDoc(DEFAULT_COLLECTION, payloads, {INCREMENT: true})
-    //     .then(doc => commit('upsert', doc))
-    //     .then(() => Promise.all(disconnectUsers.map(user =>
-    //       writeDoc('users', {...user, userClientRef: null})))
-    //       .then(doc => commit('User/upsert', doc, {root: true}))
-    //     )
-    //     .then(() => Promise.all(connectUsers.map(user =>
-    //       writeDoc('users', {...user, userClientRef: docRef(`clients/${payload.id}`)})))
-    //       .then(doc => commit('User/upsert', doc, {root: true}))
-    //     )
-    //     .then(() => commit('showSnackbar', 'לקוח נשמר!', {root: true}))
-    //     .catch(err => console.error('Something went wrong - Client.upsertv', err))
-    // },
-    // oldremove({commit}, id) {
-    //   return removeDoc(COLLECTION, id)
-    //     .then(() => commit('remove', id))
-    //     .then(() => commit('showSnackbar', 'לקוח נמחק!', {root: true}))
-    //     .catch(err => console.error('Something went wrong - Client.remove', err))
-    // },
     fetch({commit, rootGetters}) {
       const {user} = rootGetters
 

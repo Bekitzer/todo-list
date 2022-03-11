@@ -185,14 +185,7 @@
               <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn
-                :disabled="saving || formInvalid"
-                :loading="saving"
-                @click="saveClient"
-                color="green"
-                large
-                outlined
-              >
+              <v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" color="green" large outlined>
                 שמור
               </v-btn>
             </v-card-actions>
@@ -210,6 +203,8 @@
 </template>
 
 <script>
+import {docRef} from '@/stores/utils';
+
 export default {
   name: 'DialogEdit',
   props: ['client', 'value'],
@@ -255,18 +250,23 @@ export default {
     remove(item) {
       this.formUsers = this.formUsers.filter(({id}) => id !== item.id)
     },
-    saveClient() {
+    save() {
       if (!this.formInvalid) {
         this.saving = true
-        const payload = {
-          ...this.form,
-          connectUsers: this.formUsers,
-          disconnectUsers: this.clientUsers.filter(user => !this.formUsers.find(({id}) => id === user.id))
-        }
 
-        debugger
+        const connectClientUsers = this.formUsers
+            .map(user => ({...user, userClientRef: docRef(`clients/${this.client.id}`), COLLECTION: 'users'}))
 
-        this.$store.dispatch('Client/upsert', payload).finally(() => {
+        const disconnectClientUsers = this.clientUsers.filter(user => !this.formUsers.find(({id}) => id === user.id))
+            .map(user => ({...user, userClientRef: null, COLLECTION: 'users'}))
+
+        const payloads = [
+          {...this.form, COLLECTION: 'clients',},
+          ...connectClientUsers,
+          ...disconnectClientUsers
+        ]
+
+        this.$store.dispatch('Client/upsert', payloads).finally(() => {
           this.saving = false
           this.dialog = false
         })
