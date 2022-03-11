@@ -13,8 +13,8 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import {deleteObject, getDownloadURL, ref, uploadBytes} from 'firebase/storage';
 import {storage} from '@/firebase';
+import {deleteObject, getDownloadURL, ref, uploadBytes} from 'firebase/storage';
 
 export default {
   name:'DialogImage',

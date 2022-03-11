@@ -88,14 +88,7 @@
             <h4>הגדרות ספק</h4>
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-select
-              v-model="form.deliveryType"
-              :items="deliveryTypeList"
-              label="אופן אספקה"
-              filled
-              dense
-              hide-details
-            />
+            <v-select v-model="form.deliveryType" :items="deliveryTypeList" label="אופן אספקה" dense filled hide-details />
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-text-field v-model="form.workingHours" label="שעות פעילות" filled dense hide-details/>
@@ -161,10 +154,7 @@ export default {
     save() {
       if(!this.formInvalid){
         this.saving = true
-        const payload = {
-          ...this.form
-        }
-        this.$store.dispatch('Supplier/upsert', payload).finally(() => {
+        this.$store.dispatch('Supplier/upsert', this.form).finally(() => {
           this.saving = false
           this.dialog = false
         })

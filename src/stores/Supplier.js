@@ -53,7 +53,10 @@ export default {
     },
     upsert({commit}, payloads) {
       return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.SET})
-        .then(({[defaults.DEFAULT_COLLECTION]: {set}}) => commit('upsert', set))
+        .then(({[defaults.DEFAULT_COLLECTION]: {set}, users: {set: setUsers} = {}}) => {
+          commit('upsert', set)
+          commit('User/upsert', setUsers, {root: true})
+        })
         .then(() => commit('showSnackbar', 'ספק נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Supplier.upsert', err))
     },
@@ -63,26 +66,6 @@ export default {
         .then(() => commit('showSnackbar', 'ספק נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Supplier.remove', err))
     },
-    // upsert({commit}, {connectUsers = [], disconnectUsers = [], ...payloads}) {
-    //   return writeDoc(COLLECTION, payloads, {INCREMENT: true})
-    //     .then(doc => commit('upsert', doc))
-    //     .then(() => Promise.all(disconnectUsers.map(user =>
-    //       writeDoc('users', {...user, userSupplierRef: null})))
-    //       .then(doc => commit('User/upsert', doc, {root: true}))
-    //     )
-    //     .then(() => Promise.all(connectUsers.map(user =>
-    //       writeDoc('users', {...user, userSupplierRef: docRef(`suppliers/${payload.id}`)})))
-    //       .then(doc => commit('User/upsert', doc, {root: true}))
-    //     )
-    //     .then(() => commit('showSnackbar', 'ספק נשמר!', {root: true}))
-    //     .catch(err => console.error('Something went wrong - Supplier.upsertv', err))
-    // },
-    // remove({commit}, id) {
-    //   return removeDoc(COLLECTION, id)
-    //     .then(() => commit('remove', id))
-    //     .then(() => commit('showSnackbar', 'ספק נמחק!', {root: true}))
-    //     .catch(err => console.error('Something went wrong - Supplier.remove', err))
-    // },
     fetch({commit, rootGetters}) {
       const {user} = rootGetters
 

@@ -121,7 +121,7 @@
                 <v-chip close @click:close="remove(data.item)">
                   <v-avatar left>
                     <v-img :src="data.item.avatar"
-                           lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                           lazy-src="/images/gravatar.jpg"></v-img>
                   </v-avatar>
                   {{ data.item.username }}
                 </v-chip>
@@ -134,7 +134,7 @@
                   <v-list-item-avatar>
                     <v-img
                         :src="data.item.avatar"
-                        lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                        lazy-src="/images/gravatar.jpg"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
@@ -174,14 +174,14 @@
 </template>
 
 <script>
+import {docRef} from '@/stores/utils';
+
 export default {
   name: 'DialogEdit',
   props: ['supplier', 'value'],
   data: () => ({
     saving: false,
     address: '',
-    autoUpdate: true,
-    isUpdating: false,
     dialogs: {
       delete: false
     },
@@ -223,11 +223,18 @@ export default {
     save() {
       if (!this.formInvalid) {
         this.saving = true
-        const payload = {
-          ...this.form,
-          connectUsers: this.formUsers,
-          disconnectUsers: this.supplierUsers.filter(user => !this.formUsers.find(({id}) => id === user.id))
-        }
+
+        const connectSupplierUsers = this.formUsers
+            .map(user => ({...user, userSupplierRef: docRef(`suppliers/${this.supplier.id}`), COLLECTION: 'users'}))
+
+        const disconnectSupplierUsers = this.supplierUsers.filter(user => !this.formUsers.find(({id}) => id === user.id))
+            .map(user => ({...user, userSupplierRef: null, COLLECTION: 'users'}))
+
+        const payloads = [
+          {...this.form, COLLECTION: 'suppliers',},
+          ...connectSupplierUsers,
+          ...disconnectSupplierUsers
+        ]
 
         this.$store.dispatch('Supplier/upsert', payload).finally(() => {
           this.saving = false

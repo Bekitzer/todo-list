@@ -153,7 +153,7 @@
                 <v-chip close @click:close="remove(data.item)">
                   <v-avatar left>
                     <v-img :src="data.item.avatar"
-                           lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                           lazy-src="/images/gravatar.jpg"></v-img>
                   </v-avatar>
                   {{ data.item.username }}
                 </v-chip>
@@ -166,7 +166,7 @@
                   <v-list-item-avatar>
                     <v-img
                         :src="data.item.avatar"
-                        lazy-src="https://www.gravatar.com/avatar/00000000000000000000000000000000"></v-img>
+                        lazy-src="/images/gravatar.jpg"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>

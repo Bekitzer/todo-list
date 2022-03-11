@@ -98,8 +98,7 @@
             <h4>הגדרות לקוח</h4>
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-select v-model="form.deliveryType" :items="deliveryTypeList" label="אופן אספקה" filled dense
-                      hide-details/>
+            <v-select v-model="form.deliveryType" :items="deliveryTypeList" label="אופן אספקה" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-select v-model="form.status" :items="statusList" label="סוג לקוח" filled dense hide-details/>
@@ -134,26 +133,7 @@ export default {
   data: () => ({
     saving: false,
     address: '',
-    form: {
-      name: 'test',
-      companyName: 'test',
-      numberId: 'test',
-      address: 'test',
-      addressAdditional: 'test',
-      email: 'test',
-      phone: 'test',
-      whatsapp: 'test',
-      website: 'test',
-      facebook: 'test',
-      instagram: 'test',
-      paymentType: 'מיידי',
-      paymentTerms: 'מיידי',
-      paymentMethod: 'אשראי',
-      deliveryType: 'משלוח',
-      status: 'פרטי',
-      lead: 'גוגל ממומן',
-      newsletter: 'כן'
-    },
+    form: {},
     paymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
     paymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
     paymentTypeList: ["מיידי", "הסדר חברה"],
