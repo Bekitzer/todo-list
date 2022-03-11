@@ -6,9 +6,7 @@
       </div>
 
       <v-btn color="primary" @click="handleAdd">
-        <v-icon>
-          mdi-plus
-        </v-icon>
+        <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-card-text>
   </v-card>

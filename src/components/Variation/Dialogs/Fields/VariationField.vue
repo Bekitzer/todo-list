@@ -1,6 +1,8 @@
 <template>
   <v-row>
+    {{variation.number}}
     <v-col cols="5">
+
       <v-autocomplete
           :class="{'red': variation.OPERATION === OPERATIONS.DELETE}"
           :disabled="variation.OPERATION === OPERATIONS.DELETE"
@@ -97,7 +99,6 @@ export default {
   methods: {
     removeField(val) {
       this.variation = {...this.variation, OPERATION: val ? OPERATIONS.DELETE : null}
-      console.log(val, this.variation)
     }
   }
 }

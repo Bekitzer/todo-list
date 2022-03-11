@@ -8,92 +8,33 @@
             <h4>פרטי המשתמש</h4>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.firstname"
-                label="שם פרטי"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.firstname" label="שם פרטי" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.lastname"
-                label="שם משפחה"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.lastname" label="שם משפחה" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.username"
-                label="שם משתמש"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.username" label="שם משתמש" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.phone"
-                label="טלפון"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.phone" label="טלפון" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-                v-model="form.email"
-                label="מייל"
-                filled
-                dense
-                hide-details
-            />
+            <v-text-field v-model="form.email" label="מייל" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-select
-                v-model="form.position"
-                :items="positionList"
-                label="תפקיד"
-                filled
-                dense
-                hide-details
-                required
-            ></v-select>
+            <v-select v-model="form.position" :items="positionList" label="תפקיד" filled dense hide-details required/>
           </v-col>
           <v-col cols="12">
-            <v-card-actions
-                style="padding:0"
-            >
-              <v-btn
-                  icon
-                  color="red"
-                  class="black--text"
-                  @click="dialogs.delete = true"
-              >
-                <v-icon>
-                  mdi-trash-can-outline
-                </v-icon>
+            <v-card-actions style="padding:0">
+              <v-btn icon color="red" class="black--text" @click="dialogs.delete = true">
+                <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn
-                  outlined
-                  large
-                  color="red"
-                  @click="dialog = false"
-              >
+              <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn
-                  :disabled="saving || formInvalid"
-                  :loading="saving"
-                  @click="saveUser"
-                  outlined
-                  large
-                  color="green"
-              >
+              <v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" outlined large color="green">
                 שמור
               </v-btn>
             </v-card-actions>
@@ -123,9 +64,8 @@ export default {
   }),
   computed: {
     formInvalid() {
-      return
-      !this.userFirstName || this.userFirstName === this.user.firstname
-      !this.userLastName || this.userLastName === this.user.lastname
+      return !this.userFirstName || this.userFirstName === this.user.firstname
+      || !this.userLastName || this.userLastName === this.user.lastname
     },
     users() {
       return this.$store.state.User.list
@@ -140,15 +80,13 @@ export default {
     },
   },
   methods: {
-    saveUser() {
+    save() {
       if (!this.formInvalid) {
         this.saving = true
-        let payload = {
-          ...this.form
-        }
-        this.$store.dispatch('User/upsert', payload)
-        this.saving = false
-        this.dialog = false
+        this.$store.dispatch('User/upsert', this.form).finally(() => {
+          this.saving = false
+          this.dialog = false
+        })
       }
     }
   },

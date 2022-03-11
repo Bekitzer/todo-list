@@ -66,6 +66,7 @@ export default {
         })
       },
       set(value) {
+        // TODO: is this overwrite all clients? if so it's bad
         this.$store.dispatch('Client/upsert', value)
       }
     }

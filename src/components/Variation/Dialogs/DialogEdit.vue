@@ -28,18 +28,11 @@
         </v-row>
       </v-card>
     </v-dialog>
-    <dialog-delete
-        v-if="dialogs.delete"
-        v-model="dialogs.delete"
-        @close="dialogs.delete = false"
-        :variations='variations'
-    />
   </v-row>
 </template>
 
 <script>
 import {docRef, OPERATIONS} from '@/stores/utils';
-import deepEqual from 'deep-equal';
 
 export default {
   name: 'DialogEdit',
@@ -65,39 +58,31 @@ export default {
       set() {
         this.$emit('close', false)
       }
-    }
+    },
+    dirtyPayloads() {
+      return this.form.map(variation => {
+        if (variation.OPERATION === OPERATIONS.DELETE) return variation
+
+        const original = this.variations.find(({id}) => id === variation.id)
+
+        if (!original || this.isChanged(original, variation)) return variation
+
+        return null
+      }).filter(Boolean)
+    },
   },
   methods: {
     isChanged(original, current) {
-      // console.log(original.variationProductRef?.id, current.variationProductRef?.id)
-      // console.log(original.variationSupplierRef?.id, current.variationSupplierRef?.id)
       return original.id !== current.id
           || original.attribute !== current.attribute
           || original.input !== current.input
           || original.number !== current.number
-          || original.variationProductRef?.id !== current.variationProductRef?.id
-          || original.variationSupplierRef?.id !== current.variationSupplierRef?.id
     },
     save() {
       if (!this.formInvalid) {
         this.saving = true
 
-        const payloads = this.form.map(variation => {
-          if (variation.OPERATION !== OPERATIONS.DELETE) {
-
-            const original = this.variations.find(({id}) => id === variation.id)
-
-            if (original && !this.isChanged(original, variation)) {
-              return null
-            }
-
-            variation.OPERATION = OPERATIONS.SET
-          }
-
-          return variation
-        }).filter(Boolean)
-
-        this.$store.dispatch('Variation/write', payloads).finally(() => {
+        this.$store.dispatch('Variation/write', this.dirtyPayloads).finally(() => {
           this.saving = false
           this.dialog = false
         })
@@ -105,18 +90,15 @@ export default {
     }
   },
   mounted() {
-    this.form = this.variations.map(variation => {
-      return {
-        ...variation,
-        variationProductRef: docRef(`products/${variation.variationProductRef?.id}`),
-        variationSupplierRef: docRef(`suppliers/${variation.variationSupplierRef?.id}`),
-      }
-    });
+    this.form = this.variations.map(variation => ({
+          ...variation,
+          variationProductRef: docRef(`products/${variation.variationProductRef?.id}`),
+          variationSupplierRef: docRef(`suppliers/${variation.variationSupplierRef?.id}`),
+        })
+    );
   },
   components: {
-    'dialog-delete': require('@/components/Variation/Dialogs/DialogDelete.vue').default,
-    'variations-field': require('@/components/Variation/Dialogs/Fields/VariationsField.vue').default,
-    'tags-field': require('@/components/Variation/Dialogs/Fields/TagsField.vue').default
+    'variations-field': require('@/components/Variation/Dialogs/Fields/VariationsField.vue').default
   }
 }
 </script>

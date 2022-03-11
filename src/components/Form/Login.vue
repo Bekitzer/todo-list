@@ -1,32 +1,15 @@
 <template>
   <v-container>
     <v-row>
-      <v-col
-          cols="12"
-          md="4"
-      >
+      <v-col cols="12" md="4">
       </v-col>
-      <v-col
-          cols="12"
-          md="4"
-      >
+      <v-col cols="12" md="4">
         <h1>Login Component</h1>
         <v-row>
-          <v-col
-              cols="12"
-              md="12"
-          >
-            <v-text-field
-                v-model="userData.email"
-                :rules="[rules.required, rules.email]"
-                label="מייל"
-                required
-            ></v-text-field>
+          <v-col cols="12" md="12">
+            <v-text-field v-model="userData.email" :rules="[rules.required, rules.email]" label="מייל" required/>
           </v-col>
-          <v-col
-              cols="12"
-              md="12"
-          >
+          <v-col cols="12" md="12">
             <v-text-field
                 v-model="userData.password"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -35,22 +18,14 @@
                 label="סיסמא"
                 @click:append="showPass = !showPass"
                 required
-            ></v-text-field>
+            />
           </v-col>
-          <v-btn
-              color="primary"
-              text
-              @click="loginUser"
-          >
+          <v-btn color="primary" text @click="loginUser" :disabled="saving" :loading="saving">
             היכנס
           </v-btn>
         </v-row>
       </v-col>
-      <v-col
-          cols="12"
-          md="4"
-      >
-      </v-col>
+      <v-col cols="12" md="4"></v-col>
     </v-row>
   </v-container>
 </template>
@@ -59,6 +34,7 @@
 export default {
   name: 'Login',
   data: () => ({
+    saving: false,
     showPass: false,
     rules: {
       required: value => !!value || 'Required.',
@@ -100,9 +76,12 @@ export default {
           password: this.userData.password
         }
 
-        this.$store.dispatch('User/signIn', userFields)
-        this.userData.email = ''
-        this.userData.password = ''
+        this.saving = true
+        this.$store.dispatch('User/signIn', userFields).finally(() => {
+          this.saving = false
+          this.userData.email = ''
+          this.userData.password = ''
+        })
       }
     }
   }

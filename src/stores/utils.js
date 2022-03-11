@@ -16,21 +16,6 @@ import {db} from '@/firebase';
 
 export const docRef = path => doc(db, path)
 
-
-// const incrementDoc = (transaction, name) => {
-//
-//   return transaction.get(incrementDocRef)
-//     .then((incrementDoc) => {
-//       if (!incrementDoc.exists) {
-//         throw name + " incrementDoc Document does not exist!";
-//       }
-//
-//       const incremented = incrementDoc.data().increment + 1;
-//       transaction.update(incrementDocRef, {increment: incremented});
-//       return incremented;
-//     })
-// }
-
 export {where}
 
 export const OPERATIONS = {
@@ -69,9 +54,9 @@ function dbMigration() {
 }
 
 // dbMigration()
-const groupByKey = (list, key) =>
-  list.reduce((hash, obj) =>
-    ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {})
+const groupByKey = (list, key) => {
+  return list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {})
+}
 
 const batchIncrement = (name, items) => {
   const incrementDocRef = docRef(`--stats--/${name}`)
@@ -91,20 +76,32 @@ const batchIncrement = (name, items) => {
   })
 }
 
-export const fetchDocs = (name, {id = null, filter = null} = {}) => {
+export const fetchDocs = (options = {}) => {
+  const {DEFAULT_COLLECTION, id = null, filter = null} = options
+
   if (id) {
-    return getDoc(docRef(`${name}/${id}`)).then(doc => ([{...doc.data(), id: doc.id}]))
+    return getDoc(docRef(`${DEFAULT_COLLECTION}/${id}`)).then(doc => ([{...doc.data(), id: doc.id}]))
   }
 
   if (filter) {
-    return getDocs(query(collection(db, name), filter))
+    return getDocs(query(collection(db, DEFAULT_COLLECTION), filter))
       .then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
   }
 
-  return getDocs(collection(db, name)).then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+  return getDocs(collection(db, DEFAULT_COLLECTION))
+    .then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
 }
-export const writeDoc = async (payloads, {increment, timestamp = true} = {}) => {
+
+export const writeDoc = async (payloads, options = {}) => {
   if (!Array.isArray(payloads)) payloads = [payloads]
+
+  const {DEFAULT_COLLECTION, DEFAULT_OPERATION, INCREMENT, TIMESTAMPS = true} = options
+
+  payloads = payloads.map(payload => ({
+    ...payload,
+    COLLECTION: payload.COLLECTION || DEFAULT_COLLECTION,
+    OPERATION: payload.OPERATION || DEFAULT_OPERATION
+  }))
 
   const serverTime = serverTimestamp()
   const localTime = new Date()
@@ -117,7 +114,7 @@ export const writeDoc = async (payloads, {increment, timestamp = true} = {}) => 
 
 
   await Promise.all(Object.keys(collections).map(name => {
-    if (!collections[name][OPERATIONS.SET]?.length || !increment) return Promise.resolve()
+    if (!collections[name][OPERATIONS.SET]?.length || !INCREMENT) return Promise.resolve()
 
     const newDocs = collections[name][OPERATIONS.SET].filter(({id}) => !id)
 
@@ -136,7 +133,7 @@ export const writeDoc = async (payloads, {increment, timestamp = true} = {}) => 
 
       const {COLLECTION, OPERATION, id, ...fields} = payload
 
-      if (timestamp) {
+      if (TIMESTAMPS) {
         if (!payload.createdAt) payload.createdAt = localTime
         payload.updatedAt = localTime
       }
@@ -155,51 +152,8 @@ export const writeDoc = async (payloads, {increment, timestamp = true} = {}) => 
   await batch.commit()
 
   return collections
-  //
-  // const payload = payloads
-  //
-  // const {id, ...fields} = payload
-  //
-  // if (id) {
-  //   return setDoc(docRef(`${name}/${id}`), fields)
-  //     .then(() => fetchDocs(name, {id}))
-  //     .then(([item]) => item)
-  // }
-  //
-  // const incrementDocRef = docRef(`--stats--/${name}`)
-  // const newDocRef = doc(collection(db, name))
-  //
-  //
-  // return runTransaction(db, async (transaction) => {
-  //   if (increment) {
-  //     const incrementDoc = await transaction.get(incrementDocRef);
-  //
-  //     if (!incrementDoc.exists()) throw "Document does not exist!";
-  //
-  //     const number = incrementDoc.data().increment + 1;
-  //
-  //     transaction.update(incrementDocRef, {increment: number});
-  //     fields.number = number
-  //   }
-  //
-  //   return transaction.set(newDocRef, fields)
-  // })
-  //   .then(docRef => fetchDocs(name, {id: newDocRef.id}))
-  //   .then(([item]) => item)
-// fetchDocs(name, {id: docRef.id})
-//     .then(([item]) => item)
-
-  // return runTransaction(db, transaction => {
-  //   return (increment ? incrementDoc(transaction, name) : Promise.resolve())
-  //     .then(number => {
-  //       if (number) fields.number = number
-  //
-  //       return addDoc(collection(db, name), fields)
-  //         .then(docRef => fetchDocs(name, {id: docRef.id}))
-  //         .then(([item]) => item)
-  //     })
-  // })
 }
+
 export const removeDoc = (name, id) => {
   return deleteDoc(docRef(`${name}/${id}`))
 }

@@ -1,5 +1,10 @@
-import {writeDoc, fetchDocs, removeDoc, where} from '@/stores/utils';
-const COLLECTION = 'products'
+import {writeDoc, fetchDocs, removeDoc, where, OPERATIONS} from '@/stores/utils';
+
+const defaults = {
+  DEFAULT_COLLECTION: 'products',
+  DEFAULT_OPERATION: OPERATIONS.SET,
+  INCREMENT: true
+}
 
 export default {
   namespaced: true,
@@ -10,8 +15,8 @@ export default {
     initialize(state, payloads) {
       state.list = [...payloads]
     },
-    remove(state, id) {
-      state.list = state.list.filter(item => item.id !== id)
+    remove(state, payloads = []) {
+      state.list = state.list.filter(item => !payloads.find(({id}) => id === item.id))
     },
     upsert(state, payloads) {
       if (!Array.isArray(payloads)) payloads = [payloads]
@@ -37,20 +42,29 @@ export default {
     }
   },
   actions: {
+    write({commit}, payloads) {
+      return writeDoc(payloads, defaults)
+        .then(({[defaults.DEFAULT_OPERATION]: {set, delete: remove}}) => {
+          commit('upsert', set)
+          commit('remove', remove)
+        })
+        .then(() => commit('showSnackbar', 'מוצר עודכן!', {root: true}))
+        .catch(err => console.error('Something went wrong - Product.write', err))
+    },
     upsert({commit}, payloads) {
-      return writeDoc(COLLECTION, payloads, {increment: true})
-        .then(doc => commit('upsert', doc))
+      return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.SET})
+        .then(({[defaults.DEFAULT_OPERATION]: {set}}) => commit('upsert', set))
         .then(() => commit('showSnackbar', 'מוצר נשמר!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.upsert', err))
     },
-    remove({commit}, id) {
-      return removeDoc(COLLECTION, id)
-        .then(() => commit('remove', id))
+    remove({commit}, payloads) {
+      return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.DELETE})
+        .then(({[defaults.DEFAULT_OPERATION]: {delete: remove}}) => commit('remove', remove))
         .then(() => commit('showSnackbar', 'מוצר נמחק!', {root: true}))
         .catch(err => console.error('Something went wrong - Product.remove', err))
     },
     fetch({commit}) {
-      return fetchDocs(COLLECTION)
+      return fetchDocs(defaults)
         .then(docs => commit('initialize', docs))
         .catch(err => console.error('Something went wrong - Product.fetch', err))
     }

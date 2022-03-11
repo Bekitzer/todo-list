@@ -23,19 +23,13 @@
         <template v-slot:no-data>
           <v-list-item>
             <span class="subheading">חדש</span>
-            <v-chip label small>
-              {{ search }}
-            </v-chip>
+            <v-chip label small>{{ search }}</v-chip>
           </v-list-item>
         </template>
         <template v-slot:selection="{ attrs, item, parent, selected }">
           <v-chip v-if="item === Object(item)" v-bind="attrs" :input-value="selected" label small>
-        <span class="pr-2">
-          {{ item.text }}
-        </span>
-            <v-icon small @click="parent.selectItem(item)">
-              $delete
-            </v-icon>
+            <span class="pr-2">{{ item.text }}</span>
+            <v-icon small @click="parent.selectItem(item)">$delete</v-icon>
           </v-chip>
         </template>
         <template v-slot:item="{ index, item }">
@@ -48,10 +42,8 @@
               hide-details
               solo
               @keyup.enter="edit(index, item)"
-          ></v-text-field>
-          <v-chip v-else dark label small>
-            {{ item.text }}
-          </v-chip>
+          />
+          <v-chip v-else dark label small>{{ item.text }}</v-chip>
           <v-spacer></v-spacer>
           <v-list-item-action @click.stop>
             <v-btn icon @click.stop.prevent="edit(index, item)">
@@ -64,9 +56,7 @@
     <v-spacer></v-spacer>
     <v-col cols="1">
       <v-btn small color="error" @click="removeField">
-        <v-icon>
-          mdi-minus
-        </v-icon>
+        <v-icon>mdi-minus</v-icon>
       </v-btn>
     </v-col>
   </v-row>

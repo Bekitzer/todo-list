@@ -8,82 +8,30 @@
             <h4>פרטי המשתמש</h4>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="form.firstname"
-              label="שם פרטי"
-              filled
-              dense
-              hide-details
-            />
+            <v-text-field v-model="form.firstname" label="שם פרטי" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="form.lastname"
-              label="שם משפחה"
-              filled
-              dense
-              hide-details
-            />
+            <v-text-field v-model="form.lastname" label="שם משפחה" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="form.username"
-              label="שם משתמש"
-              filled
-              dense
-              hide-details
-            />
+            <v-text-field v-model="form.username" label="שם משתמש" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="form.email"
-              label="מייל"
-              filled
-              dense
-              hide-details
-            />
+            <v-text-field v-model="form.email" label="מייל" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-text-field
-              v-model="form.phone"
-              label="טלפון"
-              filled
-              dense
-              hide-details
-            />
+            <v-text-field v-model="form.phone" label="טלפון" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="6">
-            <v-select
-              v-model="form.position"
-              :items="positionList"
-              label="תפקיד"
-              filled
-              dense
-              hide-details
-              required
-            ></v-select>
+            <v-select v-model="form.position" :items="positionList" label="תפקיד" filled dense hide-details required/>
           </v-col>
           <v-col cols="12">
-            <v-card-actions
-              style="padding:0"
-            >
+            <v-card-actions style="padding:0">
               <v-spacer></v-spacer>
-              <v-btn
-                outlined
-                large
-                color="red"
-                @click="dialog = false"
-              >
+              <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn
-                outlined
-                large
-                color="green"
-                @click="addUser"
-                :disabled="saving || formInvalid"
-                :loading="saving"
-              >
+              <v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
                 צור
               </v-btn>
             </v-card-actions>
@@ -117,17 +65,17 @@ export default {
     },
   },
   methods: {
-    addUser() {
+    save() {
       if(!this.formInvalid){
         this.saving = true
         const payload = {
           ...this.form
         }
-        this.$store.dispatch('User/upsert', payload)
-        this.saving = false
-        this.dialog = false
+        this.$store.dispatch('User/upsert', payload).finally(() => {
+          this.saving = false
+          this.dialog = false
+        })
       }
-
     }
   }
 }

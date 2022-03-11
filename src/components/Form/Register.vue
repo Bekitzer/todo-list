@@ -64,10 +64,7 @@
                     />
                   </v-col>
                   <v-col cols="12">
-                    <ValidationProvider
-                        rules="required"
-                        v-slot="{ errors, invalid, validated }"
-                    >
+                    <ValidationProvider rules="required" v-slot="{ errors, invalid, validated }">
                       <v-text-field
                           v-model="userData.password"
                           :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
@@ -78,7 +75,7 @@
                           :error="invalid && validated"
                           :error-message="errors[0]"
                           autocomplete="on"
-                      ></v-text-field>
+                      />
                     </ValidationProvider>
                   </v-col>
                   <v-col cols="12">
@@ -86,8 +83,8 @@
                       <v-btn
                           color="primary"
                           @click="handleSubmit(registerUser)"
-                          :disabled="invalid || !validated"
-                      >
+                          :disabled="invalid || !validated || saving"
+                          :loading="saving">
                         הירשם
                       </v-btn>
                       <v-spacer></v-spacer>
@@ -111,6 +108,7 @@ import {ValidationObserver, ValidationProvider} from "vee-validate";
 export default {
   name: 'Register',
   data: () => ({
+    saving: false,
     showPass: false,
     userData: {
       firstname: '',
@@ -147,7 +145,10 @@ export default {
         password: this.userData.password
       }
 
-      this.$store.dispatch('User/signUp', userFields)
+      this.saving = true
+      this.$store.dispatch('User/signUp', userFields).finally(() => {
+        this.saving = false
+      })
     },
   },
   computed: {

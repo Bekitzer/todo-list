@@ -19,7 +19,7 @@
                 hide-details
                 small-chips
                 multiple
-            ></v-select>
+            />
           </v-col>
           <v-col cols="12" md="12">
             <tags-field v-model="form.tags"/>
@@ -49,14 +49,7 @@
               <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn
-                :disabled="saving || formInvalid"
-                :loading="saving"
-                @click="saveProduct"
-                color="green"
-                large
-                outlined
-              >
+              <v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" color="green" large outlined>
                 שמור
               </v-btn>
             </v-card-actions>
@@ -103,15 +96,16 @@ export default {
     }
   },
   methods: {
-    saveProduct() {
+    save() {
       if (!this.formInvalid) {
         this.saving = true
         let payload = {
           ...this.form
         }
-        this.$store.dispatch('Product/upsert', payload)
-        this.saving = false
-        this.dialog = false
+        this.$store.dispatch('Product/upsert', payload).finally(() => {
+          this.saving = false
+          this.dialog = false
+        })
       }
     }
   },

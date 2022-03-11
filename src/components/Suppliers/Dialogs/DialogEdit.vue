@@ -150,15 +150,13 @@
           <v-col cols="12">
             <v-card-actions style="padding:0">
               <v-btn icon color="red" class="black--text" @click="dialogs.delete = true">
-                <v-icon>
-                  mdi-trash-can-outline
-                </v-icon>
+                <v-icon>mdi-trash-can-outline</v-icon>
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn :disabled="saving || formInvalid" :loading="saving" @click="saveSupplier" color="green" large outlined>
+              <v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" color="green" large outlined>
                 שמור
               </v-btn>
             </v-card-actions>
@@ -222,7 +220,7 @@ export default {
     remove(item) {
       this.formUsers = this.formUsers.filter(({id}) => id !== item.id)
     },
-    saveSupplier() {
+    save() {
       if (!this.formInvalid) {
         this.saving = true
         const payload = {

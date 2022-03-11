@@ -264,6 +264,8 @@ export default {
           disconnectUsers: this.clientUsers.filter(user => !this.formUsers.find(({id}) => id === user.id))
         }
 
+        debugger
+
         this.$store.dispatch('Client/upsert', payload).finally(() => {
           this.saving = false
           this.dialog = false

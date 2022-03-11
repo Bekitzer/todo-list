@@ -9,30 +9,11 @@
         <v-card-text>אתה בטוח שאתה רוצה למחוק ספק זה?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="red"
-            @click="dialog = false"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
+          <v-btn fab icon outlined large color="red" @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="green"
-            @click="supplierDelete"
-            @keyup.enter="supplierDelete"
-          >
-            <v-icon>
-              mdi-check
-            </v-icon>
+          <v-btn fab icon outlined large color="green" @click="supplierDelete" @keyup.enter="supplierDelete">
+            <v-icon>mdi-check</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
