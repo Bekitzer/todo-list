@@ -21,13 +21,22 @@
     </v-card-title>
     <v-list two-line>
       <template v-for="(variation, i) in variations">
-        <v-list-item :key="'item_' + i">
-          <v-list-item-content>
-            <v-list-item-title v-html="variation.attribute"></v-list-item-title>
-            <v-list-item-subtitle v-html="variation.input"></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-
+        <v-list-group :value="false">
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title v-html="variation.attribute"></v-list-item-title>
+              <v-list-item-subtitle v-html="variation.input"></v-list-item-subtitle>
+            </v-list-item-content>
+          </template>
+          <v-list-item :key="'item_' + i">
+            <div v-for="(amounts, i) in amounts" :key="i">
+              <variation-field-amounts v-model="amounts[i]" />
+            </div>
+            <v-btn color="primary" @click="handleAddAmount">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-list-item>
+        </v-list-group>
         <v-divider :key="'divider_' +i"></v-divider>
       </template>
     </v-list>
@@ -53,7 +62,28 @@ export default {
       edit: false,
     }
   }),
+  methods: {
+    handleAddAmount() {
+      this.amounts = this.amounts.concat({
+        amount: '',
+        price: ''
+      })
+    },
+  },
   computed: {
+    amounts: {
+      get() {
+        return this.value
+      },
+      set(val) {
+        this.$emit('input', val)
+      }
+    },
+    // unusedAmounts() {
+    //   return this.amounts.filter(amount => {
+    //     return !this.amounts.find(amounts => amounts.variations === amount.amount)
+    //   })
+    // },
     attributes() {
       return this.product?.attributes || []
     },
@@ -64,6 +94,7 @@ export default {
   components: {
     'dialog-edit': require('@/components/Variation/Dialogs/DialogEdit.vue').default,
     'no-variations': require('@/components/Variation/NoVariations.vue').default,
+    "variation-field-amounts": require('@/components/Variation/Dialogs/Fields/VariationFieldAmounts').default,
   }
 }
 </script>
