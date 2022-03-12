@@ -20,7 +20,7 @@ const defaultField = () => ({
 })
 
 export default {
-  name: 'Attributes',
+  name: 'AttributesField',
   props: {
     value: {
       default: () => ([])

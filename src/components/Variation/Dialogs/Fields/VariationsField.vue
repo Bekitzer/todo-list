@@ -16,7 +16,7 @@
 import {docRef} from '@/stores/utils';
 
 export default {
-  name: 'Variations',
+  name: 'VariationsField',
   props: {
     product: {
       default: () => ({})

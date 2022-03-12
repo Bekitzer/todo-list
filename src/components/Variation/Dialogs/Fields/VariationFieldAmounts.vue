@@ -44,7 +44,7 @@
 import {OPERATIONS} from '@/stores/utils';
 
 export default {
-  name: 'amountsField',
+  name: 'VariationFieldAmounts',
   props: ['value', 'amounts'],
   data: () => ({
     OPERATIONS
@@ -59,7 +59,7 @@ export default {
       }
     },
     variation() {
-      return this.variations.find(attr => vari.name === this.amount.amount) || {}
+      return this.variations.find(variation => variation.name === this.amount.amount) || {}
     }
   },
   methods: {

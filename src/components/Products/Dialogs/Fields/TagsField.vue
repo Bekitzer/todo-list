@@ -52,7 +52,7 @@
 
 <script>
 export default {
-  name: 'Tags',
+  name: 'TagsField',
   props: {
     value: {
       default: () => ([])
