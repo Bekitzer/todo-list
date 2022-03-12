@@ -6,13 +6,13 @@
     <v-col cols="5">
       <v-combobox
           :disabled="!attribute.name"
-          v-model="attribute.values"
+          v-model="attribute.inputs"
           :filter="filter"
           :hide-no-data="!search"
           :items="attribute.items"
           :search-input.sync="search"
           hide-selected
-          label="תגיות"
+          label="וראציות"
           placeholder="חפש או צור חדש"
           multiple
           small-chips
@@ -23,19 +23,13 @@
         <template v-slot:no-data>
           <v-list-item>
             <span class="subheading">חדש</span>
-            <v-chip label small>
-              {{ search }}
-            </v-chip>
+            <v-chip label small>{{ search }}</v-chip>
           </v-list-item>
         </template>
         <template v-slot:selection="{ attrs, item, parent, selected }">
           <v-chip v-if="item === Object(item)" v-bind="attrs" :input-value="selected" label small>
-        <span class="pr-2">
-          {{ item.text }}
-        </span>
-            <v-icon small @click="parent.selectItem(item)">
-              $delete
-            </v-icon>
+            <span class="pr-2">{{ item.text }}</span>
+            <v-icon small @click="parent.selectItem(item)">$delete</v-icon>
           </v-chip>
         </template>
         <template v-slot:item="{ index, item }">
@@ -48,10 +42,8 @@
               hide-details
               solo
               @keyup.enter="edit(index, item)"
-          ></v-text-field>
-          <v-chip v-else dark label small>
-            {{ item.text }}
-          </v-chip>
+          />
+          <v-chip v-else dark label small>{{ item.text }}</v-chip>
           <v-spacer></v-spacer>
           <v-list-item-action @click.stop>
             <v-btn icon @click.stop.prevent="edit(index, item)">
@@ -64,9 +56,7 @@
     <v-spacer></v-spacer>
     <v-col cols="1">
       <v-btn small color="error" @click="removeField">
-        <v-icon>
-          mdi-minus
-        </v-icon>
+        <v-icon>mdi-minus</v-icon>
       </v-btn>
     </v-col>
   </v-row>
@@ -74,7 +64,7 @@
 
 <script>
 export default {
-  name: 'FieldsGroup',
+  name: 'AttributeField',
   props: ['value'],
   data: () => ({
     editing: null,
@@ -118,10 +108,10 @@ export default {
     }
   },
   watch: {
-    'attribute.values': function (val, prev) {
+    'attribute.inputs': function (val, prev) {
       if (val.length === prev.length) return
 
-      this.attribute.values = val.map(v => {
+      this.attribute.inputs = val.map(v => {
         if (typeof v === 'string') {
           v = {text: v}
           this.attribute.items.push(v)

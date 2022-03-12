@@ -2,7 +2,9 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="300">
       <v-card>
-        <v-btn icon @click="dialog = false"><v-icon dark>mdi-close</v-icon></v-btn>
+        <v-btn icon @click="dialog = false">
+          <v-icon dark>mdi-close</v-icon>
+        </v-btn>
         <file-store v-model="product.file" @onUpload="handleUpload" @onDelete="handleDelete"/>
       </v-card>
     </v-dialog>
@@ -37,7 +39,7 @@ export default {
           .then((snapshot) => getDownloadURL(snapshot.ref))
           .then((url) => {
             this.product.file = url
-            this.$store.dispatch('Product/upsert', this.product)
+            return this.$store.dispatch('Product/upsert', this.product)
           })
           .catch(err => console.error(err))
     },
@@ -47,7 +49,7 @@ export default {
       deleteObject(storageRef)
           .then(() => {
             this.product.file = null
-            this.$store.dispatch('Product/upsert', this.product)
+            return this.$store.dispatch('Product/upsert', this.product)
           })
           .catch(error => console.error(error))
     }

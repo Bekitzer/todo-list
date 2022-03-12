@@ -149,7 +149,7 @@
           :headers="headers"
           :items="orders"
           item-key="id"
-          sort-by="deliveryDate"
+          :sort-by="['deliveryDate', 'number']"
           :items-per-page="-1"
           hide-default-footer
           sort-desc
@@ -169,7 +169,7 @@
                     rounded
                     v-model="orderDateFilter"
                     label="סנן לפי תאריך הזמנה"
-                ></v-select>
+                />
               </v-col>
               <v-col cols="12" md="2">
                 <v-select
@@ -179,7 +179,7 @@
                     rounded
                     v-model="deliveryDateFilter"
                     label="סנן לפי תאריך אספקה"
-                ></v-select>
+                />
               </v-col>
               <v-spacer></v-spacer>
               <v-col cols="12" md="3" class="ml-2 rounded-pill">
@@ -225,12 +225,7 @@
               </v-icon>
               {{ props.item.statusType }}
               <template v-slot:input>
-                <v-select
-                    :items="orderStatusTypeList"
-                    v-model="props.item.statusType"
-                    label="סטטוס"
-                    single-line
-                ></v-select>
+                <v-select :items="orderStatusTypeList" v-model="props.item.statusType" label="סטטוס" single-line/>
               </template>
             </v-edit-dialog>
           </template>
@@ -548,6 +543,9 @@ export default {
             })
       },
       set(value) {
+        console.log("is this overwrite all clients? if so it's bad")
+        console.log(value)
+        debugger
         this.$store.dispatch('Order/upsert', value)
       }
     }

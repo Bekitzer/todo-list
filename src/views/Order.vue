@@ -27,7 +27,7 @@
     <v-row no-gutters>
       <v-col cols="12" md="3" sm="3">
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
-          <v-col cols="12" md="6" sm="6">
+          <v-col cols="6">
             <div>
               <small class="margin-bottom:0 !important;">שם לקוח</small>
               <h2 v-if="clientsMap">
@@ -38,7 +38,7 @@
               </h2>
             </div>
           </v-col>
-          <v-col cols="12" md="6" sm="6">
+          <v-col cols="6">
             <div>
               <small class="margin-bottom:0 !important;">שם ספק</small>
               <h2 v-if="suppliersMap">
@@ -106,19 +106,16 @@
         </v-row>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col cols="12" md="4" sm="4">
+      <v-col cols="9">
         <v-hover v-slot="{ hover }">
-          <div>
+          <v-card>
             <v-fade-transition>
-              <v-overlay v-if="hover" color="#000" absolute>
+              <v-overlay v-if="hover" absolute color="#000">
                 <v-btn @click="openFile(order)">הוספה/שינוי תמונה</v-btn>
               </v-overlay>
             </v-fade-transition>
-            <v-img
-                :src="order.file"
-                lazy-src="/images/gravatar.jpg"
-            ></v-img>
-          </div>
+            <v-img height="400px" :src="order.avatar" lazy-src="/images/gravatar.jpg" rounded/>
+          </v-card>
         </v-hover>
       </v-col>
     </v-row>

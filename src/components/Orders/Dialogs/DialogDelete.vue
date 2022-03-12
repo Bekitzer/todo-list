@@ -6,29 +6,11 @@
         <v-card-text>אתה בטוח שאתה רוצה למחוק הזמנה זו?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="red"
-            @click="dialog = false"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
+          <v-btn fab icon outlined large color="red" @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="green"
-            @click="orderDelete"
-          >
-            <v-icon>
-              mdi-check
-            </v-icon>
+          <v-btn fab icon outlined large color="green" @click="orderDelete">
+            <v-icon>mdi-check</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -52,7 +34,7 @@
     methods: {
       orderDelete() {
         this.dialog = false
-        this.$store.dispatch('Order/remove', this.$route.params.id)
+        this.$store.dispatch('Order/remove', {id: this.$route.params.id})
         this.$router.push('/orders')
       }
     }

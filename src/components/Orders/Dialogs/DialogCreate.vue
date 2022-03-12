@@ -18,31 +18,16 @@
                 filled
                 dense
                 hide-details
-            ></v-autocomplete>
-          </v-col>
-          <v-col cols="12" md="6" sm="6">
-            <v-text-field
-                v-model="form.orderWorkTitle"
-                label="שם עבודה"
-                filled
-                dense
-                hide-details
             />
           </v-col>
-          <v-col cols="12" md="12" sm="12">
-            <v-textarea
-                v-model="form.orderWork"
-                label="מפרט"
-                filled
-                dense
-                hide-details
-            ></v-textarea>
+          <v-col cols="12" md="6" sm="6">
+            <v-text-field v-model="form.orderWorkTitle" label="שם עבודה" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="12" sm="12">
-            <v-menu
-                v-model="dateDialog"
-                :close-on-content-click="false"
-            >
+            <v-textarea v-model="form.orderWork" label="מפרט" filled dense hide-details/>
+          </v-col>
+          <v-col cols="12" md="12" sm="12">
+            <v-menu v-model="dateDialog" :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                     :value="form.deliveryDate"
@@ -54,7 +39,7 @@
                     v-bind="attrs"
                     v-on="on"
                     @click:clear="form.deliveryDate = null"
-                ></v-text-field>
+                />
               </template>
               <v-date-picker
                   v-model="computedDate"
@@ -62,7 +47,7 @@
                   :first-day-of-week="0"
                   locale="he-il"
                   width="496"
-              ></v-date-picker>
+              />
             </v-menu>
           </v-col>
           <v-col cols="12" md="6" sm="6">
@@ -76,66 +61,27 @@
                 filled
                 dense
                 hide-details
-            ></v-autocomplete>
-          </v-col>
-          <v-col cols="12" md="6" sm="6">
-            <v-select
-                v-model="form.deliveryType"
-                :items="deliveryTypeList"
-                label="אופן אספקה"
-                filled
-                hide-details
-            ></v-select>
-          </v-col>
-          <v-col cols="12" md="6" sm="6">
-            <v-text-field
-                type="number"
-                v-model.number="form.sellPrice"
-                label="מחיר מכירה"
-                filled
-                dense
-                hide-details
             />
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-text-field
-                type="number"
-                v-model.number="form.buyPrice"
-                label="מחיר קנייה"
-                filled
-                dense
-                hide-details
-            />
+            <v-select v-model="form.deliveryType" :items="deliveryTypeList" label="אופן אספקה" filled hide-details/>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-text-field type="number" v-model.number="form.sellPrice" label="מחיר מכירה" filled dense hide-details/>
+          </v-col>
+          <v-col cols="12" md="6" sm="6">
+            <v-text-field type="number" v-model.number="form.buyPrice" label="מחיר קנייה" filled dense hide-details/>
           </v-col>
           <v-col cols="12">
-            <v-card-actions
-                style="padding:0"
-            >
-              <v-btn
-                  outlined
-                  large
-                  color="black"
-                  @click="addDraft"
-              >
+            <v-card-actions style="padding:0">
+              <v-btn outlined large color="black" @click="addDraft">
                 צור כטיוטה
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn
-                  outlined
-                  large
-                  color="red"
-                  @click="dialog = false"
-              >
+              <v-btn outlined large color="red" @click="dialog = false">
                 ביטול
               </v-btn>
-              <v-btn
-                outlined
-                large
-                color="green"
-                @click="addOrder"
-                :disabled="saving || formInvalid"
-                :loading="saving"
-              >
+              <v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
                 צור
               </v-btn>
             </v-card-actions>
@@ -199,7 +145,7 @@ export default {
     },
   },
   methods: {
-    addOrder() {
+    save() {
       if (!this.formInvalid) {
         this.saving = true
         const payload = {
@@ -211,9 +157,11 @@ export default {
           deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
         }
 
-        this.$store.dispatch('Order/upsert', payload)
-        this.saving = false
-        this.dialog = false
+        this.$store.dispatch('Order/upsert', payload).finally(() => {
+          this.saving = false
+          this.dialog = false
+        })
+
         // const mailFields = {
         //   clientName: this.orderClient.name,
         //   clientEmail: this.orderClient.email,
@@ -244,9 +192,10 @@ export default {
         deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
       }
 
-      this.$store.dispatch('Order/upsert', payload)
-      this.saving = false
-      this.dialog = false
+      this.$store.dispatch('Order/upsert', payload).finally(() => {
+        this.saving = false
+        this.dialog = false
+      })
     }
   },
   mounted() {

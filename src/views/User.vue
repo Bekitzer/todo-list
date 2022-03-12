@@ -2,10 +2,7 @@
   <div>
     <nav-appbar :pname="' משתמש - ' + this.user.username">
       <template v-slot:add-btn>
-        <v-tooltip
-            bottom
-            content-class="normal tooltip-bottom"
-        >
+        <v-tooltip bottom content-class="normal tooltip-bottom">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 fab
@@ -29,24 +26,13 @@
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="12" md="5" sm="5">
             <v-hover v-slot="{ hover }">
-              <v-avatar
-                  class="profile"
-                  size="108px"
-              >
+              <v-avatar class="profile" size="108px">
                 <v-fade-transition>
-                  <v-overlay
-                      v-if="hover"
-                      absolute
-                      color="#000"
-                  >
+                  <v-overlay v-if="hover" absolute color="#000">
                     <v-btn @click="openFile(user)">הוספה/שינוי תמונה</v-btn>
                   </v-overlay>
                 </v-fade-transition>
-                <v-img
-                    :src="user.avatar"
-                    lazy-src="/images/gravatar.jpg"
-                    rounded
-                ></v-img>
+                <v-img :src="user.avatar" lazy-src="/images/gravatar.jpg" rounded/>
               </v-avatar>
             </v-hover>
           </v-col>

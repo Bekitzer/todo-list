@@ -25,7 +25,8 @@ export default {
               this.$store.dispatch('Client/fetch'),
               this.$store.dispatch('Order/fetch'),
               this.$store.dispatch('Product/fetch'),
-              this.$store.dispatch('User/fetch')
+              this.$store.dispatch('User/fetch'),
+              this.$store.dispatch('Variation/fetch')
             ])
         )
         .catch(err => err === 'UNAUTHENTICATED' ? console.debug('no user authenticated') : console.error(err))

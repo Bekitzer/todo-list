@@ -6,7 +6,7 @@
     :headers="headers"
     :items="clients"
     item-key="id"
-    sort-by="orders"
+    :sort-by="['orders', 'number']"
     sort-desc
     @click:row="handleClick"
     :items-per-page="-1"
@@ -66,6 +66,9 @@ export default {
         })
       },
       set(value) {
+        console.log("is this overwrite all clients? if so it's bad")
+        console.log(value)
+        debugger
         this.$store.dispatch('Client/upsert', value)
       }
     }

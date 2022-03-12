@@ -4,9 +4,7 @@
       <v-col cols="12" md="5">
         <h2 style="text-align:right;font-weight:300;font-size:24px;color:#036e86;position:relative;">
           <router-link style="text-decoration:none;" v-if="$route.meta.back" :to="{name: $route.meta.back}">
-            <v-icon large class="ml-2" color="#03616f">
-              mdi-chevron-right
-            </v-icon>
+            <v-icon large class="ml-2" color="#03616f">mdi-chevron-right</v-icon>
           </router-link>
           {{ pname }}
           <slot name="add-btn"></slot>

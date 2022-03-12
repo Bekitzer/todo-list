@@ -6,7 +6,7 @@
     :headers="headers"
     :items="suppliers"
     item-key="id"
-    sort-by="orders"
+    :sort-by="['orders', 'number']"
     sort-desc
     @click:row="handleClick"
     :items-per-page="-1"
@@ -27,8 +27,7 @@
 
 <script>
 export default {
-  name: 'Listuppliers',
-  props: ['supplier'],
+  name: 'ListSuppliers',
   data: () => ({
     headers: [
       { text: 'מס׳ ספק', value: 'number', align: 'start', width: '80px' },
@@ -65,6 +64,9 @@ export default {
         })
       },
       set(value) {
+        console.log("is this overwrite all clients? if so it's bad")
+        console.log(value)
+        debugger
         this.$store.dispatch('Supplier/upsert', value)
       }
     }

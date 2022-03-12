@@ -6,30 +6,11 @@
         <v-card-text>אתה בטוח שאתה רוצה למחוק משתמש זה?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="red"
-            @click="dialog = false"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
+          <v-btn fab icon outlined large color="red" @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-btn
-            fab
-            icon
-            outlined
-            large
-            color="green"
-            @click="userDelete"
-            @keyup.enter="userDelete"
-          >
-            <v-icon>
-              mdi-check
-            </v-icon>
+          <v-btn fab icon outlined large color="green" @click="userDelete" @keyup.enter="userDelete">
+            <v-icon>mdi-check</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -39,8 +20,6 @@
 
 <script>
   export default {
-    data: () => ({
-    }),
     props: ['user', 'value'],
     computed: {
       dialog: {
@@ -55,7 +34,7 @@
     methods: {
       userDelete() {
         this.dialog = false
-        this.$store.dispatch('User/remove', this.$route.params.id)
+        this.$store.dispatch('User/remove', {id: this.$route.params.id})
         this.$router.push('/users')
       }
     },

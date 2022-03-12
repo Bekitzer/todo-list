@@ -1,7 +1,7 @@
 import {writeDoc, fetchDocs, where, OPERATIONS} from '@/stores/utils';
 
 const defaults = {
-  DEFAULT_COLLECTION: 'orders',
+  DEFAULT_COLLECTION: 'variations',
   DEFAULT_OPERATION: OPERATIONS.SET,
   INCREMENT: true,
 }
@@ -48,20 +48,8 @@ export default {
           commit('remove', remove)
           commit('upsert', set)
         })
-        .then(() => commit('showSnackbar', 'הזמנה עודכנה!', {root: true}))
-        .catch(err => console.error('Something went wrong - Order.write', err))
-    },
-    upsert({commit}, payloads) {
-      return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.SET})
-        .then(({[defaults.DEFAULT_COLLECTION]: {set}}) => commit('upsert', set))
-        .then(() => commit('showSnackbar', 'הזמנה נשמרה!', {root: true}))
-        .catch(err => console.error('Something went wrong - Order.upsert', err))
-    },
-    remove({commit}, payloads) {
-      return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.DELETE})
-        .then(({[defaults.DEFAULT_COLLECTION]: {delete: remove}}) => commit('remove', remove))
-        .then(() => commit('showSnackbar', 'הזמנה נמחקה!', {root: true}))
-        .catch(err => console.error('Something went wrong - Order.remove', err))
+        .then(() => commit('showSnackbar', 'וריאציות עודכנו!', {root: true}))
+        .catch(err => console.error('Something went wrong - Variation.write', err))
     },
     fetch({commit, rootGetters}) {
       const {user} = rootGetters
@@ -69,18 +57,16 @@ export default {
       let filter = null
 
       if (!user?.isAdmin) {
-        if (!user?.userSupplierRef && !user?.userClientRef) {
-          return console.debug(`Can't fetch Orders since no supplier nor client connected to this user`)
+        if (!user?.userSupplierRef) {
+          return console.debug(`Can't fetch Variations since no supplier connected to this user`)
         }
 
-        filter = user?.userSupplierRef
-          ? where('orderSupplierRef', '==', user?.userSupplierRef)
-          : where('orderClientRef', '==', user?.userClientRef)
+        filter = where('variationSupplierRef', '==', user?.userSupplierRef?.id)
       }
 
       return fetchDocs({...defaults, filter})
         .then(docs => commit('initialize', docs))
-        .catch(err => console.error('Something went wrong - Order.fetch', err))
+        .catch(err => console.error('Something went wrong - Variation.fetch', err))
     }
   },
   modules: {}

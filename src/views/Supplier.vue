@@ -2,10 +2,7 @@
   <div>
     <nav-appbar :pname="' ספקים - ' + this.supplier.name">
       <template v-slot:add-btn>
-        <v-tooltip
-            bottom
-            content-class="normal tooltip-bottom"
-        >
+        <v-tooltip bottom content-class="normal tooltip-bottom">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 fab
@@ -24,10 +21,7 @@
         </v-tooltip>
       </template>
       <template v-slot:create-btn>
-        <v-tooltip
-            bottom
-            content-class="normal tooltip-bottom"
-        >
+        <v-tooltip bottom content-class="normal tooltip-bottom">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 fab
@@ -51,24 +45,13 @@
         <v-row class="pa-3  pos-rel mb-2 grey lighten-4">
           <v-col cols="6">
             <v-hover v-slot="{ hover }">
-              <v-avatar
-                  class="profile"
-                  size="108px"
-              >
+              <v-avatar class="profile" size="108px">
                 <v-fade-transition>
-                  <v-overlay
-                      v-if="hover"
-                      absolute
-                      color="#000"
-                  >
+                  <v-overlay v-if="hover" absolute color="#000">
                     <v-btn @click="openFile(supplier)">הוספה/שינוי תמונה</v-btn>
                   </v-overlay>
                 </v-fade-transition>
-                <v-img
-                    :src="supplier.avatar"
-                    lazy-src="/images/gravatar.jpg"
-                    rounded
-                ></v-img>
+                <v-img :src="supplier.avatar" lazy-src="/images/gravatar.jpg" rounded/>
               </v-avatar>
             </v-hover>
           </v-col>
@@ -167,7 +150,7 @@
           :headers="headers"
           :items="orders"
           item-key="id"
-          sort-by="deliveryDate"
+          :sort-by="['deliveryDate', 'number']"
           :items-per-page="-1"
           hide-default-footer
           sort-desc
@@ -179,7 +162,7 @@
         >
           <template v-slot:top>
             <v-row no-gutters class="mt-6 mb-6 text-center align-center">
-              <v-col cols="12" md="2"" class="pl-2">
+              <v-col cols="12" md="2" class="pl-2">
                 <v-select
                     :items="orderDateList"
                     clearable
@@ -187,9 +170,9 @@
                     rounded
                     v-model="orderDateFilter"
                     label="סנן לפי תאריך הזמנה"
-                ></v-select>
+                />
               </v-col>
-              <v-col cols="12" md="2"">
+              <v-col cols="12" md="2">
                 <v-select
                     :items="orderDeliveryDateList"
                     clearable
@@ -197,10 +180,10 @@
                     rounded
                     v-model="deliveryDateFilter"
                     label="סנן לפי תאריך אספקה"
-                ></v-select>
+                />
               </v-col>
               <v-spacer></v-spacer>
-              <v-col cols="12" md="3"" class="ml-2 rounded-pill">
+              <v-col cols="12" md="3" class="ml-2 rounded-pill">
                 <span>מכירה: {{ sumField('sellPrice')  | formatNumber }} | </span>
                 <span>קניה: {{ sumField('buyPrice')  | formatNumber }} | </span>
                 <span>רווח: {{ sumField('margin')  | formatNumber }}</span>
@@ -248,7 +231,7 @@
                     v-model="props.item.statusType"
                     label="סטטוס"
                     single-line
-                ></v-select>
+                />
               </template>
             </v-edit-dialog>
           </template>
@@ -259,53 +242,25 @@
             {{ item.deliveryDate | formatDate }}
           </template>
           <template v-slot:[`item.actions`]="{ item }">
-            <v-tooltip
-                top
-                content-class="normal tooltip-top"
-            >
+            <v-tooltip top content-class="normal tooltip-top">
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                    small
-                    class="ml-2"
-                    @click.stop="openFileOrder(item)"
-                    v-bind="attrs"
-                    v-on="on"
-                >
+                <v-icon small class="ml-2" @click.stop="openFileOrder(item)" v-bind="attrs" v-on="on">
                   mdi-file-image
                 </v-icon>
               </template>
               <span>הצג תמונה</span>
             </v-tooltip>
-            <v-tooltip
-                top
-                content-class="normal tooltip-top"
-            >
+            <v-tooltip top content-class="normal tooltip-top">
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                    small
-                    class="ml-2"
-                    @click.stop="duplicateOrder(item)"
-                    v-bind="attrs"
-                    v-on="on"
-                >
+                <v-icon small class="ml-2" @click.stop="duplicateOrder(item)" v-bind="attrs" v-on="on">
                   mdi-content-duplicate
                 </v-icon>
               </template>
               <span>שכפל הזמנה</span>
             </v-tooltip>
-            <v-tooltip
-                top
-                content-class="normal tooltip-top"
-            >
+            <v-tooltip top content-class="normal tooltip-top">
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                    small
-                    @click.stop="clickOrder(item)"
-                    v-bind="attrs"
-                    v-on="on"
-                >
-                  mdi-pencil-outline
-                </v-icon>
+                <v-icon small @click.stop="clickOrder(item)" v-bind="attrs" v-on="on">mdi-pencil-outline</v-icon>
               </template>
               <span>ערוך הזמנה</span>
             </v-tooltip>
@@ -591,6 +546,9 @@ export default {
             })
       },
       set(value) {
+        console.log("is this overwrite all clients? if so it's bad")
+        console.log(value)
+        debugger
         this.$store.dispatch('Order/upsert', value)
       }
     }

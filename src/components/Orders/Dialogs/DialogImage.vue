@@ -38,7 +38,7 @@ export default {
           .then((snapshot) => getDownloadURL(snapshot.ref))
           .then((url) => {
             this.order.file = url
-            this.$store.dispatch('Order/upsert', this.order)
+            return this.$store.dispatch('Order/upsert', this.order)
           })
           .catch(err => console.error(err))
     },
@@ -48,7 +48,7 @@ export default {
       deleteObject(storageRef)
           .then(() => {
             this.order.file = null
-            this.$store.dispatch('Order/upsert', this.order)
+            return this.$store.dispatch('Order/upsert', this.order)
           })
           .catch(error => console.error(error))
     }

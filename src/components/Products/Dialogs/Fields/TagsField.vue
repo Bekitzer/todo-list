@@ -17,19 +17,13 @@
     <template v-slot:no-data>
       <v-list-item>
         <span class="subheading">חדש</span>
-        <v-chip label small>
-          {{ search }}
-        </v-chip>
+        <v-chip label small>{{ search }}</v-chip>
       </v-list-item>
     </template>
     <template v-slot:selection="{ attrs, item, parent, selected }">
       <v-chip v-if="item === Object(item)" v-bind="attrs" :input-value="selected" label small>
-        <span class="pr-2">
-          {{ item.text }}
-        </span>
-        <v-icon small @click="parent.selectItem(item)">
-          $delete
-        </v-icon>
+        <span class="pr-2">{{ item.text }}</span>
+        <v-icon small @click="parent.selectItem(item)">$delete</v-icon>
       </v-chip>
     </template>
     <template v-slot:item="{ index, item }">
@@ -42,7 +36,7 @@
           hide-details
           solo
           @keyup.enter="edit(index, item)"
-      ></v-text-field>
+      />
       <v-chip v-else dark label small>
         {{ item.text }}
       </v-chip>
@@ -58,7 +52,7 @@
 
 <script>
 export default {
-  name: 'Tags',
+  name: 'TagsField',
   props: {
     value: {
       default: () => ([])

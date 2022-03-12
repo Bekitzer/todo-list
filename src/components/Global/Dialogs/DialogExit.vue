@@ -6,29 +6,11 @@
         <v-card-text>אתה בטוח שאתה רוצה לצאת?</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-              fab
-              icon
-              outlined
-              large
-              color="red"
-              @click="dialog = false"
-          >
-            <v-icon>
-              mdi-close
-            </v-icon>
+          <v-btn fab icon outlined large color="red" @click="dialog = false">
+            <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-btn
-              fab
-              icon
-              outlined
-              large
-              color="green"
-              @click.prevent.stop="logout"
-          >
-            <v-icon>
-              mdi-check
-            </v-icon>
+          <v-btn fab icon outlined large color="green" @click="logout" :disabled="saving" :loading="saving">
+            <v-icon>mdi-check</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -39,6 +21,7 @@
 <script>
 export default {
   data: () => ({
+    saving: false,
     id: null,
   }),
   props: ['value'],
@@ -54,10 +37,11 @@ export default {
   },
   methods: {
     logout() {
-      this.dialog = false
-
-      this.$store.dispatch('User/signOut')
-          .then(() => this.$router.go({path: this.$router.path}))
+      this.$store.dispatch('User/signOut').finally(() => {
+        this.saving = false
+        this.dialog = false
+        this.$router.go({path: this.$router.path})
+      })
     }
   }
 }

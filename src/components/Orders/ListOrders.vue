@@ -7,7 +7,7 @@
         :headers="headers"
         :items="orders"
         item-key="id"
-        sort-by="deliveryDate"
+        :sort-by="['deliveryDate', 'number']"
         :items-per-page="-1"
         hide-default-footer
         singleExpand: false
@@ -22,53 +22,23 @@
         </td>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-tooltip
-            top
-            content-class="normal tooltip-top"
-        >
+        <v-tooltip top content-class="normal tooltip-top">
           <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                small
-                class="ml-2"
-                @click.stop="openFile(item)"
-                v-bind="attrs"
-                v-on="on"
-            >
-              mdi-file-image
-            </v-icon>
+            <v-icon small class="ml-2" @click.stop="openFile(item)" v-bind="attrs" v-on="on">mdi-file-image</v-icon>
           </template>
           <span>הצג תמונה</span>
         </v-tooltip>
-        <v-tooltip
-            top
-            content-class="normal tooltip-top"
-        >
+        <v-tooltip top content-class="normal tooltip-top">
           <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                small
-                class="ml-2"
-                @click.stop="duplicateItem(item)"
-                v-bind="attrs"
-                v-on="on"
-            >
+            <v-icon small class="ml-2" @click.stop="duplicateItem(item)" v-bind="attrs" v-on="on">
               mdi-content-duplicate
             </v-icon>
           </template>
           <span>שכפל הזמנה</span>
         </v-tooltip>
-        <v-tooltip
-            top
-            content-class="normal tooltip-top"
-        >
+        <v-tooltip top content-class="normal tooltip-top">
           <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                small
-                @click.stop="clickOrder(item)"
-                v-bind="attrs"
-                v-on="on"
-            >
-              mdi-pencil-outline
-            </v-icon>
+            <v-icon small @click.stop="clickOrder(item)" v-bind="attrs" v-on="on">mdi-pencil-outline</v-icon>
           </template>
           <span>ערוך הזמנה</span>
         </v-tooltip>
@@ -107,17 +77,10 @@
             large
             persistent
         >
-          <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">
-            mdi-circle-small
-          </v-icon>
+          <v-icon :color="getColor(props.item.statusType)" class="spc-status-dot" size="60">mdi-circle-small</v-icon>
           {{ props.item.statusType }}
           <template v-slot:input>
-            <v-select
-                :items="orderStatusTypeList"
-                v-model="props.item.statusType"
-                label="סטטוס"
-                single-line
-            ></v-select>
+            <v-select :items="orderStatusTypeList" v-model="props.item.statusType" label="סטטוס" single-line/>
           </template>
         </v-edit-dialog>
       </template>
@@ -131,7 +94,7 @@
                 rounded
                 v-model="orderDateFilter"
                 label="סנן לפי תאריך הזמנה"
-            ></v-select>
+            />
           </v-col>
           <v-col cols="12" md="2">
             <v-select
@@ -141,7 +104,7 @@
                 rounded
                 v-model="deliveryDateFilter"
                 label="סנן לפי תאריך אספקה"
-            ></v-select>
+            />
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="12" md="3" class="ml-2 rounded-pill">
@@ -223,7 +186,7 @@ export default {
       this.filteredItems = e
     },
     save(order) {
-      this.$store.dispatch('Order/upsert', {...order.item, statusType: order.value})
+      return this.$store.dispatch('Order/upsert', {...order.item, statusType: order.value})
     },
     duplicateItem(item) {
       this.$emit('duplicateOrder', item)
@@ -383,6 +346,9 @@ export default {
         })
       },
       set(value) {
+        console.log("is this overwrite all clients? if so it's bad")
+        console.log(value)
+        debugger
         this.$store.dispatch('Order/upsert', value)
       }
     }

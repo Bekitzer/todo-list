@@ -37,7 +37,7 @@ export default {
           .then((snapshot) => getDownloadURL(snapshot.ref))
           .then((url) => {
             this.user.avatar = url
-            this.$store.dispatch('User/upsert', this.user)
+            return this.$store.dispatch('User/upsert', this.user)
           })
           .catch(err => console.error(err))
     },
@@ -47,7 +47,7 @@ export default {
       deleteObject(storageRef)
           .then(() => {
             this.user.avatar = null
-            this.$store.dispatch('User/upsert', this.user)
+            return this.$store.dispatch('User/upsert', this.user)
           })
           .catch(error => console.error(error))
     }

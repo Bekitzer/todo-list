@@ -2,7 +2,9 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="300">
       <v-card>
-        <v-btn icon @click="dialog = false"><v-icon dark>mdi-close</v-icon></v-btn>
+        <v-btn icon @click="dialog = false">
+          <v-icon dark>mdi-close</v-icon>
+        </v-btn>
         <file-store v-model="supplier.avatar" @onUpload="handleUpload" @onDelete="handleDelete"/>
       </v-card>
     </v-dialog>
@@ -11,8 +13,8 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
-import {deleteObject, getDownloadURL, ref, uploadBytes} from 'firebase/storage';
 import {storage} from '@/firebase';
+import {deleteObject, getDownloadURL, ref, uploadBytes} from 'firebase/storage';
 
 export default {
   name:'DialogImage',
@@ -37,7 +39,7 @@ export default {
           .then((snapshot) => getDownloadURL(snapshot.ref))
           .then((url) => {
             this.supplier.avatar = url
-            this.$store.dispatch('Supplier/upsert', this.supplier)
+            return this.$store.dispatch('Supplier/upsert', this.supplier)
           })
           .catch(err => console.error(err))
     },
@@ -47,7 +49,7 @@ export default {
       deleteObject(storageRef)
           .then(() => {
             this.supplier.avatar = null
-            this.$store.dispatch('Supplier/upsert', this.supplier)
+            return this.$store.dispatch('Supplier/upsert', this.supplier)
           })
           .catch(error => console.error(error))
     }
