@@ -64,8 +64,7 @@ export default {
   }),
   computed: {
     formInvalid() {
-      return !this.userFirstName || this.userFirstName === this.user.firstname
-      || !this.userLastName || this.userLastName === this.user.lastname
+      return !this.form.firstname || !this.form.lastname
     },
     users() {
       return this.$store.state.User.list
