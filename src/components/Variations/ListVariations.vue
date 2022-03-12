@@ -61,8 +61,14 @@ export default {
     attributes() {
       return this.product?.attributes || []
     },
+    supplierId() {
+      return this.$store.getters.user?.userSupplierRef?.id
+    },
     variations() {
-      return this.$store.state.Variation.list.filter(variation => variation.variationProductRef.id === this.product.id)
+      return this.$store.state.Variation.list.filter(variation => {
+        console.log(variation.variationSupplierRef.id, this.supplierId)
+        return variation.variationProductRef.id === this.product.id && variation.variationSupplierRef.id === this.supplierId
+      })
     }
   },
   components: {
