@@ -64,6 +64,9 @@ export default {
         })
       },
       set(value) {
+        console.log("is this overwrite all clients? if so it's bad")
+        console.log(value)
+        debugger
         this.$store.dispatch('Supplier/upsert', value)
       }
     }

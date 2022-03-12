@@ -136,6 +136,9 @@ export default {
         return this.$store.state.Product.list
       },
       set(value) {
+        console.log("is this overwrite all clients? if so it's bad")
+        console.log(value)
+        debugger
         this.$store.dispatch('Product/upsert', value)
       }
     }
