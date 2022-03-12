@@ -6,7 +6,7 @@
     :headers="headers"
     :items="suppliers"
     item-key="id"
-    sort-by="orders"
+    :sort-by="['orders', 'number']"
     sort-desc
     @click:row="handleClick"
     :items-per-page="-1"

@@ -150,7 +150,7 @@
           :headers="headers"
           :items="orders"
           item-key="id"
-          sort-by="deliveryDate"
+          :sort-by="['deliveryDate', 'number']"
           :items-per-page="-1"
           hide-default-footer
           sort-desc
