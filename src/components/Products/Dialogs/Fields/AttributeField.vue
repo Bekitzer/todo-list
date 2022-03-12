@@ -1,11 +1,16 @@
 <template>
   <v-row>
     <v-col cols="5">
-      <v-text-field v-model="attribute.name" label="שם מאפיין"/>
+      <v-text-field
+          :class="{'red': attribute.OPERATION === OPERATIONS.DELETE}"
+          :disabled="attribute.OPERATION === OPERATIONS.DELETE"
+          v-model="attribute.name" label="שם מאפיין"
+      />
     </v-col>
     <v-col cols="5">
       <v-combobox
-          :disabled="!attribute.name"
+          :class="{'red': attribute.OPERATION === OPERATIONS.DELETE}"
+          :disabled="!attribute.name || attribute.OPERATION === OPERATIONS.DELETE"
           v-model="attribute.inputs"
           :filter="filter"
           :hide-no-data="!search"
@@ -19,6 +24,7 @@
           filled
           dense
           hide-details
+          autocomplete="off"
       >
         <template v-slot:no-data>
           <v-list-item>
@@ -54,19 +60,20 @@
       </v-combobox>
     </v-col>
     <v-spacer></v-spacer>
-    <v-col cols="1">
-      <v-btn small color="error" @click="removeField">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
+    <v-col cols="2">
+      <v-switch @change="removeField" label="מחיקה" color="red" hide-details></v-switch>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import {OPERATIONS} from '@/stores/utils';
+
 export default {
   name: 'AttributeField',
   props: ['value'],
   data: () => ({
+    OPERATIONS,
     editing: null,
     editingIndex: -1,
     search: null
@@ -82,8 +89,8 @@ export default {
     }
   },
   methods: {
-    removeField() {
-      this.$emit('remove', this.attribute)
+    removeField(val) {
+      this.attribute = {...this.attribute, OPERATION: val ? OPERATIONS.DELETE : null}
     },
     edit(index, item) {
       if (!this.editing) {

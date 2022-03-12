@@ -2,7 +2,7 @@
   <v-card>
     <v-card-text>
       <div v-for="(attribute, i) in attributes" :key="i">
-        <attribute-field v-model="attributes[i]" @remove="handleRemove" />
+        <attribute-field v-model="attributes[i]" />
       </div>
 
       <v-btn color="primary" @click="handleAdd">
@@ -13,12 +13,6 @@
 </template>
 
 <script>
-const defaultField = () => ({
-  name: '',
-  inputs: [],
-  items: []
-})
-
 export default {
   name: 'AttributesField',
   props: {
@@ -28,10 +22,11 @@ export default {
   },
   methods: {
     handleAdd() {
-      this.attributes = this.attributes.concat(defaultField())
-    },
-    handleRemove({name}) {
-      this.attributes = this.attributes.filter(item => item.name !== name);
+      this.attributes = this.attributes.concat({
+        name: '',
+        inputs: [],
+        items: []
+      })
     }
   },
   computed: {
