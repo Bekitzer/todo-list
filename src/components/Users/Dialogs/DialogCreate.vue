@@ -53,7 +53,7 @@ export default {
     }),
   computed: {
     formInvalid() {
-      return !this.form.firstname
+      return !this.form.firstname || !this.form.lastname
     },
     dialog: {
       get() {
