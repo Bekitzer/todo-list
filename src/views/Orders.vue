@@ -72,11 +72,11 @@
       }
     },
     components: {
-      'list-orders': require('@/components/Orders/ListOrders.vue').default,
-      'no-orders': require('@/components/Orders/NoOrders.vue').default,
-      'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
-      'nav-appbar': require('@/components/Global/AppBar.vue').default,
-      'dialog-image': require('@/components/Orders/Dialogs/DialogImage.vue').default
+      'list-orders': require('@/components/Orders/ListOrders').default,
+      'no-orders': require('@/components/Orders/NoOrders').default,
+      'dialog-create': require('@/components/Orders/Dialogs/DialogCreate').default,
+      'nav-appbar': require('@/components/Global/AppBar').default,
+      'dialog-image': require('@/components/Orders/Dialogs/DialogImage').default
     }
   }
 </script>

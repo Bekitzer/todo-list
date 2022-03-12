@@ -4,11 +4,11 @@
       <v-card elevation="8" shaped>
         <v-row class="pt-5 pl-5 pr-5">
           <v-col cols="12">
-            <h3>עדכון וריאציות</h3>
+            <h3>עדכון תעריפים</h3>
           </v-col>
 
           <v-col cols="12">
-            <variations-field v-model="form" :attributes="attributes" :product="product"/>
+            <rates-field v-model="form" :rates="rates" :variation="variation"/>
           </v-col>
 
           <v-col cols="12">
@@ -21,7 +21,7 @@
                 ביטול
               </v-btn>
               <v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
-                שמור
+                שמירה
               </v-btn>
             </v-card-actions>
           </v-col>
@@ -36,7 +36,7 @@ import {docRef, OPERATIONS} from '@/stores/utils';
 
 export default {
   name: 'DialogEdit',
-  props: ['variations', 'attributes', 'value', 'product'],
+  props: ['variation', 'rates', 'value'],
   data: () => ({
     saving: false,
     dialogs: {
@@ -60,12 +60,12 @@ export default {
       }
     },
     dirtyPayloads() {
-      return this.form.map(variation => {
-        if (variation.OPERATION === OPERATIONS.DELETE) return variation
+      return this.form.map(rate => {
+        if (rate.OPERATION === OPERATIONS.DELETE) return rate
 
-        const original = this.variations.find(({id}) => id === variation.id)
+        const original = this.rates.find(({id}) => id === rate.id)
 
-        if (!original || this.isChanged(original, variation)) return variation
+        if (!original || this.isChanged(original, rate)) return rate
 
         return null
       }).filter(Boolean)
@@ -74,15 +74,14 @@ export default {
   methods: {
     isChanged(original, current) {
       return original.id !== current.id
-          || original.attribute !== current.attribute
-          || original.input !== current.input
-          || original.number !== current.number
+          || original.units !== current.units
+          || original.price !== current.price
     },
     save() {
       if (!this.formInvalid) {
         this.saving = true
 
-        this.$store.dispatch('Variation/write', this.dirtyPayloads).finally(() => {
+        this.$store.dispatch('Rate/write', this.dirtyPayloads).finally(() => {
           this.saving = false
           this.dialog = false
         })
@@ -90,15 +89,15 @@ export default {
     }
   },
   mounted() {
-    this.form = this.variations.map(variation => ({
-          ...variation,
-          variationProductRef: docRef(`products/${variation.variationProductRef?.id}`),
-          variationSupplierRef: docRef(`suppliers/${variation.variationSupplierRef?.id}`),
+    this.form = this.rates.map(rate => ({
+          ...rate,
+          rateVariationRef: docRef(`variations/${rate.rateVariationRef?.id}`),
+          rateSupplierRef: docRef(`suppliers/${rate.rateSupplierRef?.id}`),
         })
     );
   },
   components: {
-    'variations-field': require('@/components/Variation/Dialogs/Fields/VariationsField.vue').default
+    'rates-field': require('@/components/Rates/Dialogs/Fields/RatesField').default
   }
 }
 </script>

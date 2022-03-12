@@ -44,10 +44,10 @@
       },
     }),
     components: {
-      'list-users': require('@/components/Users/ListUsers.vue').default,
-      'no-users': require('@/components/Users/NoUsers.vue').default,
-      'dialog-create': require('@/components/Users/Dialogs/DialogCreate.vue').default,
-      'nav-appbar': require('@/components/Global/AppBar.vue').default
+      'list-users': require('@/components/Users/ListUsers').default,
+      'no-users': require('@/components/Users/NoUsers').default,
+      'dialog-create': require('@/components/Users/Dialogs/DialogCreate').default,
+      'nav-appbar': require('@/components/Global/AppBar').default
     }
   }
 </script>

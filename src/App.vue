@@ -26,16 +26,17 @@ export default {
               this.$store.dispatch('Order/fetch'),
               this.$store.dispatch('Product/fetch'),
               this.$store.dispatch('User/fetch'),
-              this.$store.dispatch('Variation/fetch')
+              this.$store.dispatch('Variation/fetch'),
+              this.$store.dispatch('Rate/fetch')
             ])
         )
         .catch(err => err === 'UNAUTHENTICATED' ? console.debug('no user authenticated') : console.error(err))
         .finally(() => this.loading = false)
   },
   components: {
-    'nav-drawer': require('@/components/Global/NavDrawer.vue').default,
-    'nav-footer': require('@/components/Global/FooterBar.vue').default,
-    'snackbar': require('@/components/Global/Snackbar.vue').default
+    'nav-drawer': require('@/components/Global/NavDrawer').default,
+    'nav-footer': require('@/components/Global/FooterBar').default,
+    'snackbar': require('@/components/Global/Snackbar').default
   },
 }
 </script>

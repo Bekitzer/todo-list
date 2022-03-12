@@ -166,8 +166,8 @@ export default {
   components: {
     ValidationProvider,
     ValidationObserver,
-    'VTextFieldWithValidation': require('@/components/Form/Inputs/VTextFieldWithValidation.vue').default,
-    'VSelectWithValidation': require('@/components/Form/Inputs/VSelectWithValidation.vue').default,
+    'VTextFieldWithValidation': require('@/components/Form/Inputs/VTextFieldWithValidation').default,
+    'VSelectWithValidation': require('@/components/Form/Inputs/VSelectWithValidation').default,
   },
 }
 </script>

@@ -10,7 +10,7 @@
       pageName: 'מדיניות פרטיות',
     }),
     components: {
-      'nav-appbar'          : require('@/components/Global/AppBar.vue').default
+      'nav-appbar'          : require('@/components/Global/AppBar').default
     }
   }
 </script>

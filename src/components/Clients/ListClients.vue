@@ -74,7 +74,7 @@ export default {
     }
   },
   components: {
-    'icon-edit': require('@/components/Icons/IconEdit.vue').default
+    'icon-edit': require('@/components/Icons/IconEdit').default
   }
 }
 </script>

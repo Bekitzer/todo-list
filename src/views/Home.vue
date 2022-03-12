@@ -13,9 +13,9 @@ export default {
     pageName: 'עמוד הבית',
   }),
   components: {
-    'nav-appbar': require('@/components/Global/AppBar.vue').default,
-    'location': require('@/components/Tools/Places.vue').default,
-    'mailer': require('@/components/Tools/MailerJet.vue').default
+    'nav-appbar': require('@/components/Global/AppBar').default,
+    'location': require('@/components/Tools/Places').default,
+    'mailer': require('@/components/Tools/MailerJet').default
   }
 }
 </script>

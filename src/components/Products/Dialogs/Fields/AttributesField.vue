@@ -15,11 +15,7 @@
 <script>
 export default {
   name: 'AttributesField',
-  props: {
-    value: {
-      default: () => ([])
-    }
-  },
+  props: ['value'],
   methods: {
     handleAdd() {
       this.attributes = this.attributes.concat({
@@ -32,7 +28,7 @@ export default {
   computed: {
     attributes: {
       get() {
-        return this.value
+        return this.value || []
       },
       set(val) {
         this.$emit('input', val)
@@ -40,7 +36,7 @@ export default {
     }
   },
   components: {
-    'attribute-field': require('@/components/Products/Dialogs/Fields/AttributeField.vue').default,
+    'attribute-field': require('@/components/Products/Dialogs/Fields/AttributeField').default,
   }
 }
 </script>

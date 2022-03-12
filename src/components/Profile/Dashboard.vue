@@ -91,7 +91,7 @@ export default {
     pageName: 'לוח בקרה',
   }),
   components: {
-    'nav-appbar' : require('@/components/Global/AppBar.vue').default
+    'nav-appbar' : require('@/components/Global/AppBar').default
   },
   computed: {
     userId() {

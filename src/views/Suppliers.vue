@@ -45,10 +45,10 @@
       },
     }),
     components: {
-      'list-suppliers': require('@/components/Suppliers/ListSuppliers.vue').default,
-      'no-suppliers': require('@/components/Suppliers/NoSuppliers.vue').default,
-      'dialog-create': require('@/components/Suppliers/Dialogs/DialogCreate.vue').default,
-      'nav-appbar': require('@/components/Global/AppBar.vue').default
+      'list-suppliers': require('@/components/Suppliers/ListSuppliers').default,
+      'no-suppliers': require('@/components/Suppliers/NoSuppliers').default,
+      'dialog-create': require('@/components/Suppliers/Dialogs/DialogCreate').default,
+      'nav-appbar': require('@/components/Global/AppBar').default
     }
   }
 </script>

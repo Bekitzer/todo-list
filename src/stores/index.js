@@ -7,6 +7,7 @@ import Product from "@/stores/Product.js";
 import Variation from "@/stores/Variation.js";
 import User from "@/stores/User.js";
 import ProductTag from "@/stores/ProductTag.js";
+import Rate from "@/stores/Rate.js";
 
 Vue.use(Vuex)
 
@@ -55,6 +56,7 @@ export default new Vuex.Store({
     Product,
     Variation,
     User,
-    ProductTag
+    ProductTag,
+    Rate
   }
 })

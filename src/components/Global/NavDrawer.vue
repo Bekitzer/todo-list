@@ -125,14 +125,14 @@ export default {
     },
   }),
   components: {
-    'dialog-exit': require('@/components/Global/Dialogs/DialogExit.vue').default,
-    'icon-suppliers': require('@/components/Icons/IconSupplier.vue').default,
-    'icon-clients': require('@/components/Icons/IconClient.vue').default,
-    'icon-book-keeping': require('@/components/Icons/IconBookeeping.vue').default,
-    'icon-dashboard': require('@/components/Icons/IconDashboard.vue').default,
-    'icon-orders': require('@/components/Icons/IconOrder.vue').default,
-    'icon-products': require('@/components/Icons/IconProduct.vue').default,
-    'icon-services': require('@/components/Icons/IconService.vue').default,
+    'dialog-exit': require('@/components/Global/Dialogs/DialogExit').default,
+    'icon-suppliers': require('@/components/Icons/IconSupplier').default,
+    'icon-clients': require('@/components/Icons/IconClient').default,
+    'icon-book-keeping': require('@/components/Icons/IconBookeeping').default,
+    'icon-dashboard': require('@/components/Icons/IconDashboard').default,
+    'icon-orders': require('@/components/Icons/IconOrder').default,
+    'icon-products': require('@/components/Icons/IconProduct').default,
+    'icon-services': require('@/components/Icons/IconService').default,
   },
   computed: {
     user() {

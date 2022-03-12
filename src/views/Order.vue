@@ -172,9 +172,9 @@ export default {
     }
   },
   components: {
-    'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit.vue').default,
-    'nav-appbar': require('@/components/Global/AppBar.vue').default,
-    'dialog-image': require('@/components/Orders/Dialogs/DialogImage.vue').default,
+    'dialog-edit': require('@/components/Orders/Dialogs/DialogEdit').default,
+    'nav-appbar': require('@/components/Global/AppBar').default,
+    'dialog-image': require('@/components/Orders/Dialogs/DialogImage').default,
   }
 }
 </script>

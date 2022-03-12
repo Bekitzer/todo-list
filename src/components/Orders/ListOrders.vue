@@ -70,7 +70,7 @@
       </template>
       <template v-slot:[`item.statusType`]="props">
         <v-edit-dialog
-            save-text="שמור"
+            save-text="שמירה"
             cancel-text="בטל"
             :return-value.sync="props.item.statusType"
             @save="save(props)"
