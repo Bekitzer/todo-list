@@ -231,12 +231,12 @@ export default {
             .map(user => ({...user, userSupplierRef: null, COLLECTION: 'users'}))
 
         const payloads = [
-          {...this.form, COLLECTION: 'suppliers',},
+          {...this.form, COLLECTION: 'suppliers'},
           ...connectSupplierUsers,
           ...disconnectSupplierUsers
         ]
 
-        this.$store.dispatch('Supplier/upsert', payload).finally(() => {
+        this.$store.dispatch('Supplier/upsert', payloads).finally(() => {
           this.saving = false
           this.dialog = false
         })

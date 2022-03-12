@@ -68,10 +68,7 @@ export default {
     save() {
       if(!this.formInvalid){
         this.saving = true
-        const payload = {
-          ...this.form
-        }
-        this.$store.dispatch('User/upsert', payload).finally(() => {
+        this.$store.dispatch('User/upsert', this.form).finally(() => {
           this.saving = false
           this.dialog = false
         })

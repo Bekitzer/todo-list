@@ -20,8 +20,6 @@
 
 <script>
   export default {
-    data: () => ({
-    }),
     props: ['product', 'value'],
     computed: {
       dialog: {
@@ -36,7 +34,7 @@
     methods: {
       productDelete() {
         this.dialog = false
-        this.$store.dispatch('Product/remove', this.$route.params.id)
+        this.$store.dispatch('Product/remove', {id: this.$route.params.id})
         this.$router.push('/products')
       }
     }

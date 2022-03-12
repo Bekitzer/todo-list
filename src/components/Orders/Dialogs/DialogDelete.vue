@@ -34,7 +34,7 @@
     methods: {
       orderDelete() {
         this.dialog = false
-        this.$store.dispatch('Order/remove', this.$route.params.id)
+        this.$store.dispatch('Order/remove', {id: this.$route.params.id})
         this.$router.push('/orders')
       }
     }

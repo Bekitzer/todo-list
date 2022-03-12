@@ -99,10 +99,7 @@ export default {
     save() {
       if (!this.formInvalid) {
         this.saving = true
-        let payload = {
-          ...this.form
-        }
-        this.$store.dispatch('Product/upsert', payload).finally(() => {
+        this.$store.dispatch('Product/upsert', this.form).finally(() => {
           this.saving = false
           this.dialog = false
         })

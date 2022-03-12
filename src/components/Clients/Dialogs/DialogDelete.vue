@@ -20,9 +20,6 @@
 
 <script>
   export default {
-    data: () => ({
-      id: null,
-    }),
     props: ['client', 'value'],
     computed: {
       dialog: {

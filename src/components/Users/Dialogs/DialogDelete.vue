@@ -20,8 +20,6 @@
 
 <script>
   export default {
-    data: () => ({
-    }),
     props: ['user', 'value'],
     computed: {
       dialog: {
@@ -36,7 +34,7 @@
     methods: {
       userDelete() {
         this.dialog = false
-        this.$store.dispatch('User/remove', this.$route.params.id)
+        this.$store.dispatch('User/remove', {id: this.$route.params.id})
         this.$router.push('/users')
       }
     },
