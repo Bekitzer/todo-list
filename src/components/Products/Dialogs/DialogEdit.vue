@@ -84,8 +84,8 @@ export default {
   }),
   computed: {
     formInvalid() {
-      //TODO: if empty attribute disable btn
-      //TODO: if duplicate attribute disable btn
+      //TODO: if empty attribute disable btn !this.form.attributes.find(attribute => !attribute.name || !attribute.inputs.length)
+      //TODO: if duplicate attribute disable btn !this.form.attributes.unique(name)
       return !this.form.name
     },
     dialog: {
