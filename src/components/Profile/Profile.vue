@@ -60,7 +60,7 @@ export default {
     }
   },
   components: {
-    'day-period': require('@/components/Tools/DayPeriod.vue').default
+    'day-period': require('@/components/Tools/DayPeriod').default
   }
 }
 </script>

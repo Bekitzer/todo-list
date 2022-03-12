@@ -103,9 +103,9 @@ export default {
     },
   },
   components: {
-    'dialog-edit': require('@/components/Users/Dialogs/DialogEdit.vue').default,
-    'nav-appbar': require('@/components/Global/AppBar.vue').default,
-    'dialog-image': require('@/components/Users/Dialogs/DialogImage.vue').default,
+    'dialog-edit': require('@/components/Users/Dialogs/DialogEdit').default,
+    'nav-appbar': require('@/components/Global/AppBar').default,
+    'dialog-image': require('@/components/Users/Dialogs/DialogImage').default,
   }
 }
 </script>

@@ -213,7 +213,7 @@
           </template>
           <template v-slot:[`item.statusType`]="props">
             <v-edit-dialog
-                save-text="שמור"
+                save-text="שמירה"
                 cancel-text="בטל"
                 :return-value.sync="props.item.statusType"
                 @save="save(props)"
@@ -551,11 +551,11 @@ export default {
     }
   },
   components: {
-    'dialog-edit': require('@/components/Clients/Dialogs/DialogEdit.vue').default,
-    'dialog-create': require('@/components/Orders/Dialogs/DialogCreate.vue').default,
-    'nav-appbar': require('@/components/Global/AppBar.vue').default,
-    'dialog-image': require('@/components/Clients/Dialogs/DialogImage.vue').default,
-    'dialog-image-order': require('@/components/Orders/Dialogs/DialogImage.vue').default
+    'dialog-edit': require('@/components/Clients/Dialogs/DialogEdit').default,
+    'dialog-create': require('@/components/Orders/Dialogs/DialogCreate').default,
+    'nav-appbar': require('@/components/Global/AppBar').default,
+    'dialog-image': require('@/components/Clients/Dialogs/DialogImage').default,
+    'dialog-image-order': require('@/components/Orders/Dialogs/DialogImage').default
   }
 }
 </script>

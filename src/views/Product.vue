@@ -100,11 +100,11 @@ export default {
     }
   },
   components: {
-    'dialog-edit': require('@/components/Products/Dialogs/DialogEdit.vue').default,
-    'nav-appbar': require('@/components/Global/AppBar.vue').default,
-    'dialog-image': require('@/components/Products/Dialogs/DialogImage.vue').default,
-    'list-attributes': require('@/components/Products/ListAttributes.vue').default,
-    'list-variations': require('@/components/Variation/ListVariations.vue').default,
+    'dialog-edit': require('@/components/Products/Dialogs/DialogEdit').default,
+    'nav-appbar': require('@/components/Global/AppBar').default,
+    'dialog-image': require('@/components/Products/Dialogs/DialogImage').default,
+    'list-attributes': require('@/components/Products/ListAttributes').default,
+    'list-variations': require('@/components/Variations/ListVariations').default,
   }
 }
 </script>

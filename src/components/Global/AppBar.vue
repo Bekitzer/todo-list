@@ -34,9 +34,9 @@ export default {
   }),
   props: ['pname'],
   components: {
-    'profile': require('@/components/Profile/Profile.vue').default,
-    'live-date': require('@/components/Tools/LiveDate.vue').default,
-    'search': require('@/components/Tools/Search.vue').default
+    'profile': require('@/components/Profile/Profile').default,
+    'live-date': require('@/components/Tools/LiveDate').default,
+    'search': require('@/components/Tools/Search').default
   },
   computed: {
     tableListSearch() {

@@ -54,7 +54,7 @@ export default {
     }
   },
   components: {
-    'file-store': require('@/components/Global/FileStore.vue').default
+    'file-store': require('@/components/Global/FileStore').default
   }
 }
 </script>

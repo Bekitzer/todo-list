@@ -50,7 +50,7 @@
                 ביטול
               </v-btn>
               <v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" color="green" large outlined>
-                שמור
+                שמירה
               </v-btn>
             </v-card-actions>
           </v-col>
@@ -117,9 +117,9 @@ export default {
     this.form = JSON.parse(JSON.stringify(this.product))
   },
   components: {
-    'dialog-delete': require('@/components/Products/Dialogs/DialogDelete.vue').default,
-    'attributes-field': require('@/components/Products/Dialogs/Fields/AttributesField.vue').default,
-    'tags-field': require('@/components/Products/Dialogs/Fields/TagsField.vue').default
+    'dialog-delete': require('@/components/Products/Dialogs/DialogDelete').default,
+    'attributes-field': require('@/components/Products/Dialogs/Fields/AttributesField').default,
+    'tags-field': require('@/components/Products/Dialogs/Fields/TagsField').default
   }
 }
 </script>

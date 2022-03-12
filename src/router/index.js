@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: () => import('../views/Home.vue'),
+    component: () => import('../views/Home'),
     meta: {
       requiresAuth: true
     }
@@ -23,7 +23,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import('../components/Profile/Dashboard.vue'),
+    component: () => import('../components/Profile/Dashboard'),
     meta: {
       requiresAuth: true
     }
@@ -31,12 +31,12 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../components/Form/Login.vue')
+    component: () => import('../components/Form/Login')
   },
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../components/Form/Register.vue'),
+    component: () => import('../components/Form/Register'),
     meta: {
       requiresGuest: true
     }
@@ -44,7 +44,7 @@ const routes = [
   {
     path: '/terms',
     name: 'Terms',
-    component: () => import('../views/Terms.vue'),
+    component: () => import('../views/Terms'),
     meta: {
       requiresAuth: true
     }
@@ -52,7 +52,7 @@ const routes = [
   {
     path: '/privacy',
     name: 'Privacy',
-    component: () => import('../views/Privacy.vue'),
+    component: () => import('../views/Privacy'),
     meta: {
       requiresAuth: true
     }
@@ -60,7 +60,7 @@ const routes = [
   {
     path: '/products',
     name: 'Products',
-    component: () => import('../views/Products.vue'),
+    component: () => import('../views/Products'),
     meta: {
       requiresAuth: true
     }
@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/products/:id',
     name: 'Product',
-    component: () => import('../views/Product.vue'),
+    component: () => import('../views/Product'),
     props: true,
     meta: {
       requiresAuth: true,
@@ -78,7 +78,7 @@ const routes = [
   {
     path: '/orders',
     name: 'Orders',
-    component: () => import('../views/Orders.vue'),
+    component: () => import('../views/Orders'),
     meta: {
       requiresAuth: true
     }
@@ -86,7 +86,7 @@ const routes = [
   {
     path: '/orders/:id',
     name: 'Order',
-    component: () => import('../views/Order.vue'),
+    component: () => import('../views/Order'),
     props: true,
     meta: {
       requiresAuth: true,
@@ -96,7 +96,7 @@ const routes = [
   {
     path: '/clients',
     name: 'Clients',
-    component: () => import('../views/Clients.vue'),
+    component: () => import('../views/Clients'),
     meta: {
       requiresAuth: true
     }
@@ -104,7 +104,7 @@ const routes = [
   {
     path: '/clients/:id',
     name: 'Client',
-    component: () => import('../views/Client.vue'),
+    component: () => import('../views/Client'),
     props: true,
     meta: {
       requiresAuth: true,
@@ -114,7 +114,7 @@ const routes = [
   {
     path: '/suppliers',
     name: 'Suppliers',
-    component: () => import('../views/Suppliers.vue'),
+    component: () => import('../views/Suppliers'),
     meta: {
       requiresAuth: true
     }
@@ -122,7 +122,7 @@ const routes = [
   {
     path: '/suppliers/:id',
     name: 'Supplier',
-    component: () => import('../views/Supplier.vue'),
+    component: () => import('../views/Supplier'),
     props: true,
     meta: {
       requiresAuth: true,
@@ -132,7 +132,7 @@ const routes = [
   {
     path: '/users',
     name: 'Users',
-    component: () => import('../views/Users.vue'),
+    component: () => import('../views/Users'),
     meta: {
       requiresAuth: true
     }
@@ -140,7 +140,7 @@ const routes = [
   {
     path: '/users/:id',
     name: 'User',
-    component: () => import('../views/User.vue'),
+    component: () => import('../views/User'),
     props: true,
     meta: {
       requiresAuth: true,

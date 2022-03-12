@@ -53,11 +53,7 @@
 <script>
 export default {
   name: 'TagsField',
-  props: {
-    value: {
-      default: () => ([])
-    }
-  },
+  props: ['value'],
   data: () => ({
     editing: null,
     editingIndex: -1,
@@ -69,7 +65,7 @@ export default {
     },
     tags: {
       get() {
-        return this.value
+        return this.value || []
       },
       set(val) {
         const selectedItems = val.map(v => {

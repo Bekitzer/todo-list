@@ -85,7 +85,7 @@
                 ביטול
               </v-btn>
               <v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" outlined large color="green">
-                שמור
+                שמירה
               </v-btn>
             </v-card-actions>
           </v-col>
@@ -175,7 +175,7 @@ export default {
     this.form.deliveryDate = this.$options.filters.formatDate(this.order.deliveryDate)
   },
   components: {
-    'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default
+    'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete').default
   }
 }
 </script>

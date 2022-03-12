@@ -1,7 +1,7 @@
 import {writeDoc, fetchDocs, where, OPERATIONS} from '@/stores/utils';
 
 const defaults = {
-  DEFAULT_COLLECTION: 'variations',
+  DEFAULT_COLLECTION: 'rates',
   DEFAULT_OPERATION: OPERATIONS.SET
 }
 
@@ -47,19 +47,19 @@ export default {
           commit('remove', remove)
           commit('upsert', set)
         })
-        .then(() => commit('showSnackbar', 'וריאציות עודכנו!', {root: true}))
-        .catch(err => console.error('Something went wrong - Variation.write', err))
+        .then(() => commit('showSnackbar', 'תעריפים עודכנו!', {root: true}))
+        .catch(err => console.error('Something went wrong - Rate.write', err))
     },
     upsert({commit}, payloads) {
       return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.SET})
         .then(({[defaults.DEFAULT_COLLECTION]: {set}}) => commit('upsert', set))
-        .then(() => commit('showSnackbar', 'וריאציות נשמרו!', {root: true}))
+        .then(() => commit('showSnackbar', 'תעריפים נשמרו!', {root: true}))
         .catch(err => console.error('Something went wrong - Rate.upsert', err))
     },
     remove({commit}, payloads) {
       return writeDoc(payloads, {...defaults, DEFAULT_OPERATION: OPERATIONS.DELETE})
         .then(({[defaults.DEFAULT_COLLECTION]: {delete: remove}}) => commit('remove', remove))
-        .then(() => commit('showSnackbar', 'וריאציות נמחקו!', {root: true}))
+        .then(() => commit('showSnackbar', 'תעריפים נמחקו!', {root: true}))
         .catch(err => console.error('Something went wrong - Rate.remove', err))
     },
     fetch({commit, rootGetters}) {
@@ -69,15 +69,15 @@ export default {
 
       if (!user?.isAdmin) {
         if (!user?.userSupplierRef) {
-          return console.debug(`Can't fetch Variations since no supplier connected to this user`)
+          return console.debug(`Can't fetch Rate since no supplier connected to this user`)
         }
 
-        filter = where('variationSupplierRef', '==', user?.userSupplierRef?.id)
+        filter = where('rateSupplierRef', '==', user?.userSupplierRef?.id)
       }
 
       return fetchDocs({...defaults, filter})
         .then(docs => commit('initialize', docs))
-        .catch(err => console.error('Something went wrong - Variation.fetch', err))
+        .catch(err => console.error('Something went wrong - Rate.fetch', err))
     }
   },
   modules: {}

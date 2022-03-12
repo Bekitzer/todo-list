@@ -17,31 +17,21 @@ import {docRef} from '@/stores/utils';
 
 export default {
   name: 'VariationsField',
-  props: {
-    product: {
-      default: () => ({})
-    },
-    attributes: {
-      default: () => ([])
-    },
-    value: {
-      default: () => ([])
-    }
-  },
+  props: ['product', 'attributes', 'value'],
   methods: {
     handleAdd() {
       this.variations = this.variations.concat({
         attribute: '',
         input: '',
-        variationSupplierRef: this.$store.getters.user?.userSupplierRef,
-        variationProductRef: docRef(`products/${this.product.id}`)
+        variationProductRef: docRef(`products/${this.product.id}`),
+        variationSupplierRef: this.$store.getters.user?.userSupplierRef
       })
     }
   },
   computed: {
     variations: {
       get() {
-        return this.value
+        return this.value || []
       },
       set(val) {
         this.$emit('input', val)
@@ -54,8 +44,7 @@ export default {
     }
   },
   components: {
-    'variation-field': require('@/components/Variation/Dialogs/Fields/VariationField').default,
-    "variation-field-amounts": require('@/components/Variation/Dialogs/Fields/VariationFieldAmounts').default,
+    'variation-field': require('@/components/Variations/Dialogs/Fields/VariationField').default
   }
 }
 </script>

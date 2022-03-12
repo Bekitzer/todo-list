@@ -35,7 +35,7 @@
                 ביטול
               </v-btn>
               <v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" outlined large color="green">
-                שמור
+                שמירה
               </v-btn>
             </v-card-actions>
           </v-col>
@@ -94,7 +94,7 @@ export default {
     this.form = JSON.parse(JSON.stringify(this.user))
   },
   components: {
-    'dialog-delete': require('@/components/Users/Dialogs/DialogDelete.vue').default
+    'dialog-delete': require('@/components/Users/Dialogs/DialogDelete').default
   }
 }
 </script>
