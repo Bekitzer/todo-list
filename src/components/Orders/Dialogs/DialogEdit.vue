@@ -30,7 +30,7 @@
             <v-menu v-model="dateDialog" :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                    :value="orderDeliveryDate"
+                    :value="form.deliveryDate"
                     clearable
                     filled
                     dense
@@ -38,7 +38,7 @@
                     readonly
                     v-bind="attrs"
                     v-on="on"
-                    @click:clear="orderDeliveryDate = null"
+                    @click:clear="form.deliveryDate = null"
                 />
               </template>
               <v-date-picker
@@ -46,7 +46,7 @@
                   @change="dateDialog = false"
                   :first-day-of-week="0"
                   locale="he-il"
-                  width="496"
+                  width="636"
               />
             </v-menu>
           </v-col>
@@ -115,22 +115,21 @@ export default {
     orderFile: '',
     saving: false,
     form: {},
+    orderMargin: '',
     orderClientId: '',
     orderSupplierId: '',
-    orderDeliveryDate: '',
     deliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
-    orderMargin: '',
     statusTypeList: ["בעבודה", "מוכן - משרד", "מוכן - ספק", "במשלוח", "סופק"],
     dateDialog: false,
   }),
   computed: {
     computedDate: {
       get() {
-        return this.orderDeliveryDate && this.$options.filters.formatDateReverse(this.orderDeliveryDate).toISOString().substr(0, 10)
+        return this.form.deliveryDate && this.$options.filters.formatDateReverse(this.form.deliveryDate).toISOString().substr(0, 10)
       },
       set(newValue) {
         const seconds = parseISO(newValue).getTime() / 1000
-        this.orderDeliveryDate = this.$options.filters.formatDate({seconds})
+        this.form.deliveryDate = this.$options.filters.formatDate({seconds})
       }
     },
     clients() {
@@ -159,7 +158,7 @@ export default {
           ...this.form,
           orderClientRef: docRef(`clients/${this.orderClientId}`),
           orderSupplierRef: docRef(`suppliers/${this.orderSupplierId}`),
-          deliveryDate: this.$options.filters.formatDateReverse(this.orderDeliveryDate),
+          deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
           margin: this.orderMargin = (this.form.sellPrice - this.form.buyPrice),
         }
         this.$store.dispatch('Order/upsert', payload).finally(() => {
@@ -173,7 +172,7 @@ export default {
     this.orderClientId = this.order.orderClientRef.id
     this.orderSupplierId = this.order.orderSupplierRef.id
     this.form = JSON.parse(JSON.stringify(this.order))
-    this.orderDeliveryDate = this.$options.filters.formatDate(this.order.deliveryDate)
+    this.form.deliveryDate = this.$options.filters.formatDate(this.order.deliveryDate)
   },
   components: {
     'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete.vue').default

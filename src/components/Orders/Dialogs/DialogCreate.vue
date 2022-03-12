@@ -46,7 +46,7 @@
                   @change="dateDialog = false"
                   :first-day-of-week="0"
                   locale="he-il"
-                  width="496"
+                  width="636"
               />
             </v-menu>
           </v-col>
@@ -152,7 +152,7 @@ export default {
           ...this.form,
           orderClientRef: docRef(`clients/${this.orderClient.id}`),
           orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
-          margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
+          margin: this.orderMargin = (this.form.sellPrice - this.form.buyPrice),
           statusType: this.orderStatusType = 'בהמתנה',
           deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
         }
@@ -162,23 +162,19 @@ export default {
           this.dialog = false
         })
 
-        // const mailFields = {
-        //   clientName: this.orderClient.name,
-        //   clientEmail: this.orderClient.email,
-        //   orderWorkTitle: this.orderWorkTitle,
-        //   orderWork: this.orderWorkProducts,
-        //   supplierName: this.orderSupplier.name,
-        //   supplierEmail: this.orderSupplier.email,
-        //   statusType: this.orderStatusType = 'בעבודה',
-        //   deliveryDate: parseISO(this.form.deliveryDate),
-        //   deliveryType: this.orderDeliveryType,
-        // }
-        // emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
-        //     .then((result) => {
-        //       console.log('SUCCESS!', result.text)
-        //     }, (error) => {
-        //       console.log('FAILED...', error.text)
-        //     })
+        const mailFields = {
+          ...this.form,
+          statusType: this.orderStatusType = 'בהמתנה',
+          deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
+          orderClientRef: docRef(`clients/${this.orderClient.id}`),
+          orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
+        }
+        emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
+            .then((result) => {
+              console.log('SUCCESS!', result.text)
+            }, (error) => {
+              console.log('FAILED...', error.text)
+            })
       }
     },
     addDraft() {
