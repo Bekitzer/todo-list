@@ -29,7 +29,7 @@
             </v-list-item-content>
           </template>
 
-          <list-rates :variation="variation" />
+          <list-rates :variation="variation"/>
 
         </v-list-group>
         <v-divider :key="'divider_' +i"></v-divider>
@@ -65,10 +65,8 @@ export default {
       return this.$store.getters.user?.userSupplierRef?.id
     },
     variations() {
-      return this.$store.state.Variation.list.filter(variation => {
-        console.log(variation.variationSupplierRef.id, this.supplierId)
-        return variation.variationProductRef.id === this.product.id && variation.variationSupplierRef.id === this.supplierId
-      })
+      return this.$store.state.Variation.list.filter(variation =>
+          variation.variationProductRef.id === this.product.id && variation.variationSupplierRef.id === this.supplierId)
     }
   },
   components: {
