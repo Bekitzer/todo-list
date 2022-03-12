@@ -68,6 +68,8 @@
 
 <script>
 
+import {OPERATIONS} from '@/stores/utils';
+
 export default {
   name: 'DialogEdit',
   props: ['product', 'value'],
@@ -99,7 +101,12 @@ export default {
     save() {
       if (!this.formInvalid) {
         this.saving = true
-        this.$store.dispatch('Product/upsert', this.form).finally(() => {
+        const payload = {
+          ...this.form,
+          attributes: this.form.attributes.filter(attribute => attribute.OPERATION !== OPERATIONS.DELETE)
+        }
+
+        this.$store.dispatch('Product/upsert', payload).finally(() => {
           this.saving = false
           this.dialog = false
         })

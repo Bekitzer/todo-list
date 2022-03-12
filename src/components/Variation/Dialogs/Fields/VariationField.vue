@@ -28,7 +28,7 @@
           dense
           hide-details
           autocomplete="off"
-      ></v-autocomplete>
+      />
     </v-col>
     <!--
     variation1:
