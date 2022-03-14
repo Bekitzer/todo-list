@@ -68,7 +68,7 @@
 
 <script>
 
-import {OPERATIONS} from '@/stores/utils';
+import {deepCopy, OPERATIONS} from '@/stores/utils';
 
 export default {
   name: 'DialogEdit',
@@ -113,8 +113,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.form = JSON.parse(JSON.stringify(this.product))
+  created() {
+    this.form = deepCopy(this.product)
   },
   components: {
     'dialog-delete': require('@/components/Products/Dialogs/DialogDelete').default,

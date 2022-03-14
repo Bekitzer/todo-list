@@ -17,7 +17,7 @@ export default {
     isLoggedIn: false,
     loading: true
   }),
-  mounted() {
+  created() {
     this.$store.dispatch('User/fetchCurrent')
         .then(() => Promise.all([
               this.$store.dispatch('ProductTag/fetch'),

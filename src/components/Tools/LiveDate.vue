@@ -1,27 +1,25 @@
 <template>
-    <div>{{ date }}</div>
+  <div>{{ date | formatDatetime }}</div>
 </template>
 
 <script>
-import { format } from 'date-fns'
-import { setTimeout } from 'timers'
-import { he } from 'date-fns/locale'
+import {setTimeout} from 'timers'
 
 export default {
-    data() {
-        return{
-            date: ''
-        }
-    },
-    methods: {
-        getDate() {
-            this.date = format(new Date(), 'EEEEE, dd/MM/yy HH:mm', {locale: he})
-            setTimeout(this.getTime, 1000)
-        }
-    },
-    mounted() {
-        this.getDate()
+  data() {
+    return {
+      date: ''
     }
+  },
+  methods: {
+    getDate() {
+      this.date = new Date()
+      setTimeout(this.getTime, 1000)
+    }
+  },
+  created() {
+    this.getDate()
+  }
 }
 </script>
 

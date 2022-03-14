@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {docRef, OPERATIONS} from '@/stores/utils';
+import {deepCopy, OPERATIONS} from '@/stores/utils';
 
 export default {
   name: 'DialogEdit',
@@ -88,13 +88,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.form = this.rates.map(rate => ({
-          ...rate,
-          rateVariationRef: docRef(`variations/${rate.rateVariationRef?.id}`),
-          rateSupplierRef: docRef(`suppliers/${rate.rateSupplierRef?.id}`),
-        })
-    );
+  created() {
+    this.form = deepCopy(this.rates)
   },
   components: {
     'rates-field': require('@/components/Rates/Dialogs/Fields/RatesField').default

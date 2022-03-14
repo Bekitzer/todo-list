@@ -4,23 +4,24 @@ import router from './router'
 import store from './stores'
 import vuetify from './plugins/vuetify'
 import VueMeta from 'vue-meta'
-import { format, parse } from 'date-fns'
-import { he } from 'date-fns/locale'
+import {format, parseISO} from 'date-fns'
+import {he} from 'date-fns/locale'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 import './vee-validate'
 import {onAuthStateChanged, getAuth} from 'firebase/auth'
+import numeral from 'numeral'
+import config from '@/config'
 
 Vue.config.productionTip = false
 Vue.use(VueMeta, {
-    refreshOnceOnNavigation: true
-  },
-)
+  refreshOnceOnNavigation: true
+})
 Vue.use(VueGoogleMaps, {
   load: {
-      key: 'AIzaSyBPTgcGTdaYE3FEEL-j61IEB_76BI84_90',
-      // This is required to use the Autocomplete plugin
-      libraries: 'places', // 'places,drawing,visualization'
+    key: 'AIzaSyBPTgcGTdaYE3FEEL-j61IEB_76BI84_90',
+    // This is required to use the Autocomplete plugin
+    libraries: 'places', // 'places,drawing,visualization'
   },
 })
 Vue.use(VuetifyGoogleAutocomplete, {
@@ -32,27 +33,21 @@ Vue.use(VuetifyGoogleAutocomplete, {
 })
 
 
-
-const numeral = require("numeral");
 Vue.filter("formatNumber", function (value) {
-  return numeral(value).format("0,0")
+  return value ? numeral(value).format("0,0") : value
 })
 
 Vue.filter("formatDate", function (value) {
-  if (value && value.seconds) {
-    return format(new Date(value.seconds * 1000), 'EEEEE, dd/MM/yy', {locale: he})
-  }
+  return value?.toDate?.() ? format(parseISO(value.toDate().toISOString()), config.DATE_FORMAT, {locale: he}) : ''
 })
 
-Vue.filter("formatDateReverse", function (value) {
-  if (value) {
-    return parse(value, 'EEEEE, dd/MM/yy', new Date(), {locale: he})
-  }
+Vue.filter("formatDatetime", function (value) {
+  return value?.toDate?.() ? format(parseISO(value.toDate().toISOString()), `${config.DATE_FORMAT} HH:mm`, {locale: he}) : ''
 })
 
 let app = '';
 onAuthStateChanged(getAuth(), user => {
-  if(!app){
+  if (!app) {
     app = new Vue({
       router,
       store,

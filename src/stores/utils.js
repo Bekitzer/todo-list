@@ -11,6 +11,8 @@ import {
   Timestamp
 } from 'firebase/firestore';
 import {db} from '@/firebase';
+import {he} from 'date-fns/locale';
+import {parse} from 'date-fns';
 
 export const docRef = path => doc(db, path)
 
@@ -23,43 +25,115 @@ export const OPERATIONS = {
 }
 
 function dbMigration() {
-  const ifYouKnowWhatYouAreDoing = false
+  const ifYouKnowWhatYouAreDoing = true
   if (!ifYouKnowWhatYouAreDoing) throw 'Stop right now you stupid f***'
 
-  const collectionName = 'XXX'
+  const collectionName = 'variations'
+
+  const isDate = d => d instanceof Date && !isNaN(d)
+  const isString = str => typeof str === 'string' || str instanceof String
+  const strToDatetime = (str, sep = '') => parse(str, `EEEEE${sep} dd/MM/yy HH:mm`, new Date(), {locale: he})
+  const strToDate = (str, sep = '') => parse(str, `EEEEE${sep} dd/MM/yy`, new Date(), {locale: he})
+
+  const batch = writeBatch(db);
+
   return getDocs(collection(db, collectionName))
-    .then(snapshot => snapshot.docs.forEach(item => {
+    .then(snapshot => {
+      const items = []
 
-        if (item.id !== "xzz") return
+      snapshot.docs.forEach(item => {
 
-        const {firstFieldToRemove, firstFieldToRename, secondFieldToRename, ...rest} = item.data()
+        // if (item.id !== "B975TlaDgsfW7Visy53YHfUnXMC2") return
 
-        if (firstFieldToRename) {
-          rest.firstRenamedField = firstFieldToRename
+        let {deliveredAt, createdAt, updatedAt, ...rest} = item.data()
+
+        // createdAt = 'ש׳ 16/10/2021'
+        // createdAt = 'ה׳ 06/01/22 13:16'
+        // createdAt = 'א׳, 13/03/22 22:04'
+        // createdAt = 'א׳, 13/03/22'
+        // createdAt = Timestamp.now().toJSON()
+        // createdAt = Timestamp.now()
+        // createdAt = null
+        if (deliveredAt) {
+          if (deliveredAt.toDate) {
+            rest.deliveredAt = deliveredAt
+          } else if (deliveredAt.seconds) {
+            rest.deliveredAt = toTimestamp(deliveredAt)
+          } else if (isString(deliveredAt) && isDate(strToDatetime(deliveredAt))) {
+            rest.deliveredAt = Timestamp.fromDate(strToDatetime(deliveredAt))
+          } else if (isString(deliveredAt) && isDate(strToDate(deliveredAt))) {
+            rest.deliveredAt = Timestamp.fromDate(strToDate(deliveredAt))
+          } else if (isString(deliveredAt) && isDate(strToDatetime(deliveredAt, ','))) {
+            rest.deliveredAt = Timestamp.fromDate(strToDatetime(deliveredAt, ','))
+          } else if (isString(deliveredAt) && isDate(strToDate(deliveredAt, ','))) {
+            rest.deliveredAt = Timestamp.fromDate(strToDate(deliveredAt, ','))
+          } else {
+            console.error('deliveredAt', rest)
+            debugger
+          }
         }
 
-        if (secondFieldToRename) {
-          rest.secondRenamedField = secondFieldToRename
+        if (createdAt) {
+          if (createdAt.toDate) {
+            rest.createdAt = createdAt
+          } else if (createdAt.seconds) {
+            rest.createdAt = toTimestamp(createdAt)
+          } else if (isString(createdAt) && isDate(strToDatetime(createdAt))) {
+            rest.createdAt = Timestamp.fromDate(strToDatetime(createdAt))
+          } else if (isString(createdAt) && isDate(strToDate(createdAt))) {
+            rest.createdAt = Timestamp.fromDate(strToDate(createdAt))
+          } else if (isString(createdAt) && isDate(strToDatetime(createdAt, ','))) {
+            rest.createdAt = Timestamp.fromDate(strToDatetime(createdAt, ','))
+          } else if (isString(createdAt) && isDate(strToDate(createdAt, ','))) {
+            rest.createdAt = Timestamp.fromDate(strToDate(createdAt, ','))
+          } else {
+            console.error('createdAt', rest)
+            debugger
+          }
         }
 
-        // console.log(item.id)
-        // console.log(rest)
+        if (updatedAt) {
+          if (updatedAt.toDate) {
+            rest.updatedAt = updatedAt
+          } else if (updatedAt.seconds) {
+            rest.updatedAt = toTimestamp(updatedAt)
+          } else if (isString(updatedAt) && isDate(strToDatetime(updatedAt))) {
+            rest.updatedAt = Timestamp.fromDate(strToDatetime(updatedAt))
+          } else if (isString(updatedAt) && isDate(strToDate(updatedAt))) {
+            rest.updatedAt = Timestamp.fromDate(strToDate(updatedAt))
+          } else if (isString(updatedAt) && isDate(strToDatetime(updatedAt, ','))) {
+            rest.updatedAt = Timestamp.fromDate(strToDatetime(updatedAt, ','))
+          } else if (isString(updatedAt) && isDate(strToDate(updatedAt, ','))) {
+            rest.updatedAt = Timestamp.fromDate(strToDate(updatedAt, ','))
+          } else {
+            console.error('updatedAt', rest)
+            debugger
+          }
+        } else {
+          rest.updatedAt = rest.createdAt ? toTimestamp(rest.createdAt) : Timestamp.now()
+        }
 
-        // return setDoc(docRef(`${collectionName}/${item.id}`), rest)
-        //   .catch(err => console.error(item.id, err))
+        if (!rest.createdAt) {
+          rest.createdAt = rest.updatedAt ? toTimestamp(rest.updatedAt) : Timestamp.now()
+          console.error('no createdAt', rest)
+          debugger
+        }
+
+        items.push(rest)
+        batch.set(docRef(`${collectionName}/${item.id}`), rest);
       })
-    )
+
+      return items
+    }).then(items => {
+      console.log('batch commit', items)
+      batch.commit().catch(err => console.error(collectionName, err))
+    })
 }
 
 // dbMigration()
 
-
 const groupByKey = (list, key) => {
   return list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {})
-}
-
-const toTimestamp = ({seconds, nanoseconds}) => {
-  return new Timestamp(seconds, nanoseconds)
 }
 
 const generateTimestamps = (payload, times) => {
@@ -91,6 +165,37 @@ const batchIncrement = (name, items) => {
 
     return {oldNumber, newNumber}
   })
+}
+
+export const toTimestamp = ({seconds, nanoseconds}) => {
+  return new Timestamp(seconds, nanoseconds)
+}
+
+export const deepCopy = (data) => {
+  if (data === null || typeof (data) !== 'object' || 'isActiveClone' in data)
+    return data;
+
+  let temp
+
+  if (data instanceof Date)
+    return new Date(data);
+  else if (data instanceof Timestamp)
+    return toTimestamp(data)
+  else if (data.firestore && data.path && data.type === 'document')
+    return docRef(data.path)
+  else if (data.firestore && data.path && data.type === 'collection')
+    return collection(db, data.path)
+  else
+    temp = Array.isArray(data) ? [] : {}
+
+  for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      data['isActiveClone'] = null;
+      temp[key] = deepCopy(data[key]);
+      delete data['isActiveClone'];
+    }
+  }
+  return temp;
 }
 
 export const fetchDocs = (options = {}) => {

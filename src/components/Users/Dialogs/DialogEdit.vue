@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import {deepCopy} from '@/stores/utils';
+
 export default {
   props: ['user', 'value'],
   data: () => ({
@@ -89,8 +91,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.form = JSON.parse(JSON.stringify(this.user))
+  created() {
+    this.form = deepCopy(this.user)
   },
   components: {
     'dialog-delete': require('@/components/Users/Dialogs/DialogDelete').default

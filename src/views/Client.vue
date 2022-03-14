@@ -149,7 +149,7 @@
           :headers="headers"
           :items="orders"
           item-key="id"
-          :sort-by="['deliveryDate', 'number']"
+          :sort-by="['deliveredAt', 'number']"
           :items-per-page="-1"
           hide-default-footer
           sort-desc
@@ -173,11 +173,11 @@
               </v-col>
               <v-col cols="12" md="2">
                 <v-select
-                    :items="orderDeliveryDateList"
+                    :items="orderDeliveredAtList"
                     clearable
                     filled
                     rounded
-                    v-model="deliveryDateFilter"
+                    v-model="deliveredAtFilter"
                     label="סנן לפי תאריך אספקה"
                 />
               </v-col>
@@ -233,7 +233,7 @@
             {{ item.createdAt | formatDate }}
           </template>
           <template v-slot:[`item.delivery`]="{ item }">
-            {{ item.deliveryDate | formatDate }}
+            {{ item.deliveredAt | formatDate }}
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <v-tooltip top content-class="normal tooltip-top">
@@ -325,8 +325,8 @@ export default {
     viewSuppliedOnly: true,
     singleExpand: true,
     orderDateFilter: "",
-    deliveryDateFilter: "",
-    orderDeliveryDateList: [
+    deliveredAtFilter: "",
+    orderDeliveredAtList: [
       {text: "היום", value: filterDateEnum.THIS_DAY},
       {text: "מחר", value: filterDateEnum.NEXT_DAY},
       {text: "3 ימים הקרובים", value: filterDateEnum.NEXT_3_DAYS},
@@ -477,7 +477,7 @@ export default {
 
       return {start, end}
     },
-    deliveryDate(date) {
+    deliveredAt(date) {
       return date ? new Date(date.seconds * 1000) : null
     },
     orderDate(date) {
@@ -537,9 +537,9 @@ export default {
         })
             .filter(order => {
               const isValidOrderDate = this.isDateInRange(this.orderDate(order.createdAt), this.dateEnumToRange(this.orderDateFilter))
-              const isValidDeliveryDate = this.isDateInRange(this.deliveryDate(order.deliveryDate), this.dateEnumToRange(this.deliveryDateFilter))
+              const isValidDeliveredAt = this.isDateInRange(this.deliveredAt(order.deliveredAt), this.dateEnumToRange(this.deliveredAtFilter))
 
-              return order.orderClientRef.id === this.client.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק') && isValidOrderDate && isValidDeliveryDate
+              return order.orderClientRef.id === this.client.id && (this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק') && isValidOrderDate && isValidDeliveredAt
             })
       },
       set(value) {

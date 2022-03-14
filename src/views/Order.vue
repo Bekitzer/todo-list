@@ -2,10 +2,7 @@
   <div>
     <nav-appbar :pname="'הזמנות - ' + this.order.number">
       <template v-slot:add-btn>
-        <v-tooltip
-            left
-            content-class="normal tooltip-left"
-        >
+        <v-tooltip left content-class="normal tooltip-left">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
                 fab
@@ -85,7 +82,7 @@
           </v-col>
           <v-col cols="6">
             <div class="user-information">
-              <p class="spc-titles">תאריך אספקה</p> {{ order.deliveryDate | formatDate }}
+              <p class="spc-titles">תאריך אספקה</p> {{ order.deliveredAt | formatDate }}
             </div>
           </v-col>
         </v-row>
@@ -157,7 +154,6 @@ export default {
       const clientsMap = {}
       this.$store.state.Client.list.forEach(client => {
         clientsMap[client.id] = client.name
-        client = client.name
       })
 
       return clientsMap

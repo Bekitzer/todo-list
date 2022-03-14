@@ -200,7 +200,7 @@
 </template>
 
 <script>
-import {docRef} from '@/stores/utils';
+import {deepCopy, docRef} from '@/stores/utils';
 
 export default {
   name: 'DialogEdit',
@@ -270,9 +270,9 @@ export default {
       }
     }
   },
-  mounted() {
-    this.form = JSON.parse(JSON.stringify(this.client))
-    this.formUsers = JSON.parse(JSON.stringify(this.clientUsers))
+  created() {
+    this.form = deepCopy(this.client)
+    this.formUsers = deepCopy(this.clientUsers)
   },
   components: {
     'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete').default

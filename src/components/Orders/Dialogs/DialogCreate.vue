@@ -27,28 +27,7 @@
             <v-textarea v-model="form.orderWork" label="מפרט" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="12" sm="12">
-            <v-menu v-model="dateDialog" :close-on-content-click="false">
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                    :value="form.deliveryDate"
-                    clearable
-                    filled
-                    dense
-                    label="תאריך אספקה"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    @click:clear="form.deliveryDate = null"
-                />
-              </template>
-              <v-date-picker
-                  v-model="computedDate"
-                  @change="dateDialog = false"
-                  :first-day-of-week="0"
-                  locale="he-il"
-                  width="636"
-              />
-            </v-menu>
+            <date-picker v-model="form.deliveredAt" lable="תאריך אספקה"/>
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-autocomplete
@@ -93,7 +72,6 @@
 </template>
 
 <script>
-import {parseISO} from 'date-fns'
 import {getAuth} from 'firebase/auth'
 import emailjs from '@emailjs/browser';
 import {docRef} from '@/stores/utils';
@@ -108,24 +86,21 @@ export default {
     form: {},
     deliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
     orderMargin: '',
-    dateDialog: false,
   }),
   created() {
     const user = getAuth().currentUser;
     if (user !== null) {
       this.name = user.displayName
     }
+
+    if (this.client) {
+      this.orderClient = this.client
+    }
+    if (this.supplier) {
+      this.orderSupplier = this.supplier
+    }
   },
   computed: {
-    computedDate: {
-      get() {
-        return this.form.deliveryDate && this.$options.filters.formatDateReverse(this.form.deliveryDate).toISOString().substr(0, 10)
-      },
-      set(newValue) {
-        const seconds = parseISO(newValue).getTime() / 1000
-        this.form.deliveryDate = this.$options.filters.formatDate({seconds})
-      }
-    },
     clients() {
       return this.$store.state.Client.list
     },
@@ -153,8 +128,7 @@ export default {
           orderClientRef: docRef(`clients/${this.orderClient.id}`),
           orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
           margin: this.orderMargin = (this.form.sellPrice - this.form.buyPrice),
-          statusType: this.orderStatusType = 'בהמתנה',
-          deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
+          statusType: this.orderStatusType = 'בהמתנה'
         }
 
         this.$store.dispatch('Order/upsert', payload).finally(() => {
@@ -165,9 +139,9 @@ export default {
         const mailFields = {
           ...this.form,
           statusType: this.orderStatusType = 'בהמתנה',
-          deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
-          orderClientRef: docRef(`clients/${this.orderClient.id}`),
-          orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
+          deliveredAt: this.$options.filters.formatDate(this.form.deliveredAt),
+          orderClientId: this.orderClient.id,
+          orderSupplierRef: this.orderSupplier.id
         }
         emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
             .then((result) => {
@@ -184,8 +158,7 @@ export default {
         orderClientRef: docRef(`clients/${this.orderClient.id}`),
         orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
         margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-        statusType: this.orderStatusType = 'טיוטה',
-        deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
+        statusType: this.orderStatusType = 'טיוטה'
       }
 
       this.$store.dispatch('Order/upsert', payload).finally(() => {
@@ -194,13 +167,8 @@ export default {
       })
     }
   },
-  mounted() {
-    if (this.client) {
-      this.orderClient = this.client
-    }
-    if (this.supplier) {
-      this.orderSupplier = this.supplier
-    }
+  components: {
+    'date-picker': require('@/components/DatePicker/DatePicker').default
   }
 }
 </script>

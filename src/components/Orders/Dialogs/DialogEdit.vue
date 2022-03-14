@@ -11,8 +11,8 @@
             <v-autocomplete
                 :items="clients"
                 item-text="name"
-                item-value="id"
-                v-model="orderClientId"
+                :item-value="clientRef"
+                v-model="form.orderClientRef"
                 label="לקוח"
                 clearable
                 filled
@@ -27,35 +27,14 @@
             <v-textarea v-model="form.orderWork" label="מפרט" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="12" sm="12">
-            <v-menu v-model="dateDialog" :close-on-content-click="false">
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                    :value="form.deliveryDate"
-                    clearable
-                    filled
-                    dense
-                    label="בחר תאריך אספקה"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    @click:clear="form.deliveryDate = null"
-                />
-              </template>
-              <v-date-picker
-                  v-model="computedDate"
-                  @change="dateDialog = false"
-                  :first-day-of-week="0"
-                  locale="he-il"
-                  width="636"
-              />
-            </v-menu>
+            <date-picker v-model="form.deliveredAt" lable="בחר תאריך אספקה"/>
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-autocomplete
                 :items="suppliers"
                 item-text="name"
-                item-value="id"
-                v-model="orderSupplierId"
+                :item-value="supplierRef"
+                v-model="form.orderSupplierRef"
                 label="ספק"
                 clearable
                 filled
@@ -102,35 +81,27 @@
 </template>
 
 <script>
-import {parseISO} from 'date-fns'
-import {docRef} from '@/stores/utils';
+import {deepCopy, docRef} from '@/stores/utils';
 
 export default {
   name: 'DialogEdit',
   props: ['order', 'value'],
   data: () => ({
     dialogs: {
-      delete: false
+      delete: false,
+      deliveredAt: false
     },
     orderFile: '',
     saving: false,
     form: {},
     orderMargin: '',
-    orderClientId: '',
     orderSupplierId: '',
     deliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
     statusTypeList: ["בעבודה", "מוכן - משרד", "מוכן - ספק", "במשלוח", "סופק"],
-    dateDialog: false,
   }),
   computed: {
-    computedDate: {
-      get() {
-        return this.form.deliveryDate && this.$options.filters.formatDateReverse(this.form.deliveryDate).toISOString().substr(0, 10)
-      },
-      set(newValue) {
-        const seconds = parseISO(newValue).getTime() / 1000
-        this.form.deliveryDate = this.$options.filters.formatDate({seconds})
-      }
+    date() {
+      return this.form.deliveredAt?.toDate?.()
     },
     clients() {
       return this.$store.state.Client.list
@@ -151,14 +122,17 @@ export default {
     },
   },
   methods: {
+    clientRef({id}) {
+      return docRef(`clients/${id}`)
+    },
+    supplierRef({id}) {
+      return docRef(`suppliers/${id}`)
+    },
     save() {
       if (!this.formInvalid) {
         this.saving = true
         let payload = {
           ...this.form,
-          orderClientRef: docRef(`clients/${this.orderClientId}`),
-          orderSupplierRef: docRef(`suppliers/${this.orderSupplierId}`),
-          deliveryDate: this.$options.filters.formatDateReverse(this.form.deliveryDate),
           margin: this.orderMargin = (this.form.sellPrice - this.form.buyPrice),
         }
         this.$store.dispatch('Order/upsert', payload).finally(() => {
@@ -168,14 +142,12 @@ export default {
       }
     }
   },
-  mounted() {
-    this.orderClientId = this.order.orderClientRef.id
-    this.orderSupplierId = this.order.orderSupplierRef.id
-    this.form = JSON.parse(JSON.stringify(this.order))
-    this.form.deliveryDate = this.$options.filters.formatDate(this.order.deliveryDate)
+  created() {
+    this.form = deepCopy(this.order)
   },
   components: {
-    'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete').default
+    'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete').default,
+    'date-picker': require('@/components/DatePicker/DatePicker').default
   }
 }
 </script>

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {docRef, OPERATIONS} from '@/stores/utils';
+import {deepCopy, docRef, OPERATIONS} from '@/stores/utils';
 
 export default {
   name: 'DialogEdit',
@@ -89,13 +89,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.form = this.variations.map(variation => ({
-          ...variation,
-          variationProductRef: docRef(`products/${variation.variationProductRef?.id}`),
-          variationSupplierRef: docRef(`suppliers/${variation.variationSupplierRef?.id}`),
-        })
-    );
+  created() {
+    this.form = deepCopy(this.variations)
   },
   components: {
     'variations-field': require('@/components/Variations/Dialogs/Fields/VariationsField').default
