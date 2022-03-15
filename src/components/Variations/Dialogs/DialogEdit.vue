@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import {deepCopy, docRef, OPERATIONS} from '@/stores/utils';
+import {deepCopy, OPERATIONS} from '@/stores/utils';
 
 export default {
   name: 'DialogEdit',
@@ -45,11 +45,16 @@ export default {
     form: {}
   }),
   computed: {
+    isDupVariations() {
+      return !!this.form.find(variation =>
+          this.form.filter(({attribute, input}) =>
+              variation.attribute === attribute && variation.input === input).length > 1)
+    },
+    isEmptyVariation() {
+      return !!this.form.find(({attribute, input}) => !attribute || !input)
+    },
     formInvalid() {
-      //TODO: if empty attribute disable btn
-      //TODO: if duplicate attribute disable btn
-      //TODO: notify the user for the reason the form is invalid
-      return !this.$store.getters.user?.userSupplierRef
+      return !this.$store.getters.user?.userSupplierRef || this.isDupVariations || this.isEmptyVariation
     },
     dialog: {
       get() {

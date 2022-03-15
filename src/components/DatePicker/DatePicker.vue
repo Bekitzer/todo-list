@@ -2,7 +2,7 @@
   <v-menu v-model="menu" :close-on-content-click="false" max-width="290">
     <template v-slot:activator="{ on, attrs }">
       <v-text-field clearable filled dense readonly v-bind="attrs" v-on="on"
-                    :value="datePretty" :label="lable" @click:clear="date = null"/>
+                    :value="datePretty" :label="label" @click:clear="date = null"/>
     </template>
     <v-date-picker v-model="date" @change="menu = false" :first-day-of-week="0" locale="he-il"/>
   </v-menu>
@@ -14,7 +14,7 @@ import {Timestamp} from 'firebase/firestore';
 
 export default {
   name: 'DatePicker',
-  props: ['value', 'lable'],
+  props: ['value', 'label'],
   data: () => ({
     menu: false
   }),
