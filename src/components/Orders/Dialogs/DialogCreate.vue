@@ -27,7 +27,7 @@
             <v-textarea v-model="form.orderWork" label="מפרט" filled dense hide-details/>
           </v-col>
           <v-col cols="12" md="12" sm="12">
-            <date-picker v-model="form.deliveredAt" lable="תאריך אספקה"/>
+            <date-picker v-model="form.deliveredAt" label="תאריך אספקה"/>
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-autocomplete
