@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test:unit": "NODE_ENV=testing vue-cli-service test:unit",
     "deploy": "vue-cli-service build && firebase deploy",
     "deploy:dev": "vue-cli-service build && firebase deploy -P development",
     "deploy:prod": "NODE_ENV=production vue-cli-service build && firebase deploy -P production",
