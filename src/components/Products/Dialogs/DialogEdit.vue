@@ -83,10 +83,15 @@ export default {
     productCategoryList: ['מיתוג ושיווק', 'משרדי ואירגוני', 'שילוט ותצוגה', 'מתקנים ומעמדים', 'מדבקות וטפטים', 'מוצרי קד״מ']
   }),
   computed: {
+    isDupAttributes() {
+      return !!this.form.attributes.find(attribute =>
+          this.form.attributes.filter(({name}) => attribute.name === name).length > 1)
+    },
+    isEmptyAttribute() {
+      return !!this.form.attributes.find(({name}) => !name)
+    },
     formInvalid() {
-      //TODO: if empty attribute disable btn !this.form.attributes.find(attribute => !attribute.name || !attribute.inputs.length)
-      //TODO: if duplicate attribute disable btn !this.form.attributes.unique(name)
-      return !this.form.name
+      return !this.form.name || this.isDupAttributes || this.isEmptyAttribute
     },
     dialog: {
       get() {

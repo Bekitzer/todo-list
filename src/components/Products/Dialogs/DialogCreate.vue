@@ -113,8 +113,15 @@ export default {
     search: null,
   }),
   computed: {
+    isDupAttributes() {
+      return !!this.form.attributes.find(attribute =>
+          this.form.attributes.filter(({name}) => attribute.name === name).length > 1)
+    },
+    isEmptyAttribute() {
+      return !!this.form.attributes.find(({name}) => !name)
+    },
     formInvalid() {
-      return !this.form.name
+      return !this.form.name || this.isDupAttributes || this.isEmptyAttribute
     },
     dialog: {
       get() {
