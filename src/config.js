@@ -1,15 +1,13 @@
 const env = process.env.NODE_ENV || 'development'
 
-console.log(process.env.NODE_ENV)
-
 const defaults = {
   DATE_FORMAT: 'EEEEE, dd/MM/yy'
 }
 
 const config = {
-  ...defaults,
-  development: {
-  }
+  development: {},
+  staging: {},
+  production: {}
 }
 
-export default config[env]
+export default {...defaults, ...config[env]}
