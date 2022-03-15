@@ -22,7 +22,7 @@
     </v-card-title>
     <v-list two-line>
       <template v-for="(rate, i) in rates">
-        units:{{ rate.units }} / price:{{ rate.price }}
+        units:{{ rate.min_units }} - {{ rate.max_units }} / price:{{ rate.price }}
         <v-divider :key="'divider_' +i"></v-divider>
       </template>
     </v-list>

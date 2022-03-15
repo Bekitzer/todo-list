@@ -5,7 +5,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve:test": "NODE_ENV=testing vue-cli-service serve",
     "build": "vue-cli-service build",
+    "deploy:prod": "NODE_ENV=production vue-cli-service build && firebase deploy -P production",
+    "deploy:test": "NODE_ENV=testing vue-cli-service build && firebase deploy -P testing",
+    "deploy:dev": "vue-cli-service build && firebase deploy -P development",
+    "deploy:stage": "NODE_ENV=staging vue-cli-service build && firebase deploy -P staging",
     "deploy": "vue-cli-service build && firebase deploy",
     "test:unit": "vue-cli-service test:unit"
   },

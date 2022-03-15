@@ -21,7 +21,8 @@ export default {
   methods: {
     handleAdd() {
       this.rates = this.rates.concat({
-        units: '',
+        min_units: '',
+        max_units: '',
         price: '',
         rateVariationRef: docRef(`variations/${this.variation.id}`),
         rateSupplierRef: this.$store.getters.user?.userSupplierRef

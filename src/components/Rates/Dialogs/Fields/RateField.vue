@@ -1,17 +1,23 @@
 <template>
   <v-row>
-    <v-col cols="5">
+    <v-col cols="3">
       <v-text-field
           :class="{'red': rate.OPERATION === OPERATIONS.DELETE}"
-          :disabled="rate.OPERATION === OPERATIONS.DELETE"
-          v-model="rate.units" label="מספר יחידות"
+          :disabled="rate.OPERATION === OPERATIONS.DELETE" v-model="rate.min_units"
+          label="מספר יחידות" prefix="מ-" autocomplete="off"
       />
     </v-col>
-    <v-col cols="5">
+    <v-col cols="3">
       <v-text-field
           :class="{'red': rate.OPERATION === OPERATIONS.DELETE}"
-          :disabled="rate.OPERATION === OPERATIONS.DELETE"
-          v-model="rate.price" label="מחיר"
+          :disabled="rate.OPERATION === OPERATIONS.DELETE" v-model="rate.max_units"
+          prefix="עד-" autocomplete="off"
+      />
+    </v-col>
+    <v-col cols="4">
+      <v-text-field
+          :class="{'red': rate.OPERATION === OPERATIONS.DELETE}"
+          :disabled="rate.OPERATION === OPERATIONS.DELETE" v-model="rate.price" label="מחיר" prefix="₪" autocomplete="off"
       />
     </v-col>
     <!--
