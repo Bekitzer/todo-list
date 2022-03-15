@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "just-print-ngs"
-  }
+    "production": "just-print-ngs",
+    "testing": "just-print-ngs-test",
+    "development": "just-print-ngs-dev"
+  },
+  "targets": {}
 }
