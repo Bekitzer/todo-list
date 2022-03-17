@@ -1,9 +1,14 @@
-import Vue from "vue";
+process.env = Object.assign(process.env, { NODE_ENV: 'testing' })
+import { createLocalVue } from '@vue/test-utils'
+
 import Vuetify from "vuetify";
 import Vuex from 'vuex';
-Vue.config.productionTip = false;
+import Vue from 'vue'
 
-Vue.use(Vuex)
-Vue.use(Vuetify);
+Vue.use(Vuetify)
 
-Vue.prototype.$store = new Vuex.Store()
+global.localVue = createLocalVue()
+global.localVue.use(Vuex)
+global.localVue.config.productionTip = false;
+
+// global.setImmediate = jest.useRealTimers;

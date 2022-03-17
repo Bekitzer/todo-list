@@ -7,7 +7,13 @@
         <h1>Login Component</h1>
         <v-row>
           <v-col cols="12" md="12">
-            <v-text-field v-model="userData.email" :rules="[rules.required, rules.email]" label="מייל" required/>
+            <v-text-field
+                type="email"
+                v-model="userData.email"
+                :rules="[rules.required, rules.email]"
+                label="מייל"
+                required
+            />
           </v-col>
           <v-col cols="12" md="12">
             <v-text-field
@@ -20,9 +26,13 @@
                 required
             />
           </v-col>
-          <v-btn color="primary" text @click="loginUser" :disabled="saving" :loading="saving">
+          <v-btn color="primary" class="teststestse" text @click="loginUser" :disabled="saving" :loading="saving">
             היכנס
           </v-btn>
+          {{ error }}
+
+          test
+          {{ test }}
         </v-row>
       </v-col>
       <v-col cols="12" md="4"></v-col>
@@ -34,6 +44,9 @@
 export default {
   name: 'Login',
   data: () => ({
+    error: '',
+    test: '',
+    ptest: '',
     saving: false,
     showPass: false,
     rules: {
@@ -69,7 +82,7 @@ export default {
     },
   },
   methods: {
-    loginUser() {
+    async loginUser() {
       if (!this.clientFieldInvalid) {
         const userFields = {
           email: this.userData.email,
@@ -77,11 +90,22 @@ export default {
         }
 
         this.saving = true
-        this.$store.dispatch('User/signIn', userFields).finally(() => {
-          this.saving = false
-          this.userData.email = ''
-          this.userData.password = ''
-        })
+        console.log('000000000000000000000')
+        return this.$store.dispatch('User/signIn', userFields)
+            .then(() => {
+              console.log('11111111111111111111')
+              this.test = 'ssssssss'
+            })
+            .finally(() => {
+              console.log('22222222222222222222')
+              this.saving = false
+              this.userData.email = ''
+              this.userData.password = ''
+            })
+            .catch(e => {
+              console.log('33333333333333333333')
+              this.error = e
+            })
       }
     }
   }
