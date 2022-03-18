@@ -3,15 +3,15 @@
   "version": "0.13.2",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve",
+    "serve:test": "NODE_ENV=testing vue-cli-service serve",
     "test:unit": "vue-cli-service test:unit",
     "deploy": "vue-cli-service build && firebase deploy",
     "deploy:dev": "vue-cli-service build && firebase deploy -P development",
     "deploy:prod": "NODE_ENV=production vue-cli-service build && firebase deploy -P production",
     "deploy:stage": "NODE_ENV=staging vue-cli-service build && firebase deploy -P staging",
-    "deploy:test": "NODE_ENV=testing vue-cli-service build && firebase deploy -P testing",
-    "serve:test": "NODE_ENV=testing vue-cli-service serve"
+    "deploy:test": "NODE_ENV=testing vue-cli-service build && firebase deploy -P testing"
   },
   "main": "index.js",
   "dependencies": {

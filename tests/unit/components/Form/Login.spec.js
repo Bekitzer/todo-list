@@ -26,8 +26,8 @@ describe('Login.vue', () => {
   it('renders correct title when passed', async () => {
     const {wrapper, promises} = mountFunction()
 
-    await wrapper.find('input[type=email]').setValue("test@just-print-ngs-test.web.app")
-    await wrapper.find('input[type=password]').setValue("123456")
+    await wrapper.find('input[type=email]').setValue('test@just-print-ngs-test.web.app')
+    await wrapper.find('input[type=password]').setValue('123456')
     await wrapper.find('.teststestse').trigger('click')
 
     expect(wrapper.vm.loginUser).toHaveBeenCalledTimes(1);

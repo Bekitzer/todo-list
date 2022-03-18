@@ -111,14 +111,14 @@ export default {
     saving: false,
     showPass: false,
     userData: {
-      firstname: '',
-      lastname: '',
-      username: '',
-      email: '',
-      phone: '',
-      position: '',
+      firstname: 'Test',
+      lastname: 'Environment',
+      username: 'Testing',
+      email: 'test@just-print-ngs-test.web.app',
+      phone: '0542093308',
+      position: 'בעלים',
       positionList: ['בעלים', 'הנהלת חשבונות', 'מזכירות', 'עובד יצור'],
-      password: ''
+      password: '123456'
     },
   }),
   methods: {

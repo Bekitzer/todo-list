@@ -1,5 +1,7 @@
 const env = process.env.NODE_ENV || 'development'
 
+if(env !== 'production') console.debug('current environment:', env)
+
 const defaults = {
   DATE_FORMAT: 'EEEEE, dd/MM/yy'
 }

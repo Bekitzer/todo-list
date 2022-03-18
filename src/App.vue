@@ -12,6 +12,8 @@
 
 
 <script>
+import {getAuth} from 'firebase/auth';
+
 export default {
   data: () => ({
     isLoggedIn: false,
@@ -277,6 +279,7 @@ th.spc-status-dot
 
 .v-icon.notranslate.v-data-table-header__icon.mdi-arrow-up::before
   content: "\F0143"
+
 .theme--dark.v-btn--has-bg:hover
   background-color: #006D7B !important
 
