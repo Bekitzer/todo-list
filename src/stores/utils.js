@@ -159,6 +159,7 @@ const batchIncrement = (name, items) => {
 
     const oldNumber = incrementDoc.data().increment
 
+    // security do not allow multiple inserts
     const newNumber = oldNumber + items.length;
 
     await transaction.update(incrementDocRef, {increment: newNumber});

@@ -1,15 +1,35 @@
 const env = process.env.NODE_ENV || 'development'
 
-if(env !== 'production') console.debug('current environment:', env)
+if (env !== 'production') console.debug('current environment:', env)
+
+import he from 'vuetify/lib/locale/he'
 
 const defaults = {
-  DATE_FORMAT: 'EEEEE, dd/MM/yy'
+  DATE_FORMAT: 'EEEEE, dd/MM/yy',
+  ROUTER_OPTIONS: {
+    mode: 'history',
+    base: process.env.BASE_URL,
+  },
+  VUETIFY_USE: {
+    iconfont: 'jp',
+    icons: {
+      'order': 'jp-order',
+      'client': 'jp-client'
+    }
+  },
+  VUETIFY_INSTANCE: {
+    rtl: true,
+    lang: {
+      locales: { he },
+      current: 'he',
+    },
+  }
 }
 
 const config = {
   development: {
+    productionTip: true,
     firebaseConfig: {
-      productionTip: true,
       apiKey: "AIzaSyA3PX7Z-yWGJSvbecML9EwaeaFCirb-_Kk",
       authDomain: "just-print-ngs-dev.firebaseapp.com",
       projectId: "just-print-ngs-dev",
@@ -20,8 +40,8 @@ const config = {
     }
   },
   testing: {
+    productionTip: false,
     firebaseConfig: {
-      productionTip: false,
       apiKey: "AIzaSyC7Czu5PHlhwmfgxCQWggC-gIxEPNEQBA4",
       authDomain: "just-print-ngs-test.firebaseapp.com",
       projectId: "just-print-ngs-test",
@@ -33,8 +53,8 @@ const config = {
   },
   staging: {},
   production: {
+    productionTip: false,
     firebaseConfig: {
-      productionTip: false,
       apiKey: "AIzaSyDKRDIueceXgFm4DCCo6Tt1_fTiG_RQ_Uc",
       authDomain: "just-print-ngs.firebaseapp.com",
       databaseURL: "https://just-print-ngs-default-rtdb.firebaseio.com",

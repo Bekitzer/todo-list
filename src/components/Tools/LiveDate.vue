@@ -14,7 +14,8 @@ export default {
   methods: {
     getDate() {
       this.date = new Date()
-      setTimeout(this.getTime, 1000)
+      // TODO: check for memory leaks before re-enable
+      // setTimeout(this.getDate, 1000)
     }
   },
   created() {

@@ -24,7 +24,7 @@ export default {
       } else {
         this.timeDay = 'משהו שבור'
       }
-      setTimeout(this.getTime, 1000)
+      // setTimeout(this.getDate, 1000)
     },
   },
   created() {

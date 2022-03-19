@@ -5,6 +5,7 @@ import {getAnalytics} from "firebase/analytics";
 import config from '@/config'
 
 const firebaseApp = initializeApp(config.firebaseConfig);
+
 const db = getFirestore(firebaseApp);
 const storage = getStorage(firebaseApp);
 

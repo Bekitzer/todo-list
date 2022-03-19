@@ -1,23 +1,9 @@
 <template>
   <v-card>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mobile-breakpoint="800"
-      :right="$vuetify.rtl"
-      permanent
-      width="70"
-      flat
-      app
-    >
+    <v-navigation-drawer v-model="drawer" :mobile-breakpoint="800" :right="$vuetify.rtl" permanent width="70" flat app>
       <v-list nav >
-        <v-list-item
-          class="spc-logo"
-          :to="{ name: 'Home' }"
-        >
-          <v-img
-            src="/images/logojp.png"
-            class="spc-img"
-          ></v-img>
+        <v-list-item class="spc-logo" :to="{ name: 'Home' }">
+          <v-img :src="require('@/assets/logojp.png')" class="spc-img"/>
         </v-list-item>
         <v-list-item v-if="loggedIn" :to="{ name: 'Orders' }">
           <v-list-item-content>

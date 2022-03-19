@@ -14,6 +14,7 @@ import numeral from 'numeral'
 import config from '@/config'
 
 Vue.config.productionTip = config.productionTip
+
 Vue.use(VueMeta, {
   refreshOnceOnNavigation: true
 })

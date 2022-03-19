@@ -51,6 +51,7 @@
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^7.14.0",
     "jest": "^27.0.5",
+    "jest-environment-jsdom": "^27.5.1",
     "lodash": "^4.17.21",
     "prettier": "^1.19.1",
     "sass": "~1.32.0",

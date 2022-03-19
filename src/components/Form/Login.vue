@@ -26,7 +26,7 @@
                 required
             />
           </v-col>
-          <v-btn color="primary" class="teststestse" text @click="loginUser" :disabled="saving" :loading="saving">
+          <v-btn color="primary" class="login-btn" text @click="loginUser" :disabled="saving" :loading="saving">
             היכנס
           </v-btn>
         </v-row>
@@ -70,11 +70,14 @@ export default {
   watch: {
     user(value) {
       if (value !== null && value !== undefined) {
-        this.$router.go({path: this.$router.path})
+        this.goToHome()
       }
     },
   },
   methods: {
+    goToHome() {
+      return this.$router.push('/dashboard')
+    },
     async loginUser() {
       if (!this.clientFieldInvalid) {
         const userFields = {
