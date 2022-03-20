@@ -42,6 +42,8 @@
 </template>
 
 <script>
+  import { deepCopy } from "@/stores/utils"
+
   export default {
     name: 'Orders',
     hidden: false,
@@ -63,11 +65,11 @@
     },
     methods: {
       onDuplicateOrder(item) {
-        this.order = JSON.parse(JSON.stringify(item))
+        this.order = deepCopy(item)
         this.dialogs.create = true
       },
       onOpenOrderFile(item) {
-        this.order = JSON.parse(JSON.stringify(item))
+        this.order = deepCopy(item)
         this.dialogs.image = true
       }
     },

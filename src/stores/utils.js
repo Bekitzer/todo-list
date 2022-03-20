@@ -9,19 +9,19 @@ import {
   serverTimestamp,
   writeBatch,
   Timestamp
-} from 'firebase/firestore';
-import {db} from '@/firebase';
-import {he} from 'date-fns/locale';
-import {parse} from 'date-fns';
+} from 'firebase/firestore'
+import { db } from '@/firebase'
+import { he } from 'date-fns/locale'
+import { parse } from 'date-fns'
 
 export const docRef = path => doc(db, path)
 
-export {where}
+export { where }
 
 export const OPERATIONS = {
   SET: 'set',
   UPDATE: 'update',
-  DELETE: 'delete',
+  DELETE: 'delete'
 }
 
 function dbMigration() {
@@ -32,10 +32,10 @@ function dbMigration() {
 
   const isDate = d => d instanceof Date && !isNaN(d)
   const isString = str => typeof str === 'string' || str instanceof String
-  const strToDatetime = (str, sep = '') => parse(str, `EEEEE${sep} dd/MM/yy HH:mm`, new Date(), {locale: he})
-  const strToDate = (str, sep = '') => parse(str, `EEEEE${sep} dd/MM/yy`, new Date(), {locale: he})
+  const strToDatetime = (str, sep = '') => parse(str, `EEEEE${sep} dd/MM/yy HH:mm`, new Date(), { locale: he })
+  const strToDate = (str, sep = '') => parse(str, `EEEEE${sep} dd/MM/yy`, new Date(), { locale: he })
 
-  const batch = writeBatch(db);
+  const batch = writeBatch(db)
 
   return getDocs(collection(db, collectionName))
     .then(snapshot => {
@@ -45,7 +45,7 @@ function dbMigration() {
 
         // if (item.id !== "B975TlaDgsfW7Visy53YHfUnXMC2") return
 
-        let {deliveredAt, createdAt, updatedAt, ...rest} = item.data()
+        let { deliveredAt, createdAt, updatedAt, ...rest } = item.data()
 
         // createdAt = 'ש׳ 16/10/2021'
         // createdAt = 'ה׳ 06/01/22 13:16'
@@ -120,7 +120,7 @@ function dbMigration() {
         }
 
         items.push(rest)
-        batch.set(docRef(`${collectionName}/${item.id}`), rest);
+        batch.set(docRef(`${collectionName}/${item.id}`), rest)
       })
 
       return items
@@ -133,53 +133,53 @@ function dbMigration() {
 // dbMigration()
 
 const groupByKey = (list, key) => {
-  return list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {})
+  return list.reduce((hash, obj) => ({ ...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj) }), {})
 }
 
-const generateTimestamps = (payload, times) => {
+const generateTimestamps = (payload, currentTimes) => {
   const localTimestamps = {}
   const serverTimestamps = {}
 
-  localTimestamps.createdAt = payload.createdAt ? toTimestamp(payload.createdAt) : times.local
-  serverTimestamps.createdAt = payload.createdAt ? toTimestamp(payload.createdAt) : times.server
+  localTimestamps.createdAt = payload.id ? toTimestamp(payload.createdAt) : currentTimes.local
+  serverTimestamps.createdAt = payload.id ? toTimestamp(payload.createdAt) : currentTimes.server
 
-  localTimestamps.updatedAt = times.local
-  serverTimestamps.updatedAt = times.server
+  localTimestamps.updatedAt = currentTimes.local
+  serverTimestamps.updatedAt = currentTimes.server
 
-  return {localTimestamps, serverTimestamps}
+  return { localTimestamps, serverTimestamps }
 }
 
 const batchIncrement = (name, items) => {
   const incrementDocRef = docRef(`--stats--/${name}`)
 
   return runTransaction(db, async (transaction) => {
-    const incrementDoc = await transaction.get(incrementDocRef);
+    const incrementDoc = await transaction.get(incrementDocRef)
 
-    if (!incrementDoc.exists()) throw "Document does not exist!";
+    if (!incrementDoc.exists()) throw 'Document does not exist!'
 
     const oldNumber = incrementDoc.data().increment
 
     // security do not allow multiple inserts
-    const newNumber = oldNumber + items.length;
+    const newNumber = oldNumber + items.length
 
-    await transaction.update(incrementDocRef, {increment: newNumber});
+    await transaction.update(incrementDocRef, { increment: newNumber })
 
-    return {oldNumber, newNumber}
+    return { oldNumber, newNumber }
   })
 }
 
-export const toTimestamp = ({seconds, nanoseconds}) => {
+export const toTimestamp = ({ seconds, nanoseconds }) => {
   return new Timestamp(seconds, nanoseconds)
 }
 
 export const deepCopy = (data) => {
   if (data === null || typeof (data) !== 'object' || 'isActiveClone' in data)
-    return data;
+    return data
 
   let temp
 
   if (data instanceof Date)
-    return new Date(data);
+    return new Date(data)
   else if (data instanceof Timestamp)
     return toTimestamp(data)
   else if (data.firestore && data.path && data.type === 'document')
@@ -191,34 +191,34 @@ export const deepCopy = (data) => {
 
   for (const key in data) {
     if (data.hasOwnProperty(key)) {
-      data['isActiveClone'] = null;
-      temp[key] = deepCopy(data[key]);
-      delete data['isActiveClone'];
+      data['isActiveClone'] = null
+      temp[key] = deepCopy(data[key])
+      delete data['isActiveClone']
     }
   }
-  return temp;
+  return temp
 }
 
 export const fetchDocs = (options = {}) => {
-  const {DEFAULT_COLLECTION, id = null, filter = null} = options
+  const { DEFAULT_COLLECTION, id = null, filter = null } = options
 
   if (id) {
-    return getDoc(docRef(`${DEFAULT_COLLECTION}/${id}`)).then(doc => ([{...doc.data(), id: doc.id}]))
+    return getDoc(docRef(`${DEFAULT_COLLECTION}/${id}`)).then(doc => ([{ ...doc.data(), id: doc.id }]))
   }
 
   if (filter) {
     return getDocs(query(collection(db, DEFAULT_COLLECTION), filter))
-      .then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+      .then(snapshot => snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
   }
 
   return getDocs(collection(db, DEFAULT_COLLECTION))
-    .then(snapshot => snapshot.docs.map(doc => ({...doc.data(), id: doc.id})))
+    .then(snapshot => snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })))
 }
 
 export const writeDoc = async (payloads, options = {}) => {
   if (!Array.isArray(payloads)) payloads = [payloads]
 
-  const {DEFAULT_COLLECTION, DEFAULT_OPERATION, INCREMENT, TIMESTAMPS = true} = options
+  const { DEFAULT_COLLECTION, DEFAULT_OPERATION, INCREMENT, TIMESTAMPS = true } = options
 
   payloads = payloads.map(payload => ({
     ...payload,
@@ -240,30 +240,30 @@ export const writeDoc = async (payloads, options = {}) => {
   await Promise.all(Object.keys(collections).map(name => {
     if (!collections[name][OPERATIONS.SET]?.length || !INCREMENT) return Promise.resolve()
 
-    const newDocs = collections[name][OPERATIONS.SET].filter(({id}) => !id)
+    const newDocs = collections[name][OPERATIONS.SET].filter(({ id }) => !id)
 
     return batchIncrement(name, newDocs)
-      .then(({oldNumber}) =>
+      .then(({ oldNumber }) =>
         collections[name][OPERATIONS.SET]
           .forEach((payload, i) => {
             if (!payload.id) payload.number = oldNumber + i + 1
           }))
   }))
 
-  const batch = writeBatch(db);
+  const batch = writeBatch(db)
 
   Object.keys(collections).forEach(name => Object.keys(collections[name]).forEach(operation => {
     collections[name][operation] = collections[name][operation].map(payload => {
 
-      const {localTimestamps, serverTimestamps} = TIMESTAMPS ? generateTimestamps(payload, times) : {}
+      const { localTimestamps, serverTimestamps } = TIMESTAMPS ? generateTimestamps(payload, times) : {}
 
-      const {COLLECTION, OPERATION, id, key, ...fields} = payload
+      const { COLLECTION, OPERATION, id, key, ...fields } = payload
 
       const newDocRef = (id || key) ? docRef(`${COLLECTION}/${id || key}`) : doc(collection(db, COLLECTION))
 
-      batch[OPERATION](newDocRef, {...fields, ...serverTimestamps});
+      batch[OPERATION](newDocRef, { ...fields, ...serverTimestamps })
 
-      return {...fields, ...localTimestamps, id: newDocRef.id}
+      return { ...fields, ...localTimestamps, id: newDocRef.id }
     })
   }))
 
