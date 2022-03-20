@@ -1,32 +1,30 @@
 <template>
-  <div>{{ date | formatDatetime }}</div>
+	<div>{{ date | formatDatetime }}</div>
 </template>
 
 <script>
-import {setTimeout} from 'timers'
+import { setTimeout } from 'timers'
 
 export default {
-  data() {
-    return {
-      date: '',
-      timer: null
-    }
-  },
-  methods: {
-    getDate() {
-      this.date = new Date()
+	data() {
+		return {
+			date: '',
+			timer: null
+		}
+	},
+	methods: {
+		getDate() {
+			this.date = new Date()
 
-      clearTimeout(this.timer)
+			clearTimeout(this.timer)
 
-      this.timer = setTimeout(this.getDate, 1000)
-    }
-  },
-  created() {
-    this.getDate()
-  }
+			this.timer = setTimeout(this.getDate, 1000)
+		}
+	},
+	created() {
+		this.getDate()
+	}
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

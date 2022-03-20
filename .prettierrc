@@ -1,5 +1,27 @@
 {
   "semi": false,
-  "singleQuote": true,
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": true,
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "singleQuote": false
+      }
+    },
+    {
+      "files": "*.vue",
+      "options": {
+        "singleQuote": true
+      }
+    },
+    {
+      "files": "*.js",
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
 }
