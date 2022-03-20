@@ -18,20 +18,25 @@ export default {
     loading: true
   }),
   created() {
-    this.$store.dispatch('User/fetchCurrent')
-        .then(() => Promise.all([
-              this.$store.dispatch('ProductTag/fetch'),
-              this.$store.dispatch('Supplier/fetch'),
-              this.$store.dispatch('Client/fetch'),
-              this.$store.dispatch('Order/fetch'),
-              this.$store.dispatch('Product/fetch'),
-              this.$store.dispatch('User/fetch'),
-              this.$store.dispatch('Variation/fetch'),
-              this.$store.dispatch('Rate/fetch')
-            ])
-        )
-        .catch(err => err === 'UNAUTHENTICATED' ? console.debug('no user authenticated') : console.error(err))
-        .finally(() => this.loading = false)
+    this.fetchAppData()
+  },
+  methods: {
+    fetchAppData() {
+      return this.$store.dispatch('User/fetchCurrent')
+          .then(() => Promise.all([
+                this.$store.dispatch('ProductTag/fetch'),
+                this.$store.dispatch('Supplier/fetch'),
+                this.$store.dispatch('Client/fetch'),
+                this.$store.dispatch('Order/fetch'),
+                this.$store.dispatch('Product/fetch'),
+                this.$store.dispatch('User/fetch'),
+                this.$store.dispatch('Variation/fetch'),
+                this.$store.dispatch('Rate/fetch')
+              ])
+          )
+          .catch(err => err === 'UNAUTHENTICATED' ? console.debug('no user authenticated') : console.error(err))
+          .finally(() => this.loading = false)
+    }
   },
   components: {
     'nav-drawer': require('@/components/Global/NavDrawer').default,
@@ -277,6 +282,7 @@ th.spc-status-dot
 
 .v-icon.notranslate.v-data-table-header__icon.mdi-arrow-up::before
   content: "\F0143"
+
 .theme--dark.v-btn--has-bg:hover
   background-color: #006D7B !important
 

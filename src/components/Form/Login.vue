@@ -7,7 +7,13 @@
         <h1>Login Component</h1>
         <v-row>
           <v-col cols="12" md="12">
-            <v-text-field v-model="userData.email" :rules="[rules.required, rules.email]" label="מייל" required/>
+            <v-text-field
+                type="email"
+                v-model="userData.email"
+                :rules="[rules.required, rules.email]"
+                label="מייל"
+                required
+            />
           </v-col>
           <v-col cols="12" md="12">
             <v-text-field
@@ -20,7 +26,7 @@
                 required
             />
           </v-col>
-          <v-btn color="primary" text @click="loginUser" :disabled="saving" :loading="saving">
+          <v-btn color="primary" class="login-btn" text @click="loginUser" :disabled="saving" :loading="saving">
             היכנס
           </v-btn>
         </v-row>
@@ -64,12 +70,15 @@ export default {
   watch: {
     user(value) {
       if (value !== null && value !== undefined) {
-        this.$router.go({path: this.$router.path})
+        this.goToHome()
       }
     },
   },
   methods: {
-    loginUser() {
+    goToHome() {
+      return this.$router.push('/dashboard')
+    },
+    async loginUser() {
       if (!this.clientFieldInvalid) {
         const userFields = {
           email: this.userData.email,
@@ -77,7 +86,7 @@ export default {
         }
 
         this.saving = true
-        this.$store.dispatch('User/signIn', userFields).finally(() => {
+        return this.$store.dispatch('User/signIn', userFields).finally(() => {
           this.saving = false
           this.userData.email = ''
           this.userData.password = ''

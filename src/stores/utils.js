@@ -159,6 +159,7 @@ const batchIncrement = (name, items) => {
 
     const oldNumber = incrementDoc.data().increment
 
+    // security do not allow multiple inserts
     const newNumber = oldNumber + items.length;
 
     await transaction.update(incrementDocRef, {increment: newNumber});
@@ -256,9 +257,9 @@ export const writeDoc = async (payloads, options = {}) => {
 
       const {localTimestamps, serverTimestamps} = TIMESTAMPS ? generateTimestamps(payload, times) : {}
 
-      const {COLLECTION, OPERATION, id, ...fields} = payload
+      const {COLLECTION, OPERATION, id, key, ...fields} = payload
 
-      const newDocRef = id ? docRef(`${COLLECTION}/${id}`) : doc(collection(db, COLLECTION))
+      const newDocRef = (id || key) ? docRef(`${COLLECTION}/${id || key}`) : doc(collection(db, COLLECTION))
 
       batch[OPERATION](newDocRef, {...fields, ...serverTimestamps});
 

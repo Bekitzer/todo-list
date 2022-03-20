@@ -9,6 +9,7 @@ import {setTimeout} from 'timers'
 export default {
   data: () => ({
     dayPeriod: '',
+    timer: null
   }),
   methods: {
     getDate() {
@@ -22,9 +23,12 @@ export default {
       } else if (this.dayPeriod <= 6) {
         this.dayPeriod = 'לילה טוב'
       } else {
-        this.timeDay = 'משהו שבור'
+        console.error('משהו שבור')
       }
-      setTimeout(this.getTime, 1000)
+
+      clearTimeout(this.timer)
+
+      this.timer = setTimeout(this.getDate, 1000 * 60 * 60)
     },
   },
   created() {

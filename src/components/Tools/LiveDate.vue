@@ -8,13 +8,17 @@ import {setTimeout} from 'timers'
 export default {
   data() {
     return {
-      date: ''
+      date: '',
+      timer: null
     }
   },
   methods: {
     getDate() {
       this.date = new Date()
-      setTimeout(this.getTime, 1000)
+
+      clearTimeout(this.timer)
+
+      this.timer = setTimeout(this.getDate, 1000)
     }
   },
   created() {

@@ -110,16 +110,7 @@ export default {
   data: () => ({
     saving: false,
     showPass: false,
-    userData: {
-      firstname: '',
-      lastname: '',
-      username: '',
-      email: '',
-      phone: '',
-      position: '',
-      positionList: ['בעלים', 'הנהלת חשבונות', 'מזכירות', 'עובד יצור'],
-      password: ''
-    },
+    userData: {},
   }),
   methods: {
     async clear() {

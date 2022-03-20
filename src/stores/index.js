@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Vuex from 'vuex'
 import Client from "@/stores/Client.js";
 import Supplier from "@/stores/Supplier.js";
@@ -8,11 +7,12 @@ import Variation from "@/stores/Variation.js";
 import User from "@/stores/User.js";
 import ProductTag from "@/stores/ProductTag.js";
 import Rate from "@/stores/Rate.js";
+import Vue from 'vue';
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
+export const options = {
+  state: () => ({
     appTitle: process.env.VUE_APP_TITLE,
     search: null,
     snackbar: {
@@ -21,7 +21,7 @@ export default new Vuex.Store({
       timeout: 2000
     },
     sorting: false
-  },
+  }),
   mutations: {
     // GLOBALS
     setSearch(state, value) {
@@ -42,8 +42,7 @@ export default new Vuex.Store({
       state.sorting = !state.sorting
     },
   },
-  actions: {
-  },
+  actions: {},
   getters: {
     user(state) {
       return state.User.list.find(item => item.id === state.User.auth?.uid)
@@ -59,4 +58,6 @@ export default new Vuex.Store({
     ProductTag,
     Rate
   }
-})
+}
+
+export default new Vuex.Store(options)

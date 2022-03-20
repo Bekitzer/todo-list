@@ -65,7 +65,7 @@ export default {
       return createUserWithEmailAndPassword(getAuth(), payload.email, payload.password)
         .then(({user}) => commit('initializeAuth', {...payload, uid: user.uid}))
         .then(() => updateProfile(getAuth().currentUser, {displayName: payload.username}))
-        .then(() => writeDoc({...payload, id: getAuth().currentUser.uid}, defaults))
+        .then(() => writeDoc({...payload, key: getAuth().currentUser.uid}, defaults))
         .then(({[defaults.DEFAULT_COLLECTION]: {set}}) => commit('upsert', set))
         .then(() => commit('showSnackbar', 'הרשמה בוצעה בהצלחה!', {root: true}))
         .catch(err => console.error('Something went wrong - User.signUp', err))
