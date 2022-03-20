@@ -8,7 +8,6 @@
     {
       "files": "*.html",
       "options": {
-        "semi": false,
         "singleQuote": false
       }
     },

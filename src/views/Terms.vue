@@ -1,16 +1,16 @@
 <template>
-  <nav-appbar :pname="pageName"/>
+	<nav-appbar :pname="pageName" />
 </template>
 
 <script>
-  export default {
-    name: 'About',
-    hidden: false,
-    data: () => ({
-      pageName: 'תנאי שימוש',
-    }),
-    components: {
-      'nav-appbar'          : require('@/components/Global/AppBar').default
-    }
-  }
+export default {
+	name: 'About',
+	hidden: false,
+	data: () => ({
+		pageName: 'תנאי שימוש'
+	}),
+	components: {
+		'nav-appbar': require('@/components/Global/AppBar').default
+	}
+}
 </script>

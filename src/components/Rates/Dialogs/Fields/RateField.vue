@@ -1,26 +1,35 @@
 <template>
-  <v-row>
-    <v-col cols="3">
-      <v-text-field
-          :class="{'red': rate.OPERATION === OPERATIONS.DELETE}"
-          :disabled="rate.OPERATION === OPERATIONS.DELETE" v-model="rate.min_units"
-          label="מספר יחידות" prefix="מ-" autocomplete="off"
-      />
-    </v-col>
-    <v-col cols="3">
-      <v-text-field
-          :class="{'red': rate.OPERATION === OPERATIONS.DELETE}"
-          :disabled="rate.OPERATION === OPERATIONS.DELETE" v-model="rate.max_units"
-          prefix="עד-" autocomplete="off"
-      />
-    </v-col>
-    <v-col cols="4">
-      <v-text-field
-          :class="{'red': rate.OPERATION === OPERATIONS.DELETE}"
-          :disabled="rate.OPERATION === OPERATIONS.DELETE" v-model="rate.price" label="מחיר" prefix="₪" autocomplete="off"
-      />
-    </v-col>
-    <!--
+	<v-row>
+		<v-col cols="3">
+			<v-text-field
+				:class="{ red: rate.OPERATION === OPERATIONS.DELETE }"
+				:disabled="rate.OPERATION === OPERATIONS.DELETE"
+				v-model="rate.min_units"
+				label="מספר יחידות"
+				prefix="מ-"
+				autocomplete="off"
+			/>
+		</v-col>
+		<v-col cols="3">
+			<v-text-field
+				:class="{ red: rate.OPERATION === OPERATIONS.DELETE }"
+				:disabled="rate.OPERATION === OPERATIONS.DELETE"
+				v-model="rate.max_units"
+				prefix="עד-"
+				autocomplete="off"
+			/>
+		</v-col>
+		<v-col cols="4">
+			<v-text-field
+				:class="{ red: rate.OPERATION === OPERATIONS.DELETE }"
+				:disabled="rate.OPERATION === OPERATIONS.DELETE"
+				v-model="rate.price"
+				label="מחיר"
+				prefix="₪"
+				autocomplete="off"
+			/>
+		</v-col>
+		<!--
     variation1:
          price field: {
           calculation: [fixed, increment fixed, increment percentage]
@@ -53,35 +62,35 @@
          }
 
     -->
-    <v-col cols="2">
-      <v-switch @change="removeField" label="מחיקה" color="red" hide-details></v-switch>
-    </v-col>
-  </v-row>
+		<v-col cols="2">
+			<v-switch @change="removeField" label="מחיקה" color="red" hide-details></v-switch>
+		</v-col>
+	</v-row>
 </template>
 
 <script>
-import {OPERATIONS} from '@/stores/utils';
+import { OPERATIONS } from '@/stores/utils'
 
 export default {
-  name: 'RateField',
-  props: ['value'],
-  data: () => ({
-    OPERATIONS
-  }),
-  computed: {
-    rate: {
-      get() {
-        return this.value
-      },
-      set(val) {
-        this.$emit('input', val)
-      }
-    },
-  },
-  methods: {
-    removeField(val) {
-      this.rate = {...this.rate, OPERATION: val ? OPERATIONS.DELETE : null}
-    }
-  }
+	name: 'RateField',
+	props: ['value'],
+	data: () => ({
+		OPERATIONS
+	}),
+	computed: {
+		rate: {
+			get() {
+				return this.value
+			},
+			set(val) {
+				this.$emit('input', val)
+			}
+		}
+	},
+	methods: {
+		removeField(val) {
+			this.rate = { ...this.rate, OPERATION: val ? OPERATIONS.DELETE : null }
+		}
+	}
 }
 </script>
