@@ -136,15 +136,15 @@ const groupByKey = (list, key) => {
   return list.reduce((hash, obj) => ({...hash, [obj[key]]: (hash[obj[key]] || []).concat(obj)}), {})
 }
 
-const generateTimestamps = (payload, times) => {
+const generateTimestamps = (payload, currentTimes) => {
   const localTimestamps = {}
   const serverTimestamps = {}
 
-  localTimestamps.createdAt = payload.createdAt ? toTimestamp(payload.createdAt) : times.local
-  serverTimestamps.createdAt = payload.createdAt ? toTimestamp(payload.createdAt) : times.server
+  localTimestamps.createdAt = payload.id ? toTimestamp(payload.createdAt) : currentTimes.local
+  serverTimestamps.createdAt = payload.id ? toTimestamp(payload.createdAt) : currentTimes.server
 
-  localTimestamps.updatedAt = times.local
-  serverTimestamps.updatedAt = times.server
+  localTimestamps.updatedAt = currentTimes.local
+  serverTimestamps.updatedAt = currentTimes.server
 
   return {localTimestamps, serverTimestamps}
 }

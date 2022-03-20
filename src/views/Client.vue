@@ -305,6 +305,7 @@ import {
   addDays,
   addMonths
 } from 'date-fns'
+import { deepCopy } from "@/stores/utils"
 
 const filterDateEnum = {
   THIS_DAY: "THIS_DAY",
@@ -378,14 +379,14 @@ export default {
       this.$store.dispatch('Order/upsert', {...order.item, statusType: order.value})
     },
     duplicateOrder(item) {
-      this.order = JSON.parse(JSON.stringify(item))
+      this.order = deepCopy(item)
       this.dialogs.create = true
     },
     openFile(client) {
       this.dialogs.image = true
     },
     openFileOrder(item) {
-      this.order = JSON.parse(JSON.stringify(item))
+      this.order = deepCopy(item)
       this.dialogs.order = true
     },
     clickOrder(order) {

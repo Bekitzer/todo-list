@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import VuetifyGoogleAutocomplete from 'vuetify-google-autocomplete'
 export default {
   data: () => ({
     address: ''

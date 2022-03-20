@@ -11,6 +11,8 @@ import config from '@/config'
 import numeral from 'numeral';
 import {format, parseISO} from 'date-fns';
 import {he} from 'date-fns/locale';
+import * as VueGoogleMaps from "vue2-google-maps"
+import VuetifyGoogleAutocomplete from "vuetify-google-autocomplete"
 
 Vue.use(Vuetify, {...config.VUETIFY_USE})
 
@@ -26,19 +28,19 @@ jest.setTimeout(30_000)
 //   refreshOnceOnNavigation: true
 // });
 //
-// Vue.use(VueGoogleMaps, {
-//   load: {
-//     key: 'AIzaSyBPTgcGTdaYE3FEEL-j61IEB_76BI84_90',
-//     libraries: 'places',
-//   },
-// });
-// Vue.use(VuetifyGoogleAutocomplete, {
-//   // apiKey: 'AIzaSyBPTgcGTdaYE3FEEL-j61IEB_76BI84_90', // Can also be an object. E.g, for Google Maps Premium API, pass `{ client: <YOUR-CLIENT-ID> }`
-//   version: 'quarterly', // Optional
-//   language: 'he', // Optional
-//   installComponents: true, // Optional (default: true) - false, if you want to locally install components
-//   vueGoogleMapsCompatibility: true, // Optional (default: false) - true, requires vue2-google-maps to be configured see https://github.com/xkjyeah/vue-google-maps
-// })
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyDKRDIueceXgFm4DCCo6Tt1_fTiG_RQ_Uc",
+    libraries: "places"
+  }
+})
+Vue.use(VuetifyGoogleAutocomplete,
+  {
+    version: "quarterly",
+    language: "he",
+    vueGoogleMapsCompatibility: true
+  }
+)
 
 
 // TODO: import filters instead of reimplement here

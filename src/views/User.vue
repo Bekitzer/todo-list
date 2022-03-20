@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import { deepCopy } from "@/stores/utils"
+
 export default {
   name: 'User',
   data: () => ({
@@ -87,7 +89,7 @@ export default {
   }),
   methods: {
     openFileOrder(item) {
-      this.order = JSON.parse(JSON.stringify(item))
+      this.order = deepCopy(item)
       this.dialogs.order = true
     },
     openFile(user) {

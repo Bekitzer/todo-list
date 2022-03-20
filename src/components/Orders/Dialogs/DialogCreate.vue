@@ -9,47 +9,47 @@
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-autocomplete
-                :items="clients"
-                item-text="name"
-                return-object
-                v-model="orderClient"
-                label="לקוח"
-                clearable
-                filled
-                dense
-                hide-details
+              :items="clients"
+              item-text="name"
+              :item-value="clientRef"
+              v-model="form.orderClientRef"
+              label="לקוח"
+              clearable
+              filled
+              dense
+              hide-details
             />
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-text-field v-model="form.orderWorkTitle" label="שם עבודה" filled dense hide-details/>
+            <v-text-field v-model="form.orderWorkTitle" label="שם עבודה" filled dense hide-details />
           </v-col>
           <v-col cols="12" md="12" sm="12">
-            <v-textarea v-model="form.orderWork" label="מפרט" filled dense hide-details/>
+            <v-textarea v-model="form.orderWork" label="מפרט" filled dense hide-details />
           </v-col>
           <v-col cols="12" md="12" sm="12">
-            <date-picker v-model="form.deliveredAt" label="תאריך אספקה"/>
+            <date-picker v-model="form.deliveredAt" label="תאריך אספקה" />
           </v-col>
           <v-col cols="12" md="6" sm="6">
             <v-autocomplete
-                :items="suppliers"
-                item-text="name"
-                return-object
-                v-model="orderSupplier"
-                label="ספק"
-                clearable
-                filled
-                dense
-                hide-details
+              :items="suppliers"
+              item-text="name"
+              :item-value="supplierRef"
+              v-model="form.orderSupplierRef"
+              label="ספק"
+              clearable
+              filled
+              dense
+              hide-details
             />
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-select v-model="form.deliveryType" :items="deliveryTypeList" label="אופן אספקה" filled hide-details/>
+            <v-select v-model="form.deliveryType" :items="deliveryTypeList" label="אופן אספקה" filled hide-details />
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-text-field type="number" v-model.number="form.sellPrice" label="מחיר מכירה" filled dense hide-details/>
+            <v-text-field type="number" v-model.number="form.sellPrice" label="מחיר מכירה" filled dense hide-details />
           </v-col>
           <v-col cols="12" md="6" sm="6">
-            <v-text-field type="number" v-model.number="form.buyPrice" label="מחיר קנייה" filled dense hide-details/>
+            <v-text-field type="number" v-model.number="form.buyPrice" label="מחיר קנייה" filled dense hide-details />
           </v-col>
           <v-col cols="12">
             <v-card-actions style="padding:0">
@@ -72,32 +72,28 @@
 </template>
 
 <script>
-import {getAuth} from 'firebase/auth'
-import emailjs from '@emailjs/browser';
-import {docRef} from '@/stores/utils';
+import { getAuth } from "firebase/auth"
+import emailjs from "@emailjs/browser"
+import { deepCopy, docRef } from "@/stores/utils"
 
 export default {
-  name: 'DialogCreate',
-  props: ['client', 'supplier', 'value'],
+  name: "DialogCreate",
+  props: ["client", "supplier", "value", "order"],
   data: () => ({
     saving: false,
-    orderClient: {},
-    orderSupplier: {},
     form: {},
     deliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
-    orderMargin: '',
+    orderMargin: ""
   }),
   created() {
-    const user = getAuth().currentUser;
+    const user = getAuth().currentUser
     if (user !== null) {
       this.name = user.displayName
     }
 
-    if (this.client) {
-      this.orderClient = this.client
-    }
-    if (this.supplier) {
-      this.orderSupplier = this.supplier
+    if (this.order) {
+      this.form = deepCopy(this.order)
+      delete this.form.id
     }
   },
   computed: {
@@ -115,60 +111,62 @@ export default {
         return this.value
       },
       set() {
-        this.$emit('close', false)
+        this.$emit("close", false)
       }
-    },
+    }
   },
   methods: {
+    clientRef({ id }) {
+      return docRef(`clients/${id}`)
+    },
+    supplierRef({ id }) {
+      return docRef(`suppliers/${id}`)
+    },
     save() {
       if (!this.formInvalid) {
         this.saving = true
         const payload = {
           ...this.form,
-          orderClientRef: docRef(`clients/${this.orderClient.id}`),
-          orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
           margin: this.orderMargin = (this.form.sellPrice - this.form.buyPrice),
-          statusType: this.orderStatusType = 'בהמתנה'
+          statusType: "בהמתנה"
         }
 
-        this.$store.dispatch('Order/upsert', payload).finally(() => {
+        this.$store.dispatch("Order/upsert", payload).finally(() => {
           this.saving = false
           this.dialog = false
         })
 
         const mailFields = {
           ...this.form,
-          statusType: this.orderStatusType = 'בהמתנה',
+          statusType: "בהמתנה",
           deliveredAt: this.$options.filters.formatDate(this.form.deliveredAt),
-          orderClientId: this.orderClient.id,
-          orderSupplierRef: this.orderSupplier.id
+          orderClientId: this.form.orderClientRef.id,
+          orderSupplierRef: this.form.orderSupplierRef.id
         }
-        emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5')
-            .then((result) => {
-              console.log('SUCCESS!', result.text)
-            }, (error) => {
-              console.log('FAILED...', error.text)
-            })
+        emailjs.send("just_print_mailerjet", "in_work_template", mailFields, "user_gq2TvX9pNJXFE2gjlLtY5")
+          .then((result) => {
+            console.log("SUCCESS!", result.text)
+          }, (error) => {
+            console.log("FAILED...", error.text)
+          })
       }
     },
     addDraft() {
       this.saving = true
       const payload = {
         ...this.form,
-        orderClientRef: docRef(`clients/${this.orderClient.id}`),
-        orderSupplierRef: docRef(`suppliers/${this.orderSupplier.id}`),
-        margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice),
-        statusType: this.orderStatusType = 'טיוטה'
+        statusType: "טיוטה",
+        margin: this.orderMargin = (this.orderSellPrice - this.orderBuyPrice)
       }
 
-      this.$store.dispatch('Order/upsert', payload).finally(() => {
+      this.$store.dispatch("Order/upsert", payload).finally(() => {
         this.saving = false
         this.dialog = false
       })
     }
   },
   components: {
-    'date-picker': require('@/components/DatePicker/DatePicker').default
+    "date-picker": require("@/components/DatePicker/DatePicker").default
   }
 }
 </script>
