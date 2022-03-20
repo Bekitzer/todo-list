@@ -1,12 +1,12 @@
 <template>
   <v-app id="inspire">
-    <nav-drawer/>
+    <nav-drawer />
     <v-main>
       <v-progress-linear v-if="loading" color="#03616f" indeterminate></v-progress-linear>
       <router-view v-else style="padding: 4px 4%;"></router-view>
-      <snackbar/>
+      <snackbar />
     </v-main>
-    <nav-footer style="padding: 4px 4%;"/>
+    <nav-footer style="padding: 4px 4%;" />
   </v-app>
 </template>
 
@@ -22,39 +22,39 @@ export default {
   },
   methods: {
     fetchAppData() {
-      return this.$store.dispatch('User/fetchCurrent')
-          .then(() => Promise.all([
-                this.$store.dispatch('ProductTag/fetch'),
-                this.$store.dispatch('Supplier/fetch'),
-                this.$store.dispatch('Client/fetch'),
-                this.$store.dispatch('Order/fetch'),
-                this.$store.dispatch('Product/fetch'),
-                this.$store.dispatch('User/fetch'),
-                this.$store.dispatch('Variation/fetch'),
-                this.$store.dispatch('Rate/fetch')
-              ])
-          )
-          .catch(err => err === 'UNAUTHENTICATED' ? console.debug('no user authenticated') : console.error(err))
-          .finally(() => this.loading = false)
+      return this.$store.dispatch("User/fetchCurrent")
+        .then(() => Promise.all([
+            this.$store.dispatch("ProductTag/fetch"),
+            this.$store.dispatch("Supplier/fetch"),
+            this.$store.dispatch("Client/fetch"),
+            this.$store.dispatch("Order/fetch"),
+            this.$store.dispatch("Product/fetch"),
+            this.$store.dispatch("User/fetch"),
+            this.$store.dispatch("Variation/fetch"),
+            this.$store.dispatch("Rate/fetch")
+          ])
+        )
+        .catch(err => err === "UNAUTHENTICATED" ? console.debug("no user authenticated") : console.error(err))
+        .finally(() => this.loading = false)
     }
   },
   components: {
-    'nav-drawer': require('@/components/Global/NavDrawer').default,
-    'nav-footer': require('@/components/Global/FooterBar').default,
-    'snackbar': require('@/components/Global/Snackbar').default
-  },
+    "nav-drawer": require("@/components/Global/NavDrawer").default,
+    "nav-footer": require("@/components/Global/FooterBar").default,
+    "snackbar": require("@/components/Global/Snackbar").default
+  }
 }
 </script>
 <style lang="sass">
 @font-face
   font-family: 'Ploni-Regular'
-  src: url('/fonts/Ploni-Regular-AAA.eot')
-  src: local('☺'), url('/fonts/Ploni-Regular-AAA.woff') format('woff'), url('/fonts/Ploni-Regular-AAA.ttf') format('truetype'), url('/fonts/Ploni-Regular-AAA.svg') format('svg')
+  src: url('~@/assets/fonts/Ploni-Regular-AAA.eot')
+  src: local('☺'), url('~@/assets/fonts/Ploni-Regular-AAA.woff') format('woff'), url('~@/assets/fonts/Ploni-Regular-AAA.ttf') format('truetype'), url('~@/assets/fonts/Ploni-Regular-AAA.svg') format('svg')
   font-weight: normal
   font-style: normal
 
 .v-application
-  font-family: 'Ploni-Regular' !important
+  font-family: 'Ploni-Regular', sans-serif !important
 
 .v-list-item__content
   justify-content: center !important
@@ -74,8 +74,8 @@ export default {
   background-color: #ffffff !important
 
 .v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > thead > tr > th
-  border-bottom: 0px solid black !important
-  box-shadow: inset 0 0px 0 rgb(0 0 0 / 12%) !important
+  border-bottom: 0 solid black !important
+  box-shadow: inset 0 0 0 rgb(0 0 0 / 12%) !important
   cursor: pointer !important
 
 .ngs-button .v-btn__content
@@ -232,8 +232,7 @@ th.spc-status-dot
 
 .spc-btn
   color: #03616f !important
-
-  margin-right:10px !important
+  margin-right: 10px !important
   transform: rotate(0deg) !important
 
 .spc-btn:hover
@@ -243,8 +242,7 @@ th.spc-status-dot
 
 .spc-create
   color: #03616f !important
-
-  margin-right:10px !important
+  margin-right: 10px !important
 
 .spc-create:hover
   background: #03616f !important
@@ -253,8 +251,7 @@ th.spc-status-dot
 .spc-titles
   margin-bottom: 0 !important
   color: #797979 !important
-
-  font-size:14px !important
+  font-size: 14px !important
 
 .user-info
   white-space: pre-line !important
@@ -270,12 +267,11 @@ th.spc-status-dot
   opacity: 0.7 !important
 
 .row
-  margin: 0px !important
+  margin: 0 !important
 
 .spc-file
-  width:100% !important
-
-  border-radius:100px
+  width: 100% !important
+  border-radius: 100px
 
 .theme--light.v-data-table .v-data-table-header th.sortable .v-data-table-header__icon
   display: contents
@@ -288,21 +284,22 @@ th.spc-status-dot
 
 .theme--dark.v-btn--has-bg:hover .v-icon
   transform: scale(1.2)
+
+.theme--dark.v-btn--has-bg:hover .v-icon
   transform: rotate(90deg)
 
 .v-text-field__details
   display: none !important
 
 .v-btn--plain:not(.v-btn--active):not(.v-btn--loading):not(:focus):not(:hover) .v-btn__content
-  opacity:1 !important
+  opacity: 1 !important
 
 .v-btn--plain:focus .v-btn__content, .v-btn--plain:hover .v-btn__content
-  opacity:.62 !important
+  opacity: .62 !important
 
 .ngs-button
   letter-spacing: 0 !important
-
-  color:#006d7b !important
+  color: #006d7b !important
   height: auto !important
   min-width: auto !important
   padding: 0 !important
