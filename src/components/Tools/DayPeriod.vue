@@ -23,7 +23,7 @@ export default {
       } else if (this.dayPeriod <= 6) {
         this.dayPeriod = 'לילה טוב'
       } else {
-        this.timeDay = 'משהו שבור'
+        console.error('משהו שבור')
       }
 
       clearTimeout(this.timer)

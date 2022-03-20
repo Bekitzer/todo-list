@@ -9,7 +9,7 @@ const defaults = {
 export default {
   namespaced: true,
   state: {
-    list: [{test: {}}]
+    list: []
   },
   mutations: {
     initialize(state, payloads) {
