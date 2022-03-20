@@ -50,7 +50,8 @@ describe('Login.vue', () => {
 
     const dashboard = wrapper.findComponent(Dashboard)
     expect(router.currentRoute.name).toBe('Dashboard')
-    expect(dashboard.text()).toMatch('ערב טובTest')
+    expect(dashboard.text()).toMatch('Test')
+    expect(dashboard.text()).toMatch('פרטי התקשרות איש קשר')
     //TODO: assert state -> getter.user
   })
 
