@@ -31,7 +31,7 @@ describe('Login.vue', () => {
     return mount(App, {store, localVue, vuetify, router, ...options})
   }
 
-  it('renders correct title when passed', async () => {
+  it('retrieve user information when successful login', async () => {
     const wrapper = mountFunction()
     await Promise.all(promises)
 
@@ -41,7 +41,7 @@ describe('Login.vue', () => {
     expect(login.text()).toMatch('Login Component')
     expect(router.currentRoute.name).toBe('Login')
 
-    // move to secret manager and change credentials
+    // TODO: move to secret manager and change credentials
     await login.find('input[type=email]').setValue('test@just-print-ngs-test.web.app')
     await login.find('input[type=password]').setValue('123456')
     await login.find('.login-btn').trigger('click')
@@ -51,13 +51,10 @@ describe('Login.vue', () => {
     const dashboard = wrapper.findComponent(Dashboard)
     expect(router.currentRoute.name).toBe('Dashboard')
     expect(dashboard.text()).toMatch('ערב טובTest')
+    //TODO: assert state -> getter.user
   })
 
-  it('retrieve user information when successful login', () => {
-
-  })
-
-  it('renders an error when wrong credentials', () => {
+  it('renders an error when wrong credentials', async () => {
 
   })
 })

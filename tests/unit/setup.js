@@ -20,7 +20,7 @@ global.localVue.use(VueRouter)
 global.localVue.config.productionTip = false;
 
 Vue.config.productionTip = config.productionTip
-jest.setTimeout(30000)
+jest.setTimeout(30_000)
 
 // Vue.use(VueMeta, {
 //   refreshOnceOnNavigation: true
@@ -54,6 +54,7 @@ Vue.filter("formatDatetime", function (value) {
   return value?.toDate?.() ? format(parseISO(value.toDate().toISOString()), `${config.DATE_FORMAT} HH:mm`, {locale: he}) : ''
 })
 
+// TODO: refactor
 const getComponentMethods = methods => {
   return Object.entries(methods).filter(([k, v]) =>
     v && {}.toString.call(v) === '[object Function]' && !k.startsWith('_') && !k.startsWith('$'))
