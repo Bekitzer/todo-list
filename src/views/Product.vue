@@ -85,7 +85,7 @@ export default {
 	computed: {
 		product() {
 			return (
-				this.$store.state.Product.list.find((product) => {
+				this.$store.state.Product.list.find(product => {
 					return product.id === this.$route.params.id
 				}) || { attributes: [] }
 			)

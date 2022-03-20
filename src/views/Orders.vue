@@ -48,7 +48,7 @@ export default {
 		}
 	}),
 	watch: {
-		'dialogs.create': function (val) {
+		'dialogs.create': function(val) {
 			if (!val) {
 				this.order = null
 			}

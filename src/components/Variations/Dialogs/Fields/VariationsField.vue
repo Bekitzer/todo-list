@@ -38,8 +38,8 @@ export default {
 			}
 		},
 		unusedVariations() {
-			return this.attributes.filter((attribute) => {
-				return !this.variations.find((variations) => variations.attributes === attribute.name)
+			return this.attributes.filter(attribute => {
+				return !this.variations.find(variations => variations.attributes === attribute.name)
 			})
 		}
 	},

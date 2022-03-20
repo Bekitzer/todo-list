@@ -35,7 +35,7 @@ export default {
 						this.$store.dispatch('Rate/fetch')
 					])
 				)
-				.catch((err) => (err === 'UNAUTHENTICATED' ? console.debug('no user authenticated') : console.error(err)))
+				.catch(err => (err === 'UNAUTHENTICATED' ? console.debug('no user authenticated') : console.error(err)))
 				.finally(() => (this.loading = false))
 		}
 	},

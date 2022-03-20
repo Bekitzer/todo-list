@@ -84,7 +84,7 @@ export default {
 	computed: {
 		isDupAttributes() {
 			return !!this.form.attributes.find(
-				(attribute) => this.form.attributes.filter(({ name }) => attribute.name === name).length > 1
+				attribute => this.form.attributes.filter(({ name }) => attribute.name === name).length > 1
 			)
 		},
 		isEmptyAttribute() {
@@ -108,7 +108,7 @@ export default {
 				this.saving = true
 				const payload = {
 					...this.form,
-					attributes: this.form.attributes.filter((attribute) => attribute.OPERATION !== OPERATIONS.DELETE)
+					attributes: this.form.attributes.filter(attribute => attribute.OPERATION !== OPERATIONS.DELETE)
 				}
 
 				this.$store.dispatch('Product/upsert', payload).finally(() => {

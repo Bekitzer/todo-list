@@ -65,7 +65,7 @@ export default {
 		},
 		variations() {
 			return this.$store.state.Variation.list.filter(
-				(variation) =>
+				variation =>
 					variation.variationProductRef.id === this.product.id && variation.variationSupplierRef.id === this.supplierId
 			)
 		}

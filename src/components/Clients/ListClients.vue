@@ -52,14 +52,14 @@ export default {
 		clients: {
 			get() {
 				const ordersMap = {}
-				this.$store.state.Order.list.forEach((order) => {
+				this.$store.state.Order.list.forEach(order => {
 					if (order.statusType !== 'סופק') {
 						ordersMap[order.orderClientRef.id] = ordersMap[order.orderClientRef.id] || 0
 						ordersMap[order.orderClientRef.id]++
 					}
 				})
 
-				return this.$store.state.Client.list.map((client) => {
+				return this.$store.state.Client.list.map(client => {
 					client.orders = ordersMap[client.id] || 0
 					return client
 				})

@@ -45,7 +45,7 @@ export default {
 	computed: {
 		isDupVariations() {
 			return !!this.form.find(
-				(variation) =>
+				variation =>
 					this.form.filter(({ attribute, input }) => variation.attribute === attribute && variation.input === input)
 						.length > 1
 			)
@@ -66,7 +66,7 @@ export default {
 		},
 		dirtyPayloads() {
 			return this.form
-				.map((variation) => {
+				.map(variation => {
 					if (variation.OPERATION === OPERATIONS.DELETE) return variation
 
 					const original = this.variations.find(({ id }) => id === variation.id)

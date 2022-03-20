@@ -59,7 +59,7 @@ export default {
 		},
 		dirtyPayloads() {
 			return this.form
-				.map((rate) => {
+				.map(rate => {
 					if (rate.OPERATION === OPERATIONS.DELETE) return rate
 
 					const original = this.rates.find(({ id }) => id === rate.id)

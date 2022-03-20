@@ -55,7 +55,7 @@ export default {
 			}
 		},
 		attribute() {
-			return this.attributes.find((attr) => attr.name === this.variation.attribute) || {}
+			return this.attributes.find(attr => attr.name === this.variation.attribute) || {}
 		}
 	},
 	methods: {

@@ -45,7 +45,7 @@ export const options = {
 	actions: {},
 	getters: {
 		user(state) {
-			return state.User.list.find((item) => item.id === state.User.auth?.uid)
+			return state.User.list.find(item => item.id === state.User.auth?.uid)
 		}
 	},
 	modules: {

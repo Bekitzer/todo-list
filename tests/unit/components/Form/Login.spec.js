@@ -26,7 +26,7 @@ describe('Login.vue', () => {
 		router = new VueRouter({ ...config.ROUTER_OPTIONS, routes })
 	})
 
-	const mountFunction = (options) => {
+	const mountFunction = options => {
 		promises = global.methodsPromises(App)
 		return mount(App, { store, localVue, vuetify, router, ...options })
 	}

@@ -41,44 +41,44 @@ Vue.use(VuetifyGoogleAutocomplete, {
 })
 
 // TODO: import filters instead of reimplement here
-Vue.filter('formatNumber', function (value) {
+Vue.filter('formatNumber', function(value) {
 	return value ? numeral(value).format('0,0') : value
 })
 
-Vue.filter('formatDate', function (value) {
+Vue.filter('formatDate', function(value) {
 	const d = value?.toDate?.() || value
 	return d?.toISOString?.() ? format(parseISO(d.toISOString()), config.DATE_FORMAT, { locale: he }) : ''
 })
 
-Vue.filter('formatDatetime', function (value) {
+Vue.filter('formatDatetime', function(value) {
 	const d = value?.toDate?.() || value
 	return d?.toISOString?.() ? format(parseISO(d.toISOString()), `${config.DATE_FORMAT} HH:mm:ss`, { locale: he }) : ''
 })
 
 // TODO: refactor
-const getComponentMethods = (methods) => {
+const getComponentMethods = methods => {
 	return Object.entries(methods).filter(
 		([k, v]) => v && {}.toString.call(v) === '[object Function]' && !k.startsWith('_') && !k.startsWith('$')
 	)
 }
-const getWrapperFunctions = (wrapper) => {
+const getWrapperFunctions = wrapper => {
 	return Object.entries(wrapper.vm).filter(
 		([k, v]) => v && {}.toString.call(v) === '[object Function]' && !k.startsWith('_') && !k.startsWith('$')
 	)
 }
 
-export const methodsPromises = (wrapper) => {
+export const methodsPromises = wrapper => {
 	const promises = []
 
 	;(wrapper.methods ? getComponentMethods(wrapper.methods) : getWrapperFunctions(wrapper)).forEach(([name, method]) => {
 		if (wrapper.methods) {
-			wrapper.methods[name] = jest.fn(function (...args) {
+			wrapper.methods[name] = jest.fn(function(...args) {
 				const p = method.call(this, ...args)
 				promises.push(p)
 				return p
 			})
 		} else {
-			wrapper.vm[name] = jest.fn(function (...args) {
+			wrapper.vm[name] = jest.fn(function(...args) {
 				const p = method.call(this, ...args)
 				promises.push(p)
 				return p

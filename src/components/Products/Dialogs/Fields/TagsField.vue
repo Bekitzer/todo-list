@@ -68,7 +68,7 @@ export default {
 				return this.value || []
 			},
 			set(val) {
-				const selectedItems = val.map((v) => {
+				const selectedItems = val.map(v => {
 					if (typeof v === 'string') {
 						v = { text: v }
 						this.$store.dispatch('ProductTag/upsert', v)
@@ -93,12 +93,17 @@ export default {
 		filter(item, queryText, itemText) {
 			if (item.header) return false
 
-			const hasValue = (val) => (val != null ? val : '')
+			const hasValue = val => (val != null ? val : '')
 
 			const text = hasValue(itemText)
 			const query = hasValue(queryText)
 
-			return text.toString().toLowerCase().indexOf(query.toString().toLowerCase()) > -1
+			return (
+				text
+					.toString()
+					.toLowerCase()
+					.indexOf(query.toString().toLowerCase()) > -1
+			)
 		}
 	}
 }

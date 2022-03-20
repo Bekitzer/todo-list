@@ -35,12 +35,12 @@ export default {
 			const storageRef = ref(storage, `public/${uuidv4()}_${fileData.name}`)
 
 			uploadBytes(storageRef, fileData)
-				.then((snapshot) => getDownloadURL(snapshot.ref))
-				.then((url) => {
+				.then(snapshot => getDownloadURL(snapshot.ref))
+				.then(url => {
 					this.client.avatar = url
 					return this.$store.dispatch('Client/upsert', this.client)
 				})
-				.catch((err) => console.error(err))
+				.catch(err => console.error(err))
 		},
 		handleDelete() {
 			const storageRef = ref(storage, this.client.avatar)
@@ -50,7 +50,7 @@ export default {
 					this.client.avatar = null
 					return this.$store.dispatch('Client/upsert', this.client)
 				})
-				.catch((error) => console.error(error))
+				.catch(error => console.error(error))
 		}
 	},
 	components: {

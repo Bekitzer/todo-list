@@ -143,7 +143,7 @@ export default {
 	computed: {
 		order() {
 			return (
-				this.$store.state.Order.list.find((order) => order.id === this.$route.params.id) || {
+				this.$store.state.Order.list.find(order => order.id === this.$route.params.id) || {
 					number: '',
 					orderSupplierRef: {},
 					orderClientRef: {}
@@ -152,7 +152,7 @@ export default {
 		},
 		clientsMap() {
 			const clientsMap = {}
-			this.$store.state.Client.list.forEach((client) => {
+			this.$store.state.Client.list.forEach(client => {
 				clientsMap[client.id] = client.name
 			})
 
@@ -160,7 +160,7 @@ export default {
 		},
 		suppliersMap() {
 			const suppliersMap = {}
-			this.$store.state.Supplier.list.forEach((supplier) => {
+			this.$store.state.Supplier.list.forEach(supplier => {
 				suppliersMap[supplier.id] = supplier.name
 			})
 

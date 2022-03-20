@@ -140,10 +140,10 @@ export default {
 					orderSupplierRef: this.form.orderSupplierRef.id
 				}
 				emailjs.send('just_print_mailerjet', 'in_work_template', mailFields, 'user_gq2TvX9pNJXFE2gjlLtY5').then(
-					(result) => {
+					result => {
 						console.log('SUCCESS!', result.text)
 					},
-					(error) => {
+					error => {
 						console.log('FAILED...', error.text)
 					}
 				)

@@ -33,12 +33,12 @@ export default {
 			const storageRef = ref(storage, `public/${uuidv4()}_${fileData.name}`)
 
 			uploadBytes(storageRef, fileData)
-				.then((snapshot) => getDownloadURL(snapshot.ref))
-				.then((url) => {
+				.then(snapshot => getDownloadURL(snapshot.ref))
+				.then(url => {
 					this.user.avatar = url
 					return this.$store.dispatch('User/upsert', this.user)
 				})
-				.catch((err) => console.error(err))
+				.catch(err => console.error(err))
 		},
 		handleDelete() {
 			const storageRef = ref(storage, this.user.avatar)
@@ -48,7 +48,7 @@ export default {
 					this.user.avatar = null
 					return this.$store.dispatch('User/upsert', this.user)
 				})
-				.catch((error) => console.error(error))
+				.catch(error => console.error(error))
 		}
 	},
 	components: {

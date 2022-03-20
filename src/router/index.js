@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
 	document.title = `${to.name} - ${process.env.VUE_APP_TITLE}`
 	store.commit('setSearch', '')
 	const { currentUser } = getAuth()
-	const requiresAuth = to.matched.some((record) => record.meta.requiresAuth)
+	const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 	if (requiresAuth && !currentUser) next('login')
 	else if (!requiresAuth && currentUser) next('dashboard')
 	else next()

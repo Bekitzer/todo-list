@@ -51,14 +51,14 @@ export default {
 		suppliers: {
 			get() {
 				const ordersMap = {}
-				this.$store.state.Order.list.forEach((order) => {
+				this.$store.state.Order.list.forEach(order => {
 					if (order.statusType !== 'סופק') {
 						ordersMap[order.orderSupplierRef.id] = ordersMap[order.orderSupplierRef.id] || 0
 						ordersMap[order.orderSupplierRef.id]++
 					}
 				})
 
-				return this.$store.state.Supplier.list.map((supplier) => {
+				return this.$store.state.Supplier.list.map(supplier => {
 					supplier.orders = ordersMap[supplier.id] || 0
 					return supplier
 				})

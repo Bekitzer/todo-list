@@ -32,17 +32,17 @@ export default {
 			state.list = [...payloads]
 		},
 		remove(state, payloads = []) {
-			state.list = state.list.filter((item) => !payloads.find(({ id }) => id === item.id))
+			state.list = state.list.filter(item => !payloads.find(({ id }) => id === item.id))
 		},
 		upsert(state, payloads = []) {
 			if (!Array.isArray(payloads)) payloads = [payloads]
 
 			let items = [...state.list]
 
-			payloads.forEach((payload) => {
+			payloads.forEach(payload => {
 				let found = false
 
-				items = items.map((item) => {
+				items = items.map(item => {
 					if (item.id === payload.id) {
 						found = true
 						return payload
@@ -68,20 +68,20 @@ export default {
 				.then(() => writeDoc({ ...payload, key: getAuth().currentUser.uid }, defaults))
 				.then(({ [defaults.DEFAULT_COLLECTION]: { set } }) => commit('upsert', set))
 				.then(() => commit('showSnackbar', 'הרשמה בוצעה בהצלחה!', { root: true }))
-				.catch((err) => console.error('Something went wrong - User.signUp', err))
+				.catch(err => console.error('Something went wrong - User.signUp', err))
 		},
 		signIn({ commit }, payload) {
 			return signInWithEmailAndPassword(getAuth(), payload.email, payload.password)
 				.then(({ user }) => commit('initializeAuth', { ...payload, uid: user.uid }))
 				.then(() => fetchDocs({ ...defaults, id: getAuth().currentUser.uid }))
-				.then((docs) => commit('upsert', docs))
+				.then(docs => commit('upsert', docs))
 				.then(() => commit('showSnackbar', 'התחברות בוצעה בהצלחה!', { root: true }))
-				.catch((err) => console.error('Something went wrong - User.signIn', err))
+				.catch(err => console.error('Something went wrong - User.signIn', err))
 		},
 		signOut({ commit }) {
 			return signOut(getAuth())
 				.then(() => commit('reset'))
-				.catch((err) => console.error('Something went wrong - User.signOut', err))
+				.catch(err => console.error('Something went wrong - User.signOut', err))
 		},
 		write({ commit }, payloads) {
 			return writeDoc(payloads, defaults)
@@ -90,35 +90,35 @@ export default {
 					commit('upsert', set)
 				})
 				.then(() => commit('showSnackbar', 'משתמש עודכן!', { root: true }))
-				.catch((err) => console.error('Something went wrong - User.write', err))
+				.catch(err => console.error('Something went wrong - User.write', err))
 		},
 		upsert({ commit }, payloads) {
 			return writeDoc(payloads, { ...defaults, DEFAULT_OPERATION: OPERATIONS.SET })
 				.then(({ [defaults.DEFAULT_COLLECTION]: { set } }) => commit('upsert', set))
 				.then(() => commit('showSnackbar', 'משתמש נשמר!', { root: true }))
-				.catch((err) => console.error('Something went wrong - User.upsert', err))
+				.catch(err => console.error('Something went wrong - User.upsert', err))
 		},
 		remove({ commit }, payloads) {
 			return writeDoc(payloads, { ...defaults, DEFAULT_OPERATION: OPERATIONS.DELETE })
 				.then(({ [defaults.DEFAULT_COLLECTION]: { delete: remove } }) => commit('remove', remove))
 				.then(() => commit('showSnackbar', 'משתמש נמחק!', { root: true }))
-				.catch((err) => console.error('Something went wrong - User.remove', err))
+				.catch(err => console.error('Something went wrong - User.remove', err))
 		},
 		fetch({ commit, rootGetters }) {
 			if (!rootGetters.user?.isAdmin) return Promise.resolve(null)
 
 			return fetchDocs(defaults)
-				.then((docs) => commit('initialize', docs))
-				.catch((err) => console.error('Something went wrong - User.fetch', err))
+				.then(docs => commit('initialize', docs))
+				.catch(err => console.error('Something went wrong - User.fetch', err))
 		},
 		fetchCurrent({ commit }) {
 			const { currentUser } = getAuth()
 			if (!currentUser) return Promise.reject('UNAUTHENTICATED')
 
 			return fetchDocs({ ...defaults, id: currentUser.uid })
-				.then((docs) => commit('upsert', docs))
+				.then(docs => commit('upsert', docs))
 				.then(() => commit('initializeAuth', currentUser))
-				.catch((err) => console.error('Something went wrong - User.fetchCurrent', err))
+				.catch(err => console.error('Something went wrong - User.fetchCurrent', err))
 		}
 	},
 	modules: {}

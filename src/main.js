@@ -31,16 +31,16 @@ Vue.use(VuetifyGoogleAutocomplete, {
 	vueGoogleMapsCompatibility: true
 })
 
-Vue.filter('formatNumber', function (value) {
+Vue.filter('formatNumber', function(value) {
 	return value ? numeral(value).format('0,0') : value
 })
 
-Vue.filter('formatDate', function (value) {
+Vue.filter('formatDate', function(value) {
 	const d = value?.toDate?.() || value
 	return d?.toISOString?.() ? format(parseISO(d.toISOString()), config.DATE_FORMAT, { locale: he }) : ''
 })
 
-Vue.filter('formatDatetime', function (value) {
+Vue.filter('formatDatetime', function(value) {
 	const d = value?.toDate?.() || value
 	return d?.toISOString?.() ? format(parseISO(d.toISOString()), `${config.DATE_FORMAT} HH:mm:ss`, { locale: he }) : ''
 })
@@ -48,17 +48,17 @@ Vue.filter('formatDatetime', function (value) {
 let app = ''
 onAuthStateChanged(
 	getAuth(),
-	(user) => {
+	user => {
 		if (!app) {
 			app = new Vue({
 				router,
 				store,
 				vuetify,
-				render: (h) => h(App)
+				render: h => h(App)
 			}).$mount('#app')
 		}
 	},
-	(err) => {
+	err => {
 		console.error('Error while listen to onAuthStateChanged', err)
 		throw err
 	}

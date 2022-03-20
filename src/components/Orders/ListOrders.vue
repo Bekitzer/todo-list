@@ -198,7 +198,7 @@ export default {
 		},
 		clickRow(item, event) {
 			if (event.isExpanded) {
-				const index = this.expanded.findIndex((i) => i === item)
+				const index = this.expanded.findIndex(i => i === item)
 				this.expanded.splice(index, 1)
 			} else {
 				this.expanded.push(item)
@@ -311,7 +311,7 @@ export default {
 		},
 		clientsMap() {
 			const clientsMap = {}
-			this.$store.state.Client.list.forEach((client) => {
+			this.$store.state.Client.list.forEach(client => {
 				clientsMap[client.id] = client
 			})
 
@@ -319,7 +319,7 @@ export default {
 		},
 		suppliersMap() {
 			const suppliersMap = {}
-			this.$store.state.Supplier.list.forEach((supplier) => {
+			this.$store.state.Supplier.list.forEach(supplier => {
 				suppliersMap[supplier.id] = supplier
 			})
 
@@ -328,7 +328,7 @@ export default {
 		orders: {
 			get() {
 				return this.$store.state.Order.list
-					.map((order) => {
+					.map(order => {
 						const client = this.clientsMap[order.orderClientRef.id] || {}
 						const supplier = this.suppliersMap[order.orderSupplierRef.id] || {}
 						return {
@@ -337,7 +337,7 @@ export default {
 							supplierLink: supplier.name
 						}
 					})
-					.filter((order) => {
+					.filter(order => {
 						const isValidOrderDate = this.isDateInRange(
 							this.orderDate(order.createdAt),
 							this.dateEnumToRange(this.orderDateFilter)

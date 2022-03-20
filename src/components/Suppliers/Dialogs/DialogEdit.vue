@@ -197,7 +197,7 @@ export default {
 			return this.$store.state.User.list
 		},
 		supplierUsers() {
-			return this.users.filter((user) => user.userSupplierRef?.id === this.supplier.id)
+			return this.users.filter(user => user.userSupplierRef?.id === this.supplier.id)
 		},
 		dialog: {
 			get() {
@@ -209,7 +209,7 @@ export default {
 		}
 	},
 	methods: {
-		getAddressData: function (addressData, placeResultData, id) {
+		getAddressData: function(addressData, placeResultData, id) {
 			this.address = addressData
 		},
 		remove(item) {
@@ -219,15 +219,15 @@ export default {
 			if (!this.formInvalid) {
 				this.saving = true
 
-				const connectSupplierUsers = this.formUsers.map((user) => ({
+				const connectSupplierUsers = this.formUsers.map(user => ({
 					...user,
 					userSupplierRef: docRef(`suppliers/${this.supplier.id}`),
 					COLLECTION: 'users'
 				}))
 
 				const disconnectSupplierUsers = this.supplierUsers
-					.filter((user) => !this.formUsers.find(({ id }) => id === user.id))
-					.map((user) => ({ ...user, userSupplierRef: null, COLLECTION: 'users' }))
+					.filter(user => !this.formUsers.find(({ id }) => id === user.id))
+					.map(user => ({ ...user, userSupplierRef: null, COLLECTION: 'users' }))
 
 				const payloads = [
 					{ ...this.form, COLLECTION: 'suppliers' },

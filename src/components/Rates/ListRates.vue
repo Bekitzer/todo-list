@@ -49,7 +49,7 @@ export default {
 	}),
 	computed: {
 		rates() {
-			return this.$store.state.Rate.list.filter((rate) => rate.rateVariationRef.id === this.variation.id)
+			return this.$store.state.Rate.list.filter(rate => rate.rateVariationRef.id === this.variation.id)
 		}
 	},
 	components: {

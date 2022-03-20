@@ -93,7 +93,7 @@ export default {
 	},
 	computed: {
 		user() {
-			return this.$store.state.User.list.find((user) => user.id === this.$route.params.id) || { name: '' }
+			return this.$store.state.User.list.find(user => user.id === this.$route.params.id) || { name: '' }
 		}
 	},
 	components: {

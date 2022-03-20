@@ -16,17 +16,17 @@ export default {
 			state.list = [...payloads]
 		},
 		remove(state, payloads = []) {
-			state.list = state.list.filter((item) => !payloads.find(({ id }) => id === item.id))
+			state.list = state.list.filter(item => !payloads.find(({ id }) => id === item.id))
 		},
 		upsert(state, payloads = []) {
 			if (!Array.isArray(payloads)) payloads = [payloads]
 
 			let items = [...state.list]
 
-			payloads.forEach((payload) => {
+			payloads.forEach(payload => {
 				let found = false
 
-				items = items.map((item) => {
+				items = items.map(item => {
 					if (item.id === payload.id) {
 						found = true
 						return payload
@@ -49,7 +49,7 @@ export default {
 					commit('upsert', set)
 				})
 				.then(() => commit('showSnackbar', 'ספק עודכן!', { root: true }))
-				.catch((err) => console.error('Something went wrong - Supplier.write', err))
+				.catch(err => console.error('Something went wrong - Supplier.write', err))
 		},
 		upsert({ commit }, payloads) {
 			return writeDoc(payloads, { ...defaults, DEFAULT_OPERATION: OPERATIONS.SET })
@@ -58,13 +58,13 @@ export default {
 					commit('User/upsert', setUsers, { root: true })
 				})
 				.then(() => commit('showSnackbar', 'ספק נשמר!', { root: true }))
-				.catch((err) => console.error('Something went wrong - Supplier.upsert', err))
+				.catch(err => console.error('Something went wrong - Supplier.upsert', err))
 		},
 		remove({ commit }, payloads) {
 			return writeDoc(payloads, { ...defaults, DEFAULT_OPERATION: OPERATIONS.DELETE })
 				.then(({ [defaults.DEFAULT_COLLECTION]: { delete: remove } }) => commit('remove', remove))
 				.then(() => commit('showSnackbar', 'ספק נמחק!', { root: true }))
-				.catch((err) => console.error('Something went wrong - Supplier.remove', err))
+				.catch(err => console.error('Something went wrong - Supplier.remove', err))
 		},
 		fetch({ commit, rootGetters }) {
 			const { user } = rootGetters
@@ -76,8 +76,8 @@ export default {
 			const id = user?.isAdmin ? null : user?.userSupplierRef?.id
 
 			return fetchDocs({ ...defaults, id })
-				.then((docs) => commit('initialize', docs))
-				.catch((err) => console.error('Something went wrong - Supplier.fetch', err))
+				.then(docs => commit('initialize', docs))
+				.catch(err => console.error('Something went wrong - Supplier.fetch', err))
 		}
 	},
 	modules: {}

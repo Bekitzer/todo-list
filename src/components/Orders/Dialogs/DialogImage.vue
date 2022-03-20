@@ -34,12 +34,12 @@ export default {
 			const storageRef = ref(storage, `public/${uuidv4()}_${fileData.name}`)
 
 			uploadBytes(storageRef, fileData)
-				.then((snapshot) => getDownloadURL(snapshot.ref))
-				.then((url) => {
+				.then(snapshot => getDownloadURL(snapshot.ref))
+				.then(url => {
 					this.order.file = url
 					return this.$store.dispatch('Order/upsert', this.order)
 				})
-				.catch((err) => console.error(err))
+				.catch(err => console.error(err))
 		},
 		handleDelete() {
 			const storageRef = ref(storage, this.order.file)
@@ -49,7 +49,7 @@ export default {
 					this.order.file = null
 					return this.$store.dispatch('Order/upsert', this.order)
 				})
-				.catch((error) => console.error(error))
+				.catch(error => console.error(error))
 		}
 	},
 	components: {

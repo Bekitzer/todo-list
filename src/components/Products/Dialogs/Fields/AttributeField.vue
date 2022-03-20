@@ -105,19 +105,24 @@ export default {
 		filter(item, queryText, itemText) {
 			if (item.header) return false
 
-			const hasValue = (val) => (val != null ? val : '')
+			const hasValue = val => (val != null ? val : '')
 
 			const text = hasValue(itemText)
 			const query = hasValue(queryText)
 
-			return text.toString().toLowerCase().indexOf(query.toString().toLowerCase()) > -1
+			return (
+				text
+					.toString()
+					.toLowerCase()
+					.indexOf(query.toString().toLowerCase()) > -1
+			)
 		}
 	},
 	watch: {
-		'attribute.inputs': function (val, prev) {
+		'attribute.inputs': function(val, prev) {
 			if (val.length === prev.length) return
 
-			this.attribute.inputs = val.map((v) => {
+			this.attribute.inputs = val.map(v => {
 				if (typeof v === 'string') {
 					v = { text: v }
 					this.attribute.items.push(v)

@@ -97,10 +97,10 @@ export default {
 			return this.$store.getters.user?.userClientRef?.id
 		},
 		client() {
-			return this.$store.state.Client.list.find((item) => (item.id = this.userId))
+			return this.$store.state.Client.list.find(item => (item.id = this.userId))
 		},
 		supplier() {
-			return this.$store.state.Supplier.list.find((item) => (item.id = this.userId))
+			return this.$store.state.Supplier.list.find(item => (item.id = this.userId))
 		},
 		clientOrSupplier() {
 			return this.$store.state.supplier || this.client || { name: '' }

@@ -154,7 +154,7 @@ export default {
 		}
 	},
 	methods: {
-		getAddressData: function (addressData, placeResultData, id) {
+		getAddressData: function(addressData, placeResultData, id) {
 			this.address = addressData
 		},
 		save() {

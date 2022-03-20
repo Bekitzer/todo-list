@@ -117,7 +117,7 @@ export default {
 	computed: {
 		isDupAttributes() {
 			return !!this.form.attributes.find(
-				(attribute) => this.form.attributes.filter(({ name }) => attribute.name === name).length > 1
+				attribute => this.form.attributes.filter(({ name }) => attribute.name === name).length > 1
 			)
 		},
 		isEmptyAttribute() {
@@ -139,7 +139,7 @@ export default {
 		productTags(val, prev) {
 			if (val.length === prev.length) return
 
-			val.map((v) => {
+			val.map(v => {
 				if (typeof v === 'string') {
 					v = {
 						text: v
@@ -164,12 +164,17 @@ export default {
 		filter(item, queryText, itemText) {
 			if (item.header) return false
 
-			const hasValue = (val) => (val != null ? val : '')
+			const hasValue = val => (val != null ? val : '')
 
 			const text = hasValue(itemText)
 			const query = hasValue(queryText)
 
-			return text.toString().toLowerCase().indexOf(query.toString().toLowerCase()) > -1
+			return (
+				text
+					.toString()
+					.toLowerCase()
+					.indexOf(query.toString().toLowerCase()) > -1
+			)
 		},
 		addProduct() {
 			if (!this.formInvalid) {

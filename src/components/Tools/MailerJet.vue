@@ -89,14 +89,14 @@ export default {
 		sendEmail() {
 			this.$refs.observer.validate()
 			emailjs.sendForm('just_print_mailerjet', 'in_work_template', this.$refs.form, 'user_WY0AoFCmkg7cZZV4XJciv').then(
-				(result) => {
+				result => {
 					console.log('SUCCESS!', result.text)
 					this.user_name = ''
 					this.user_phone = ''
 					this.user_email = ''
 					this.user_message = ''
 				},
-				(error) => {
+				error => {
 					console.log('FAILED...', error.text)
 				}
 			)

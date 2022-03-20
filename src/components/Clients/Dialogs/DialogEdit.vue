@@ -208,7 +208,7 @@ export default {
 			return this.$store.state.User.list
 		},
 		clientUsers() {
-			return this.users.filter((user) => user.userClientRef?.id === this.client.id)
+			return this.users.filter(user => user.userClientRef?.id === this.client.id)
 		},
 		dialog: {
 			get() {
@@ -220,7 +220,7 @@ export default {
 		}
 	},
 	methods: {
-		getAddressData: function (addressData, placeResultData, id) {
+		getAddressData: function(addressData, placeResultData, id) {
 			this.address = addressData
 		},
 		remove(item) {
@@ -230,15 +230,15 @@ export default {
 			if (!this.formInvalid) {
 				this.saving = true
 
-				const connectClientUsers = this.formUsers.map((user) => ({
+				const connectClientUsers = this.formUsers.map(user => ({
 					...user,
 					userClientRef: docRef(`clients/${this.client.id}`),
 					COLLECTION: 'users'
 				}))
 
 				const disconnectClientUsers = this.clientUsers
-					.filter((user) => !this.formUsers.find(({ id }) => id === user.id))
-					.map((user) => ({ ...user, userClientRef: null, COLLECTION: 'users' }))
+					.filter(user => !this.formUsers.find(({ id }) => id === user.id))
+					.map(user => ({ ...user, userClientRef: null, COLLECTION: 'users' }))
 
 				const payloads = [{ ...this.form, COLLECTION: 'clients' }, ...connectClientUsers, ...disconnectClientUsers]
 
