@@ -12,7 +12,7 @@
 					<v-col cols="12" md="6">
 						<v-select
 							v-model="form.category"
-							:items="productCategoryList"
+							:items="categoryList"
 							label="שם קטגוריה"
 							filled
 							dense
@@ -71,8 +71,7 @@ export default {
 		},
 		saving: false,
 		form: {},
-		productTags: [],
-		productCategoryList: [
+		categoryList: [
 			'מיתוג ושיווק',
 			'משרדי ואירגוני',
 			'שילוט ותצוגה',

@@ -5,7 +5,12 @@
 				<v-list-item-content>
 					<v-list-item-title v-html="attribute.name"></v-list-item-title>
 					<v-list-item-subtitle>
-						<v-chip class="ma-1" v-for="value in attribute.inputs" :key="value.text">
+						<v-chip
+							:to="{ name: 'Attribute', params: { id: $route.params.id, attribute: attribute.name, input: value.text } }"
+							class="ma-1"
+							v-for="value in attribute.inputs"
+							:key="value.text"
+						>
 							{{ value.text }}
 						</v-chip>
 					</v-list-item-subtitle>
@@ -19,7 +24,7 @@
 
 <script>
 export default {
-	name: 'ListAttributes',
-	props: ['attributes']
+	name: "ListAttributes",
+	props: ["attributes"]
 }
 </script>
