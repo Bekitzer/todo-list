@@ -39,11 +39,13 @@ Vue.filter("formatNumber", function (value) {
 })
 
 Vue.filter("formatDate", function (value) {
-  return value?.toDate?.() ? format(parseISO(value.toDate().toISOString()), config.DATE_FORMAT, {locale: he}) : ''
+  const d = value?.toDate?.() || value
+  return d?.toISOString?.() ? format(parseISO(d.toISOString()), config.DATE_FORMAT, {locale: he}) : ''
 })
 
 Vue.filter("formatDatetime", function (value) {
-  return value?.toDate?.() ? format(parseISO(value.toDate().toISOString()), `${config.DATE_FORMAT} HH:mm`, {locale: he}) : ''
+  const d = value?.toDate?.() || value
+  return d?.toISOString?.() ? format(parseISO(d.toISOString()), `${config.DATE_FORMAT} HH:mm:ss`, {locale: he}) : ''
 })
 
 let app = '';

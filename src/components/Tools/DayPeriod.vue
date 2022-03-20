@@ -9,6 +9,7 @@ import {setTimeout} from 'timers'
 export default {
   data: () => ({
     dayPeriod: '',
+    timer: null
   }),
   methods: {
     getDate() {
@@ -24,7 +25,10 @@ export default {
       } else {
         this.timeDay = 'משהו שבור'
       }
-      // setTimeout(this.getDate, 1000)
+
+      clearTimeout(this.timer)
+
+      this.timer = setTimeout(this.getDate, 1000 * 60 * 60)
     },
   },
   created() {
