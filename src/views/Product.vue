@@ -25,16 +25,16 @@
 			<v-col cols="8" class="pa-10 grey lighten-3 rounded-b-xl">
 				<v-tabs v-model="tab" align-with-title>
 					<v-tabs-slider color="yellow"></v-tabs-slider>
-					<v-tab>וריאציות</v-tab>
-					<v-tab>מאפיינים</v-tab>
+					<v-tab>מחירון לקוח</v-tab>
+					<v-tab>מחירון ספק</v-tab>
 					<v-tab>מידע כללי</v-tab>
 				</v-tabs>
 				<v-tabs-items v-model="tab">
 					<v-tab-item>
-						<list-variations :product="product" />
+						<list-attributes :attributes="product.attributes"></list-attributes>
 					</v-tab-item>
 					<v-tab-item>
-						<list-attributes :attributes="product.attributes"></list-attributes>
+						<list-variations :product="product" />
 					</v-tab-item>
 					<v-tab-item>
 						<v-card>

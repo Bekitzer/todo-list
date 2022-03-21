@@ -12,7 +12,7 @@
 							v-bind="attrs"
 							v-on="on"
 							class="spc-create"
-							@click="dialogs.edit = true"
+							@click="dialogs.edit = true",
 						>
 							<v-icon>mdi-pencil</v-icon>
 						</v-btn>
@@ -21,6 +21,8 @@
 				</v-tooltip>
 			</template>
 		</nav-appbar>
+<!--		<list-rates :variation="variation" />-->
+<!--		<no-rates v-else />-->
 	</div>
 </template>
 
@@ -48,7 +50,9 @@ export default {
 		}
 	},
 	components: {
-		"nav-appbar": require("@/components/Global/AppBar").default
+		"nav-appbar": require("@/components/Global/AppBar").default,
+		'list-rates': require('@/components/Rates/ListRates').default,
+		'no-rates': require('@/components/Rates/NoRates').default
 	}
 }
 </script>

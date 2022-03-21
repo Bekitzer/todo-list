@@ -1,62 +1,64 @@
 <template>
-	<v-card>
-		<v-card-title>
-			<v-tooltip bottom content-class="normal tooltip-bottom">
-				<template v-slot:activator="{ on, attrs }">
-					<v-btn
-						fab
-						small
-						elevation="0"
-						filled
-						v-bind="attrs"
-						v-on="on"
-						class="spc-create"
-						@click="dialogs.edit = true"
-					>
-						<v-icon>mdi-pencil</v-icon>
-					</v-btn>
-				</template>
-				<span>עריכת וריאציה</span>
-			</v-tooltip>
-		</v-card-title>
-		<v-list two-line>
-			<template v-for="(variation, i) in variations">
-				<v-list-group :value="false">
-					<template v-slot:activator>
-						<v-list-item-content>
-							<v-list-item-title v-html="variation.attribute"></v-list-item-title>
-							<v-list-item-subtitle v-html="variation.input"></v-list-item-subtitle>
-						</v-list-item-content>
-					</template>
-
-					<list-rates :variation="variation" />
-				</v-list-group>
-				<v-divider :key="'divider_' + i"></v-divider>
+	<div>
+		<v-data-table
+			height="75vh"
+			fixed-header
+			:search="$store.state.search"
+			:items="variations"
+			:headers="headers"
+			item-key="id"
+			:items-per-page="-1"
+			hide-default-footer
+			sort-desc
+			@click:row="clickRow"
+			:expanded.sync="expanded"
+		>
+			<template v-slot:expanded-item="{ headers, item }">
+				<td :colspan="headers.length">
+					here will the variation rates list
+				</td>
 			</template>
-		</v-list>
-		<no-variations v-if="!variations.length" />
-
-		<dialog-edit
-			v-if="dialogs.edit"
-			v-model="dialogs.edit"
-			@close="dialogs.edit = false"
-			:attributes="attributes"
-			:variations="variations"
-			:product="product"
-		/>
-	</v-card>
+			<template v-slot:[`item.attribute`]="{ item, index }">
+				וריאציה {{ index + 1 }}
+			</template>
+			<template v-for="(attribute, i) in attributes" v-slot:[`item.attribute_${i}`]="{ item }">
+				{{ item[`_attr_${attribute.name}`] }}
+			</template>
+		</v-data-table>
+	</div>
 </template>
 
 <script>
+import combos from "combos"
+
 export default {
-	name: 'ListVariations',
-	props: ['product'],
+	name: "ListVariations",
+	props: ["product"],
 	data: () => ({
 		dialogs: {
 			edit: false
-		}
+		},
+		expanded: []
 	}),
+	methods: {
+		clickRow(item, event) {
+			if (event.isExpanded) {
+				const index = this.expanded.findIndex(i => i === item)
+				this.expanded.splice(index, 1)
+			} else {
+				this.expanded.push(item)
+			}
+		},
+	},
 	computed: {
+		headers() {
+			return [
+				{ text: "מאפיינים", value: "attribute", width: "80px", sortable: false },
+				...this.attributes.map((attribute, i) => {
+					return { text: attribute.name, value: `attribute_${i}`, sortable: false }
+				})
+			]
+		},
 		attributes() {
 			return this.product?.attributes || []
 		},
@@ -64,16 +66,20 @@ export default {
 			return this.$store.getters.user?.userSupplierRef?.id
 		},
 		variations() {
-			return this.$store.state.Variation.list.filter(
-				variation =>
-					variation.variationProductRef.id === this.product.id && variation.variationSupplierRef.id === this.supplierId
-			)
+			const attributes = this.attributes.reduce((perms, { name, inputs }, i) => {
+				console.log(i)
+				perms[`_attr_${name}`] = inputs.map(({ text }) => text)
+				perms[`_attr_${name}`] = inputs.map(({ text }) => text)
+				return perms
+			}, {})
+
+			return combos(attributes).map((perm, id) => ({ ...perm, id }))
 		}
 	},
 	components: {
-		'dialog-edit': require('@/components/Variations/Dialogs/DialogEdit').default,
-		'no-variations': require('@/components/Variations/NoVariations').default,
-		'list-rates': require('@/components/Rates/ListRates').default
+		"dialog-edit": require("@/components/Variations/Dialogs/DialogEdit").default,
+		"no-variations": require("@/components/Variations/NoVariations").default,
+		"list-rates": require("@/components/Rates/ListRates").default
 	}
 }
 </script>
