@@ -12,7 +12,7 @@
 							v-bind="attrs"
 							v-on="on"
 							class="spc-create"
-							@click="dialogs.edit = true",
+							@click="dialogs.edit = true"
 						>
 							<v-icon>mdi-pencil</v-icon>
 						</v-btn>

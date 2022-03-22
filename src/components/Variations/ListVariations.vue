@@ -10,29 +10,60 @@
 			:items-per-page="-1"
 			hide-default-footer
 			sort-desc
+			:item-class="rowBackground"
 			@click:row="clickRow"
+			:single-expand="true"
 			:expanded.sync="expanded"
 		>
 			<template v-slot:expanded-item="{ headers, item }">
-				<td :colspan="headers.length">
-					<v-simple-table>
+				<td :colspan="headers.length" style="padding: 0 !important;">
+					<v-simple-table dark v-if="rates(item).length">
 						<template v-slot:default>
 							<thead>
 							<tr>
-								<th>מינימום יח׳</th>
-								<th>מקסימום יח׳</th>
-								<th>מחיר ליח׳</th>
+								<th style="color: rgba(255, 255, 255, 0.7); background: #1E1E1E;">יח׳</th>
+								<th style="color: rgba(255, 255, 255, 0.7); background: #1E1E1E;">מחיר ליח׳</th>
 							</tr>
 							</thead>
 							<tbody>
-							<tr v-for="item in rates(item)" :key="item.id">
-								<td>{{ item.min_units }}</td>
-								<td>{{ item.max_units }}</td>
-								<td>{{ item.price }}</td>
+
+							<tr style="height: auto !important;">
+								<td :colspan="headers.length" style="height: 32px">Supplier XXX</td>
+							</tr>
+
+							<tr v-for="item in rates(item)" :key="item.id" style="height: auto !important;">
+								<td style="height: 32px">
+									<span>{{ item.min_units }}</span>
+									<span v-if="item.min_units !== item.max_units">{{ `-${item.max_units}` }}</span>
+								</td>
+								<td style="height: 32px">{{ item.price }}₪</td>
+							</tr>
+
+							<tr style="height: auto !important;">
+								<td :colspan="headers.length" style="height: 32px">Supplier YYY</td>
+							</tr>
+
+							<tr v-for="item in rates(item)" :key="'temp_'+item.id" style="height: auto !important;">
+								<td style="height: 32px">
+									<span>{{ item.min_units }}</span>
+									<span v-if="item.min_units !== item.max_units">{{ `-${item.max_units}` }}</span>
+								</td>
+								<td style="height: 32px">{{ item.price }}₪</td>
 							</tr>
 							</tbody>
 						</template>
 					</v-simple-table>
+					<v-alert v-else dark class="ma-0">
+						<span>אין עדיין תעריפים לוריאציה זו</span>
+						<v-tooltip left content-class="normal tooltip-left">
+							<template v-slot:activator="{ on, attrs }">
+								<v-btn icon x-small @click="editing = item" v-bind="attrs" v-on="on" class="mr-2">
+									<v-icon>mdi-plus</v-icon>
+								</v-btn>
+							</template>
+							<span>הוספת תעריפים</span>
+						</v-tooltip>
+					</v-alert>
 				</td>
 			</template>
 			<template v-for="(attribute, i) in attributes" v-slot:[`item.attribute_${i}`]="{ item }">
@@ -72,13 +103,12 @@ export default {
 		expanded: []
 	}),
 	methods: {
+		rowBackground: function(item) {
+			const [active] = this.expanded
+			return item.id === active?.id ? "v-data-table__selected" : ""
+		},
 		clickRow(item, event) {
-			if (event.isExpanded) {
-				const index = this.expanded.findIndex(i => i === item)
-				this.expanded.splice(index, 1)
-			} else {
-				this.expanded.push(item)
-			}
+			this.expanded = event.isExpanded ? [] : [item]
 		},
 		rates(variation) {
 			return this.$store.state.Rate.list.filter((rate) => {
@@ -117,11 +147,7 @@ export default {
 		}
 	},
 	components: {
-		"dialog-edit": require("@/components/Rates/Dialogs/DialogEdit").default,
-
-		// "dialog-edit": require("@/components/Variations/Dialogs/DialogEdit").default,
-		"no-variations": require("@/components/Variations/NoVariations").default,
-		"list-rates": require("@/components/Rates/ListRates").default
+		"dialog-edit": require("@/components/Rates/Dialogs/DialogEdit").default
 	}
 }
 </script>

@@ -4,7 +4,7 @@
 			<v-card elevation="8" shaped>
 				<v-row class="pt-5 pl-5 pr-5">
 					<v-col cols="12">
-						<h3>עדכון תעריפים עבור:</h3>
+						<h3>תעריפים עבור:</h3>
 						<h4> {{ description }}</h4>
 					</v-col>
 
@@ -73,12 +73,17 @@ export default {
 	},
 	methods: {
 		isChanged(original, current) {
-			return original.id !== current.id || original.units !== current.units || original.price !== current.price
+			return original.id !== current.id
+				|| original.max_units !== current.max_units
+				|| original.min_units !== current.min_units
+				|| original.price !== current.price
 		},
 		save() {
 			if (!this.formInvalid) {
 				this.saving = true
 
+				console.log(this.dirtyPayloads)
+				debugger
 				this.$store.dispatch("Rate/write", this.dirtyPayloads).finally(() => {
 					this.saving = false
 					this.variation = false
