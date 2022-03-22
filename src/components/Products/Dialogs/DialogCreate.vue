@@ -34,7 +34,7 @@
 					<v-col cols="12">
 						<v-card-actions style="padding: 0">
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false"> ביטול</v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול</v-btn>
 							<v-btn
 								outlined
 								large
