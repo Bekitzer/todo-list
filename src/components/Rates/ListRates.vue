@@ -32,8 +32,7 @@
 			v-if="dialogs.edit"
 			v-model="dialogs.edit"
 			@close="dialogs.edit = false"
-			:variation="variation"
-			:rates="rates"
+			:product="product"
 		/>
 	</v-card>
 </template>
@@ -41,7 +40,7 @@
 <script>
 export default {
 	name: 'ListRates',
-	props: ['variation'],
+	props: ['product'],
 	data: () => ({
 		dialogs: {
 			edit: false
@@ -49,7 +48,7 @@ export default {
 	}),
 	computed: {
 		rates() {
-			return this.$store.state.Rate.list.filter(rate => rate.rateVariationRef.id === this.variation.id)
+			return this.$store.state.Rate.list.filter(rate => rate.rateProductRef.id === this.product.id)
 		}
 	},
 	components: {

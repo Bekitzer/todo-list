@@ -17,14 +17,14 @@ import { docRef } from '@/stores/utils'
 
 export default {
 	name: 'RatesField',
-	props: ['variation', 'value'],
+	props: ['product', 'value'],
 	methods: {
 		handleAdd() {
 			this.rates = this.rates.concat({
 				min_units: '',
 				max_units: '',
 				price: '',
-				rateVariationRef: docRef(`variations/${this.variation.id}`),
+				rateProductRef: docRef(`products/${this.product.id}`),
 				rateSupplierRef: this.$store.getters.user?.userSupplierRef
 			})
 		}

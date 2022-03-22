@@ -15,6 +15,7 @@
 	"main": "index.js",
 	"dependencies": {
 		"@emailjs/browser": "^3.4.0",
+		"combos": "^0.2.0",
 		"core-js": "^3.6.5",
 		"date-fns": "^2.22.1",
 		"firebase": "^9.1.3",

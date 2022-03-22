@@ -39,7 +39,7 @@
 			<v-text-field
 				:class="{ red: rate.OPERATION === OPERATIONS.DELETE }"
 				:disabled="rate.OPERATION === OPERATIONS.DELETE"
-				v-model.number="rate.price"
+				v-model.number="rounded_price"
 				type="number"
 				label="מחיר ליחידה"
 				prefix="₪"
@@ -101,6 +101,14 @@ export default {
 			},
 			set(val) {
 				this.$emit("input", val)
+			}
+		},
+		rounded_price: {
+			get() {
+				return this.rate.price ? +((this.rate.price).toFixed(2)) : null
+			},
+			set(rounded_price) {
+				this.rate.price = rounded_price
 			}
 		},
 		package_price: {
