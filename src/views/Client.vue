@@ -51,7 +51,7 @@
 										<v-btn @click="openFile(client)">הוספה/שינוי תמונה</v-btn>
 									</v-overlay>
 								</v-fade-transition>
-								<v-img :src="client.avatar" lazy-src="/images/gravatar.jpg" rounded />
+								<v-img :src="client.avatar" :lazy-src="require('@/assets/upload.png')" rounded />
 							</v-avatar>
 						</v-hover>
 					</v-col>

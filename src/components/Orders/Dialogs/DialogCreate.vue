@@ -91,6 +91,14 @@ export default {
 			this.form = deepCopy(this.order)
 			delete this.form.id
 		}
+
+		if(this.client) {
+			this.form.orderClientRef = this.clientRef(this.client)
+		}
+
+		if(this.supplier) {
+			this.form.orderSupplierRef = this.clientRef(this.supplier)
+		}
 	},
 	computed: {
 		clients() {

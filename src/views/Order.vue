@@ -119,7 +119,7 @@
 								<v-btn @click="openFile(order)">הוספה/שינוי תמונה</v-btn>
 							</v-overlay>
 						</v-fade-transition>
-						<v-img height="400px" :src="order.avatar" lazy-src="/images/gravatar.jpg" rounded />
+						<v-img height="400px" :src="order.file" :lazy-src="require('@/assets/upload.png')" rounded />
 					</v-card>
 				</v-hover>
 			</v-col>
