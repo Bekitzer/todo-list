@@ -15,16 +15,46 @@
 		>
 			<template v-slot:expanded-item="{ headers, item }">
 				<td :colspan="headers.length">
-					here will the variation rates list
+					<v-simple-table>
+						<template v-slot:default>
+							<thead>
+							<tr>
+								<th>מינימום יח׳</th>
+								<th>מקסימום יח׳</th>
+								<th>מחיר ליח׳</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr v-for="item in rates(item)" :key="item.id">
+								<td>{{ item.min_units }}</td>
+								<td>{{ item.max_units }}</td>
+								<td>{{ item.price }}</td>
+							</tr>
+							</tbody>
+						</template>
+					</v-simple-table>
 				</td>
 			</template>
-			<template v-slot:[`item.attribute`]="{ item, index }">
-				וריאציה {{ index + 1 }}
-			</template>
 			<template v-for="(attribute, i) in attributes" v-slot:[`item.attribute_${i}`]="{ item }">
-				{{ item[`_attr_${attribute.name}`] }}
+				{{ item.attributes[attribute.name] }}
+			</template>
+			<template v-slot:[`item.actions`]="{ item, index }">
+				<v-tooltip top content-class="normal tooltip-top">
+					<template v-slot:activator="{ on, attrs }">
+						<v-icon small @click.stop="editing = item" v-bind="attrs" v-on="on">mdi-pencil-outline</v-icon>
+					</template>
+					<span>ערוך תעריפים</span>
+				</v-tooltip>
 			</template>
 		</v-data-table>
+
+		<dialog-edit
+			v-if="editing"
+			v-model="editing"
+			@close="editing = null"
+			:product="product"
+			:rates="rates(editing)"
+		/>
 	</div>
 </template>
 
@@ -38,6 +68,7 @@ export default {
 		dialogs: {
 			edit: false
 		},
+		editing: null,
 		expanded: []
 	}),
 	methods: {
@@ -49,14 +80,25 @@ export default {
 				this.expanded.push(item)
 			}
 		},
+		rates(variation) {
+			return this.$store.state.Rate.list.filter((rate) => {
+				if (rate.rateProductRef?.id !== this.product.id) return false
+
+				const mismatch = Object.entries(variation.attributes).find(([name, input]) => {
+					return rate.variation.attributes[name] !== input
+				})
+
+				return !mismatch
+			})
+		}
 	},
 	computed: {
 		headers() {
 			return [
-				{ text: "מאפיינים", value: "attribute", width: "80px", sortable: false },
 				...this.attributes.map((attribute, i) => {
 					return { text: attribute.name, value: `attribute_${i}`, sortable: false }
-				})
+				}),
+				{ text: "פעולות", value: "actions", width: "100px", sortable: false }
 			]
 		},
 		attributes() {
@@ -66,18 +108,18 @@ export default {
 			return this.$store.getters.user?.userSupplierRef?.id
 		},
 		variations() {
-			const attributes = this.attributes.reduce((perms, { name, inputs }, i) => {
-				console.log(i)
-				perms[`_attr_${name}`] = inputs.map(({ text }) => text)
-				perms[`_attr_${name}`] = inputs.map(({ text }) => text)
+			const attributes = this.attributes.reduce((perms, { name, inputs }) => {
+				perms[name] = inputs.map(({ text }) => text)
 				return perms
 			}, {})
 
-			return combos(attributes).map((perm, id) => ({ ...perm, id }))
+			return combos(attributes).map((attributes, i) => ({ attributes, id: i + 1 }))
 		}
 	},
 	components: {
-		"dialog-edit": require("@/components/Variations/Dialogs/DialogEdit").default,
+		"dialog-edit": require("@/components/Rates/Dialogs/DialogEdit").default,
+
+		// "dialog-edit": require("@/components/Variations/Dialogs/DialogEdit").default,
 		"no-variations": require("@/components/Variations/NoVariations").default,
 		"list-rates": require("@/components/Rates/ListRates").default
 	}
