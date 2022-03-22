@@ -57,7 +57,7 @@
 								<v-btn @click="openFile(product)">הוספה/שינוי תמונה</v-btn>
 							</v-overlay>
 						</v-fade-transition>
-						<v-img height="370px" :src="product.avatar" lazy-src="/images/gravatar.jpg" rounded />
+						<v-img height="370px" :src="product.avatar" :lazy-src="require('@/assets/upload.png')" rounded />
 					</v-card>
 				</v-hover>
 			</v-col>

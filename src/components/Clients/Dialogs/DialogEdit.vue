@@ -138,7 +138,7 @@
 							<template v-slot:selection="data">
 								<v-chip close @click:close="remove(data.item)">
 									<v-avatar left>
-										<v-img :src="data.item.avatar" lazy-src="/images/gravatar.jpg"></v-img>
+										<v-img :src="data.item.avatar" :lazy-src="require('@/assets/upload.png')"></v-img>
 									</v-avatar>
 									{{ data.item.username }}
 								</v-chip>
@@ -149,7 +149,7 @@
 								</template>
 								<template v-else>
 									<v-list-item-avatar>
-										<v-img :src="data.item.avatar" lazy-src="/images/gravatar.jpg"></v-img>
+										<v-img :src="data.item.avatar" :lazy-src="require('@/assets/upload.png')"></v-img>
 									</v-list-item-avatar>
 									<v-list-item-content>
 										<v-list-item-title v-html="data.item.firstname + ' ' + data.item.lastname"></v-list-item-title>
@@ -165,7 +165,7 @@
 								<v-icon>mdi-trash-can-outline</v-icon>
 							</v-btn>
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false"> ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
 							<v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" color="green" large outlined>
 								שמירה
 							</v-btn>

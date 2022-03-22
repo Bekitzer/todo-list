@@ -51,7 +51,7 @@
 										<v-btn @click="openFile(client)">הוספה/שינוי תמונה</v-btn>
 									</v-overlay>
 								</v-fade-transition>
-								<v-img :src="client.avatar" lazy-src="/images/gravatar.jpg" rounded />
+								<v-img :src="client.avatar" :lazy-src="require('@/assets/upload.png')" rounded />
 							</v-avatar>
 						</v-hover>
 					</v-col>
@@ -61,8 +61,8 @@
 						<p style="margin-bottom: 0 !important">ח.פ. / ע.מ. {{ client.numberId }}</p>
 						<div>
 							<a :href="'http://' + client.website" style="text-decoration: none; color: #03616f" target="_blank">{{
-								client.website
-							}}</a>
+									client.website
+								}}</a>
 							<!-- <a :href="supplier.facebook" style="text-decoration:none;"><v-icon>mdi-facebook</v-icon></a>
               <a :href="supplier.instagram" style="text-decoration:none;"><v-icon>mdi-instagram</v-icon></a> -->
 						</div>
@@ -195,9 +195,9 @@
 							</v-col>
 							<v-spacer></v-spacer>
 							<v-col cols="12" md="3" class="ml-2 rounded-pill">
-								<span>מכירה: {{ sumField('sellPrice') | formatNumber }} | </span>
-								<span>קניה: {{ sumField('buyPrice') | formatNumber }} | </span>
-								<span>רווח: {{ sumField('margin') | formatNumber }}</span>
+								<span>מכירה: {{ sumField("sellPrice") | formatNumber }} | </span>
+								<span>קניה: {{ sumField("buyPrice") | formatNumber }} | </span>
+								<span>רווח: {{ sumField("margin") | formatNumber }}</span>
 							</v-col>
 							<v-col cols="12" md="1" sm="1">
 								<v-switch v-model="viewSuppliedOnly" inset label="פעילות/סופקו"></v-switch>
@@ -266,7 +266,7 @@
 						</v-tooltip>
 						<v-tooltip top content-class="normal tooltip-top">
 							<template v-slot:activator="{ on, attrs }">
-								<v-icon small @click.stop="clickOrder(item)" v-bind="attrs" v-on="on"> mdi-pencil-outline </v-icon>
+								<v-icon small @click.stop="clickOrder(item)" v-bind="attrs" v-on="on"> mdi-pencil-outline</v-icon>
 							</template>
 							<span>ערוך הזמנה</span>
 						</v-tooltip>
@@ -281,8 +281,19 @@
 			@close="dialogs.edit = false"
 			:client="client"
 		/>
-		<dialog-image v-if="dialogs.image" v-model="dialogs.image" @close="dialogs.image = false" :client="client" />
-		<dialog-create v-if="dialogs.create" v-model="dialogs.create" @close="dialogs.create = false" :client="client" />
+		<dialog-image
+			v-if="dialogs.image"
+			v-model="dialogs.image"
+			@close="dialogs.image = false"
+			:client="client"
+		/>
+		<dialog-create
+			v-if="dialogs.create"
+			v-model="dialogs.create"
+			@close="dialogs.create = false"
+			:client="client"
+			:order="order"
+		/>
 		<dialog-image-order v-if="dialogs.order" v-model="dialogs.order" @close="dialogs.order = false" :order="order" />
 	</div>
 </template>
@@ -299,59 +310,59 @@ import {
 	subMonths,
 	addDays,
 	addMonths
-} from 'date-fns'
-import { deepCopy } from '@/stores/utils'
+} from "date-fns"
+import { deepCopy } from "@/stores/utils"
 
 const filterDateEnum = {
-	THIS_DAY: 'THIS_DAY',
-	NEXT_3_DAYS: 'NEXT_3_DAYS',
-	NEXT_DAY: 'NEXT_DAY',
-	LAST_3_DAYS: 'LAST_3_DAYS',
-	THIS_WEEK: 'THIS_WEEK',
-	THIS_MONTH: 'THIS_MONTH',
-	LAST_MONTH: 'LAST_MONTH',
-	NEXT_3_MONTH: 'NEXT_3_MONTH',
-	LAST_3_MONTH: 'LAST_3_MONTH'
+	THIS_DAY: "THIS_DAY",
+	NEXT_3_DAYS: "NEXT_3_DAYS",
+	NEXT_DAY: "NEXT_DAY",
+	LAST_3_DAYS: "LAST_3_DAYS",
+	THIS_WEEK: "THIS_WEEK",
+	THIS_MONTH: "THIS_MONTH",
+	LAST_MONTH: "LAST_MONTH",
+	NEXT_3_MONTH: "NEXT_3_MONTH",
+	LAST_3_MONTH: "LAST_3_MONTH"
 }
 export default {
-	name: 'Client',
+	name: "Client",
 	data: () => ({
-		editStatusType: '',
+		editStatusType: "",
 		expanded: [],
 		viewSuppliedOnly: true,
 		singleExpand: true,
-		orderDateFilter: '',
-		deliveredAtFilter: '',
+		orderDateFilter: "",
+		deliveredAtFilter: "",
 		orderDeliveredAtList: [
-			{ text: 'היום', value: filterDateEnum.THIS_DAY },
-			{ text: 'מחר', value: filterDateEnum.NEXT_DAY },
-			{ text: '3 ימים הקרובים', value: filterDateEnum.NEXT_3_DAYS },
-			{ text: 'השבוע הקרוב', value: filterDateEnum.THIS_WEEK },
-			{ text: 'החודש הקרוב', value: filterDateEnum.THIS_MONTH },
-			{ text: '3 חודשים הקרובים', value: filterDateEnum.NEXT_3_MONTHS }
+			{ text: "היום", value: filterDateEnum.THIS_DAY },
+			{ text: "מחר", value: filterDateEnum.NEXT_DAY },
+			{ text: "3 ימים הקרובים", value: filterDateEnum.NEXT_3_DAYS },
+			{ text: "השבוע הקרוב", value: filterDateEnum.THIS_WEEK },
+			{ text: "החודש הקרוב", value: filterDateEnum.THIS_MONTH },
+			{ text: "3 חודשים הקרובים", value: filterDateEnum.NEXT_3_MONTHS }
 		],
 		orderDateList: [
-			{ text: 'היום', value: filterDateEnum.THIS_DAY },
-			{ text: '3 ימים אחרונים', value: filterDateEnum.LAST_3_DAYS },
-			{ text: 'השבוע', value: filterDateEnum.THIS_WEEK },
-			{ text: 'החודש', value: filterDateEnum.THIS_MONTH },
-			{ text: 'חודש שעבר', value: filterDateEnum.LAST_MONTH },
-			{ text: '3 חודשים אחרונים', value: filterDateEnum.LAST_3_MONTHS }
+			{ text: "היום", value: filterDateEnum.THIS_DAY },
+			{ text: "3 ימים אחרונים", value: filterDateEnum.LAST_3_DAYS },
+			{ text: "השבוע", value: filterDateEnum.THIS_WEEK },
+			{ text: "החודש", value: filterDateEnum.THIS_MONTH },
+			{ text: "חודש שעבר", value: filterDateEnum.LAST_MONTH },
+			{ text: "3 חודשים אחרונים", value: filterDateEnum.LAST_3_MONTHS }
 		],
 		orderStatusTypeList: [
-			{ text: 'טיוטה', value: 'טיוטה' },
-			{ text: 'בעבודה', value: 'בעבודה' },
-			{ text: 'מוכן - משרד', value: 'מוכן - משרד' },
-			{ text: 'מוכן - ספק', value: 'מוכן - ספק' },
-			{ text: 'במשלוח', value: 'במשלוח' },
-			{ text: 'סופק', value: 'סופק' }
+			{ text: "טיוטה", value: "טיוטה" },
+			{ text: "בעבודה", value: "בעבודה" },
+			{ text: "מוכן - משרד", value: "מוכן - משרד" },
+			{ text: "מוכן - ספק", value: "מוכן - ספק" },
+			{ text: "במשלוח", value: "במשלוח" },
+			{ text: "סופק", value: "סופק" }
 		],
 		filteredItems: [],
 		overlay: false,
 		order: null,
-		pageName: '',
+		pageName: "",
 		fab: false,
-		transition: 'slide-y-transition',
+		transition: "slide-y-transition",
 		dialogs: {
 			edit: false,
 			create: false,
@@ -360,7 +371,7 @@ export default {
 		}
 	}),
 	watch: {
-		'dialogs.create': function(val) {
+		"dialogs.create": function(val) {
 			if (!val) {
 				this.order = null
 			}
@@ -371,7 +382,7 @@ export default {
 			this.filteredItems = e
 		},
 		save(order) {
-			this.$store.dispatch('Order/upsert', { ...order.item, statusType: order.value })
+			this.$store.dispatch("Order/upsert", { ...order.item, statusType: order.value })
 		},
 		duplicateOrder(item) {
 			this.order = deepCopy(item)
@@ -385,7 +396,7 @@ export default {
 			this.dialogs.order = true
 		},
 		clickOrder(order) {
-			this.$router.push({ name: 'Order', params: { id: order.id } })
+			this.$router.push({ name: "Order", params: { id: order.id } })
 		},
 		clickRow(item, event) {
 			if (event.isExpanded) {
@@ -396,19 +407,19 @@ export default {
 			}
 		},
 		clickClient({ orderClientRef }) {
-			this.$router.push({ name: 'Client', params: { id: orderClientRef.id } })
+			this.$router.push({ name: "Client", params: { id: orderClientRef.id } })
 		},
 		clickSupplier({ orderSupplierRef }) {
-			this.$router.push({ name: 'Supplier', params: { id: orderSupplierRef.id } })
+			this.$router.push({ name: "Supplier", params: { id: orderSupplierRef.id } })
 		},
 		getColor(statusType) {
-			if (statusType === 'טיוטה') return '#FF9800'
-			else if (statusType === 'בעבודה') return '#2196F3'
-			else if (statusType === 'מוכן - משרד') return '#4CAF50'
-			else if (statusType === 'מוכן - ספק') return '#4CAF50'
-			else if (statusType === 'במשלוח') return '#2196F3'
-			else if (statusType === 'סופק') return '#9E9E9E'
-			else return 'grey darken-1'
+			if (statusType === "טיוטה") return "#FF9800"
+			else if (statusType === "בעבודה") return "#2196F3"
+			else if (statusType === "מוכן - משרד") return "#4CAF50"
+			else if (statusType === "מוכן - ספק") return "#4CAF50"
+			else if (statusType === "במשלוח") return "#2196F3"
+			else if (statusType === "סופק") return "#9E9E9E"
+			else return "grey darken-1"
 		},
 		isDateInRange(date, range) {
 			if (!date || !range) return true
@@ -488,18 +499,18 @@ export default {
 			return this.$store.state.User.list.filter(user => user.userClientRef?.id === this.client.id)
 		},
 		client() {
-			return this.$store.state.Client.list.find(client => client.id === this.$route.params.id) || { name: '' }
+			return this.$store.state.Client.list.find(client => client.id === this.$route.params.id) || { name: "" }
 		},
 		headers() {
 			return [
-				{ text: 'מס׳ הזמנה', value: 'number', align: 'start', width: '110px' },
-				{ text: 'תאריך הזמנה', value: 'created', width: '110px', sortable: false },
-				{ text: 'מוצר / שם עבודה', value: 'orderWorkTitle', sortable: false },
-				{ text: 'ספק', value: 'supplierLink', sortable: false },
-				{ text: 'מכירה', value: 'sell', width: '60px', sortable: false },
-				{ text: 'תאריך אספקה', value: 'delivery', width: '110px', sortable: false },
-				{ text: 'פעולות', value: 'actions', width: '100px', sortable: false },
-				{ text: 'סטטוס הזמנה', value: 'statusType', width: '110px', sortable: true }
+				{ text: "מס׳ הזמנה", value: "number", align: "start", width: "110px" },
+				{ text: "תאריך הזמנה", value: "created", width: "110px", sortable: false },
+				{ text: "מוצר / שם עבודה", value: "orderWorkTitle", sortable: false },
+				{ text: "ספק", value: "supplierLink", sortable: false },
+				{ text: "מכירה", value: "sell", width: "60px", sortable: false },
+				{ text: "תאריך אספקה", value: "delivery", width: "110px", sortable: false },
+				{ text: "פעולות", value: "actions", width: "100px", sortable: false },
+				{ text: "סטטוס הזמנה", value: "statusType", width: "110px", sortable: true }
 			]
 		},
 		clientsMap() {
@@ -542,7 +553,7 @@ export default {
 
 						return (
 							order.orderClientRef.id === this.client.id &&
-							(this.viewSuppliedOnly ? order.statusType !== 'סופק' : order.statusType === 'סופק') &&
+							(this.viewSuppliedOnly ? order.statusType !== "סופק" : order.statusType === "סופק") &&
 							isValidOrderDate &&
 							isValidDeliveredAt
 						)
@@ -552,16 +563,16 @@ export default {
 				console.log("is this overwrite all clients? if so it's bad")
 				console.log(value)
 				debugger
-				this.$store.dispatch('Order/upsert', value)
+				this.$store.dispatch("Order/upsert", value)
 			}
 		}
 	},
 	components: {
-		'dialog-edit': require('@/components/Clients/Dialogs/DialogEdit').default,
-		'dialog-create': require('@/components/Orders/Dialogs/DialogCreate').default,
-		'nav-appbar': require('@/components/Global/AppBar').default,
-		'dialog-image': require('@/components/Clients/Dialogs/DialogImage').default,
-		'dialog-image-order': require('@/components/Orders/Dialogs/DialogImage').default
+		"dialog-edit": require("@/components/Clients/Dialogs/DialogEdit").default,
+		"dialog-create": require("@/components/Orders/Dialogs/DialogCreate").default,
+		"nav-appbar": require("@/components/Global/AppBar").default,
+		"dialog-image": require("@/components/Clients/Dialogs/DialogImage").default,
+		"dialog-image-order": require("@/components/Orders/Dialogs/DialogImage").default
 	}
 }
 </script>

@@ -46,39 +46,6 @@
 				autocomplete="off"
 			/>
 		</v-col>
-		<!--
-    variation1:
-         price field: {
-          calculation: [fixed, increment fixed, increment percentage]
-          supplierRef: optional id
-          value: 99.9
-         }
-         amount field: {
-          min_units: 0
-          max_units: 1000
-         }
-
-         price field: {
-          calculation: [fixed, increment fixed, increment percentage]
-          supplierRef: optional id
-          value: 99.9
-         }
-         amount field: {
-          min_units: 1000
-          max_units: 2000
-         }
-
-         price field: {
-          calculation: [fixed, increment fixed, increment percentage]
-          supplierRef: optional id
-          value: 99.9
-         }
-         amount field: {
-          min_units: 2000
-          max_units
-         }
-
-    -->
 		<v-col cols="2">
 			<v-switch @change="removeField" label="מחיקה" color="red" hide-details></v-switch>
 		</v-col>

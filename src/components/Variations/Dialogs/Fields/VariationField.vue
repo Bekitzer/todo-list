@@ -13,7 +13,7 @@
 				dense
 				hide-details
 				autocomplete="off"
-			></v-autocomplete>
+			/>
 		</v-col>
 		<v-col cols="5">
 			<v-autocomplete

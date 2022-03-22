@@ -55,7 +55,7 @@
 						<v-card-actions style="padding: 0">
 							<v-btn outlined large color="black" @click="addDraft"> צור כטיוטה </v-btn>
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false"> ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
 							<v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
 								צור
 							</v-btn>
@@ -90,6 +90,14 @@ export default {
 		if (this.order) {
 			this.form = deepCopy(this.order)
 			delete this.form.id
+		}
+
+		if(this.client) {
+			this.form.orderClientRef = this.clientRef(this.client)
+		}
+
+		if(this.supplier) {
+			this.form.orderSupplierRef = this.clientRef(this.supplier)
 		}
 	},
 	computed: {

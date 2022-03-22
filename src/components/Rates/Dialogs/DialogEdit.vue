@@ -1,22 +1,25 @@
 <template>
 	<v-row justify="center">
-		<v-dialog v-model="variation" max-width="700">
+		<v-dialog v-model="dialog" max-width="700">
 			<v-card elevation="8" shaped>
 				<v-row class="pt-5 pl-5 pr-5">
 					<v-col cols="12">
 						<h3>תעריפים עבור:</h3>
-						<h4> {{ description }}</h4>
+						<h4>{{ description }}</h4>
 					</v-col>
+				</v-row>
 
+				<v-row>
 					<v-col cols="12">
 						<rates-field v-model="form" :product="product" />
 					</v-col>
-
+				</v-row>
+				<v-row>
 					<v-col cols="12">
 						<v-card-actions style="padding: 0">
 							<v-spacer></v-spacer>
 
-							<v-btn outlined large color="red" @click="variation = null"> ביטול</v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול</v-btn>
 							<v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
 								שמירה
 							</v-btn>
@@ -33,7 +36,7 @@ import { deepCopy, OPERATIONS } from "@/stores/utils"
 
 export default {
 	name: "DialogEdit",
-	props: ["value", "product", "rates"],
+	props: ["value", "product", "rates", "variation"],
 	data: () => ({
 		saving: false,
 		form: {}
@@ -48,12 +51,12 @@ export default {
 			//TODO: notify the user for the reason the form is invalid
 			return !this.$store.getters.user?.userSupplierRef
 		},
-		variation: {
+		dialog: {
 			get() {
 				return this.value
 			},
 			set() {
-				this.$emit("close", null)
+				this.$emit("close", false)
 			}
 		},
 		dirtyPayloads() {
@@ -82,11 +85,9 @@ export default {
 			if (!this.formInvalid) {
 				this.saving = true
 
-				console.log(this.dirtyPayloads)
-				debugger
 				this.$store.dispatch("Rate/write", this.dirtyPayloads).finally(() => {
 					this.saving = false
-					this.variation = false
+					this.dialog = false
 				})
 			}
 		}

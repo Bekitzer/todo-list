@@ -60,7 +60,7 @@
 								<v-icon>mdi-trash-can-outline</v-icon>
 							</v-btn>
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false"> ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
 							<v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" outlined large color="green">
 								שמירה
 							</v-btn>

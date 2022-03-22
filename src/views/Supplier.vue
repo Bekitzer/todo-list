@@ -51,7 +51,7 @@
 										<v-btn @click="openFile(supplier)">הוספה/שינוי תמונה</v-btn>
 									</v-overlay>
 								</v-fade-transition>
-								<v-img :src="supplier.avatar" lazy-src="/images/gravatar.jpg" rounded />
+								<v-img :src="supplier.avatar" :lazy-src="require('@/assets/upload.png')" rounded />
 							</v-avatar>
 						</v-hover>
 					</v-col>
@@ -287,6 +287,7 @@
 			v-model="dialogs.create"
 			@close="dialogs.create = false"
 			:supplier="supplier"
+			:order="order"
 		/>
 		<dialog-order v-if="dialogs.order" v-model="dialogs.order" @close="dialogs.order = false" :order="order" />
 	</div>

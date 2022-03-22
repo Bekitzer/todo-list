@@ -1,7 +1,6 @@
 <template>
 	<div>
-		<img class="spc-file" v-if="fileUrl" @click="chooseFile" :src="fileUrl" />
-		<img class="spc-file" v-else @click="chooseFile" src="/images/DefaultUpload.png" />
+		<img class="spc-file" @click="chooseFile" :src="fileUrl || require('@/assets/upload.png')" alt="upload"/>
 
 		<input type="file" ref="inputFile" v-show="false" @change="uploadFile" accept="image/*" />
 
