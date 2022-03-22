@@ -5,12 +5,11 @@
 	"scripts": {
 		"build": "vue-cli-service build",
 		"serve": "vue-cli-service serve",
-		"serve:test": "NODE_ENV=testing vue-cli-service serve",
+		"serve:test": "vue-cli-service serve --mode testing",
 		"test:unit": "vue-cli-service test:unit",
-		"deploy:dev": "vue-cli-service build && firebase deploy -P development",
-		"deploy:prod": "NODE_ENV=production vue-cli-service build && firebase deploy -P production",
-		"deploy:stage": "NODE_ENV=staging vue-cli-service build && firebase deploy -P staging",
-		"deploy:test": "NODE_ENV=testing vue-cli-service build && firebase deploy -P testing"
+		"deploy:dev": "vue-cli-service build --mode development && firebase deploy -P development",
+		"deploy:prod": "vue-cli-service build --mode production && firebase deploy -P production",
+		"deploy:test": "vue-cli-service build --mode testing && firebase deploy -P testing"
 	},
 	"main": "index.js",
 	"dependencies": {
