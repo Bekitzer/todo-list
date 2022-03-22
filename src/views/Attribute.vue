@@ -21,8 +21,6 @@
 				</v-tooltip>
 			</template>
 		</nav-appbar>
-<!--		<list-rates :variation="variation" />-->
-<!--		<no-rates v-else />-->
 	</div>
 </template>
 
