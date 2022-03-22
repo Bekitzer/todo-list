@@ -48,9 +48,7 @@ export default {
 		}
 	},
 	components: {
-		"nav-appbar": require("@/components/Global/AppBar").default,
-		'list-rates': require('@/components/Rates/ListRates').default,
-		'no-rates': require('@/components/Rates/NoRates').default
+		"nav-appbar": require("@/components/Global/AppBar").default
 	}
 }
 </script>
