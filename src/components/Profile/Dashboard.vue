@@ -93,17 +93,20 @@ export default {
 		'nav-appbar': require('@/components/Global/AppBar').default
 	},
 	computed: {
-		userId() {
+		userClientId() {
 			return this.$store.getters.user?.userClientRef?.id
 		},
+		userSupplierId() {
+			return this.$store.getters.user?.userSupplierRef?.id
+		},
 		client() {
-			return this.$store.state.Client.list.find(item => (item.id = this.userId))
+			return this.$store.state.Client.list.find(item => (item.id = this.userClientId))
 		},
 		supplier() {
-			return this.$store.state.Supplier.list.find(item => (item.id = this.userId))
+			return this.$store.state.Supplier.list.find(item => (item.id = this.userSupplierId))
 		},
 		clientOrSupplier() {
-			return this.$store.state.supplier || this.client || { name: '' }
+			return this.supplier || this.client || { name: '' }
 		},
 		user() {
 			return this.$store.state.user || { name: '' }
