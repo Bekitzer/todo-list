@@ -25,16 +25,16 @@
 			<v-col cols="8" class="pa-10 grey lighten-3 rounded-b-xl">
 				<v-tabs v-model="tab" align-with-title>
 					<v-tabs-slider color="yellow"></v-tabs-slider>
-					<v-tab>מחירון לקוח</v-tab>
-					<v-tab>מחירון ספק</v-tab>
+					<v-tab>תעריפי לקוח</v-tab>
+					<v-tab>תעריפים</v-tab>
 					<v-tab>מידע כללי</v-tab>
 				</v-tabs>
 				<v-tabs-items v-model="tab">
 					<v-tab-item>
-						<list-attributes :attributes="product.attributes"></list-attributes>
+						<list-client-rates :product="product" />
 					</v-tab-item>
 					<v-tab-item>
-						<list-variations :product="product" />
+						<list-supplier-rates :product="product" />
 					</v-tab-item>
 					<v-tab-item>
 						<v-card>
@@ -57,7 +57,7 @@
 								<v-btn @click="openFile(product)">הוספה/שינוי תמונה</v-btn>
 							</v-overlay>
 						</v-fade-transition>
-						<v-img height="370px" :src="product.avatar" :lazy-src="require('@/assets/upload.png')" rounded />
+						<v-img height="370px" :src="product.avatar" contain :lazy-src="require('@/assets/upload.png')" rounded />
 					</v-card>
 				</v-hover>
 			</v-col>
@@ -100,8 +100,8 @@ export default {
 		'dialog-edit': require('@/components/Products/Dialogs/DialogEdit').default,
 		'nav-appbar': require('@/components/Global/AppBar').default,
 		'dialog-image': require('@/components/Products/Dialogs/DialogImage').default,
-		'list-attributes': require('@/components/Products/ListAttributes').default,
-		'list-variations': require('@/components/Variations/ListVariations').default
+		'list-client-rates': require('@/components/Rates/ListClientRates').default,
+		'list-supplier-rates': require('@/components/Rates/ListSupplierRates').default
 	}
 }
 </script>

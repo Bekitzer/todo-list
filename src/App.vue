@@ -31,7 +31,7 @@ export default {
 						this.$store.dispatch('Order/fetch'),
 						this.$store.dispatch('Product/fetch'),
 						this.$store.dispatch('User/fetch'),
-						this.$store.dispatch('Variation/fetch'),
+						this.$store.dispatch('ClientRate/fetch'),
 						this.$store.dispatch('Rate/fetch')
 					])
 				)
