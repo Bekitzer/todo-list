@@ -46,7 +46,7 @@
 								<v-icon>mdi-trash-can-outline</v-icon>
 							</v-btn>
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול</v-btn>
 							<v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" color="green" large outlined>
 								שמירה
 							</v-btn>
@@ -60,11 +60,11 @@
 </template>
 
 <script>
-import { deepCopy, OPERATIONS } from '@/stores/utils'
+import { deepCopy, OPERATIONS } from "@/stores/utils"
 
 export default {
-	name: 'DialogEdit',
-	props: ['product', 'value'],
+	name: "DialogEdit",
+	props: ["product", "value"],
 	data: () => ({
 		dialogs: {
 			delete: false
@@ -72,12 +72,12 @@ export default {
 		saving: false,
 		form: {},
 		categoryList: [
-			'מיתוג ושיווק',
-			'משרדי ואירגוני',
-			'שילוט ותצוגה',
-			'מתקנים ומעמדים',
-			'מדבקות וטפטים',
-			'מוצרי קד״מ'
+			"מיתוג ושיווק",
+			"משרדי ואירגוני",
+			"שילוט ותצוגה",
+			"מתקנים ומעמדים",
+			"מדבקות וטפטים",
+			"מוצרי קד״מ"
 		]
 	}),
 	computed: {
@@ -97,33 +97,32 @@ export default {
 				return this.value
 			},
 			set() {
-				this.$emit('close', false)
+				this.$emit("close", false)
 			}
 		}
 	},
 	methods: {
-		save() {
-			if (!this.formInvalid) {
-				this.saving = true
-				const payload = {
-					...this.form,
-					attributes: this.form.attributes.filter(attribute => attribute.OPERATION !== OPERATIONS.DELETE)
-				}
-
-				this.$store.dispatch('Product/upsert', payload).finally(() => {
-					this.saving = false
-					this.dialog = false
-				})
+		async save() {
+			if (this.formInvalid) return null
+			this.saving = true
+			const payload = {
+				...this.form,
+				attributes: this.form.attributes.filter(attribute => attribute.OPERATION !== OPERATIONS.DELETE)
 			}
+
+			return this.$store.dispatch("Product/upsert", payload).finally(() => {
+				this.saving = false
+				this.dialog = false
+			})
 		}
 	},
 	created() {
 		this.form = deepCopy(this.product)
 	},
 	components: {
-		'dialog-delete': require('@/components/Products/Dialogs/DialogDelete').default,
-		'attributes-field': require('@/components/Products/Dialogs/Fields/AttributesField').default,
-		'tags-field': require('@/components/Products/Dialogs/Fields/TagsField').default
+		"dialog-delete": require("@/components/Products/Dialogs/DialogDelete").default,
+		"attributes-field": require("@/components/Products/Dialogs/Fields/AttributesField").default,
+		"tags-field": require("@/components/Products/Dialogs/Fields/TagsField").default
 	}
 }
 </script>

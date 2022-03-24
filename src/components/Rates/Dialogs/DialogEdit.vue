@@ -81,15 +81,14 @@ export default {
 				|| original.min_units !== current.min_units
 				|| original.price !== current.price
 		},
-		save() {
-			if (!this.formInvalid) {
-				this.saving = true
+		async save() {
+			if (this.formInvalid) return null
+			this.saving = true
 
-				this.$store.dispatch("Rate/write", this.dirtyPayloads).finally(() => {
-					this.saving = false
-					this.dialog = false
-				})
-			}
+			return this.$store.dispatch("Rate/write", this.dirtyPayloads).finally(() => {
+				this.saving = false
+				this.dialog = false
+			})
 		}
 	},
 	created() {

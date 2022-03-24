@@ -126,19 +126,14 @@ export default {
 		supplierRef({ id }) {
 			return docRef(`suppliers/${id}`)
 		},
-		save() {
-			if (!this.formInvalid) {
+		async save() {
+			if (this.formInvalid) return null
 				this.saving = true
 				const payload = {
 					...this.form,
 					margin: (this.orderMargin = this.form.sellPrice - this.form.buyPrice),
 					statusType: 'בהמתנה'
 				}
-
-				this.$store.dispatch('Order/upsert', payload).finally(() => {
-					this.saving = false
-					this.dialog = false
-				})
 
 				const mailFields = {
 					...this.form,
@@ -155,7 +150,11 @@ export default {
 						console.log('FAILED...', error.text)
 					}
 				)
-			}
+
+			return this.$store.dispatch('Order/upsert', payload).finally(() => {
+				this.saving = false
+				this.dialog = false
+			})
 		},
 		addDraft() {
 			this.saving = true

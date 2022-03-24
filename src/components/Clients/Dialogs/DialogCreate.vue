@@ -112,7 +112,7 @@
 					<v-col cols="12">
 						<v-card-actions style="padding: 0">
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול</v-btn>
 							<v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
 								צור
 							</v-btn>
@@ -126,19 +126,19 @@
 
 <script>
 export default {
-	name: 'DialogCreate',
-	props: ['client', 'value'],
+	name: "DialogCreate",
+	props: ["client", "value"],
 	data: () => ({
 		saving: false,
-		address: '',
+		address: "",
 		form: {},
-		paymentTermsList: ['מיידי', 'באספקה', 'שוטף + 30', 'שוטף + 45', 'שוטף + 60'],
-		paymentMethodList: ['אשראי', 'העברה', 'צ׳ק', 'Bit', 'PayBox'],
-		paymentTypeList: ['מיידי', 'הסדר חברה'],
-		deliveryTypeList: ['איסוף עצמי', 'משלוח', 'משתנה'],
-		statusList: ['פרטי', 'עסקי'],
-		leadList: ['גוגל אורגני', 'גוגל ממומן', 'גוגל ישן', 'פה לאוזן', 'היכרות אישית'],
-		newsletterList: ['כן', 'לא']
+		paymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+		paymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+		paymentTypeList: ["מיידי", "הסדר חברה"],
+		deliveryTypeList: ["איסוף עצמי", "משלוח", "משתנה"],
+		statusList: ["פרטי", "עסקי"],
+		leadList: ["גוגל אורגני", "גוגל ממומן", "גוגל ישן", "פה לאוזן", "היכרות אישית"],
+		newsletterList: ["כן", "לא"]
 	}),
 	computed: {
 		formInvalid() {
@@ -149,7 +149,7 @@ export default {
 				return this.value
 			},
 			set() {
-				this.$emit('close', false)
+				this.$emit("close", false)
 			}
 		}
 	},
@@ -157,14 +157,13 @@ export default {
 		getAddressData: function(addressData, placeResultData, id) {
 			this.address = addressData
 		},
-		save() {
-			if (!this.formInvalid) {
-				this.saving = true
-				this.$store.dispatch('Client/upsert', this.form).finally(() => {
-					this.saving = false
-					this.dialog = false
-				})
-			}
+		async save() {
+			if (this.formInvalid) return null
+			this.saving = true
+			return this.$store.dispatch("Client/upsert", this.form).finally(() => {
+				this.saving = false
+				this.dialog = false
+			})
 		}
 	}
 }

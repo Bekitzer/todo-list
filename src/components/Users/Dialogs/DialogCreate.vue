@@ -28,7 +28,7 @@
 					<v-col cols="12">
 						<v-card-actions style="padding: 0">
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול</v-btn>
 							<v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
 								צור
 							</v-btn>
@@ -42,12 +42,12 @@
 
 <script>
 export default {
-	name: 'DialogCreate',
-	props: ['user', 'value'],
+	name: "DialogCreate",
+	props: ["user", "value"],
 	data: () => ({
 		saving: false,
 		form: {},
-		positionList: ['בעלים', 'הנהלת חשבונות', 'מזכירות', 'עובד יצור']
+		positionList: ["בעלים", "הנהלת חשבונות", "מזכירות", "עובד יצור"]
 	}),
 	computed: {
 		formInvalid() {
@@ -58,19 +58,18 @@ export default {
 				return this.value
 			},
 			set() {
-				this.$emit('close', false)
+				this.$emit("close", false)
 			}
 		}
 	},
 	methods: {
-		save() {
-			if (!this.formInvalid) {
-				this.saving = true
-				this.$store.dispatch('User/upsert', this.form).finally(() => {
-					this.saving = false
-					this.dialog = false
-				})
-			}
+		async save() {
+			if (this.formInvalid) return null
+			this.saving = true
+			return this.$store.dispatch("User/upsert", this.form).finally(() => {
+				this.saving = false
+				this.dialog = false
+			})
 		}
 	}
 }

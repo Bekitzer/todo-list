@@ -215,8 +215,8 @@ export default {
 		remove(item) {
 			this.formUsers = this.formUsers.filter(({ id }) => id !== item.id)
 		},
-		save() {
-			if (!this.formInvalid) {
+		async save() {
+			if (this.formInvalid) return null
 				this.saving = true
 
 				const connectSupplierUsers = this.formUsers.map(user => ({
@@ -235,11 +235,10 @@ export default {
 					...disconnectSupplierUsers
 				]
 
-				this.$store.dispatch('Supplier/upsert', payloads).finally(() => {
+				return this.$store.dispatch('Supplier/upsert', payloads).finally(() => {
 					this.saving = false
 					this.dialog = false
 				})
-			}
 		}
 	},
 	created() {

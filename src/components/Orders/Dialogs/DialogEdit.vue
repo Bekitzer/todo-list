@@ -60,7 +60,7 @@
 								<v-icon>mdi-trash-can-outline</v-icon>
 							</v-btn>
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול</v-btn>
 							<v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" outlined large color="green">
 								שמירה
 							</v-btn>
@@ -74,23 +74,23 @@
 </template>
 
 <script>
-import { deepCopy, docRef } from '@/stores/utils'
+import { deepCopy, docRef } from "@/stores/utils"
 
 export default {
-	name: 'DialogEdit',
-	props: ['order', 'value'],
+	name: "DialogEdit",
+	props: ["order", "value"],
 	data: () => ({
 		dialogs: {
 			delete: false,
 			deliveredAt: false
 		},
-		orderFile: '',
+		orderFile: "",
 		saving: false,
 		form: {},
-		orderMargin: '',
-		orderSupplierId: '',
-		deliveryTypeList: ['משלוח > נאנו', 'משלוח > גט', 'משלוח > תפוז', 'עצמי > הרצליה', 'עצמי > משרד'],
-		statusTypeList: ['בעבודה', 'מוכן - משרד', 'מוכן - ספק', 'במשלוח', 'סופק']
+		orderMargin: "",
+		orderSupplierId: "",
+		deliveryTypeList: ["משלוח > נאנו", "משלוח > גט", "משלוח > תפוז", "עצמי > הרצליה", "עצמי > משרד"],
+		statusTypeList: ["בעבודה", "מוכן - משרד", "מוכן - ספק", "במשלוח", "סופק"]
 	}),
 	computed: {
 		date() {
@@ -110,7 +110,7 @@ export default {
 				return this.value
 			},
 			set() {
-				this.$emit('close', false)
+				this.$emit("close", false)
 			}
 		}
 	},
@@ -121,26 +121,25 @@ export default {
 		supplierRef({ id }) {
 			return docRef(`suppliers/${id}`)
 		},
-		save() {
-			if (!this.formInvalid) {
-				this.saving = true
-				let payload = {
-					...this.form,
-					margin: (this.orderMargin = this.form.sellPrice - this.form.buyPrice)
-				}
-				this.$store.dispatch('Order/upsert', payload).finally(() => {
-					this.saving = false
-					this.dialog = false
-				})
+		async save() {
+			if (this.formInvalid) return null
+			this.saving = true
+			let payload = {
+				...this.form,
+				margin: (this.orderMargin = this.form.sellPrice - this.form.buyPrice)
 			}
+			return this.$store.dispatch("Order/upsert", payload).finally(() => {
+				this.saving = false
+				this.dialog = false
+			})
 		}
 	},
 	created() {
 		this.form = deepCopy(this.order)
 	},
 	components: {
-		'dialog-delete': require('@/components/Orders/Dialogs/DialogDelete').default,
-		'date-picker': require('@/components/DatePicker/DatePicker').default
+		"dialog-delete": require("@/components/Orders/Dialogs/DialogDelete").default,
+		"date-picker": require("@/components/DatePicker/DatePicker").default
 	}
 }
 </script>

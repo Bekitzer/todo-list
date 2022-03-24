@@ -112,7 +112,7 @@
 					<v-col cols="12">
 						<v-card-actions style="padding: 0">
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול</v-btn>
 							<v-btn outlined large color="green" @click="save" :disabled="saving || formInvalid" :loading="saving">
 								צור
 							</v-btn>
@@ -126,18 +126,18 @@
 
 <script>
 export default {
-	name: 'DialogCreate',
-	props: ['supplier', 'value'],
+	name: "DialogCreate",
+	props: ["supplier", "value"],
 	data: () => ({
 		saving: false,
-		address: '',
+		address: "",
 		form: {},
-		paymentTermsList: ['מיידי', 'באספקה', 'שוטף + 30', 'שוטף + 45', 'שוטף + 60'],
-		paymentMethodList: ['אשראי', 'העברה', 'צ׳ק', 'Bit', 'PayBox'],
-		deliveryTypeList: ['איסוף עצמי', 'מגיע למשרד'],
-		statusList: ['פעיל', 'לא פעיל', 'מזדמן', 'שת״פ'],
-		newsletterList: ['כן', 'לא'],
-		scopeList: ['2', '1']
+		paymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+		paymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+		deliveryTypeList: ["איסוף עצמי", "מגיע למשרד"],
+		statusList: ["פעיל", "לא פעיל", "מזדמן", "שת״פ"],
+		newsletterList: ["כן", "לא"],
+		scopeList: ["2", "1"]
 	}),
 	computed: {
 		formInvalid() {
@@ -148,7 +148,7 @@ export default {
 				return this.value
 			},
 			set() {
-				this.$emit('close', false)
+				this.$emit("close", false)
 			}
 		}
 	},
@@ -156,14 +156,13 @@ export default {
 		getAddressData: function(addressData, placeResultData, id) {
 			this.address = addressData
 		},
-		save() {
-			if (!this.formInvalid) {
-				this.saving = true
-				this.$store.dispatch('Supplier/upsert', this.form).finally(() => {
-					this.saving = false
-					this.dialog = false
-				})
-			}
+		async save() {
+			if (this.formInvalid) return null
+			this.saving = true
+			return this.$store.dispatch("Supplier/upsert", this.form).finally(() => {
+				this.saving = false
+				this.dialog = false
+			})
 		}
 	}
 }

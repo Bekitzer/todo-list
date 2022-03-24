@@ -165,7 +165,7 @@
 								<v-icon>mdi-trash-can-outline</v-icon>
 							</v-btn>
 							<v-spacer></v-spacer>
-							<v-btn outlined large color="red" @click="dialog = false">ביטול </v-btn>
+							<v-btn outlined large color="red" @click="dialog = false">ביטול</v-btn>
 							<v-btn :disabled="saving || formInvalid" :loading="saving" @click="save" color="green" large outlined>
 								שמירה
 							</v-btn>
@@ -179,25 +179,25 @@
 </template>
 
 <script>
-import { deepCopy, docRef } from '@/stores/utils'
+import { deepCopy, docRef } from "@/stores/utils"
 
 export default {
-	name: 'DialogEdit',
-	props: ['client', 'value'],
+	name: "DialogEdit",
+	props: ["client", "value"],
 	data: () => ({
 		saving: false,
-		address: '',
+		address: "",
 		dialogs: {
 			delete: false
 		},
 		form: {},
-		paymentTermsList: ['מיידי', 'באספקה', 'שוטף + 30', 'שוטף + 45', 'שוטף + 60'],
-		paymentMethodList: ['אשראי', 'העברה', 'צ׳ק', 'Bit', 'PayBox'],
-		paymentTypeList: ['מיידי', 'הסדר חברה'],
-		deliveryTypeList: ['איסוף עצמי', 'משלוח', 'משתנה'],
-		statusList: ['פרטי', 'עסקי'],
-		leadList: ['גוגל אורגני', 'גוגל ממומן', 'גוגל ישן', 'פה לאוזן', 'היכרות אישית'],
-		newsletterList: ['כן', 'לא'],
+		paymentTermsList: ["מיידי", "באספקה", "שוטף + 30", "שוטף + 45", "שוטף + 60"],
+		paymentMethodList: ["אשראי", "העברה", "צ׳ק", "Bit", "PayBox"],
+		paymentTypeList: ["מיידי", "הסדר חברה"],
+		deliveryTypeList: ["איסוף עצמי", "משלוח", "משתנה"],
+		statusList: ["פרטי", "עסקי"],
+		leadList: ["גוגל אורגני", "גוגל ממומן", "גוגל ישן", "פה לאוזן", "היכרות אישית"],
+		newsletterList: ["כן", "לא"],
 		formUsers: []
 	}),
 	computed: {
@@ -215,7 +215,7 @@ export default {
 				return this.value
 			},
 			set() {
-				this.$emit('close', false)
+				this.$emit("close", false)
 			}
 		}
 	},
@@ -226,27 +226,27 @@ export default {
 		remove(item) {
 			this.formUsers = this.formUsers.filter(({ id }) => id !== item.id)
 		},
-		save() {
-			if (!this.formInvalid) {
-				this.saving = true
+		async save() {
+			if (this.formInvalid) return null
+			this.saving = true
 
-				const connectClientUsers = this.formUsers.map(user => ({
-					...user,
-					userClientRef: docRef(`clients/${this.client.id}`),
-					COLLECTION: 'users'
-				}))
+			const connectClientUsers = this.formUsers.map(user => ({
+				...user,
+				userClientRef: docRef(`clients/${this.client.id}`),
+				COLLECTION: "users"
+			}))
 
-				const disconnectClientUsers = this.clientUsers
-					.filter(user => !this.formUsers.find(({ id }) => id === user.id))
-					.map(user => ({ ...user, userClientRef: null, COLLECTION: 'users' }))
+			const disconnectClientUsers = this.clientUsers
+				.filter(user => !this.formUsers.find(({ id }) => id === user.id))
+				.map(user => ({ ...user, userClientRef: null, COLLECTION: "users" }))
 
-				const payloads = [{ ...this.form, COLLECTION: 'clients' }, ...connectClientUsers, ...disconnectClientUsers]
+			const payloads = [{ ...this.form, COLLECTION: "clients" }, ...connectClientUsers, ...disconnectClientUsers]
 
-				this.$store.dispatch('Client/upsert', payloads).finally(() => {
-					this.saving = false
-					this.dialog = false
-				})
-			}
+			return this.$store.dispatch("Client/upsert", payloads).finally(() => {
+				this.saving = false
+				this.dialog = false
+			})
+
 		}
 	},
 	created() {
@@ -254,7 +254,7 @@ export default {
 		this.formUsers = deepCopy(this.clientUsers)
 	},
 	components: {
-		'dialog-delete': require('@/components/Clients/Dialogs/DialogDelete').default
+		"dialog-delete": require("@/components/Clients/Dialogs/DialogDelete").default
 	}
 }
 </script>
